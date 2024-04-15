@@ -25,8 +25,8 @@ import { UserIcon, ArrowRightStartOnRectangleIcon, Cog6ToothIcon } from '@heroic
             Account Settings
           </Link>
         </MenuItem>
-        <MenuItem v-slot="{ active }">
-          <Link href="/logout" method="post" as="button" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+        <MenuItem v-slot="{ active }" class="flex flex-row">
+          <Link href="/logout" method="post" as="button" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 w-full']">
             <ArrowRightStartOnRectangleIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline" />
             Sign out
           </Link>

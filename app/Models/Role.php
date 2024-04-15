@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Laratrust\Models\Role as RoleModel;
 
 class Role extends RoleModel
 {
-    public $guarded = [];
+  use HasUuids;
+  public $guarded = [];
 }

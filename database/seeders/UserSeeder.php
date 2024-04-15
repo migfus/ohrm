@@ -17,15 +17,16 @@ class UserSeeder extends Seeder
       'avatar' => '/images/avatar.jpg',
       'password' => bcrypt('#Admin.123')
     ])
-    ->addRole(Role::where('name', 'admin')->first(), Team::where('name', 'default')->first())
-    ->addRole(Role::where('name', 'staff')->first(), Team::where('name', 'recruit')->first());
+      ->addRole(Role::where('name', 'admin')->first(), Team::where('name', 'default')->first())
+      ->addRole(Role::where('name', 'staff')->first(), Team::where('name', 'recruit')->first());
 
     User::create([
       'name' => '[Staff User]',
-    'email' => 'staff@gmail.com',
+      'email' => 'staff@gmail.com',
       'avatar' => '/images/avatar.jpg',
       'password' => bcrypt('#Staff.123')
-    ])->addRole(Role::where('name', 'staff')->first(), Team::where('name', 'default')->first())
-    ->addRole(Role::where('name', 'admin')->first(), Team::where('name', 'recruit')->first());
+    ])
+      ->addRole(Role::where('name', 'staff')->first(), Team::where('name', 'default')->first())
+      ->addRole(Role::where('name', 'admin')->first(), Team::where('name', 'recruit')->first());
   }
 }

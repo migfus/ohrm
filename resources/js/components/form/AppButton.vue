@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { FunctionalComponent, computed } from 'vue'
+import { router } from '@inertiajs/vue3';
+import { FunctionalComponent, computed, onMounted, ref } from 'vue'
+import { ArrowPathIcon } from '@heroicons/vue/24/outline'
+
 const $props = defineProps<{
   icon?: FunctionalComponent
   color?: string
   type?: 'button' | 'submit' | 'reset',
   alignment?: 'l' | 'c' | 'r'
 }>()
+const loading = ref(false)
 
 const buttonColor = computed(() => {
   if(!$props.color) {
@@ -36,18 +40,29 @@ const textAlignment = computed(() => {
     return 'justify-left'
   }
 })
+
+
+router.on('start', () => {
+    loading.value = true
+})
+
+router.on('finish',() => {
+  loading.value = false
+})
 </script>
 
 <template>
   <button
     :type
+    :disabled="loading"
     :class="[
       buttonColor,
       textAlignment,
       'inline-flex rounded-md px-4 py-2 text-sm font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2'
     ]"
   >
-    <component v-if="icon" :is="icon" :class="['-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
+    <ArrowPathIcon v-if="loading" :class="['-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+    <component v-else-if="icon" :is="icon" :class="['-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
     <slot></slot>
   </button>
 </template>
