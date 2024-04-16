@@ -12,7 +12,7 @@ import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
 
 <template>
   <!-- <TopBanner /> -->
-  <Disclosure as="nav" class="bg-brand-50 shadow" v-slot="{ open }">
+  <Disclosure as="nav" class="bg-brand-50 shadow z-50" v-slot="{ open }">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">

@@ -1,5 +1,5 @@
 <template>
-  <div class="aspect-video mx-auto max-w-7xl mt-4 flex flex-col gap-4">
+  <div class="mx-auto max-w-7xl my-4 flex flex-col gap-4">
     <div
       v-for="category in menu"
       :key="category.category"
@@ -16,7 +16,7 @@
             <img :src="row.image" :class="[row.color, 'max-h-24 w-full object-cover bg-blend-multiply opacity-75']"/>
             <div class="align-middle inline-block">
               <h1 class="ml-4 my-4 text-lg font-semibold line-clamp-2 w-full">
-                <component :is="row.icon" class="h-4 w-4 inline mr-1 mb-1 align-middle"/>
+                <component :is="row.icon" class="h-4 w-4 inline mb-1 mr-2 align-middle"/>
                 <span class="text-ellipsis">{{ row.name }}</span>
               </h1>
             </div>

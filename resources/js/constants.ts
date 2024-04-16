@@ -1,5 +1,5 @@
 import { TCTopNavigation } from "./globalTypes"
-import { CalendarIcon, HomeIcon, Squares2X2Icon } from "@heroicons/vue/24/outline"
+import { HomeIcon, RssIcon,  QuestionMarkCircleIcon } from "@heroicons/vue/24/outline"
 
 export const CTopNavigation: TCTopNavigation[] = [
   {
@@ -8,13 +8,13 @@ export const CTopNavigation: TCTopNavigation[] = [
     href: '/',
   },
   {
-    name: 'Groups',
-    icon: Squares2X2Icon,
-    href: '/group',
+    name: 'Status',
+    icon: RssIcon,
+    href: '/status',
   },
   {
-    name: 'Calendar',
-    icon: CalendarIcon,
-    href: '/calendar',
+    name: 'Contact Us',
+    icon: QuestionMarkCircleIcon,
+    href: '/contact',
   },
 ]

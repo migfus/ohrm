@@ -16,6 +16,10 @@ class PageController extends Controller
     return Inertia::render('Home/(Page)');
   }
 
+
+  public function contact() : Response {
+    return Inertia::render('Contact/(Page)');
+  }
 }
 
 // MARK: hello
