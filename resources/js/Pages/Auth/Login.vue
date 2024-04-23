@@ -5,25 +5,29 @@ import { reactive, ref } from 'vue'
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 
+const $props = defineProps<{
+  errors: {
+    email: string | undefined
+    password: string | undefined
+    remember: string | undefined
+  }
+}>()
+
 type TForm = {
   email: string
   password: string
-  remember: boolean
+  remember: boolean,
+  _token: string
 }
 
 const form = reactive<TForm>({
-  email: '',
-  password: '',
-  remember: false
+  email: 'admin@gmail.com',
+  password: '#Admin.123',
+  remember: false,
+  _token: $props.csrf_token,
 })
 
-const $props = defineProps<{
-  errors: {
-    email: string | null
-    password: string | null
-    remember: string | null
-  }
-}>()
+
 
 function submit() {
   router.post('/login', form);

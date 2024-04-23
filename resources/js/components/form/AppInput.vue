@@ -1,6 +1,6 @@
 <script setup lang="ts">
 type TProps = {
-  error: string | null
+  error: string | undefined
   name: string
   type?: 'text' | 'email' | 'password'
   placeholder?: string

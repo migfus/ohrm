@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-  public function login() : Response {
+  public function login(Request $req) : Response {
     return Inertia::render('Auth/Login');
   }
 
@@ -18,11 +18,14 @@ class AuthController extends Controller
     $val = $req->validate([
       'email' => ['required', 'email'],
       'password' => ['required', 'min:6'],
-      'remember' => []
+      // 'remember' => []
     ]);
 
-    if(Auth::attempt(['email' => $req->email, 'password' => $req->password])) {
-      return to_route('home');
+    if(Auth::attempt($val)) {
+      $req->session()->regenerate();
+      // dd(Auth::id());
+      // dd(Auth::user()->only('email', 'name')); // returns auth data. After redirect it will returns null.
+      return to_route('dashboard.index')->with('message', 'Successfuly Login');
     }
 
     return to_route('login')->withErrors([
@@ -31,7 +34,7 @@ class AuthController extends Controller
     ]);
   }
 
-  public function forgot() : Response {
+  public function forgot(Request $req) : Response {
     return Inertia::render('Auth/Forgot');
   }
   public function forgot_submit(Request $req) : RedirectResponse {
