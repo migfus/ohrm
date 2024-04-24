@@ -1,5 +1,5 @@
 import { TCTopNavigation } from "./globalTypes"
-import { HomeIcon, RssIcon,  QuestionMarkCircleIcon } from "@heroicons/vue/24/outline"
+import { HomeIcon, RssIcon, QuestionMarkCircleIcon, TableCellsIcon, Cog6ToothIcon, SquaresPlusIcon } from "@heroicons/vue/24/outline"
 
 export const CTopNavigation: TCTopNavigation[] = [
   {
@@ -17,4 +17,22 @@ export const CTopNavigation: TCTopNavigation[] = [
     icon: QuestionMarkCircleIcon,
     href: '/contact',
   },
+]
+
+export const CSidebarNavigation: TCTopNavigation[] = [
+  {
+    name: 'Dashboard',
+    icon: SquaresPlusIcon,
+    href: '/dashboard'
+  },
+  {
+    name: 'My Groups',
+    icon: TableCellsIcon,
+    href: '/my-groups'
+  },
+  {
+    name: 'Account Settings',
+    icon: Cog6ToothIcon,
+    href: '/account'
+  }
 ]

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
@@ -17,17 +17,13 @@ type TForm = {
   email: string
   password: string
   remember: boolean,
-  _token: string
 }
 
 const form = reactive<TForm>({
   email: 'admin@gmail.com',
   password: '#Admin.123',
   remember: false,
-  _token: $props.csrf_token,
 })
-
-
 
 function submit() {
   router.post('/login', form);
@@ -45,7 +41,6 @@ function submit() {
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-brand-50 py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <form class="space-y-6" @submit.prevent="submit()">
-
 
           <AppInput
             v-model="form.email"
@@ -79,7 +74,6 @@ function submit() {
             </AppButton>
           </div>
         </form>
-
 
       </div>
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl my-4 flex flex-col gap-4">
+  <div class="my-4 flex flex-col gap-4">
     <div
       v-for="category in menu"
       :key="category.category"

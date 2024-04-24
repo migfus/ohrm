@@ -6,3 +6,11 @@ export type TCTopNavigation = {
   href: string
   active?: boolean
 }
+
+export type GTAuth = {
+  avatar: string
+  created_at: Date
+  email: string
+  id: string
+  name: string
+}

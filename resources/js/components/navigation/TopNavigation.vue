@@ -37,10 +37,7 @@ import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
           <!-- <SearchBar/> -->
 
 
-          <button type="button" class="rounded-full bg-brand-50 p-1 text-brand-600 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
-            <span class="sr-only">View notifications</span>
-            <BellIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
+
 
           <!-- Profile dropdown -->
           <TopNavigationProfileDropdown />
@@ -61,4 +58,6 @@ import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
       </div>
     </DisclosurePanel>
   </Disclosure>
+
+  <slot></slot>
 </template>

@@ -17,13 +17,12 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array {
       return array_merge(parent::share($request), [
         'auth' => function() use($request) {
-          // Auth::attempt(['email' => 'admin@gmail.com', 'password' => '#Admin.123']);
-          // dd($request->user()->id);
-          return $request->user() ? $request->user()->only('id', 'name', 'email', 'avatar') : null;
+          return Auth::check() ? $request->user()->only('id', 'name', 'email', 'avatar') : null;
         },
         'flash' => [
           'message' => fn() => $request->session()->get('message')
         ],
+        'sidebar' => false, // default
       ]);
     }
 }
