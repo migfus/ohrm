@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 import { reactive } from 'vue'
+import { useTitle } from '@vueuse/core'
+import { TProps } from '@/globalTypes'
 
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 
-const $props = defineProps<{
+interface TError extends TProps {
   errors: {
     email: string | undefined
     password: string | undefined
-    remember: string | undefined
   }
-}>()
+}
+
+const $props = defineProps<TError>()
+useTitle(`Sign In | ${$props.title}`)
 
 type TForm = {
   email: string

@@ -252,7 +252,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { Dialog, DialogPanel, Switch, SwitchGroup, SwitchLabel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import {
@@ -294,4 +294,11 @@ const tabs = [
 const sidebarOpen = ref(false)
 const automaticTimezoneEnabled = ref(true)
 const autoUpdateApplicantDataEnabled = ref(false)
+
+import { TProps } from '@/globalTypes'
+import { useTitle } from '@vueuse/core'
+
+const $props = defineProps<TProps>()
+
+useTitle(`Account | ${$props.title}`)
 </script>

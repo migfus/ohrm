@@ -14,3 +14,18 @@ export type GTAuth = {
   id: string
   name: string
 }
+
+export interface TProps {
+  auth?: GTAuth
+  flash: {
+    message: string []
+  }
+  title: string
+  sidebar: boolean
+  system_settings: {
+    name: string
+    config: string
+    description: string
+  } []
+
+}

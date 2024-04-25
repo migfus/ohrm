@@ -1,4 +1,13 @@
-<!-- This example requires Tailwind CSS v3.0+ -->
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { TProps } from '@/globalTypes'
+import { useTitle } from '@vueuse/core'
+
+const $props = defineProps<TProps>()
+useTitle(`Contact Us | ${$props.title}`)
+
+</script>
+
 <template>
   <div class="isolate bg-white">
 
@@ -35,17 +44,4 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import { Dialog, DialogPanel } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
 
-const navigation = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
-]
-
-const mobileMenuOpen = ref(false)
-</script>

@@ -1,23 +1,25 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 import { reactive } from 'vue'
+import { useTitle } from '@vueuse/core'
+import { TProps } from '@/globalTypes'
 
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 
-type TForm = {
-  email: string
+interface TErrorWithTProps extends TProps {
+  errors: {
+    email: string | undefined
+  }
 }
 
-const form = reactive<TForm>({
+const $props = defineProps<TErrorWithTProps>()
+useTitle(`Forgot | ${$props.title}`)
+
+
+const form = reactive<{ email: string }>({
   email: '',
 })
-
-const $props = defineProps<{
-  errors: {
-    email: string
-  }
-}>()
 
 function submit() {
   router.post('/forgot', form);

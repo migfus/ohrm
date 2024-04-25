@@ -7,7 +7,7 @@ use App\Http\Controllers\dashboard\JoinedGroupsController;
 use App\Http\Controllers\dashboard\ManageGroupsController;
 use App\Http\Controllers\dashboard\ManageRolesPermissionsController;
 use App\Http\Controllers\dashboard\ManageUsersController;
-use App\Http\Controllers\dashboard\MyGroupController;
+use App\Http\Controllers\dashboard\MyGroupsController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\dashboard\SystemSettingsController;
@@ -31,13 +31,13 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-  Route::get('/my-groups', [MyGroupController::class, 'index'])->name('my-groups');
+  Route::get('/my-groups', [MyGroupsController::class, 'index'])->name('my-groups');
 
   Route::group(['prefix' => '/dashboard', 'as' => 'dashboard.'], function () {
 
     // MARK: Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('index');
-    Route::get('/my-groups', [MyGroupController::class, 'index'])->name('my-groups');
+    Route::get('/my-groups', [MyGroupsController::class, 'index'])->name('my-groups');
     Route::get('/joined-groups', [JoinedGroupsController::class, 'index'])->name('joined-groups');
     Route::get('/account', [AccountController::class, 'index'])->name('account');
 
