@@ -1,12 +1,16 @@
 <?php
 
-use App\Http\Controllers\AccountController;
+use App\Http\Controllers\dashboard\AccountController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\MyGroupController;
+use App\Http\Controllers\dashboard\DashboardController;
+use App\Http\Controllers\dashboard\JoinedGroupsController;
+use App\Http\Controllers\dashboard\ManageGroupsController;
+use App\Http\Controllers\dashboard\ManageRolesPermissionsController;
+use App\Http\Controllers\dashboard\ManageUsersController;
+use App\Http\Controllers\dashboard\MyGroupController;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\dashboard\SystemSettingsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -28,10 +32,20 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
   Route::get('/my-groups', [MyGroupController::class, 'index'])->name('my-groups');
-  Route::get('/account', [AccountController::class, 'index'])->name('account');
 
   Route::group(['prefix' => '/dashboard', 'as' => 'dashboard.'], function () {
+
+    // MARK: Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('index');
+    Route::get('/my-groups', [MyGroupController::class, 'index'])->name('my-groups');
+    Route::get('/joined-groups', [JoinedGroupsController::class, 'index'])->name('joined-groups');
+    Route::get('/account', [AccountController::class, 'index'])->name('account');
+
+    // MARK: ADMIN
+    Route::get('/manage-groups', [ManageGroupsController::class, 'index'])->name('manage-groups');
+    Route::get('/manage-users', [ManageUsersController::class, 'index'])->name('manage-users');
+    Route::get('/manage-roles-permissions', [ManageRolesPermissionsController::class, 'index'])->name('manage-roles-permissions');
+    Route::get('/system-settings', [SystemSettingsController::class, 'index'])->name('system-settings');
   });
 });
 

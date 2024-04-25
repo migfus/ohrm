@@ -1,5 +1,7 @@
 <template>
-  <div class="">Dashboard</div>
+  <div>
+    System Settings
+  </div>
 </template>
 
 <script setup lang="ts">

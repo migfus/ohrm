@@ -1,321 +1,297 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Switch,
-  SwitchDescription,
-  SwitchGroup,
-  SwitchLabel,
-} from '@headlessui/vue'
-import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import {
-  Bars3Icon,
-  BellIcon,
-  CogIcon,
-  CreditCardIcon,
-  KeyIcon,
-  SquaresPlusIcon,
-  UserCircleIcon,
-  XMarkIcon,
-} from '@heroicons/vue/24/outline'
+<!--
+  This example requires some changes to your config:
 
-const user = {
-  name: 'Debbie Lewis',
-  handle: 'deblewis',
-  email: 'debbielewis@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=320&h=320&q=80',
-}
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Jobs', href: '#', current: false },
-  { name: 'Applicants', href: '#', current: false },
-  { name: 'Company', href: '#', current: false },
-]
-const subNavigation = [
-  { name: 'Profile', href: '#', icon: UserCircleIcon, current: true },
-  { name: 'Account', href: '#', icon: CogIcon, current: false },
-  { name: 'Password', href: '#', icon: KeyIcon, current: false },
-  { name: 'Notifications', href: '#', icon: BellIcon, current: false },
-  { name: 'Billing', href: '#', icon: CreditCardIcon, current: false },
-  { name: 'Integrations', href: '#', icon: SquaresPlusIcon, current: false },
-]
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
-
-const availableToHire = ref(true)
-const privateAccount = ref(false)
-const allowCommenting = ref(true)
-const allowMentions = ref(true)
-</script>
-
-
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
 <template>
+  <!--
+    This example requires updating your template:
+    ```
+    <html class="h-full bg-white">
+    <body class="h-full">
+    ```
+  -->
   <div>
-    <Disclosure as="div" class="relative overflow-hidden bg-sky-700 pb-32" v-slot="{ open }">
-      <nav :class="[open ? 'bg-sky-900' : 'bg-transparent', 'relative z-10 border-b border-teal-500 border-opacity-25 lg:border-none lg:bg-transparent']">
-        <div class="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
-          <div class="relative flex h-16 items-center justify-between lg:border-b lg:border-sky-800">
-            <div class="flex items-center px-2 lg:px-0">
-              <div class="flex-shrink-0">
-                <img class="block h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=teal&shade=400" alt="Your Company" />
-              </div>
-              <div class="hidden lg:ml-6 lg:block lg:space-x-4">
-                <div class="flex">
-                  <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-black bg-opacity-25' : 'hover:bg-sky-800', 'rounded-md py-2 px-3 text-sm font-medium text-white']">{{ item.name }}</a>
+    <TransitionRoot as="template" :show="sidebarOpen">
+      <Dialog as="div" class="relative z-40 md:hidden" @close="sidebarOpen = false">
+        <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100" leave-to="opacity-0">
+          <div class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+        </TransitionChild>
+
+        <div class="fixed inset-0 z-40 flex">
+          <TransitionChild as="template" enter="transition ease-in-out duration-300 transform" enter-from="-translate-x-full" enter-to="translate-x-0" leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0" leave-to="-translate-x-full">
+            <DialogPanel class="relative flex w-full max-w-xs flex-1 flex-col bg-white pt-5 pb-4">
+              <TransitionChild as="template" enter="ease-in-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-300" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="absolute top-0 right-0 -mr-14 p-1">
+                  <button type="button" class="flex h-12 w-12 items-center justify-center rounded-full focus:bg-gray-600 focus:outline-none" @click="sidebarOpen = false">
+                    <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
+                    <span class="sr-only">Close sidebar</span>
+                  </button>
                 </div>
+              </TransitionChild>
+              <div class="flex flex-shrink-0 items-center px-4">
+                <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=600" alt="Easywire" />
               </div>
-            </div>
-            <div class="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end">
-              <div class="w-full max-w-lg lg:max-w-xs">
-                <label for="search" class="sr-only">Search</label>
-                <div class="relative text-sky-100 focus-within:text-gray-400">
-                  <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <div class="mt-5 h-0 flex-1 overflow-y-auto">
+                <nav class="flex h-full flex-col">
+                  <div class="space-y-1">
+                    <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-purple-50 border-purple-600 text-purple-600' : 'border-transparent text-gray-600 hover:bg-gray-50 hover:text-gray-900', 'group border-l-4 py-2 px-3 flex items-center text-base font-medium']" :aria-current="item.current ? 'page' : undefined">
+                      <component :is="item.icon" :class="[item.current ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500', 'mr-4 flex-shrink-0 h-6 w-6']" aria-hidden="true" />
+                      {{ item.name }}
+                    </a>
+                  </div>
+                  <div class="mt-auto space-y-1 pt-10">
+                    <a v-for="item in secondaryNavigation" :key="item.name" :href="item.href" class="group flex items-center border-l-4 border-transparent py-2 px-3 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                      <component :is="item.icon" class="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+                      {{ item.name }}
+                    </a>
+                  </div>
+                </nav>
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+          <div class="w-14 flex-shrink-0" aria-hidden="true">
+            <!-- Dummy element to force sidebar to shrink to fit close icon -->
+          </div>
+        </div>
+      </Dialog>
+    </TransitionRoot>
+
+    <!-- Static sidebar for desktop -->
+    <div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
+      <!-- Sidebar component, swap this element with another sidebar if you like -->
+      <nav class="flex flex-grow flex-col overflow-y-auto border-r border-gray-200 bg-gray-50 pt-5 pb-4">
+        <div class="flex flex-shrink-0 items-center px-4">
+          <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=purple&shade=600" alt="Easywire" />
+        </div>
+        <div class="mt-5 flex-grow">
+          <div class="space-y-1">
+            <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-purple-50 border-purple-600 text-purple-600' : 'border-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-50', 'group border-l-4 py-2 px-3 flex items-center text-sm font-medium']">
+              <component :is="item.icon" :class="[item.current ? 'text-purple-500' : 'text-gray-400 group-hover:text-gray-500', 'mr-3 flex-shrink-0 h-6 w-6']" aria-hidden="true" />
+              {{ item.name }}
+            </a>
+          </div>
+        </div>
+        <div class="block w-full flex-shrink-0">
+          <a v-for="item in secondaryNavigation" :key="item.name" :href="item.href" class="group flex items-center border-l-4 border-transparent py-2 px-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+            <component :is="item.icon" class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+            {{ item.name }}
+          </a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Content area -->
+    <div class="md:pl-64">
+      <div class="mx-auto flex max-w-4xl flex-col md:px-8 xl:px-0">
+        <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white">
+          <button type="button" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 md:hidden" @click="sidebarOpen = true">
+            <span class="sr-only">Open sidebar</span>
+            <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />
+          </button>
+          <div class="flex flex-1 justify-between px-4 md:px-0">
+            <div class="flex flex-1">
+              <form class="flex w-full md:ml-0" action="#" method="GET">
+                <label for="mobile-search-field" class="sr-only">Search</label>
+                <label for="desktop-search-field" class="sr-only">Search</label>
+                <div class="relative w-full text-gray-400 focus-within:text-gray-600">
+                  <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
                     <MagnifyingGlassIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
                   </div>
-                  <input id="search" name="search" class="block w-full rounded-md border border-transparent bg-sky-700 bg-opacity-50 py-2 pl-10 pr-3 leading-5 placeholder-sky-100 focus:border-white focus:bg-white focus:text-gray-900 focus:placeholder-gray-500 focus:outline-none focus:ring-white sm:text-sm" placeholder="Search" type="search" />
+                  <input name="mobile-search-field" id="mobile-search-field" class="h-full w-full border-transparent py-2 pl-8 pr-3 text-base text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:hidden" placeholder="Search" type="search" />
+                  <input name="desktop-search-field" id="desktop-search-field" class="hidden h-full w-full border-transparent py-2 pl-8 pr-3 text-sm text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:block" placeholder="Search jobs, applicants, and more" type="search" />
                 </div>
-              </div>
+              </form>
             </div>
-            <div class="flex lg:hidden">
-              <!-- Mobile menu button -->
-              <DisclosureButton class="inline-flex items-center justify-center rounded-md p-2 text-sky-200 hover:bg-sky-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
-                <span class="sr-only">Open main menu</span>
-                <Bars3Icon v-if="!open" class="block h-6 w-6 flex-shrink-0" aria-hidden="true" />
-                <XMarkIcon v-else class="block h-6 w-6 flex-shrink-0" aria-hidden="true" />
-              </DisclosureButton>
-            </div>
-            <div class="hidden lg:ml-4 lg:block">
-              <div class="flex items-center">
-                <button type="button" class="flex-shrink-0 rounded-full p-1 text-sky-200 hover:bg-sky-800 hover:text-white focus:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-900">
-                  <span class="sr-only">View notifications</span>
-                  <BellIcon class="h-6 w-6" aria-hidden="true" />
-                </button>
-
-                <!-- Profile dropdown -->
-                <Menu as="div" class="relative ml-4 flex-shrink-0">
-                  <div>
-                    <MenuButton class="flex rounded-full text-sm text-white focus:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-900">
-                      <span class="sr-only">Open user menu</span>
-                      <img class="h-8 w-8 rounded-full" :src="user.imageUrl" alt="" />
-                    </MenuButton>
-                  </div>
-                  <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
-                    <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <MenuItem v-for="item in userNavigation" :key="item.name" v-slot="{ active }">
-                        <a :href="item.href" :class="[active ? 'bg-gray-100' : '', 'block py-2 px-4 text-sm text-gray-700']">{{ item.name }}</a>
-                      </MenuItem>
-                    </MenuItems>
-                  </transition>
-                </Menu>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <DisclosurePanel class="bg-sky-900 lg:hidden">
-          <div class="space-y-1 px-2 pt-2 pb-3">
-            <DisclosureButton v-for="item in navigation" :key="item.name" as="a" :href="item.href" :class="[item.current ? 'bg-black bg-opacity-25' : 'hover:bg-sky-800', 'block rounded-md py-2 px-3 text-base font-medium text-white']">{{ item.name }}</DisclosureButton>
-          </div>
-          <div class="border-t border-sky-800 pt-4 pb-3">
-            <div class="flex items-center px-4">
-              <div class="flex-shrink-0">
-                <img class="h-10 w-10 rounded-full" :src="user.imageUrl" alt="" />
-              </div>
-              <div class="ml-3">
-                <div class="text-base font-medium text-white">{{ user.name }}</div>
-                <div class="text-sm font-medium text-sky-200">{{ user.email }}</div>
-              </div>
-              <button type="button" class="ml-auto flex-shrink-0 rounded-full p-1 text-sky-200 hover:bg-sky-800 hover:text-white focus:bg-sky-900 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-900">
-                <span class="sr-only">View notifications</span>
+            <div class="ml-4 flex items-center md:ml-6">
+              <button type="button" class="rounded-full bg-white p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
                 <BellIcon class="h-6 w-6" aria-hidden="true" />
+                <span class="sr-only">View notifications</span>
               </button>
             </div>
-            <div class="mt-3 px-2">
-              <DisclosureButton v-for="item in userNavigation" :key="item.name" as="a" :href="item.href" class="block rounded-md py-2 px-3 text-base font-medium text-sky-200 hover:bg-sky-800 hover:text-white">{{ item.name }}</DisclosureButton>
+          </div>
+        </div>
+
+        <main class="flex-1">
+          <div class="relative mx-auto max-w-4xl md:px-8 xl:px-0">
+            <div class="pt-10 pb-16">
+              <div class="px-4 sm:px-6 md:px-0">
+                <h1 class="text-3xl font-bold tracking-tight text-gray-900">Settings</h1>
+              </div>
+              <div class="px-4 sm:px-6 md:px-0">
+                <div class="py-6">
+                  <!-- Tabs -->
+                  <div class="lg:hidden">
+                    <label for="selected-tab" class="sr-only">Select a tab</label>
+                    <select id="selected-tab" name="selected-tab" class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-purple-500 focus:outline-none focus:ring-purple-500 sm:text-sm">
+                      <option v-for="tab in tabs" :key="tab.name" :selected="tab.current">{{ tab.name }}</option>
+                    </select>
+                  </div>
+                  <div class="hidden lg:block">
+                    <div class="border-b border-gray-200">
+                      <nav class="-mb-px flex space-x-8">
+                        <a v-for="tab in tabs" :key="tab.name" :href="tab.href" :class="[tab.current ? 'border-purple-500 text-purple-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']">{{ tab.name }}</a>
+                      </nav>
+                    </div>
+                  </div>
+
+                  <!-- Description list with inline editing -->
+                  <div class="mt-10 divide-y divide-gray-200">
+                    <div class="space-y-1">
+                      <h3 class="text-lg font-medium leading-6 text-gray-900">Profile</h3>
+                      <p class="max-w-2xl text-sm text-gray-500">This information will be displayed publicly so be careful what you share.</p>
+                    </div>
+                    <div class="mt-6">
+                      <dl class="divide-y divide-gray-200">
+                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
+                          <dt class="text-sm font-medium text-gray-500">Name</dt>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow">Chelsea Hagon</span>
+                            <span class="ml-4 flex-shrink-0">
+                              <button type="button" class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Update</button>
+                            </span>
+                          </dd>
+                        </div>
+                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
+                          <dt class="text-sm font-medium text-gray-500">Photo</dt>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow">
+                              <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                            </span>
+                            <span class="ml-4 flex flex-shrink-0 items-start space-x-4">
+                              <button type="button" class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Update</button>
+                              <span class="text-gray-300" aria-hidden="true">|</span>
+                              <button type="button" class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Remove</button>
+                            </span>
+                          </dd>
+                        </div>
+                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
+                          <dt class="text-sm font-medium text-gray-500">Email</dt>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow">chelsea.hagon@example.com</span>
+                            <span class="ml-4 flex-shrink-0">
+                              <button type="button" class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Update</button>
+                            </span>
+                          </dd>
+                        </div>
+                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200 sm:py-5">
+                          <dt class="text-sm font-medium text-gray-500">Job title</dt>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow">Human Resources Manager</span>
+                            <span class="ml-4 flex-shrink-0">
+                              <button type="button" class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Update</button>
+                            </span>
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+
+                  <div class="mt-10 divide-y divide-gray-200">
+                    <div class="space-y-1">
+                      <h3 class="text-lg font-medium leading-6 text-gray-900">Account</h3>
+                      <p class="max-w-2xl text-sm text-gray-500">Manage how information is displayed on your account.</p>
+                    </div>
+                    <div class="mt-6">
+                      <dl class="divide-y divide-gray-200">
+                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5">
+                          <dt class="text-sm font-medium text-gray-500">Language</dt>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow">English</span>
+                            <span class="ml-4 flex-shrink-0">
+                              <button type="button" class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Update</button>
+                            </span>
+                          </dd>
+                        </div>
+                        <div class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
+                          <dt class="text-sm font-medium text-gray-500">Date format</dt>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            <span class="flex-grow">DD-MM-YYYY</span>
+                            <span class="ml-4 flex flex-shrink-0 items-start space-x-4">
+                              <button type="button" class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Update</button>
+                              <span class="text-gray-300" aria-hidden="true">|</span>
+                              <button type="button" class="rounded-md bg-white font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Remove</button>
+                            </span>
+                          </dd>
+                        </div>
+                        <SwitchGroup as="div" class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
+                          <SwitchLabel as="dt" class="text-sm font-medium text-gray-500" passive>Automatic timezone</SwitchLabel>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            <Switch v-model="automaticTimezoneEnabled" :class="[automaticTimezoneEnabled ? 'bg-purple-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-auto']">
+                              <span aria-hidden="true" :class="[automaticTimezoneEnabled ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                            </Switch>
+                          </dd>
+                        </SwitchGroup>
+                        <SwitchGroup as="div" class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200 sm:py-5">
+                          <SwitchLabel as="dt" class="text-sm font-medium text-gray-500" passive>Auto-update applicant data</SwitchLabel>
+                          <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                            <Switch v-model="autoUpdateApplicantDataEnabled" :class="[autoUpdateApplicantDataEnabled ? 'bg-purple-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-auto']">
+                              <span aria-hidden="true" :class="[autoUpdateApplicantDataEnabled ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                            </Switch>
+                          </dd>
+                        </SwitchGroup>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </DisclosurePanel>
-      </nav>
-      <div aria-hidden="true" :class="[open ? 'bottom-0' : 'inset-y-0', 'absolute inset-x-0 left-1/2 w-full -translate-x-1/2 transform overflow-hidden lg:inset-y-0']">
-        <div class="absolute inset-0 flex">
-          <div class="h-full w-1/2" style="background-color: #0a527b" />
-          <div class="h-full w-1/2" style="background-color: #065d8c" />
-        </div>
-        <div class="relative flex justify-center">
-          <svg class="flex-shrink-0" width="1750" height="308" viewBox="0 0 1750 308" xmlns="http://www.w3.org/2000/svg">
-            <path d="M284.161 308H1465.84L875.001 182.413 284.161 308z" fill="#0369a1" />
-            <path d="M1465.84 308L16.816 0H1750v308h-284.16z" fill="#065d8c" />
-            <path d="M1733.19 0L284.161 308H0V0h1733.19z" fill="#0a527b" />
-            <path d="M875.001 182.413L1733.19 0H16.816l858.185 182.413z" fill="#0a4f76" />
-          </svg>
-        </div>
+        </main>
       </div>
-      <header class="relative py-10">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h1 class="text-3xl font-bold tracking-tight text-white">Settings</h1>
-        </div>
-      </header>
-    </Disclosure>
-
-    <main class="relative -mt-32">
-      <div class="mx-auto max-w-screen-xl px-4 pb-6 sm:px-6 lg:px-8 lg:pb-16">
-        <div class="overflow-hidden rounded-lg bg-white shadow">
-          <div class="divide-y divide-gray-200 lg:grid lg:grid-cols-12 lg:divide-y-0 lg:divide-x">
-            <aside class="py-6 lg:col-span-3">
-              <nav class="space-y-1">
-                <a v-for="item in subNavigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-teal-50 border-teal-500 text-teal-700 hover:bg-teal-50 hover:text-teal-700' : 'border-transparent text-gray-900 hover:bg-gray-50 hover:text-gray-900', 'group border-l-4 px-3 py-2 flex items-center text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">
-                  <component :is="item.icon" :class="[item.current ? 'text-teal-500 group-hover:text-teal-500' : 'text-gray-400 group-hover:text-gray-500', 'flex-shrink-0 -ml-1 mr-3 h-6 w-6']" aria-hidden="true" />
-                  <span class="truncate">{{ item.name }}</span>
-                </a>
-              </nav>
-            </aside>
-
-            <form class="divide-y divide-gray-200 lg:col-span-9" action="#" method="POST">
-              <!-- Profile section -->
-              <div class="py-6 px-4 sm:p-6 lg:pb-8">
-                <div>
-                  <h2 class="text-lg font-medium leading-6 text-gray-900">Profile</h2>
-                  <p class="mt-1 text-sm text-gray-500">This information will be displayed publicly so be careful what you share.</p>
-                </div>
-
-                <div class="mt-6 flex flex-col lg:flex-row">
-                  <div class="flex-grow space-y-6">
-                    <div>
-                      <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                      <div class="mt-1 flex rounded-md shadow-sm">
-                        <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">workcation.com/</span>
-                        <input type="text" name="username" id="username" autocomplete="username" class="block w-full min-w-0 flex-grow rounded-none rounded-r-md border-gray-300 focus:border-sky-500 focus:ring-sky-500 sm:text-sm" :value="user.handle" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label for="about" class="block text-sm font-medium text-gray-700">About</label>
-                      <div class="mt-1">
-                        <textarea id="about" name="about" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500 sm:text-sm" />
-                      </div>
-                      <p class="mt-2 text-sm text-gray-500">Brief description for your profile. URLs are hyperlinked.</p>
-                    </div>
-                  </div>
-
-                  <div class="mt-6 flex-grow lg:mt-0 lg:ml-6 lg:flex-shrink-0 lg:flex-grow-0">
-                    <p class="text-sm font-medium text-gray-700" aria-hidden="true">Photo</p>
-                    <div class="mt-1 lg:hidden">
-                      <div class="flex items-center">
-                        <div class="inline-block h-12 w-12 flex-shrink-0 overflow-hidden rounded-full" aria-hidden="true">
-                          <img class="h-full w-full rounded-full" :src="user.imageUrl" alt="" />
-                        </div>
-                        <div class="ml-5 rounded-md shadow-sm">
-                          <div class="group relative flex items-center justify-center rounded-md border border-gray-300 py-2 px-3 focus-within:ring-2 focus-within:ring-sky-500 focus-within:ring-offset-2 hover:bg-gray-50">
-                            <label for="mobile-user-photo" class="pointer-events-none relative text-sm font-medium leading-4 text-gray-700">
-                              <span>Change</span>
-                              <span class="sr-only"> user photo</span>
-                            </label>
-                            <input id="mobile-user-photo" name="user-photo" type="file" class="absolute h-full w-full cursor-pointer rounded-md border-gray-300 opacity-0" />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="relative hidden overflow-hidden rounded-full lg:block">
-                      <img class="relative h-40 w-40 rounded-full" :src="user.imageUrl" alt="" />
-                      <label for="desktop-user-photo" class="absolute inset-0 flex h-full w-full items-center justify-center bg-black bg-opacity-75 text-sm font-medium text-white opacity-0 focus-within:opacity-100 hover:opacity-100">
-                        <span>Change</span>
-                        <span class="sr-only"> user photo</span>
-                        <input type="file" id="desktop-user-photo" name="user-photo" class="absolute inset-0 h-full w-full cursor-pointer rounded-md border-gray-300 opacity-0" />
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mt-6 grid grid-cols-12 gap-6">
-                  <div class="col-span-12 sm:col-span-6">
-                    <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
-                    <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
-                  </div>
-
-                  <div class="col-span-12 sm:col-span-6">
-                    <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
-                    <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
-                  </div>
-
-                  <div class="col-span-12">
-                    <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
-                    <input type="text" name="url" id="url" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
-                  </div>
-
-                  <div class="col-span-12 sm:col-span-6">
-                    <label for="company" class="block text-sm font-medium text-gray-700">Company</label>
-                    <input type="text" name="company" id="company" autocomplete="organization" class="mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
-                  </div>
-                </div>
-              </div>
-
-              <!-- Privacy section -->
-              <div class="divide-y divide-gray-200 pt-6">
-                <div class="px-4 sm:px-6">
-                  <div>
-                    <h2 class="text-lg font-medium leading-6 text-gray-900">Privacy</h2>
-                    <p class="mt-1 text-sm text-gray-500">Ornare eu a volutpat eget vulputate. Fringilla commodo amet.</p>
-                  </div>
-                  <ul role="list" class="mt-2 divide-y divide-gray-200">
-                    <SwitchGroup as="li" class="flex items-center justify-between py-4">
-                      <div class="flex flex-col">
-                        <SwitchLabel as="p" class="text-sm font-medium text-gray-900" passive>Available to hire</SwitchLabel>
-                        <SwitchDescription class="text-sm text-gray-500">Nulla amet tempus sit accumsan. Aliquet turpis sed sit lacinia.</SwitchDescription>
-                      </div>
-                      <Switch v-model="availableToHire" :class="[availableToHire ? 'bg-teal-500' : 'bg-gray-200', 'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2']">
-                        <span aria-hidden="true" :class="[availableToHire ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                      </Switch>
-                    </SwitchGroup>
-                    <SwitchGroup as="li" class="flex items-center justify-between py-4">
-                      <div class="flex flex-col">
-                        <SwitchLabel as="p" class="text-sm font-medium text-gray-900" passive>Make account private</SwitchLabel>
-                        <SwitchDescription class="text-sm text-gray-500">Pharetra morbi dui mi mattis tellus sollicitudin cursus pharetra.</SwitchDescription>
-                      </div>
-                      <Switch v-model="privateAccount" :class="[privateAccount ? 'bg-teal-500' : 'bg-gray-200', 'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2']">
-                        <span aria-hidden="true" :class="[privateAccount ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                      </Switch>
-                    </SwitchGroup>
-                    <SwitchGroup as="li" class="flex items-center justify-between py-4">
-                      <div class="flex flex-col">
-                        <SwitchLabel as="p" class="text-sm font-medium text-gray-900" passive>Allow commenting</SwitchLabel>
-                        <SwitchDescription class="text-sm text-gray-500">Integer amet, nunc hendrerit adipiscing nam. Elementum ame</SwitchDescription>
-                      </div>
-                      <Switch v-model="allowCommenting" :class="[allowCommenting ? 'bg-teal-500' : 'bg-gray-200', 'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2']">
-                        <span aria-hidden="true" :class="[allowCommenting ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                      </Switch>
-                    </SwitchGroup>
-                    <SwitchGroup as="li" class="flex items-center justify-between py-4">
-                      <div class="flex flex-col">
-                        <SwitchLabel as="p" class="text-sm font-medium text-gray-900" passive>Allow mentions</SwitchLabel>
-                        <SwitchDescription class="text-sm text-gray-500">Adipiscing est venenatis enim molestie commodo eu gravid</SwitchDescription>
-                      </div>
-                      <Switch v-model="allowMentions" :class="[allowMentions ? 'bg-teal-500' : 'bg-gray-200', 'relative ml-4 inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2']">
-                        <span aria-hidden="true" :class="[allowMentions ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                      </Switch>
-                    </SwitchGroup>
-                  </ul>
-                </div>
-                <div class="mt-4 flex justify-end py-4 px-4 sm:px-6">
-                  <button type="button" class="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">Cancel</button>
-                  <button type="submit" class="ml-5 inline-flex justify-center rounded-md border border-transparent bg-sky-700 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-sky-800 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">Save</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </main>
+    </div>
   </div>
 </template>
 
+<script setup>
+import { ref } from 'vue'
+import { Dialog, DialogPanel, Switch, SwitchGroup, SwitchLabel, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import {
+  ArrowLeftOnRectangleIcon,
+  Bars3BottomLeftIcon,
+  BellIcon,
+  BriefcaseIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
+  CogIcon,
+  DocumentMagnifyingGlassIcon,
+  HomeIcon,
+  QuestionMarkCircleIcon,
+  UsersIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/outline'
+import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
+
+const navigation = [
+  { name: 'Home', href: '#', icon: HomeIcon, current: false },
+  { name: 'Jobs', href: '#', icon: BriefcaseIcon, current: false },
+  { name: 'Applications', href: '#', icon: DocumentMagnifyingGlassIcon, current: false },
+  { name: 'Messages', href: '#', icon: ChatBubbleOvalLeftEllipsisIcon, current: false },
+  { name: 'Team', href: '#', icon: UsersIcon, current: false },
+  { name: 'Settings', href: '#', icon: CogIcon, current: true },
+]
+const secondaryNavigation = [
+  { name: 'Help', href: '#', icon: QuestionMarkCircleIcon },
+  { name: 'Logout', href: '#', icon: ArrowLeftOnRectangleIcon },
+]
+const tabs = [
+  { name: 'General', href: '#', current: true },
+  { name: 'Password', href: '#', current: false },
+  { name: 'Notifications', href: '#', current: false },
+  { name: 'Plan', href: '#', current: false },
+  { name: 'Billing', href: '#', current: false },
+  { name: 'Team Members', href: '#', current: false },
+]
+
+const sidebarOpen = ref(false)
+const automaticTimezoneEnabled = ref(true)
+const autoUpdateApplicantDataEnabled = ref(false)
+</script>

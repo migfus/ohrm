@@ -16,7 +16,7 @@
       type="image/svg"
       href="/assets/logo.svg"
     />
-    <title>OHRM</title>
+    <title>Loading...</title>
 
 
     @vite('resources/js/app.ts')

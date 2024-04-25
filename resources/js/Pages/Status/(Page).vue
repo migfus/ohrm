@@ -1,39 +1,12 @@
 <script setup lang="ts">
-import { useTitle } from '@vueuse/core'
+import { useTitle, useStorage } from '@vueuse/core'
+import { UseFullscreen } from '@vueuse/components'
+
 import {
-  BriefcaseIcon,
-  DocumentDuplicateIcon,
-  ArrowPathIcon,
+  ArrowsPointingOutIcon,
 } from '@heroicons/vue/24/outline'
 
-useTitle('Status | OHRM')
-
-const menu = [
-  {
-    category: 'RSP - Recruitment, Selection & Placement',
-    color: 'bg-brand-800/5',
-    children: [
-      {
-        name: 'Application Concern',
-        color: 'bg-rose-700 text-rose-50',
-        image: 'https://images.unsplash.com/photo-1635350736475-c8cef4b21906?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        icon: BriefcaseIcon,
-      },
-      {
-        name: 'Job Order Contract',
-        color: 'bg-cyan-700 text-cyan-50',
-        image: 'https://images.unsplash.com/photo-1564846824194-346b7871b855?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        icon: DocumentDuplicateIcon,
-      },
-      {
-        name: 'Renewal/PDS',
-        color: 'bg-amber-700 text-amber-50',
-        image: 'https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        icon: ArrowPathIcon,
-      },
-    ],
-  },
-]
+useTitle(`Status | ${useStorage('title', 'OHRM')}`)
 
 const people = [
   {
@@ -97,7 +70,7 @@ const people = [
 </script>
 
 <template>
-  <div class="aspect-video w-screen">
+  <UseFullscreen class="aspect-video bg-white" v-slot="{ toggle }" ref="rull">
     <div class="grid grid-cols-4 max-w-7xl mx-auto gap-4">
       <div class="my-4 col-span-3 grid grid-cols-2 gap-4">
 
@@ -173,7 +146,14 @@ const people = [
 
       <!-- NOTE: QUEUING -->
       <div class="flex flex-col bg-brand-50 p-4 sm:rounded-xl shadow my-4">
-        <h1 class="text-md font-semibold mb-2">Queuing</h1>
+        <div class="flex justify-between">
+          <h1 class="text-md font-semibold mb-2">Queuing</h1>
+          <button @click="toggle" class="bg-brand-600 hover:bg-brand-700 text-white rounded-xl px-2 text-xs shadow mb-1 align-middle">
+            <ArrowsPointingOutIcon class="inline text-white flex-shrink-0 h-3 w-3 mb-1" aria-hidden="true" />
+            FullScreen
+          </button>
+
+        </div>
           <div class="flex gap-1 justify-between">
             <div class="relative overflow-hidden bg-yellow-200 border mb-2 py-4 px-2 rounded-xl">
               ###
@@ -227,6 +207,6 @@ const people = [
           </div>
       </div>
     </div>
-  </div>
+  </UseFullscreen>
 </template>
 

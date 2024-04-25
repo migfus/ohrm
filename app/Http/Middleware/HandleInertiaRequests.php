@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Illuminate\Support\Facades\Auth;
+use App\Models\SystemSettings;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -23,6 +24,8 @@ class HandleInertiaRequests extends Middleware
           'message' => fn() => $request->session()->get('message')
         ],
         'sidebar' => false, // default
+        'system_settings' => SystemSettings::select('name', 'config', 'description')->get()->toArray(),
+        'title' => 'Office of Human Resources Management'
       ]);
     }
 }

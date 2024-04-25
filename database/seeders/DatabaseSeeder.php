@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SystemSettings;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,6 +16,8 @@ class DatabaseSeeder extends Seeder
     {
       $this->call([
         LaratrustSeeder::class,
+        SystemSettingsSeeder::class,
+
         UserSeeder::class,
       ]);
     }
