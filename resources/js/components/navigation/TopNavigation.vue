@@ -7,6 +7,11 @@ import TopNavigationsDesktop from './TopNavigationsDesktop.vue'
 import TopNavigationsMobile from './TopNavigationsMobile.vue'
 import TopNavigationLogo from './TopNavigationLogo.vue'
 import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
+
+const $props = defineProps<{
+  title: string
+  logo: string
+}>()
 </script>
 
 
@@ -25,7 +30,7 @@ import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
         </div>
         <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
           <Link href="/" class="flex flex-shrink-0 items-center">
-            <TopNavigationLogo />
+            <TopNavigationLogo :title :logo/>
           </Link>
           <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
             <TopNavigationsDesktop v-for="row in CTopNavigation" :key="row.name" :href="row.href" :active="row.active" :icon="row.icon" :name="row.name" />

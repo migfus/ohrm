@@ -24,8 +24,11 @@ class HandleInertiaRequests extends Middleware
           'message' => fn() => $request->session()->get('message')
         ],
         'sidebar' => false, // default
-        'system_settings' => SystemSettings::select('name', 'config', 'description')->get()->toArray(),
-        'title' => 'Office of Human Resources Management'
+        'title' => SystemSettings::where('name', 'System Name (Title)')->first()->value,
+        'logo' => [
+          'lg' => SystemSettings::where('name', 'System Logo')->first()->value,
+          'sm' => SystemSettings::where('name', 'System Small Logo (for page title)')->first()->value,
+        ]
       ]);
     }
 }

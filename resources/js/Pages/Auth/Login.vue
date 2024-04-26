@@ -15,7 +15,6 @@ interface TError extends TProps {
 }
 
 const $props = defineProps<TError>()
-useTitle(`Sign In | ${$props.title}`)
 
 type TForm = {
   email: string

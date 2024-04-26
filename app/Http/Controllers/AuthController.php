@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
   public function login(Request $req) : Response {
-    return Inertia::render('auth/Login');
+    return Inertia::render('auth/Login' , ['pageTitle' => 'Login']);
   }
 
   public function login_submit(Request $req) : RedirectResponse {
@@ -33,7 +33,7 @@ class AuthController extends Controller
   }
 
   public function forgot(Request $req) : Response {
-    return Inertia::render('auth/Forgot');
+    return Inertia::render('auth/Forgot' , ['pageTitle' => 'Forgot']);
   }
   public function forgot_submit(Request $req) : RedirectResponse {
     $val = $req->validate([

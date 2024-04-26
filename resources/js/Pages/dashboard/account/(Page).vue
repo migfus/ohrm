@@ -296,9 +296,4 @@ const automaticTimezoneEnabled = ref(true)
 const autoUpdateApplicantDataEnabled = ref(false)
 
 import { TProps } from '@/globalTypes'
-import { useTitle } from '@vueuse/core'
-
-const $props = defineProps<TProps>()
-
-useTitle(`Account | ${$props.title}`)
 </script>

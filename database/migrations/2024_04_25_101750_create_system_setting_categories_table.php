@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('system_settings', function (Blueprint $table) {
+        Schema::create('system_setting_categories', function (Blueprint $table) {
           $table->id();
-          $table->integer('sort_id');
-          $table->bigInteger('system_setting_category_id');
-          $table->bigInteger('system_setting_type_id');
+          $table->integer('sort_id')->unique();
           $table->string('name');
           $table->string('description');
-          $table->string('value');
+          $table->string('href');
           $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('system_settings');
+        Schema::dropIfExists('system_setting_categories');
     }
 };

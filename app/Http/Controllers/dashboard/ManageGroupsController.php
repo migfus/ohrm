@@ -8,6 +8,6 @@ use Inertia\Response;
 class ManageGroupsController extends Controller
 {
   public function index(): Response {
-    return Inertia::render('dashboard/ManageGroups');
+    return Inertia::render('dashboard/ManageGroups', ['pageTitle' => 'Manage Groups']);
   }
 }

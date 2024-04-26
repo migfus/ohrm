@@ -9,6 +9,6 @@ use Inertia\Inertia;
 class JoinedGroupsController extends Controller
 {
   public function index() : Response {
-    return Inertia::render('dashboard/JoinedGroups');
+    return Inertia::render('dashboard/JoinedGroups', ['pageTitle' => 'Joined Groups']);
   }
 }

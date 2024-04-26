@@ -9,6 +9,6 @@ use Inertia\Response;
 class MyGroupsController extends Controller
 {
   public function index() : Response {
-    return Inertia::render('dashboard/MyGroups');
+    return Inertia::render('dashboard/MyGroups' , ['pageTitle' => 'My Groups']);
   }
 }

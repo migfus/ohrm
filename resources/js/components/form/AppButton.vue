@@ -7,7 +7,8 @@ const $props = defineProps<{
   icon?: FunctionalComponent
   color?: string
   type?: 'button' | 'submit' | 'reset',
-  alignment?: 'l' | 'c' | 'r'
+  alignment?: 'l' | 'c' | 'r',
+  size?: 'sm' | 'md'
 }>()
 const loading = ref(false)
 
@@ -41,6 +42,15 @@ const textAlignment = computed(() => {
   }
 })
 
+const buttonSize = computed(() => {
+  if(!$props.size) {
+    return 'text-sm px-4 py-2'
+  }
+  else {
+    return 'text-xs font px-2 py-2'
+  }
+})
+
 
 router.on('start', () => {
     loading.value = true
@@ -58,7 +68,8 @@ router.on('finish',() => {
     :class="[
       buttonColor,
       textAlignment,
-      'inline-flex rounded-md px-4 py-2 text-sm font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2'
+      buttonSize,
+      'inline-flex rounded-md font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2'
     ]"
   >
     <ArrowPathIcon v-if="loading" :class="['-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />

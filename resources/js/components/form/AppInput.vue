@@ -1,20 +1,31 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 type TProps = {
   error: string | undefined
   name: string
   type?: 'text' | 'email' | 'password'
   placeholder?: string
+  size?: 'sm'
 }
 
 const $props = defineProps<TProps>()
 const $model = defineModel()
 
+const inputSize = computed(() => {
+  if(!$props.size) {
+    return ''
+  }
+  else if($props.size == 'sm') {
+    return 'text-sm h-[34px]'
+  }
+})
+
 </script>
 
 <template>
  <div>
-  <label for="password" class="block text-sm font-medium text-gray-700">{{ name }}</label>
-  <div class="mt-1">
+  <div>
     <input
       v-model="$model"
       :id="name"
@@ -22,8 +33,9 @@ const $model = defineModel()
       :type="type ?? 'text'"
       :placeholder="placeholder ?? ''"
       :class="[
+        inputSize,
         error && 'border-red-500',
-        'block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-brand-500 sm:text-sm'
+        'w-full rounded-md border border-gray-300 placeholder-gray-400 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-brand-500'
       ]"
     />
     <label v-if="$props.error" for="password" class="block text-sm font-medium text-red-600">

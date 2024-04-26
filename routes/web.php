@@ -45,7 +45,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/manage-groups', [ManageGroupsController::class, 'index'])->name('manage-groups');
     Route::get('/manage-users', [ManageUsersController::class, 'index'])->name('manage-users');
     Route::get('/manage-roles-permissions', [ManageRolesPermissionsController::class, 'index'])->name('manage-roles-permissions');
+
     Route::get('/system-settings', [SystemSettingsController::class, 'index'])->name('system-settings');
+    Route::post('/system-settings', [SystemSettingsController::class, 'submit'])->name('system-settings-submit');
+
   });
 });
 

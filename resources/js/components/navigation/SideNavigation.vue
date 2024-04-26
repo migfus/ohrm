@@ -16,6 +16,11 @@ import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
 import TopNavigationLogo from './TopNavigationLogo.vue'
 
 const sidebarOpen = ref(false)
+
+const $props = defineProps<{
+  title: string
+  logo: string
+}>()
 </script>
 
 <template>
@@ -38,8 +43,8 @@ const sidebarOpen = ref(false)
                 </div>
               </TransitionChild>
               <div class="flex flex-shrink-0 items-center px-4">
-                <TopNavigationLogo />
-                <label class="text-sm font-semibold">Office of Human Resources Management</label>
+                <TopNavigationLogo :logo :title/>
+                <label class="text-sm font-semibold">{{ $props.title }}</label>
               </div>
               <div class="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav class="space-y-1 px-2">
@@ -76,8 +81,8 @@ const sidebarOpen = ref(false)
       <!-- Sidebar component, swap this element with another sidebar if you like -->
       <div class="flex min-h-0 flex-1 flex-col bg-brand-50">
         <Link href="/" class="flex h-16 flex-shrink-0 items-center bg-brand px-4 shadow">
-          <TopNavigationLogo />
-          <lable class="font-semibold text-sm">Office of Human Resource Management</lable>
+          <TopNavigationLogo :logo :title/>
+          <label class="font-semibold text-sm">{{ $props.title }}</label>
         </Link>
         <div class="flex flex-1 flex-col overflow-y-auto">
           <nav class="flex-1 space-y-1 px-2 py-4">

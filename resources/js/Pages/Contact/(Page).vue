@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { TProps } from '@/globalTypes'
-import { useTitle } from '@vueuse/core'
-
-const $props = defineProps<TProps>()
-useTitle(`Contact Us | ${$props.title}`)
 
 </script>
 

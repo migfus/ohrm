@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 import { reactive } from 'vue'
-import { useTitle } from '@vueuse/core'
 import { TProps } from '@/globalTypes'
 
 import AppInput from '@/components/form/AppInput.vue'
@@ -14,8 +13,6 @@ interface TErrorWithTProps extends TProps {
 }
 
 const $props = defineProps<TErrorWithTProps>()
-useTitle(`Forgot | ${$props.title}`)
-
 
 const form = reactive<{ email: string }>({
   email: '',

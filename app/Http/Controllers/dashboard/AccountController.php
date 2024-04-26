@@ -9,6 +9,6 @@ class AccountController extends Controller
 {
 
   public function index() : Response {
-    return Inertia::render('dashboard/account/(Page)');
+    return Inertia::render('dashboard/account/(Page)', ['pageTitle' => 'Account']);
   }
 }

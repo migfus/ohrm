@@ -9,6 +9,6 @@ use Inertia\Response;
 class ManageRolesPermissionsController extends Controller
 {
   public function index() : Response {
-    return Inertia::render('dashboard/ManageRolesPermissions');
+    return Inertia::render('dashboard/ManageRolesPermissions', ['pageTitle' => 'Manage Roles & Permissions']);
   }
 }

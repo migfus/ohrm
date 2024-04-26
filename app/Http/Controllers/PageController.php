@@ -11,14 +11,14 @@ class PageController extends Controller
 {
   public function index(Request $req) : Response {
     if(auth()->check()); {
-      return Inertia::render('home/(Page)', ['auth' => Auth::user()]);
+      return Inertia::render('home/(Page)', ['pageTitle' => 'Home', 'auth' => Auth::user()]);
     }
-    return Inertia::render('home/(Page)');
+    return Inertia::render('home/(Page)' , ['pageTitle' => 'Home']);
   }
 
 
   public function contact(Request $req) : Response {
-    return Inertia::render('contact/(Page)');
+    return Inertia::render('contact/(Page)' , ['pageTitle' => 'Contact Us']);
   }
 }
 

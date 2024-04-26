@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import { useTitle, useStorage } from '@vueuse/core'
 import { UseFullscreen } from '@vueuse/components'
-import type { TProps } from '@/globalTypes'
 
 import { ArrowsPointingOutIcon } from '@heroicons/vue/24/outline'
-
-const $props = defineProps<TProps>()
-
-useTitle(`Status | ${$props.title}`)
 
 const people = [
   {

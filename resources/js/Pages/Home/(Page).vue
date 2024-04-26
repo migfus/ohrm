@@ -1,8 +1,5 @@
 
 <script setup lang="ts">
-import { useTitle } from '@vueuse/core'
-import { TProps } from '@/globalTypes'
-
 import {
   BriefcaseIcon,
   DocumentDuplicateIcon,
@@ -143,10 +140,6 @@ const menu = [
     ]
   },
 ]
-
-const $props = defineProps<TProps>()
-
-useTitle(`Home | ${$props.title}`)
 </script>
 
 
