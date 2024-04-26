@@ -18,10 +18,25 @@ class SystemSettingsController extends Controller
   public function submit(Request $req) : RedirectResponse {
     $val = $req->validate([
       'id' => ['required'],
-      'value' => ['required']
+      'value' => ['required'],
+      'type' => ['required']
     ]);
 
-    SystemSettings::where('id', $req->id)->update(['value' => $req->value]);
+    if($req->type == 'avatar') {
+      try {
+        $avatar = $this->GUploadAvatar($req->value, 'system');
+        SystemSettings::where('id', $req->id)->update(['value' => $avatar]);
+      }
+      catch(\Exception $error) {
+        return to_route('dashboard.system-settings')->withErrors([
+          'value' => 'Invalid Image! Please upload an image if you desire to change.',
+        ]);
+      }
+    }
+    else {
+      SystemSettings::where('id', $req->id)->update(['value' => $req->value]);
+    }
+
 
     return to_route('dashboard.system-settings');
   }
