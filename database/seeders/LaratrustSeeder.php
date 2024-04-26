@@ -29,17 +29,18 @@ class LaratrustSeeder extends Seeder
       ]);
 
       // NOTE ROLE
+      $role_staff = Role::create([
+        'name' => 'staff',
+        'display_name' => 'Staff',
+        'description' => 'Staff who manage the system'
+      ]);
+
       $role_admin = Role::create([
         'name' => 'admin',
         'display_name' => 'Administrator',
         'description' => 'Administrator for the system.'
       ]);
 
-      $role_staff = Role::create([
-        'name' => 'staff',
-        'display_name' => 'Staff',
-        'description' => 'Staff who manage the system'
-      ]);
 
       // NOTE PERMISSIONS
       $perm_create_user = Permission::create([

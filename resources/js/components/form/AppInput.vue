@@ -7,6 +7,7 @@ type TProps = {
   type?: 'text' | 'email' | 'password'
   placeholder?: string
   size?: 'sm'
+  noLabel?: true | false
 }
 
 const $props = defineProps<TProps>()
@@ -26,6 +27,7 @@ const inputSize = computed(() => {
 <template>
  <div>
   <div>
+    <label v-if="!$props.noLabel">{{ $props.name }}</label>
     <input
       v-model="$model"
       :id="name"
@@ -35,7 +37,7 @@ const inputSize = computed(() => {
       :class="[
         inputSize,
         error && 'border-red-500',
-        'w-full rounded-md border border-gray-300 placeholder-gray-400 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-brand-500'
+        'w-full rounded-xl border border-gray-300 placeholder-gray-400 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-brand-500'
       ]"
     />
     <label v-if="$props.error" for="password" class="block text-sm font-medium text-red-600">
