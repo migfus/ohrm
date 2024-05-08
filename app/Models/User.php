@@ -53,4 +53,8 @@ class User extends Authenticatable implements LaratrustUser
         ];
     }
 
+    public function team_roles() {
+      return $this->morphTo(Role::class, Team::class);
+    }
+
 }

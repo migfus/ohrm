@@ -48,4 +48,35 @@ export interface TUser {
   avatar: string
   created_at: string
   name: string
+  team_roles?: TRole[]
+}
+
+export interface TRole {
+  id: string
+  name: string
+  display_name: string
+  description: string
+  created_at: string
+  permissions: TPermission []
+  users: TUser []
+}
+
+export interface TPermission {
+  name: string
+  display_name: string
+  description: string
+  id: string
+}
+
+export interface TTab {
+  name: string
+  icon?: FunctionalComponent
+}
+
+export interface TTeam {
+  id: string
+  name: string
+  display_name: string
+  description: string
+  users: TUser[]
 }

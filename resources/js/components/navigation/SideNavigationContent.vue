@@ -18,7 +18,6 @@ import { TCTopNavigation } from '@/globalTypes'
 
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 import DataTransition from '../transitions/DataTransition.vue'
-import BasicTransition from '../transitions/BasicTransition.vue'
 
 defineProps<{
   title: string

@@ -11,14 +11,14 @@
     <div class="flex flex-col max-w-7xl md:px-8 xl:px-0 mx-4">
       <main class="flex-1">
         <div class="relative mx-auto md:px-8 xl:px-0">
-          <div class="pt-10 pb-16">
+          <div class="pb-16">
 
             <!-- NOTE: HEADER -->
             <HeaderContent title="System Settings" desc="Tweak your prefered settings for the system."/>
 
             <!-- NOTE: CONTENT -->
             <div class="px-4 sm:px-6 md:px-0">
-              <div class="py-6">
+              <div class="">
                 <!-- NOTE TABS -->
                 <div class="lg:hidden">
                   <label for="selected-tab" class="sr-only">Select a tab</label>

@@ -9,4 +9,6 @@ class Role extends RoleModel
 {
   use HasUuids;
   public $guarded = [];
+
+
 }
