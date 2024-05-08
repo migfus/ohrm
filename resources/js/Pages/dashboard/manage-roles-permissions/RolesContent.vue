@@ -1,5 +1,6 @@
 <template>
   <ul role="list">
+    <FlashErrors :errors/>
     <DataTransition class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       <li v-for="row in roles" :key="row.id" class="col-span-1 divide-y divide-gray-200 rounded-lg bg-brand-50 shadow">
         <div class="flex w-full items-center justify-between space-x-6 p-6">
@@ -48,11 +49,12 @@ import { ref } from 'vue'
 
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import RoleRow from './RoleRow.vue'
-
+import FlashErrors from '@/components/header/FlashErrors.vue'
 
 defineProps<{
   roles: TRole []
   permissions: TPermission []
+  errors: object
 }>()
 const loadingIndex = ref<number | null>(null)
 

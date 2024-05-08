@@ -45,7 +45,13 @@ class ManageRolesPermissionsController extends Controller
       'value' => ['required']
     ]);
 
-    $role = Role::where('id', $req->role_id)->first();
+    $role = Role::where('id', $req->role_id)->where('name', '!=', 'admin')->first();
+
+    if(!$role) {
+      return to_route('dashboard.manage-roles-permissions')->withErrors([
+        'Admin Permissions' => 'You cannot modify admin permissions <img src="/assets/i see you.gif" class="mt-4">',
+      ]);
+    }
 
     if($req->value == true) {
       $role->attachPermission($req->permission_id);

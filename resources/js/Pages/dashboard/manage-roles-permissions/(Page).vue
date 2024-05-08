@@ -7,7 +7,7 @@
     <TabContent v-model="selected" :data="tabs"/>
 
     <!-- NOTE: ROLES -->
-    <RolesContent v-if="selected == 0" :roles :permissions/>
+    <RolesContent v-if="selected == 0" :roles :permissions :errors/>
 
     <!-- NOTE: TEAMS -->
     <TeamsContent v-else :teams/>
@@ -18,19 +18,18 @@
 import { TPermission, TRole, TTab, TTeam } from '@/globalTypes'
 import { ref } from 'vue'
 
+import { FolderIcon, ShieldCheckIcon } from '@heroicons/vue/24/outline'
 import HeaderContent from '@/components/header/HeaderContent.vue'
 import TabContent from '@/components/header/TabContent.vue'
-import { EnvelopeIcon, PhoneIcon } from '@heroicons/vue/20/solid'
-import { FolderIcon, ShieldCheckIcon } from '@heroicons/vue/24/outline';
-import DataTransition from '@/components/transitions/DataTransition.vue';
 import RolesContent from './RolesContent.vue'
 import TeamsContent from './TeamsContent.vue'
 import AlertSection from '@/components/header/AlertSection.vue'
 
-const $props = defineProps<{
+defineProps<{
   roles: TRole[]
   permissions: TPermission[]
   teams: TTeam[]
+  errors: object
 }>()
 
 const selected = ref(0) // default 0 index
@@ -44,7 +43,6 @@ const tabs: TTab[] = [
     icon: FolderIcon,
   }
 ]
-
 </script>
 
 
