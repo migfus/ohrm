@@ -17,8 +17,8 @@ class PageController extends Controller
   }
 
 
-  public function contact(Request $req) : Response {
-    return Inertia::render('contact/(Page)' , ['pageTitle' => 'Contact Us']);
+  public function about(Request $req) : Response {
+    return Inertia::render('about/(Page)' , ['pageTitle' => 'About Us']);
   }
 }
 

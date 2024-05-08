@@ -24,9 +24,9 @@ export const CTopNavigation: TCTopNavigation[] = [
     href: '/status',
   },
   {
-    name: 'Contact Us',
+    name: 'About Us',
     icon: QuestionMarkCircleIcon,
-    href: '/contact',
+    href: '/about',
   },
 ]
 

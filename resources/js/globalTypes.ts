@@ -36,3 +36,16 @@ export interface TProps {
   }
 }
 
+export interface TPagination<T> {
+  current_page: number
+  data: T []
+  total: number
+}
+
+export interface TUser {
+  id: string
+  email: string
+  avatar: string
+  created_at: string
+  name: string
+}

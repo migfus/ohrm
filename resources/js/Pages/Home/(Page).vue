@@ -37,7 +37,7 @@ const menu = [
       },
       {
         name: 'Renewal/PDS',
-        color: 'bg-amber-700 text-amber-50',
+        color: 'bg-yellow-600 text-yellow-50',
         image: 'https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         icon: ArrowPathIcon,
       },
@@ -61,7 +61,7 @@ const menu = [
     children: [
       {
         name: 'Leaves Concern',
-        color: 'bg-amber-600 text-amber-50',
+        color: 'bg-yellow-600 text-yellow-50',
         image: 'https://plus.unsplash.com/premium_photo-1661589592495-a48a36ad094c?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         icon: HandThumbUpIcon,
       },
@@ -109,7 +109,7 @@ const menu = [
       },
       {
         name: 'Request 201 Files',
-        color: 'bg-blue-600 text-blue-50',
+        color: 'bg-indigo-600 text-indigo-50',
         image: 'https://images.unsplash.com/photo-1596633313465-1256feb1c6d9?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         icon: FolderIcon,
       },
@@ -133,7 +133,7 @@ const menu = [
       },
       {
         name: 'IPCR Concern',
-        color: 'bg-blue-600 text-blue-50',
+        color: 'bg-indigo-600 text-indigo-50',
         image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         icon: PencilIcon,
       },

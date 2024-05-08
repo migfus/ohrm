@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PageController::class, 'index'])->name('home');
 
 Route::resource('/status', StatusController::class)->only(['index']);
-Route::get('/contact', [PageController::class, 'contact'])->name('contact');
+Route::get('/about', [PageController::class, 'about'])->name('about');
 
 // MARK: AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware(['guest']);
@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     // MARK: ADMIN
     Route::get('/manage-groups', [ManageGroupsController::class, 'index'])->name('manage-groups');
     Route::get('/manage-users', [ManageUsersController::class, 'index'])->name('manage-users');
+    Route::get('/manage-users/{id}', [ManageUsersController::class, 'show'])->name('manage-user.show');
     Route::get('/manage-roles-permissions', [ManageRolesPermissionsController::class, 'index'])->name('manage-roles-permissions');
 
     Route::get('/system-settings', [SystemSettingsController::class, 'index'])->name('system-settings');

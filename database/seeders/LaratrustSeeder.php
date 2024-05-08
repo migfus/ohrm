@@ -41,6 +41,17 @@ class LaratrustSeeder extends Seeder
         'description' => 'Administrator for the system.'
       ]);
 
+      Role::create([
+        'name' => 'unit head',
+        'display_name' => 'Unit Head',
+        'description' => 'Unit Head for the groups'
+      ]);
+      Role::create([
+        'name' => 'office head',
+        'display_name' => 'Office Head',
+        'description' => 'Office  Head for the groups'
+      ]);
+
 
       // NOTE PERMISSIONS
       $perm_create_user = Permission::create([

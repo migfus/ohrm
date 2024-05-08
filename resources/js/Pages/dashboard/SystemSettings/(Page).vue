@@ -1,51 +1,4 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import { TProps } from '@/globalTypes'
-import { router } from '@inertiajs/vue3'
 
-import AppButton from '@/components/form/AppButton.vue'
-import AppInput from '@/components/form/AppInput.vue'
-import { PencilIcon } from '@heroicons/vue/24/outline'
-import BasicTransition from '@/components/transitions/BasicTransition.vue'
-import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
-
-interface TSystemSettings {
-  id: number
-  system_setting_type: {
-    name: string
-  }
-  name: string
-  description: string
-  value: string
-}
-
-interface TData {
-  id: number
-  name: string
-  description: string
-  href: string
-  system_settings: TSystemSettings []
-}
-
-interface TErrorAndTDataWithTProps extends TProps {
-  errors?: {
-    id: string
-    value: string
-  }
-  data: TData []
-}
-
-const $props = defineProps<TErrorAndTDataWithTProps>()
-
-const selected = ref(0)
-const selectedData = ref<number | null>(null)
-const uploadAvatarOpen = ref(false)
-
-function submit(row: TSystemSettings) {
-  router.post('/dashboard/system-settings', {id: row.id, value: row.value, type: row.system_setting_type.name})
-  selectedData.value = null
-}
-</script>
 
 
 <template>
@@ -59,9 +12,11 @@ function submit(row: TSystemSettings) {
       <main class="flex-1">
         <div class="relative mx-auto md:px-8 xl:px-0">
           <div class="pt-10 pb-16">
-            <div class="px-4 sm:px-6 md:px-0">
-              <h1 class="text-3xl font-bold tracking-tight text-brand-900">System Settings</h1>
-            </div>
+
+            <!-- NOTE: HEADER -->
+            <HeaderContent title="System Settings" desc="Tweak your prefered settings for the system."/>
+
+            <!-- NOTE: CONTENT -->
             <div class="px-4 sm:px-6 md:px-0">
               <div class="py-6">
                 <!-- NOTE TABS -->
@@ -95,7 +50,7 @@ function submit(row: TSystemSettings) {
                 <!-- NOTE DATA -->
                 <div class="mt-10 divide-y divide-gray-200">
                   <div class="space-y-1">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $props.data[selected].name }}</h3>
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $props.data[selected].name }} Settings</h3>
                     <p class="max-w-2xl text-sm text-gray-500">{{ $props.data[selected].description }}</p>
 
                     <!-- NOTE ERRORS -->
@@ -192,3 +147,54 @@ function submit(row: TSystemSettings) {
   </div>
 
 </template>
+
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { TProps } from '@/globalTypes'
+import { router } from '@inertiajs/vue3'
+
+import AppButton from '@/components/form/AppButton.vue'
+import AppInput from '@/components/form/AppInput.vue'
+import { PencilIcon } from '@heroicons/vue/24/outline'
+import BasicTransition from '@/components/transitions/BasicTransition.vue'
+import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
+import HeaderContent from '@/components/header/HeaderContent.vue'
+
+interface TSystemSettings {
+  id: number
+  system_setting_type: {
+    name: string
+  }
+  name: string
+  description: string
+  value: string
+}
+
+interface TData {
+  id: number
+  name: string
+  description: string
+  href: string
+  system_settings: TSystemSettings []
+}
+
+interface TErrorAndTDataWithTProps extends TProps {
+  errors?: {
+    id: string
+    value: string
+  }
+  data: TData []
+}
+
+const $props = defineProps<TErrorAndTDataWithTProps>()
+
+const selected = ref(0)
+const selectedData = ref<number | null>(null)
+const uploadAvatarOpen = ref(false)
+
+function submit(row: TSystemSettings) {
+  router.post('/dashboard/system-settings', {id: row.id, value: row.value, type: row.system_setting_type.name})
+  selectedData.value = null
+}
+</script>

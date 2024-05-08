@@ -1,28 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import { CTopNavigation, CSidebarNavigation, CAdminNavigation } from '@/constants'
-import {
-  Dialog,
-  DialogPanel,
-  TransitionChild,
-  TransitionRoot,
-} from '@headlessui/vue'
-import {
-  Bars3BottomLeftIcon,
-  XMarkIcon,
-} from '@heroicons/vue/24/outline'
-import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
-import TopNavigationLogo from './TopNavigationLogo.vue'
-
-const sidebarOpen = ref(false)
-
-const $props = defineProps<{
-  title: string
-  logo: string
-}>()
-</script>
-
 <template>
   <div>
     <TransitionRoot as="template" :show="sidebarOpen">
@@ -48,23 +23,9 @@ const $props = defineProps<{
               </div>
               <div class="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav class="space-y-1 px-2">
-                  <label class="ml-2">Dashboard</label>
-                  <Link v-for="item in CSidebarNavigation" :key="item.name" :href="item.href" :class="[item.href == $page.url ? 'bg-brand-100 text-brand-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']">
-                    <component :is="item.icon" :class="[item.href == $page.url ? 'text-gray-500' : 'text-brand-400 group-hover:text-gray-500', 'mr-3 h-6 w-6']" aria-hidden="true" />
-                    <div class="truncate">{{ item.name }}</div>
-                  </Link>
-
-                  <label class="ml-2 mt-2">Admin</label>
-                  <Link v-for="item in CAdminNavigation" :key="item.name" :href="item.href" :class="[item.href == $page.url ? 'bg-brand-100 text-brand-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']">
-                    <component :is="item.icon" :class="[item.href == $page.url ? 'text-gray-500' : 'text-brand-400 group-hover:text-gray-500', 'mr-3 h-6 w-6']" aria-hidden="true" />
-                    <div class="truncate">{{ item.name }}</div>
-                  </Link>
-
-                  <label class="ml-2 mt-2">Pages</label>
-                  <Link v-for="item in CTopNavigation" :key="item.name" :href="item.href" :class="[item.href == $page.url ? 'bg-brand-100 text-brand-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']">
-                    <component :is="item.icon" :class="[item.href == $page.url ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500', 'mr-3 h-6 w-6']" aria-hidden="true" />
-                    <div class="truncate">{{ item.name }}</div>
-                  </Link>
+                  <SideNavigationContent title="Dashboard" :data="CSidebarNavigation" v-model="sidebarOpen"/>
+                  <SideNavigationContent title="Admin" :data="CAdminNavigation" v-model="sidebarOpen"/>
+                  <SideNavigationContent title="Pages" :data="CTopNavigation" v-model="sidebarOpen"/>
                 </nav>
               </div>
             </DialogPanel>
@@ -86,23 +47,9 @@ const $props = defineProps<{
         </Link>
         <div class="flex flex-1 flex-col overflow-y-auto">
           <nav class="flex-1 space-y-1 px-2 py-4">
-            <label class="ml-2">Dashboard</label>
-            <Link v-for="item in CSidebarNavigation" :key="item.name" :href="item.href" :class="[item.href == $page.url ? 'bg-brand-100 text-brand-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']">
-              <component :is="item.icon" :class="[item.href == $page.url ? 'text-gray-500' : 'text-brand-400 group-hover:text-gray-500', 'mr-3 h-6 w-6']" aria-hidden="true" />
-              <div class="truncate">{{ item.name }}</div>
-            </Link>
-
-            <label class="ml-2 mt-2">Admin</label>
-            <Link v-for="item in CAdminNavigation" :key="item.name" :href="item.href" :class="[item.href == $page.url ? 'bg-brand-100 text-brand-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']">
-              <component :is="item.icon" :class="[item.href == $page.url ? 'text-gray-500' : 'text-brand-400 group-hover:text-gray-500', 'mr-3 h-6 w-6']" aria-hidden="true" />
-              <div class="truncate">{{ item.name }}</div>
-            </Link>
-
-            <label class="ml-2 mt-2">Pages</label>
-            <Link v-for="item in CTopNavigation" :key="item.name" :href="item.href" :class="[item.href == $page.url ? 'bg-brand-100 text-brand-900' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900', 'group flex items-center px-2 py-2 text-base font-medium rounded-md']">
-              <component :is="item.icon" :class="[item.href == $page.url ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500', 'mr-3 h-6 w-6']" aria-hidden="true" />
-              <div class="truncate">{{ item.name }}</div>
-            </Link>
+            <SideNavigationContent title="Dashboard" :data="CSidebarNavigation" v-model="sidebarOpen"/>
+            <SideNavigationContent title="Admin" :data="CAdminNavigation" v-model="sidebarOpen"/>
+            <SideNavigationContent title="Pages" :data="CTopNavigation" v-model="sidebarOpen"/>
           </nav>
         </div>
       </div>
@@ -144,4 +91,25 @@ const $props = defineProps<{
   </div>
 </template>
 
+<script setup lang="ts">
+import { ref } from 'vue'
+import { CTopNavigation, CSidebarNavigation, CAdminNavigation } from '@/constants'
+import SideNavigationContent from '@/components/navigation/SideNavigationContent.vue'
 
+import {
+  Dialog,
+  DialogPanel,
+  TransitionChild,
+  TransitionRoot,
+} from '@headlessui/vue'
+import { Bars3BottomLeftIcon, XMarkIcon, MagnifyingGlassIcon} from '@heroicons/vue/24/outline'
+import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
+import TopNavigationLogo from './TopNavigationLogo.vue'
+
+const sidebarOpen = ref(false)
+
+const $props = defineProps<{
+  title: string
+  logo: string
+}>()
+</script>
