@@ -12,11 +12,16 @@
           </div>
           <div class="flex -space-x-1 overflow-hidden">
             <img
-              v-for="user in row.users" :key="user.id"
+              v-for="user in limitUsers(row.users)" :key="user.id"
               class="inline-block h-8 w-8 rounded-full ring-2 ring-white"
               :src="user.avatar"
               :alt="`${user.name} Avatar`"
             />
+
+            <span v-if="usersCount(row.users)" class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-400">
+              <span class="text-xs font-medium leading-none text-white">+{{  usersCount(row.users) }}</span>
+            </span>
+
           </div>
         </div>
         <div class="mx-4">
@@ -25,22 +30,7 @@
             <div class="divide-y divide-gray-200">
 
               <DataTransition>
-                <div v-for="permission in permissions" :key="permission.id" class="relative flex items-start pb-4 pt-3.5">
-                  <div class="min-w-0 flex-1 text-sm leading-6">
-                    <label for="comments" class="font-medium text-gray-900">{{ permission.display_name }}</label>
-                    <p id="comments-description" class="text-gray-500">{{ permission.description }}</p>
-                  </div>
-                  <div class="ml-3 flex h-6 items-center">
-                    <input
-                      :checked="row.permissions.filter(p => p.id === permission.id).length > 0 ? true : false"
-                      :id="permission.name"
-                      :aria-describedby="`${permission.name}-description`"
-                      :name="permission.name"
-                      type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-600"
-                    />
-                  </div>
-                </div>
+                <RoleRow v-for="permission in permissions" :key="permission.id" :data="permission" :row/>
               </DataTransition>
 
 
@@ -53,12 +43,31 @@
 </template>
 
 <script setup lang="ts">
-import { TPermission, TRole } from '@/globalTypes'
+import { TPermission, TRole, TUser } from '@/globalTypes'
+import { ref } from 'vue'
 
 import DataTransition from '@/components/transitions/DataTransition.vue'
+import RoleRow from './RoleRow.vue'
+
 
 defineProps<{
   roles: TRole []
   permissions: TPermission []
 }>()
+const loadingIndex = ref<number | null>(null)
+
+function usersCount(users: TUser []) {
+  if(users.length > 3) {
+    return users.length - 3
+  }
+  else {
+    return false
+  }
+}
+
+function limitUsers(users: TUser []) {
+  return users.slice(0, 3)
+}
+
+
 </script>

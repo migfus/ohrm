@@ -1,5 +1,8 @@
 <template>
   <div>
+    <AlertSection title="Attention needed" storage-key="roles-permission">
+      <p>You cannot modify "Administrator" role to prevent accidental removing permission, it may result unexpected behavior of the website</p>
+    </AlertSection>
     <HeaderContent title="Manage Roles & Permissions" desc="Assign Premissions to Roles and Users"/>
     <TabContent v-model="selected" :data="tabs"/>
 
@@ -22,6 +25,7 @@ import { FolderIcon, ShieldCheckIcon } from '@heroicons/vue/24/outline';
 import DataTransition from '@/components/transitions/DataTransition.vue';
 import RolesContent from './RolesContent.vue'
 import TeamsContent from './TeamsContent.vue'
+import AlertSection from '@/components/header/AlertSection.vue'
 
 const $props = defineProps<{
   roles: TRole[]

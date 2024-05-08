@@ -11,4 +11,13 @@ class Role extends RoleModel
   public $guarded = [];
 
 
+  public function attachPermission($permissionId)
+  {
+      return $this->permissions()->attach($permissionId);
+  }
+
+  public function detachPermission($permissionId)
+  {
+      return $this->permissions()->detach($permissionId);
+  }
 }

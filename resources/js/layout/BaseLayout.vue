@@ -23,7 +23,7 @@ watch($props, () => {
     <link rel="icon" type="image/png" :href="$props.logo.sm" />
   </Head>
 
-  <TopBanner />
+  <!-- <TopBanner /> -->
 
   <SideNavigation v-if="$props.sidebar" :title="$props.title" :logo="$props.logo.lg">
     <div class="mx-auto max-w-7xl">

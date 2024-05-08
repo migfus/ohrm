@@ -18,12 +18,9 @@
                 :alt="`${person.name} Avatar`"
               />
             </div>
-            <div
-              v-if="usersCount(row.users)"
-              class="inline-block text-sm text-gray-600 pt-1 h-8 w-8 rounded-full ring-2 ring-white bg-white align-middle shadow"
-            >
-              +{{ usersCount(row.users) }}
-            </div>
+            <span v-if="usersCount(row.users)" class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-400">
+              <span class="text-xs font-medium leading-none text-white">+{{  usersCount(row.users) }}</span>
+            </span>
           </div>
         </div>
 
