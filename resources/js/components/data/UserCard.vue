@@ -1,6 +1,6 @@
 <template>
-  <li>
-    <a :href="`/dashboard/manage-users/${data.id}`" class="block hover:bg-gray-50 bg-white">
+
+    <a :href="`/dashboard/manage-users/${data.id}`" class="block hover:bg-white bg-brand-50 pb-4">
       <div class="flex items-center px-4 py-4 sm:px-6">
         <div class="flex min-w-0 flex-1 items-center">
           <div class="flex-shrink-0">
@@ -20,10 +20,7 @@
                   {{ ' ' }}
                   <time :datetime="data.created_at" class="font-medium">{{ moment(data.created_at).format('MMM DD, YYYY') }}</time>
                 </p>
-                <p class="mt-2 flex items-center text-sm text-gray-500">
-                  <CheckCircleIcon class="mr-1.5 h-5 w-5 flex-shrink-0 text-brand-400" aria-hidden="true" />
-                  [Group Name here]
-                </p>
+
               </div>
             </div>
           </div>
@@ -32,14 +29,26 @@
           <ChevronRightIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
         </div>
       </div>
+
+      <div class="flex mx-4 gap-2 flex-wrap">
+        <span v-for="team in data.roles_teams" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 bg-white shadow-sm ring-inset ring-gray-200">
+          <svg class="h-1.5 w-1.5 fill-brand-500" viewBox="0 0 6 6" aria-hidden="true">
+            <circle cx="3" cy="3" r="3" />
+          </svg>
+          {{  team.display_name }}
+        </span>
+      </div>
     </a>
-  </li>
+
+
+
+
 </template>
 
 <script setup lang="ts">
 import { TUser } from '@/globalTypes'
 import moment from 'moment'
-import { CheckCircleIcon, ChevronRightIcon } from '@heroicons/vue/20/solid'
+import { ChevronRightIcon } from '@heroicons/vue/20/solid'
 
 const { data } = defineProps<{
   data: TUser

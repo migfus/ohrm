@@ -30,7 +30,7 @@
                 </div>
                 <div class="hidden lg:block">
                   <div class="border-b border-gray-200">
-                    <nav class="-mb-px flex space-x-8">
+                    <DataTransition class="-mb-px flex space-x-8">
                       <div
                         v-for="(tab, index) in $props.data"
                         :key="tab.name"
@@ -42,8 +42,8 @@
                           'cursor-pointer whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']"
                         >
                         {{ tab.name }}
-                      </div>
-                    </nav>
+                    </div>
+                    </DataTransition>
                   </div>
                 </div>
 
@@ -72,7 +72,7 @@
 
                   </div>
                   <div class="mt-6">
-                    <dl class="divide-y divide-gray-200">
+                    <DataTransition class="divide-y divide-gray-200">
                       <!-- NOTE TITLE -->
 
                       <form
@@ -134,7 +134,7 @@
                         </dd>
                       </form>
 
-                    </dl>
+                    </DataTransition>
                   </div>
                 </div>
 
@@ -160,6 +160,7 @@ import { PencilIcon } from '@heroicons/vue/24/outline'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 import HeaderContent from '@/components/header/HeaderContent.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
 
 interface TSystemSettings {
   id: number

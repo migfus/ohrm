@@ -25,7 +25,7 @@
         </div>
 
         <!-- NOTE: PEOPLE -->
-        <ul role="list" class="divide-y divide-brand-100 overflow-hidden bg-bran-50 shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
+        <ul role="list" class="bg-white divide-y divide-brand-100 overflow-hidden bg-bran-50 shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl">
           <li v-for="person in row.users" :key="person.email" class="relative flex flex-col justify-between gap-x-6 px-4 py-5 hover:bg-white sm:px-6">
             <div class="flex justify-between">
               <div class="flex min-w-0 gap-x-4">

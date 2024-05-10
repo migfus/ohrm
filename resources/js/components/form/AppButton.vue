@@ -2,6 +2,7 @@
 import { router } from '@inertiajs/vue3';
 import { FunctionalComponent, computed, onMounted, ref } from 'vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
+import BasicTransition from '../transitions/BasicTransition.vue'
 
 const $props = defineProps<{
   icon?: FunctionalComponent
@@ -69,7 +70,7 @@ router.on('finish',() => {
       buttonColor,
       textAlignment,
       buttonSize,
-      'inline-flex rounded-md font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2'
+      'inline-flex rounded-xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2'
     ]"
   >
     <ArrowPathIcon v-if="loading" :class="['-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />

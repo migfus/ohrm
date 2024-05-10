@@ -49,6 +49,14 @@ export interface TUser {
   created_at: string
   name: string
   team_roles?: TRole[]
+  roles_teams?: TTeams[]
+}
+
+export interface TTeams {
+  name: string
+  display_name: string
+  description: string
+  created_at: string
 }
 
 export interface TRole {
@@ -69,7 +77,7 @@ export interface TPermission {
 }
 
 export interface TTab {
-  name: string
+  display_name: string
   icon?: FunctionalComponent
 }
 

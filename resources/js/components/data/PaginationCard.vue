@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-xl shadow mt-4 p-4">
+  <div class="bg-brand-50 rounded-xl shadow mt-4 p-4">
     Pagination Here
   </div>
 </template>

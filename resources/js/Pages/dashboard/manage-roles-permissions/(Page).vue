@@ -3,7 +3,14 @@
     <AlertSection title="Attention needed" storage-key="roles-permission">
       <p>You cannot modify "Administrator" role to prevent accidental removing permission, it may result unexpected behavior of the website</p>
     </AlertSection>
-    <HeaderContent title="Manage Roles & Permissions" desc="Assign Premissions to Roles and Users"/>
+
+    <HeaderContent
+      v-model="form.search"
+      :allowSearch="true"
+      title="Manage Roles & Permissions"
+      desc="Assign Premissions to Roles and Users"
+    />
+
     <TabContent v-model="selected" :data="tabs"/>
 
     <!-- NOTE: ROLES -->
@@ -16,7 +23,7 @@
 
 <script setup lang="ts">
 import { TPermission, TRole, TTab, TTeam } from '@/globalTypes'
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 
 import { FolderIcon, ShieldCheckIcon } from '@heroicons/vue/24/outline'
 import HeaderContent from '@/components/header/HeaderContent.vue'
@@ -32,14 +39,18 @@ defineProps<{
   errors: object
 }>()
 
+const form = reactive({
+  search: ''
+})
+
 const selected = ref(0) // default 0 index
 const tabs: TTab[] = [
   {
-    name: 'Roles',
+    display_name: 'Roles',
     icon: ShieldCheckIcon,
   },
   {
-    name: 'Teams',
+    display_name: 'Teams',
     icon: FolderIcon,
   }
 ]

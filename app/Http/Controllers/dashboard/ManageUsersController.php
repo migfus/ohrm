@@ -16,25 +16,19 @@ class ManageUsersController extends Controller
     $users = null;
     $type = $req->type ?? 'all';
 
-    if($type == 'all') {
-      $users = User::query()
+    $users = User::query()
+      ->when($type != 'all', function ($q) use($type) {
+        $q->whereHasRole($type, 'system');
+      })
       ->when($req->search, function ($q) use ($req) {
         $q->where('name', 'LIKE', '%' . $req->search . '%');
         $q->orWhere('email', 'LIKE', '%' . $req->search . '%');
       })
+      ->with(['rolesTeams' => function ($q) {
+        $q->orderBy('created_at', 'ASC');
+      }])
       ->orderBy('name', 'ASC')
       ->paginate(10);
-    }
-    else {
-      $users = User::query()
-      ->when($req->search, function ($q) use ($req) {
-        $q->where('name', 'LIKE', '%' . $req->search . '%');
-        $q->orWhere('email', 'LIKE', '%' . $req->search . '%');
-      })
-      ->whereHasRole($req->type, 'default') // NOTE Default Team (the system team)
-      ->orderBy('name', 'ASC')
-      ->paginate(10);
-    }
 
     return Inertia::render('dashboard/manage-users/(Page)' , [
       'pageTitle' => 'Manage Users',
