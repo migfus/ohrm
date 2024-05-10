@@ -23,6 +23,9 @@ const buttonColor = computed(() => {
   else if($props.color == 'brand') {
     return 'bg-brand-600 hover:bg-brand-700 text-brand-50 focus:ring-brand-500 '
   }
+  else if ($props.color == 'danger') {
+    return 'bg-red-50 text-red-700 hover:bg-red-100 focus:ring-red-500 '
+  }
 })
 
 const iconColor = computed(() => {

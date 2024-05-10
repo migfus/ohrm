@@ -44,7 +44,8 @@ Route::middleware(['auth'])->group(function () {
     // MARK: ADMIN
     Route::get('/manage-groups', [ManageGroupsController::class, 'index'])->name('manage-groups');
     Route::get('/manage-users', [ManageUsersController::class, 'index'])->name('manage-users');
-    Route::get('/manage-users/{id}/{name}', [ManageUsersController::class, 'show'])->name('manage-user.show');
+    Route::get('/manage-users/{id}', [ManageUsersController::class, 'show'])->name('manage-user.show');
+    Route::put('/manage-users/{id}', [ManageUsersController::class, 'update'])->name('manage-user.update');
     Route::get('/manage-roles-permissions', [ManageRolesPermissionsController::class, 'index'])->name('manage-roles-permissions');
     Route::post('/manage-roles-permissions', [ManageRolesPermissionsController::class, 'post'])->name('manage-roles-permissions.post');
 

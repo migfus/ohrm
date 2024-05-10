@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Validation\Rule;
 
 class ManageUsersController extends Controller
 {
@@ -38,8 +39,32 @@ class ManageUsersController extends Controller
   }
 
   public function show(Request $req, $id) : Response {
-    $user = User::where('id', $id)->first();
+    $user = User::find($id);
 
-    return Inertia::render('dashboard/manage-users/(Show)', ['pageTitle' => $user->name]);
+    return Inertia::render('dashboard/manage-users/(Show)', ['pageTitle' => $user->name, 'user' => $user]);
   }
+
+  public function update(Request $req, $id) {
+    $req->validate([
+      '_name' => ['required'],
+      '_email' => ['required', 'email'],
+      'name' => ['required'],
+      'email' => ['required', 'email', 'unique:users,email,'.$id],
+      'password' => ['required', 'min:8'],
+    ]);
+
+    User::find($id)
+      ->when($req->_name != $req->name, function ($q) use ($req) {
+        $q->update(['name' => $req->name]);
+      })
+      ->when($req->_email != $req->email, function ($q) use ($req) {
+        $q->update(['email' => $req->email]);
+      })
+      ->when($req->password != '*******************', function ($q) use ($req) {
+        $q->update(['email' => $req->email]);
+      });
+
+    return to_route('dashboard.manage-user.show', ['id' => $id]);
+  }
+
 }

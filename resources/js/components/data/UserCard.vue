@@ -1,6 +1,6 @@
 <template>
 
-    <Link :href="`/dashboard/manage-users/${data.id}/${data.name}`" class="block hover:bg-white bg-brand-50 pb-4">
+    <Link :href="`/dashboard/manage-users/${data.id}`" class="block hover:bg-white bg-brand-50 pb-4">
       <div class="flex items-center px-4 py-4 sm:px-6">
         <div class="flex min-w-0 flex-1 items-center">
           <div class="flex-shrink-0">

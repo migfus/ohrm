@@ -46,6 +46,7 @@ export interface TUser {
   id: string
   email: string
   avatar: string
+  cover: string
   created_at: string
   name: string
   team_roles?: TRole[]

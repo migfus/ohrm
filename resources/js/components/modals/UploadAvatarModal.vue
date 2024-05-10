@@ -1,57 +1,4 @@
 
-<script setup lang="ts">
-import { ref } from 'vue'
-
-import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-// @ts-ignore 😅 Weird
-import VuePictureCropper, { cropper } from 'vue-picture-cropper'
-import AppButton from '@/components/form/AppButton.vue'
-
-const $model = defineModel<string>()
-const show = defineModel<boolean>('show')
-const $props = defineProps<{
-  size: number []
-}>()
-const uploadInput = ref<string | null>(null);
-const config = {
-  cropperOption: {
-    viewMode: 2,
-    dragMode: 'crop',
-    aspectRatio: 1,
-  },
-  cropperBoxStyle: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#f8f8f8',
-    margin: 'auto',
-  }
-}
-
-function SelectFile(event: Event) {
-  // @ts-ignore
-  const { files } = event.target
-  if (!files || !files.length) return
-
-  const file = files[0]
-  const reader = new FileReader()
-  reader.readAsDataURL(file)
-  reader.onload = () => {
-    $model.value = String(reader.result)
-    if (!uploadInput.value) return
-    uploadInput.value = ''
-  }
-}
-
-async function GetResult() {
-  if (!cropper) return
-  const base64 = cropper.getDataURL({
-    maxWidth: $props.size[0],
-    maxHeight: $props.size[1],
-    imageSmoothingQuality: 'high'
-  })
-  $model.value = base64
-}
-</script>
 
 <template>
   <TransitionRoot as="template" :show="show">
@@ -101,8 +48,8 @@ async function GetResult() {
 
               </div>
               <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row sm:px-6 gap-1 mb-3 justify-end">
-                <AppButton block color="brand" @click="GetResult(); show = false" class="mt-1">Save</AppButton>
-                <AppButton block color="danger" @click="show = false" class="mt-1">Cancel</AppButton>
+                <AppButton :icon="XMarkIcon" color="danger" @click="show = false" class="mt-1">Cancel</AppButton>
+                <AppButton :icon="ArrowUpOnSquareIcon" block color="brand" @click="GetResult(); show = false" class="mt-1">Save</AppButton>
               </div>
 
             </DialogPanel>
@@ -113,3 +60,58 @@ async function GetResult() {
   </TransitionRoot>
 </template>
 
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { XMarkIcon, ArrowUpOnSquareIcon } from '@heroicons/vue/24/outline'
+// @ts-ignore 😅 Weird
+import VuePictureCropper, { cropper } from 'vue-picture-cropper'
+import AppButton from '@/components/form/AppButton.vue'
+
+const $model = defineModel<string>()
+const show = defineModel<boolean>('show')
+const $props = defineProps<{
+  size: number []
+}>()
+const uploadInput = ref<string | null>(null);
+const config = {
+  cropperOption: {
+    viewMode: 2,
+    dragMode: 'crop',
+    aspectRatio: 1,
+  },
+  cropperBoxStyle: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#f8f8f8',
+    margin: 'auto',
+  }
+}
+
+function SelectFile(event: Event) {
+  // @ts-ignore
+  const { files } = event.target
+  if (!files || !files.length) return
+
+  const file = files[0]
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = () => {
+    $model.value = String(reader.result)
+    if (!uploadInput.value) return
+    uploadInput.value = ''
+  }
+}
+
+async function GetResult() {
+  if (!cropper) return
+  const base64 = cropper.getDataURL({
+    maxWidth: $props.size[0],
+    maxHeight: $props.size[1],
+    imageSmoothingQuality: 'high'
+  })
+  $model.value = base64
+}
+</script>
