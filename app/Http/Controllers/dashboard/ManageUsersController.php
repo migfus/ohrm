@@ -17,12 +17,12 @@ class ManageUsersController extends Controller
     $type = $req->type ?? 'all';
 
     $users = User::query()
-      ->when($type != 'all', function ($q) use($type) {
-        $q->whereHasRole($type, 'system');
-      })
       ->when($req->search, function ($q) use ($req) {
         $q->where('name', 'LIKE', '%' . $req->search . '%');
         $q->orWhere('email', 'LIKE', '%' . $req->search . '%');
+      })
+      ->when($type != 'all', function ($q) use($type) {
+        $q->whereHasRole($type, 'system');
       })
       ->with(['rolesTeams' => function ($q) {
         $q->orderBy('created_at', 'ASC');
