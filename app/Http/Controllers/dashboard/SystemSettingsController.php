@@ -15,17 +15,17 @@ class SystemSettingsController extends Controller
     return Inertia::render('dashboard/SystemSettings/(Page)', ['pageTitle' => 'System Settings', 'data' => $data]);
   }
 
-  public function submit(Request $req) : RedirectResponse {
+  public function update(Request $req, $id) : RedirectResponse {
     $val = $req->validate([
-      'id' => ['required'],
       'value' => ['required'],
       'type' => ['required']
     ]);
 
+    // NOTE: for website logo
     if($req->type == 'avatar') {
       try {
         $avatar = $this->GUploadAvatar($req->value, 'system');
-        SystemSettings::where('id', $req->id)->update(['value' => $avatar]);
+        SystemSettings::where('id', $id)->update(['value' => $avatar]);
       }
       catch(\Exception $error) {
         return to_route('dashboard.system-settings')->withErrors([
@@ -33,10 +33,10 @@ class SystemSettingsController extends Controller
         ]);
       }
     }
+    // NOTE: other parameters
     else {
-      SystemSettings::where('id', $req->id)->update(['value' => $req->value]);
+      SystemSettings::where('id', $id)->update(['value' => $req->value]);
     }
-
 
     return to_route('dashboard.system-settings');
   }

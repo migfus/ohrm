@@ -73,7 +73,7 @@ router.on('finish',() => {
       buttonColor,
       textAlignment,
       buttonSize,
-      'inline-flex rounded-xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2'
+      'inline-flex rounded-xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
     ]"
   >
     <ArrowPathIcon v-if="loading" :class="['-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />

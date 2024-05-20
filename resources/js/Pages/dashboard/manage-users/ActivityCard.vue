@@ -1,7 +1,11 @@
 <template>
   <div class="flow-root bg-brand-50 p-4 shadow rounded-xl">
-    <div class="mb-4">
-      <h3 class="text-base font-semibold leading-6 text-gray-900">Activities</h3>
+    <div class="px-4 sm:px-0 mb-4">
+      <h3 class="text-base font-semibold leading-7 text-gray-900">
+        <ChartBarIcon class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
+        User's Task Activities
+      </h3>
+      <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Modify basic information of the user.</p>
     </div>
     <ul role="list" class="-mb-8">
       <li v-for="(activityItem, activityItemIdx) in activity" :key="activityItem.id">
@@ -87,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ChatBubbleLeftEllipsisIcon, TagIcon, UserCircleIcon } from '@heroicons/vue/20/solid'
+import { ChatBubbleLeftEllipsisIcon, TagIcon, UserCircleIcon, ChartBarIcon } from '@heroicons/vue/20/solid'
 
 const activity = [
   {

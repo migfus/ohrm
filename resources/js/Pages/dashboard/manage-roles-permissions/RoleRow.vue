@@ -25,7 +25,7 @@
 import { TPermission, TRole } from '@/globalTypes'
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-
+g
 import { ArrowPathIcon } from '@heroicons/vue/20/solid'
 
 defineProps<{

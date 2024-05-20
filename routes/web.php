@@ -13,45 +13,37 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\dashboard\SystemSettingsController;
 use Illuminate\Support\Facades\Route;
 
-
-// MARK: PAGES
+// NOTE: PAGES
 Route::get('/', [PageController::class, 'index'])->name('home');
-
-Route::resource('/status', StatusController::class)->only(['index']);
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::resource('/status', StatusController::class)->only(['index']);
 
-// MARK: AUTH
+// NOTE: AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware(['guest']);
 Route::post('/login', [AuthController::class, 'login_submit'])->name('login.submit');
 Route::get('/forgot', [AuthController::class, 'forgot'])->name('forgot');
 Route::post('/forgot', [AuthController::class, 'forgot_submit'])->name('forgot.submit');
 
-
 Route::middleware(['auth'])->group(function () {
   Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-  Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-  Route::get('/my-groups', [MyGroupsController::class, 'index'])->name('my-groups');
+  Route::resource('/dashboard', DashboardController::class)->only(['index']);
+  Route::resource('/my-groups', MyGroupsController::class)->only(['index']);
+
 
   Route::group(['prefix' => '/dashboard', 'as' => 'dashboard.'], function () {
+    // NOTE: Dashboard
+    Route::resource('/', DashboardController::class)->only(['index']);
+    Route::resource('/my-groups', MyGroupsController::class)->only(['index']);
+    Route::resource('/joined-groups', JoinedGroupsController::class)->only(['index']);
+    Route::resource('/account', AccountController::class)->only(['index']);
 
-    // MARK: Dashboard
-    Route::get('/', [DashboardController::class, 'index'])->name('index');
-    Route::get('/my-groups', [MyGroupsController::class, 'index'])->name('my-groups');
-    Route::get('/joined-groups', [JoinedGroupsController::class, 'index'])->name('joined-groups');
-    Route::get('/account', [AccountController::class, 'index'])->name('account');
-
-    // MARK: ADMIN
-    Route::get('/manage-groups', [ManageGroupsController::class, 'index'])->name('manage-groups');
-    Route::get('/manage-users', [ManageUsersController::class, 'index'])->name('manage-users');
-    Route::get('/manage-users/{id}', [ManageUsersController::class, 'show'])->name('manage-user.show');
-    Route::put('/manage-users/{id}', [ManageUsersController::class, 'update'])->name('manage-user.update');
-    Route::get('/manage-roles-permissions', [ManageRolesPermissionsController::class, 'index'])->name('manage-roles-permissions');
-    Route::post('/manage-roles-permissions', [ManageRolesPermissionsController::class, 'post'])->name('manage-roles-permissions.post');
-
-    Route::get('/system-settings', [SystemSettingsController::class, 'index'])->name('system-settings');
-    Route::post('/system-settings', [SystemSettingsController::class, 'submit'])->name('system-settings-submit');
-
+    // NOTE: ADMIN
+    Route::resource('/manage-groups', ManageGroupsController::class)->only(['index']);
+    Route::resource('/manage-users',  ManageUsersController::class)->only(['index']);
+    Route::resource('/manage-users', ManageUsersController::class)->only(['index', 'create', 'show', 'update', 'delete']);
+    Route::resource('/manage-roles-permissions', ManageRolesPermissionsController::class)->only(['index', 'create']);
+    Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);
   });
 });
 

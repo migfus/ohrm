@@ -1,10 +1,9 @@
 import './bootstrap'
 
 import { createApp, h, DefineComponent } from 'vue'
-import { createInertiaApp, Link } from '@inertiajs/vue3'
+import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
 import Layout from '@/layout/BaseLayout.vue'
 import Notifications from 'notiwind'
-
 
 createInertiaApp({
   resolve: name => {
@@ -18,6 +17,7 @@ createInertiaApp({
       .use(plugin)
       .use(Notifications)
       .component('Link', Link)
+      .component('Head', Head)
       .mount(el)
   },
   progress: {

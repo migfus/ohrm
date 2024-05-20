@@ -40,9 +40,10 @@ import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
 import AppButton from '../form/AppButton.vue'
 
 const $modal = defineModel<boolean>()
+const $emit = defineEmits(['confirm'])
 
 function deleteUser() {
   $modal.value = false
-  alert('user deleted')
+  $emit('confirm', true)
 }
 </script>

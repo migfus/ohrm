@@ -14,9 +14,12 @@ abstract class Controller
 
     $image = base64_decode($image);
     $imageName = time(). '.jpg';
-    $location = '/uploads/'.$path.'/'.$imageName;
-    file_put_contents('uploads/'.$path.'/'.$imageName, $image);
+    $location = '/uploads/'.$path;
+    if(!file_exists(public_path().$location)) {
+      mkdir(public_path().$location, 0777, true);
+    }
+    file_put_contents(public_path().$location.'/'.$imageName, $image);
 
-    return url('').$location;
+    return $location.'/'.$imageName;
   }
 }

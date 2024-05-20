@@ -6,7 +6,7 @@
     </div>
 
     <div v-if="allowSearch" class="mt-3 flex">
-      <AppButton color="brand" class="pt-3 mr-1" :icon="PlusIcon">Add</AppButton>
+      <AppButton @click="add()" color="brand" class="pt-3 mr-1" :icon="PlusIcon">Add</AppButton>
       <AppInput v-model="$model" :error="undefined" name="Search" placeholder="Search" noLabel class="flex-grow"/>
     </div>
 
@@ -19,11 +19,15 @@ import AppButton from '../form/AppButton.vue'
 import { PlusIcon } from '@heroicons/vue/24/outline'
 
 const $model = defineModel<string>()
-defineEmits(['add'])
+const $emit = defineEmits(['add'])
 
 defineProps<{
   title: string
   desc: string
   allowSearch?: boolean
 }>()
+
+function add() {
+  $emit('add', true)
+}
 </script>

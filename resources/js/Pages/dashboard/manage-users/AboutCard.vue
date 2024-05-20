@@ -1,7 +1,10 @@
 <template>
   <div class="bg-brand-50 p-4 shadow rounded-xl">
     <div class="px-4 sm:px-0">
-      <h3 class="text-base font-semibold leading-7 text-gray-900">Basic Information</h3>
+      <h3 class="text-base font-semibold leading-7 text-gray-900">
+        <AdjustmentsHorizontalIcon class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
+        Basic Information
+      </h3>
       <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Modify basic information of the user.</p>
     </div>
 
@@ -41,6 +44,7 @@
             <form @submit.prevent="submit" v-if="active == 'password'" >
               <AppInput v-model="form.password" size="sm" name="Password" :error="undefined" noLabel/>
               <div class="flex justify-end gap-2 mt-2">
+                <AppButton type="button" @click="form.password = passwordGenerator()" size="sm">Generate</AppButton>
                 <AppButton type="button" @click="cancel()" size="sm">Cancel</AppButton>
                 <AppButton type="submit" size="sm" color="brand">Update</AppButton>
               </div>
@@ -58,10 +62,12 @@
 import { reactive, ref } from 'vue'
 import { TUser } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
+import { passwordGenerator } from '@/converter'
 
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
+import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/solid'
 
 const active = ref<string | null>(null)
 
@@ -77,6 +83,11 @@ const form = reactive({
 
 function cancel() {
   active.value = null
+  Object.assign(form, {
+    name: $props.user.name,
+    email: $props.user.email,
+    password: '*******************',
+  })
 }
 
 function submit() {

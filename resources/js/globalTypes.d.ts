@@ -50,10 +50,12 @@ export interface TUser {
   created_at: string
   name: string
   team_roles?: TRole[]
-  roles_teams?: TTeams[]
+  roles_teams?: TTeam[]
+  roles_teams_head?: TTeam[]
 }
 
-export interface TTeams {
+export interface TTeam {
+  id: string
   name: string
   display_name: string
   description: string
@@ -89,3 +91,5 @@ export interface TTeam {
   description: string
   users: TUser[]
 }
+
+

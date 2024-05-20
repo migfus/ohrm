@@ -1,3 +1,32 @@
+<template>
+  <div class="my-4 flex flex-col gap-4">
+    <div
+      v-for="category in menu"
+      :key="category.category"
+      :class="[category.color, 'grid p-4 sm:rounded-xl shadow']"
+    >
+      <label class="mb-4 text-lg font-semibold">{{  category.category }}</label>
+      <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
+        <li v-for="row in category.children" :key="row.name" class="relative">
+          <div
+            :class="[
+              row.color,
+              'shadow-md lock w-full overflow-hidden rounded-xl bg-brand-50 focus-within:ring-2 focus-within:ring-brand-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100'
+          ]">
+            <img :src="row.image" :class="[row.color, 'max-h-24 w-full object-cover bg-blend-multiply opacity-75']"/>
+            <div class="align-middle inline-block">
+              <h1 class="ml-4 my-4 text-lg font-semibold line-clamp-2 w-full">
+                <component :is="row.icon" class="h-4 w-4 inline mb-1 mr-2 align-middle"/>
+                <span class="text-ellipsis">{{ row.name }}</span>
+              </h1>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</template>
 
 <script setup lang="ts">
 import {
@@ -17,6 +46,12 @@ import {
   HandThumbUpIcon,
   TrophyIcon
 } from '@heroicons/vue/24/solid'
+import { router } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3'
+
+const form = router.form({
+  a: 'as'
+})
 
 const menu = [
   {
@@ -141,36 +176,3 @@ const menu = [
   },
 ]
 </script>
-
-
-
-<template>
-  <div class="my-4 flex flex-col gap-4">
-    <div
-      v-for="category in menu"
-      :key="category.category"
-      :class="[category.color, 'grid p-4 sm:rounded-xl shadow']"
-    >
-      <label class="mb-4 text-lg font-semibold">{{  category.category }}</label>
-      <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4">
-        <li v-for="row in category.children" :key="row.name" class="relative">
-          <div
-            :class="[
-              row.color,
-              'shadow-md lock w-full overflow-hidden rounded-xl bg-brand-50 focus-within:ring-2 focus-within:ring-brand-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100'
-          ]">
-            <img :src="row.image" :class="[row.color, 'max-h-24 w-full object-cover bg-blend-multiply opacity-75']"/>
-            <div class="align-middle inline-block">
-              <h1 class="ml-4 my-4 text-lg font-semibold line-clamp-2 w-full">
-                <component :is="row.icon" class="h-4 w-4 inline mb-1 mr-2 align-middle"/>
-                <span class="text-ellipsis">{{ row.name }}</span>
-              </h1>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-
-  </div>
-
-</template>

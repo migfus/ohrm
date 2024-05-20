@@ -36,8 +36,7 @@ class ManageRolesPermissionsController extends Controller
     );
   }
 
-  public function post(Request $req) {
-
+  public function create(Request $req) {
     $val = $req->validate([
       'type' => ['required'],
       'role_id' => ['required'],
@@ -59,7 +58,6 @@ class ManageRolesPermissionsController extends Controller
     else {
       $role->detachPermission($req->permission_id);
     }
-
 
     return to_route('dashboard.manage-roles-permissions');
   }

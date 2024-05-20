@@ -10,6 +10,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Config;
 
 class User extends Authenticatable implements LaratrustUser
 {
@@ -27,6 +29,7 @@ class User extends Authenticatable implements LaratrustUser
         'name',
         'email',
         'avatar',
+        'cover',
         'password',
     ];
 
@@ -53,8 +56,23 @@ class User extends Authenticatable implements LaratrustUser
         ];
     }
 
-    public function team_roles() {
-      return $this->morphTo(Role::class, Team::class);
+    public function rolesTeamsHead(): ? MorphToMany
+    {
+      if (! Config::get('laratrust.teams.enabled')) {
+        return null;
+      }
+
+      return $this->morphToMany(
+          Config::get('laratrust.models.team'),
+          'user',
+          Config::get('laratrust.tables.role_user'),
+          Config::get('laratrust.foreign_keys.user'),
+          Config::get('laratrust.foreign_keys.team')
+      )
+          ->withPivot(Config::get('laratrust.foreign_keys.role'));
     }
+
+    // public function
+
 
 }

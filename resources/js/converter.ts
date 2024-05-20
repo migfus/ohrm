@@ -18,3 +18,13 @@ export const removeURLParameter = (url: string, parameter: string) => {
   }
   return url;
 }
+
+// LINK: https://stackoverflow.com/questions/1497481/javascript-password-generator
+export const passwordGenerator = (prefix = '', length = 8) => {
+  const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+  let retVal = ""
+  for (let i = 0, n = charset.length; i < length; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return retVal;
+}

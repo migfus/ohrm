@@ -5,6 +5,7 @@
       :allowSearch="true"
       title="Manage Users"
       desc="Create, modify, or generate report users informations"
+      @add="AddUser()"
     />
 
     <TabContent v-model="selected" :data="roles" @selectedData="changeTab"/>
@@ -74,5 +75,9 @@ function changeTab(data: { name: string }) {
 }
 function search() {
   router.get('/dashboard/manage-users', form, { preserveState: true })
+}
+
+function AddUser() {
+  router.visit('/dashboard/manage-users/create')
 }
 </script>

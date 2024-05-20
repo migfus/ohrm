@@ -11,24 +11,35 @@ class HandleInertiaRequests extends Middleware
 {
     protected $rootView = 'app';
 
-    public function version(Request $request): ?string {
-      return parent::version($request);
+    public function version(Request $req): ?string {
+      return parent::version($req);
     }
 
-    public function share(Request $request): array {
-      return array_merge(parent::share($request), [
-        'auth' => function() use($request) {
-          return Auth::check() ? $request->user()->only('id', 'name', 'email', 'avatar') : null;
-        },
-        'flash' => [
-          'message' => fn() => $request->session()->get('message')
-        ],
-        'sidebar' => false, // default
+    public function share(Request $req): array {
+      return array_merge(parent::share($req), [
+        // NOTE: SYSTEM
         'title' => SystemSettings::where('name', 'System Name (Title)')->first()->value,
+        'sidebar' => false, // Enable Sidebar Layout [default = false]
         'logo' => [
           'lg' => SystemSettings::where('name', 'System Logo')->first()->value,
           'sm' => SystemSettings::where('name', 'System Small Logo (for page title)')->first()->value,
-        ]
+        ],
+        'flash' => function () use($req) {
+          return [
+            'success' => $req->session()->get('success'),
+            'error' => $req->session()->get('error'),
+          ];
+        },
+        // NOTE: AUTH
+        'auth' => function() use($req) {
+          return Auth::check() ? $req->user()->map(fn ($q) => [
+            'id' => $q->id,
+            'name' => $q->name,
+            'email' => $q->email,
+            'avatar' => $q->avatar,
+            'cover' => $q->cover,
+          ]) : null;
+        },
       ]);
     }
 }
