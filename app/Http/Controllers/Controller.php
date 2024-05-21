@@ -9,6 +9,9 @@ use Inertia\Inertia;
 abstract class Controller
 {
   public function GUploadAvatar($avatar, $path = 'system') {
+    if (strpos($avatar, 'default')) {
+      return $avatar;
+    }
     list($type, $image) = explode(';', $avatar);
     list(, $image) = explode(',', $image);
 

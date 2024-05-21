@@ -39,6 +39,7 @@ const inputSize = computed(() => {
         error && 'border-red-500',
         'w-full rounded-xl border border-gray-300 placeholder-gray-400 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-brand-500'
       ]"
+      autocomplete="off"
     />
     <label v-if="$props.error" for="password" class="block text-sm font-medium text-red-600">
       {{ $props.error }}

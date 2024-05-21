@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Models\Role;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -46,8 +47,40 @@ class ManageUsersController extends Controller
     ]);
   }
 
-  // NOTE: INFO
-  public function show(Request $req, $id) : Response {
+  // NOTE: CREATE
+  public function create() : Response {
+    $roles = Role::query()
+      ->select('display_name', 'id', 'name')
+      ->orderBy('name', 'ASC')
+      ->get();
+    return Inertia::render('dashboard/manage-users/(Create)', ['pageTitle' => 'Create User', 'roles' => $roles]);
+  }
+  public function store(Request $req) {
+    $val = $req->validate([
+      'name' => ['required',],
+      'email' => ['required', 'email', 'unique:users'],
+      'password' => ['required', 'min:6'],
+      'role' => ['required'],
+      'avatar' => [],
+      'cover' => [],
+    ]);
+
+    // return Team::where('name', 'system')->first();
+
+    $user = User::create([
+      'name' => $req->name,
+      'email' => $req->email,
+      'password' => Hash::make($req->password),
+      'avatar' => $this->GUploadAvatar($req->avatar),
+      'cover' => $this->GUploadAvatar($req->cover),
+    ]);
+    $user->addRole($req->role, 'system');
+
+    return to_route('dashboard.manage-users.index')->with('flash', ['success' => 'Successfuly Created.']);
+  }
+
+  // NOTE: UPDATE
+  public function edit(Request $req, $id) : Response {
     $user = User::query()
       ->where('id', $id)
       ->with(['rolesTeams',
@@ -57,19 +90,6 @@ class ManageUsersController extends Controller
       ->first();
 
     return Inertia::render('dashboard/manage-users/(Show)', ['pageTitle' => $user->name, 'user' => $user]);
-  }
-
-  // NOTE: CREATE
-  public function create() : Response {
-    return Inertia::render('dashboard/manage-users/(Create)', ['pageTitle' => 'Create User']);
-  }
-  public function store(Request $req): RedirectResponse {
-    return to_route('dashboard.manage-users.index')->with('flash', ['success' => 'Successfuly Created.']);
-  }
-
-  // NOTE: UPDATE
-  public function edit() : Response {
-    return Inertia::render('dashboard/manage-users/(Edit)', ['pageTitle' => 'Update User']);
   }
   public function update(Request $req, $id) : RedirectResponse {
     if($req->type == 'avatar') {

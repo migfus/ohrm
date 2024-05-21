@@ -24,12 +24,10 @@ class HandleInertiaRequests extends Middleware
           'lg' => SystemSettings::where('name', 'System Logo')->first()->value,
           'sm' => SystemSettings::where('name', 'System Small Logo (for page title)')->first()->value,
         ],
-        'flash' => function () use($req) {
-          return [
-            'success' => $req->session()->get('success'),
-            'error' => $req->session()->get('error'),
-          ];
-        },
+        'flash' => [
+          'error' => fn () => $req->session()->get('error'),
+          'success' => fn () => $req->session()->get('success'),
+        ],
         // NOTE: AUTH
         'auth' => function() use($req) {
           return Auth::check() ? $req->user()->only('id', 'name', 'email', 'avatar') : null;

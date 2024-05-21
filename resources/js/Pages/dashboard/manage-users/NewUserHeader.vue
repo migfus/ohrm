@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="hover:shadow-md rounded-b-3xl transition-all hover:opacity-80 z-0">
+    <div class="hover:shadow-md rounded-b-3xl transition-all hover:opacity-80 z-0 -mt-6">
       <img @click="openCover = true" class="h-32 w-full object-cover lg:h-48 rounded-b-3xl" :src="$cover" alt="" />
     </div>
     <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
@@ -17,6 +17,9 @@
             <Link href="/dashboard/manage-users">
               <AppButton :icon="XMarkIcon" color="danger">Cancel</AppButton>
             </Link>
+
+            <AppButton :icon="PlusIcon" @click="$emit('confirm')" color="brand">Add User</AppButton>
+
           </div>
         </div>
       </div>
@@ -33,7 +36,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-import { XMarkIcon } from '@heroicons/vue/20/solid'
+import { XMarkIcon, PlusIcon } from '@heroicons/vue/20/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 
@@ -43,6 +46,7 @@ defineProps<{
     name: string
   }
 }>()
+const $emit = defineEmits(['confirm'])
 
 const $avatar = defineModel<string>('avatar')
 const $cover = defineModel<string>('cover')

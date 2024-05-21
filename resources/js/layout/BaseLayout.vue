@@ -13,7 +13,13 @@ const page = usePage<TPage>()
 const title = computed(() => page.props.title)
 const pageTitle = computed(() => page.props.pageTitle)
 const flash = computed(() => {
-
+  if(page.props.flash?.success) {
+    alert(page.props.flash?.success)
+  }
+  else if(page.props.flash?.error) {
+    alert(page.props.flash?.error)
+  }
+  return page.props.flash;
 })
 
 const _title = useTitle(pageTitle.value ? `${pageTitle.value} | ${title.value}` : title.value)
