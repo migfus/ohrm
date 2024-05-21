@@ -1,10 +1,12 @@
 import { FunctionalComponent } from 'vue'
+import { PageProps } from '@inertiajs/core'
 
 export type TCTopNavigation = {
   name: string
   icon?: FunctionalComponent
   href: string
   active?: boolean
+  component: string
 }
 
 export type GTAuth = {
@@ -93,3 +95,27 @@ export interface TTeam {
 }
 
 
+export interface TPage extends PageProps {
+  // NOTE: Shared
+  title: string
+  sidebar: boolean
+  logo: {
+    sm: string
+    lg: string
+  }
+  flash?: {
+    error?: string
+    success?: string
+  }
+  auth?: GTAuth
+
+  // NOTE: Independent
+  pageTitle: string
+}
+
+
+export interface TFilters {
+  search: string
+  type: string
+  page: number
+}

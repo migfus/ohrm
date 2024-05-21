@@ -32,13 +32,7 @@ class HandleInertiaRequests extends Middleware
         },
         // NOTE: AUTH
         'auth' => function() use($req) {
-          return Auth::check() ? $req->user()->map(fn ($q) => [
-            'id' => $q->id,
-            'name' => $q->name,
-            'email' => $q->email,
-            'avatar' => $q->avatar,
-            'cover' => $q->cover,
-          ]) : null;
+          return Auth::check() ? $req->user()->only('id', 'name', 'email', 'avatar') : null;
         },
       ]);
     }

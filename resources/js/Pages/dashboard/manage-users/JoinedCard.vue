@@ -9,7 +9,7 @@
         <Link
           v-for="team in roles_teams"
           :href="`/group/${team.id}`"
-          class="text-sm font-medium text-gray-900 hover:bg-white hover:shadow transition-all block p-2 rounded-xl"
+          class="resources/js/Pages/dashboard/manage-users/JoinedCard.vue"
         >
           {{ team.display_name }}
         </Link>

@@ -11,7 +11,10 @@ use Inertia\Response;
 class SystemSettingsController extends Controller
 {
   public function index() : Response {
-    $data = SystemSettingCategory::with('system_settings.system_setting_type')->orderBy('sort_id', 'ASC')->get();
+    $data = SystemSettingCategory::query()
+      ->with('system_settings.system_setting_type')
+      ->orderBy('sort_id', 'ASC')
+      ->get();
     return Inertia::render('dashboard/SystemSettings/(Page)', ['pageTitle' => 'System Settings', 'data' => $data]);
   }
 

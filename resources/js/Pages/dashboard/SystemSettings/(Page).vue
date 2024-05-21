@@ -7,6 +7,8 @@
       v-model="$props.data[selected].system_settings[selectedData ?? 0].value"
       v-model:show="uploadAvatarOpen"
       :size="[100, 100]"
+      :ratio="1"
+      name="Upload Avatar"
     />
     <div class="flex flex-col max-w-7xl md:px-8 xl:px-0 mx-4">
       <main class="flex-1">

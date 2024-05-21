@@ -51,6 +51,8 @@
             <SideNavigationContent title="Admin" :data="CAdminNavigation" v-model="sidebarOpen"/>
             <SideNavigationContent title="Pages" :data="CTopNavigation" v-model="sidebarOpen"/>
           </nav>
+
+
         </div>
       </div>
     </div>
@@ -88,6 +90,8 @@
         </div>
       </main>
     </div>
+
+
   </div>
 </template>
 

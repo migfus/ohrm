@@ -7,9 +7,9 @@
       :href="item.href"
       @click="loadingAnimation(index)"
       :class="[
-        item.href == $page.url ?
+        item.component === $page.component ?
           'bg-brand-100 text-brand-900' :
-          'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+          'text-gray-600 hover:bg-brand-100/50 hover:text-gray-900',
         'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
     >
       <ArrowPathIcon v-if="index == indexLoading" class="text-gray-500 mr-3 h-6 w-6 animate-spin" aria-hidden="true" />

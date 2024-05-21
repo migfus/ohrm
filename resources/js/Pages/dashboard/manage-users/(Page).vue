@@ -33,17 +33,16 @@
 </template>
 
 <script setup lang="ts">
-import { watch, reactive, ref, toRefs } from 'vue'
+import { watch, reactive, ref } from 'vue'
 import { useThrottle } from '@vueuse/core'
 
 import UserCard from '@/components/data/UserCard.vue'
 import PaginationCard from '@/components/data/PaginationCard.vue'
-import { TPagination, TProps, TUser } from '@/globalTypes'
+import { TFilters, TPagination, TProps, TUser } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import HeaderContent from '@/components/header/HeaderContent.vue'
 import TabContent from '@/components/header/TabContent.vue'
-
 
 interface TData extends TProps {
   roles: {
@@ -51,14 +50,15 @@ interface TData extends TProps {
     display_name: string
   } []
   data: TPagination<TUser>
+  filters: TFilters
 }
 
 const $props = defineProps<TData>()
 
-const throttledSearch = ref('')
+const throttledSearch = ref($props.filters.search ?? '')
 const selected = ref(0)
 const form = reactive({
-  type: 'all',
+  type: $props.filters.type ?? null,
   search: useThrottle(throttledSearch, 1000),
   page: 1
 })

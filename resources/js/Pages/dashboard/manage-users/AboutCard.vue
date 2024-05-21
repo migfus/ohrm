@@ -1,10 +1,17 @@
 <template>
-  <div class="bg-brand-50 p-4 shadow rounded-xl">
+  <div class="bg-brand-50 p-4 shadow rounded-xl group">
     <div class="px-4 sm:px-0">
-      <h3 class="text-base font-semibold leading-7 text-gray-900">
-        <AdjustmentsHorizontalIcon class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
-        Basic Information
-      </h3>
+      <div class="flex justify-between">
+        <h3 class="text-base font-semibold leading-7 text-gray-900">
+          <AdjustmentsHorizontalIcon class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
+          Update Basic Information
+        </h3>
+        <div class="group-hover:opacity-100 sm:opacity-0">
+        <PencilIcon class="text-sm text-brand-700 h-3 w-3 inline mr-1 mb-[3px] align-middle group-hover:opacity-100 transition-all sm:opacity-0"/>
+
+        </div>
+      </div>
+
       <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Modify basic information of the user.</p>
     </div>
 
@@ -67,7 +74,7 @@ import { passwordGenerator } from '@/converter'
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
-import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/solid'
+import { AdjustmentsHorizontalIcon, PencilIcon } from '@heroicons/vue/24/solid'
 
 const active = ref<string | null>(null)
 

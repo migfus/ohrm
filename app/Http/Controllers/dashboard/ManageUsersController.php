@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ManageUsersController extends Controller
 {
+  // NOTE: ALL
   public function index(Request $req) : Response {
     $roles = Role::select('display_name', 'name')->orderBy('created_at', 'ASC')->get();
     $roles_processed = [['name' => 'all', 'display_name' => 'All'], ...$roles];
@@ -37,9 +38,15 @@ class ManageUsersController extends Controller
       'pageTitle' => 'Manage Users',
       'roles' => $roles_processed,
       'data' => $users,
+      'filters' => [
+        'page' => $req->page ?? null,
+        'search' => $req->search ?? null,
+        'type' => $req->type ?? null
+      ]
     ]);
   }
 
+  // NOTE: INFO
   public function show(Request $req, $id) : Response {
     $user = User::query()
       ->where('id', $id)
@@ -52,10 +59,18 @@ class ManageUsersController extends Controller
     return Inertia::render('dashboard/manage-users/(Show)', ['pageTitle' => $user->name, 'user' => $user]);
   }
 
+  // NOTE: CREATE
   public function create() : Response {
     return Inertia::render('dashboard/manage-users/(Create)', ['pageTitle' => 'Create User']);
   }
+  public function store(Request $req): RedirectResponse {
+    return to_route('dashboard.manage-users.index')->with('flash', ['success' => 'Successfuly Created.']);
+  }
 
+  // NOTE: UPDATE
+  public function edit() : Response {
+    return Inertia::render('dashboard/manage-users/(Edit)', ['pageTitle' => 'Update User']);
+  }
   public function update(Request $req, $id) : RedirectResponse {
     if($req->type == 'avatar') {
       $this->uploadAvatar($req, $id);
@@ -112,13 +127,13 @@ class ManageUsersController extends Controller
       User::find($id)->update(['cover' => $this->GUploadAvatar($req->cover, 'covers/'.$id)]);
     }
 
-  public function delete($id) : RedirectResponse {
+  // NOTE: DELETE
+  public function destroy($id) : RedirectResponse {
     if(User::find($id)->id == Auth::user()->id) {
       return to_route('dashboard.manage-user.show', ['id' => $id])->withErrors(['Invalid Permission' => 'You can not remove yourself']);
     }
     User::find($id)->delete();
 
-    return to_route('dashboard.manage-users');
+    return to_route('dashboard.manage-users.index')->with('flash', ['success' => 'Successfuly Deleted.']);
   }
-
 }

@@ -3,10 +3,10 @@
     <ProfileHeader :user :authId="auth.id"/>
     <FlashErrors :errors class="mt-2" />
 
-
     <div class="grid grid-cols-4 mt-4 gap-4">
       <div class="col-span-4 md:col-span-2 lg:col-span-1">
         <AboutCard :user :errors class="mb-4"/>
+        <SystemRole />
         <OwnerCard v-if="user.roles_teams_head" :roles_teams_head="user.roles_teams_head" class="mb-4"/>
         <JoinedCard v-if="user.roles_teams" :roles_teams="user.roles_teams" class="mb-4"/>
       </div>
@@ -18,8 +18,6 @@
         <ActivityCard />
       </div>
     </div>
-
-
   </div>
 </template>
 
@@ -34,6 +32,7 @@ import OwnerCard from './OwnerCard.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'
 import StatCard from './StatCard.vue'
 import HeatMapCard from './HeatMapCard.vue'
+import SystemRole from './SystemRole.vue'
 
 defineProps<{
   user: TUser
