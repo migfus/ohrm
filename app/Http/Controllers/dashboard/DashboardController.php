@@ -8,7 +8,7 @@ use Inertia\Response;
 class DashboardController extends Controller
 {
   public function index(Request $req) : Response {
-    return Inertia::render('dashboard/(Page)', ['pageTitle' => 'Dashboard']);
+    return Inertia::render('dashboard/(Index)', ['pageTitle' => 'Dashboard']);
   }
 
   public function account(Request $req) : Response {

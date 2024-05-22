@@ -18,7 +18,7 @@ class ManageGroupsController extends Controller
         $q->where(`display_name`, `LIKE`, `%`.$req->search.`%`);
       })
       ->with(['users' => function($q) {
-        $q->select('avatar', 'name');
+        $q->select('avatar', 'name')->limit(8);
       }])
       ->paginate(10);
 
@@ -37,6 +37,10 @@ class ManageGroupsController extends Controller
     );
   }
 
+  public function create(): Response  {
+    return Inertia::render('dashboard/manage-groups/(Create)', ['pageTitle' => 'Create Group']);
+  }
+
   public function edit(Request $req, $id): Response {
     $data = Team::query()
       ->select('id', 'name', 'display_name')
@@ -47,7 +51,7 @@ class ManageGroupsController extends Controller
       }])
       ->first();
 
-    return Inertia::render('/dashboard/manage-groups/(Edit)', [
+    return Inertia::render('dashboard/manage-groups/(Edit)', [
       'pageTitle' => $data->display_name,
       'data' => $data,
     ]);

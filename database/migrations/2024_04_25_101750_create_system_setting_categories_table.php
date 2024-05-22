@@ -15,6 +15,7 @@ return new class extends Migration
           $table->id();
           $table->integer('sort_id')->unique();
           $table->string('name');
+          $table->longText('icon');
           $table->string('description');
           $table->string('href');
           $table->timestamps();

@@ -83,7 +83,7 @@ export interface TPermission {
 
 export interface TTab {
   display_name: string
-  icon?: FunctionalComponent
+  icon: string
 }
 
 export interface TTeam {

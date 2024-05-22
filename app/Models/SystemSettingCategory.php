@@ -10,7 +10,7 @@ class SystemSettingCategory extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'href', 'sort_id'];
+    protected $fillable = ['name', 'icon', 'sort_id', 'description', 'href'];
 
     public function system_settings() {
       return $this->hasMany(SystemSettings::class);

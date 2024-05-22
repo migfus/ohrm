@@ -38,7 +38,7 @@ export const CSidebarNavigation: TCTopNavigation[] = [
     name: 'Dashboard',
     icon: SquaresPlusIcon,
     href: '/dashboard',
-    component: 'dashboard/(Page)'
+    component: 'dashboard/(Index)'
   },
   {
     name: 'My Groups',
@@ -56,7 +56,7 @@ export const CSidebarNavigation: TCTopNavigation[] = [
     name: 'Account Settings',
     icon: Cog6ToothIcon,
     href: '/dashboard/account',
-    component: 'dashboard/account/(Page)'
+    component: 'dashboard/account/(Index)'
   }
 ]
 
@@ -77,12 +77,12 @@ export const CAdminNavigation: TCTopNavigation[] = [
     name: 'Manage Roles & Permission',
     icon: ShieldCheckIcon,
     href: '/dashboard/manage-roles-permissions',
-    component: 'dashboard/manage-roles-permissions/(Page)'
+    component: 'dashboard/manage-roles-permissions/(Index)'
   },
   {
     name: 'System Settings',
     icon: Cog6ToothIcon,
     href: '/dashboard/system-settings',
-    component: 'dashboard/SystemSettings/(Page)'
+    component: 'dashboard/SystemSettings/(Index)'
   }
 ]

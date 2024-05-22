@@ -11,6 +11,7 @@ class LaratrustSetupTables extends Migration
     Schema::create('roles', function (Blueprint $table) {
       $table->uuid('id')->primary();
       $table->string('name')->unique();
+      $table->longText('icon');
       $table->string('display_name')->nullable();
       $table->string('description')->nullable();
       $table->timestamps();

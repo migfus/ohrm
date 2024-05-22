@@ -9,7 +9,7 @@
       @add="router.visit('/dashboard/manage-groups/create')"
     />
 
-    <TabContent v-model="selected" :data="tabs"/>
+    <TabSection v-model="selected" :data="tabs"/>
 
     <div class="overflow-hidden bg-white shadow sm:rounded-xl mt-2">
       <DataTransition v-if="$props.data.data.length > 0" role="list" class="divide-y divide-gray-200">
@@ -32,12 +32,12 @@
 
 <script setup lang="ts">
 import { ref, watch, reactive } from 'vue'
-import { TFilters, TTeam } from '@/globalTypes'
+import { TFilters, TTab, TTeam } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import { useThrottle } from '@vueuse/core'
 
 import HeaderContent from '@/components/header/HeaderContent.vue'
-import TabContent from '@/components/header/TabContent.vue'
+import TabSection from '@/components/header/TabSection.vue'
 import { SquaresPlusIcon } from '@heroicons/vue/24/outline'
 import PaginationCard from '@/components/data/PaginationCard.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
@@ -45,9 +45,6 @@ import GroupCard from '@/components/data/GroupCard.vue'
 
 const $props = defineProps<{
   filters: TFilters,
-  tabs: {
-    name: string
-  } []
   data: {
     data: TTeam []
   }
@@ -75,7 +72,10 @@ function Search() {
 const tabs = [
   {
     display_name: 'All',
-    icon: SquaresPlusIcon
+    icon: `
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z" />
+      </svg>`
   }
 ]
 const selected = ref(0)

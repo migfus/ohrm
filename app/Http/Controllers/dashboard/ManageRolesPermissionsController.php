@@ -26,7 +26,7 @@ class ManageRolesPermissionsController extends Controller
       ->get();
 
     return Inertia::render(
-      'dashboard/manage-roles-permissions/(Page)',
+      'dashboard/manage-roles-permissions/(Index)',
       [
         'pageTitle' => 'Manage Roles & Permissions',
         'roles' => $roles,

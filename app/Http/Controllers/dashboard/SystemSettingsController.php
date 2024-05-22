@@ -15,7 +15,7 @@ class SystemSettingsController extends Controller
       ->with('system_settings.system_setting_type')
       ->orderBy('sort_id', 'ASC')
       ->get();
-    return Inertia::render('dashboard/SystemSettings/(Page)', ['pageTitle' => 'System Settings', 'data' => $data]);
+    return Inertia::render('dashboard/SystemSettings/(Index)', ['pageTitle' => 'System Settings', 'data' => $data]);
   }
 
   public function update(Request $req, $id) : RedirectResponse {

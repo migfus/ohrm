@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SystemSettingType extends Model
 {
     use HasFactory;
+
+
 }

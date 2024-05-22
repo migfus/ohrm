@@ -8,7 +8,7 @@
       @add="router.visit('/dashboard/manage-users/create')"
     />
 
-    <TabContent v-model="selected" :data="roles" @selectedData="changeTab"/>
+    <TabSection v-model="selected" :data="roles" @selectedData="changeTab"/>
 
 
 
@@ -42,12 +42,13 @@ import { TFilters, TPagination, TProps, TUser } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import HeaderContent from '@/components/header/HeaderContent.vue'
-import TabContent from '@/components/header/TabContent.vue'
+import TabSection from '@/components/header/TabSection.vue'
 
 interface TData extends TProps {
   roles: {
     name: string
     display_name: string
+    icon: string
   } []
   data: TPagination<TUser>
   filters: TFilters

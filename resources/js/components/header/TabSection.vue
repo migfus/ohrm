@@ -11,17 +11,16 @@
     <div class="hidden sm:block">
       <div class="border-b border-gray-200">
         <nav>
-          <DataTransition class="-mb-px flex space-x-8" aria-label="Tabs">
-            <div
+          <DataTransition class="-mb-px flex space-x-4" aria-label="Tabs">
+            <TabSectionContent
               v-for="tab, index in data"
               :key="tab.display_name"
-              @click="$model = index"
-              :class="[index == $model ? 'border-brand-500 text-brand-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium cursor-pointer']"
-              :aria-current="index == $model ? 'page' : undefined"
-            >
-              <component :is="tab.icon" :class="[index == $model ? 'text-brand-500' : 'text-gray-400 group-hover:text-gray-500', '-ml-0.5 mr-2 h-5 w-5']" aria-hidden="true" />
-              <span>{{ tab.display_name }}</span>
-            </div>
+              :display_name="tab.display_name"
+              :index="index"
+              :icon="tab.icon"
+              :disableLoading
+              v-model="$model"
+            />
           </DataTransition>
 
         </nav>
@@ -35,11 +34,13 @@ import { TTab } from '@/globalTypes'
 import { watch } from 'vue'
 
 import DataTransition from '../transitions/DataTransition.vue'
+import TabSectionContent from './TabSectionContent.vue'
 
 const $model = defineModel<number>()
 const $emits = defineEmits(['selectedData'])
 const $props = defineProps<{
   data: TTab[]
+  disableLoading?: boolean
 }>()
 
 watch($model, () => {

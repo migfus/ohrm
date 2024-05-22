@@ -21,6 +21,7 @@
             <!-- NOTE: CONTENT -->
             <div class="px-4 sm:px-6 md:px-0">
               <div class="">
+
                 <!-- NOTE TABS -->
                 <div class="lg:hidden">
                   <label for="selected-tab" class="sr-only">Select a tab</label>
@@ -41,8 +42,9 @@
                           selected == index ?
                             'border-brand-500 text-brand-600' :
                             'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
-                          'cursor-pointer whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm']"
+                          'cursor-pointer whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex']"
                         >
+                        <span v-html="tab.icon" class="h-4 w-4 mr-2 -ml-1 pt-0.5"></span>
                         {{ tab.name }}
                     </div>
                     </DataTransition>
@@ -177,6 +179,7 @@ interface TSystemSettings {
 interface TData {
   id: number
   name: string
+  icon: string
   description: string
   href: string
   system_settings: TSystemSettings []
