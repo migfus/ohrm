@@ -65,13 +65,13 @@ export const CAdminNavigation: TCTopNavigation[] = [
     name: 'Manage Groups',
     icon: SquaresPlusIcon,
     href: '/dashboard/manage-groups',
-    component: 'dashboard/ManageGroups'
+    component: 'dashboard/manage-groups/(Index)'
   },
   {
     name: 'Manage Users',
     icon: UsersIcon,
     href: '/dashboard/manage-users',
-    component: 'dashboard/manage-users/(Page)'
+    component: 'dashboard/manage-users/(Index)'
   },
   {
     name: 'Manage Roles & Permission',

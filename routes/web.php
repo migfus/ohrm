@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/account', AccountController::class)->only(['index']);
 
     // NOTE: ADMIN
-    Route::resource('/manage-groups', ManageGroupsController::class)->only(['index']);
+    Route::resource('/manage-groups', ManageGroupsController::class);
     Route::resource('/manage-users', ManageUsersController::class);
     Route::resource('/manage-roles-permissions', ManageRolesPermissionsController::class)->only(['index', 'create']);
     Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);

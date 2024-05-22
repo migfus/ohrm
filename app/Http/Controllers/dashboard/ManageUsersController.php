@@ -35,7 +35,7 @@ class ManageUsersController extends Controller
       ->orderBy('name', 'ASC')
       ->paginate(10);
 
-    return Inertia::render('dashboard/manage-users/(Page)' , [
+    return Inertia::render('dashboard/manage-users/(Index)' , [
       'pageTitle' => 'Manage Users',
       'roles' => $roles_processed,
       'data' => $users,
@@ -61,8 +61,8 @@ class ManageUsersController extends Controller
       'email' => ['required', 'email', 'unique:users'],
       'password' => ['required', 'min:6'],
       'role' => ['required'],
-      'avatar' => [],
-      'cover' => [],
+      'avatar' => ['required'],
+      'cover' => ['required'],
     ]);
 
     // return Team::where('name', 'system')->first();
@@ -72,7 +72,7 @@ class ManageUsersController extends Controller
       'email' => $req->email,
       'password' => Hash::make($req->password),
       'avatar' => $this->GUploadAvatar($req->avatar),
-      'cover' => $this->GUploadAvatar($req->cover),
+      'cover' =>  $this->GUploadAvatar($req->cover),
     ]);
     $user->addRole($req->role, 'system');
 
@@ -89,7 +89,7 @@ class ManageUsersController extends Controller
       }])
       ->first();
 
-    return Inertia::render('dashboard/manage-users/(Show)', ['pageTitle' => $user->name, 'user' => $user]);
+    return Inertia::render('dashboard/manage-users/(Edit)', ['pageTitle' => $user->name, 'user' => $user]);
   }
   public function update(Request $req, $id) : RedirectResponse {
     if($req->type == 'avatar') {

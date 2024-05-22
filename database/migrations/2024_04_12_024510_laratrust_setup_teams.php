@@ -16,6 +16,7 @@ class LaratrustSetupTeams extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->uuid('id')->index();
             $table->string('name')->unique();
+            $table->string('avatar')->nullable();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();

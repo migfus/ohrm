@@ -89,6 +89,7 @@ export interface TTab {
 export interface TTeam {
   id: string
   name: string
+  avatar: string
   display_name: string
   description: string
   users: TUser[]

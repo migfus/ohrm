@@ -16,7 +16,7 @@ class LaratrustSeeder extends Seeder
     public function run(): void {
       $this->settingTeam();
 
-      // NOTE ROLE
+      // SECTION ROLE
       $role_staff = Role::create([
         'name' => 'staff',
         'display_name' => 'Staff',
@@ -36,7 +36,7 @@ class LaratrustSeeder extends Seeder
       ]);
 
 
-      // NOTE PERMISSIONS
+      // SECTION PERMISSIONS
       // NOTE: USERS
       $perm_user_create = Permission::create([
         'name' => 'user-create',
@@ -133,6 +133,7 @@ class LaratrustSeeder extends Seeder
       // NOTE: SYSTEM TEAM
       Team::create([
         'name' => 'system',
+        'avatar' => 'https://cdn-icons-png.flaticon.com/128/3067/3067451.png',
         'display_name' => 'System',
         'description' => 'System Configuration Team',
       ]);
@@ -140,6 +141,7 @@ class LaratrustSeeder extends Seeder
       // NOTE: OHRM TEAM
       Team::create([
         'name' => 'ohrm',
+        'avatar' => 'https://cdn-icons-png.flaticon.com/128/13728/13728428.png',
         'display_name' => 'OHRM Team',
         'description' => 'These users are under from OHRM Team (Owner: OHRM Head)',
       ]);
@@ -147,26 +149,31 @@ class LaratrustSeeder extends Seeder
       // NOTE: UNIT TEAMS
       Team::create([
         'name' => 'rsp',
+        'avatar' => 'https://cdn-icons-png.flaticon.com/128/2083/2083335.png',
         'display_name' => 'RSP - Recruitment, Selection & Placement Team',
         'description' => 'These users are under from RSP Unit (Owner: RSP Unit Head)',
       ]);
       Team::create([
         'name' => 'ld',
+        'avatar' => 'https://cdn-icons-png.flaticon.com/128/10143/10143723.png',
         'display_name' => 'LD - Learning & Development Team',
         'description' => 'These users are under from LD Unit (Owner: LD Unit Head)',
       ]);
       Team::create([
         'name' => 'cberu',
+        'avatar' => 'https://cdn-icons-png.flaticon.com/128/4115/4115705.png',
         'display_name' => 'CBERU - Compensation, Benefit & Employee Relations Unit Team',
         'description' => 'These users are under from CBERU Unit (Owner: CBERU Unit Head)',
       ]);
       Team::create([
         'name' => 'HRIS',
+        'avatar' => 'https://cdn-icons-png.flaticon.com/128/2910/2910768.png',
         'display_name' => 'HRIS - Human Resources Information System Team',
         'description' => 'These users are under from HRIS Unit (Owner: HRIS Unit Head)',
       ]);
       Team::create([
         'name' => 'PM',
+        'avatar' => 'https://cdn-icons-png.flaticon.com/128/1013/1013386.png',
         'display_name' => 'PM - Performance Management Team',
         'description' => 'These users are under from PM Unit (Owner: PM Unit Head)',
       ]);
