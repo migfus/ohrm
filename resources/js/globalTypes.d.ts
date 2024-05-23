@@ -59,9 +59,12 @@ export interface TUser {
 export interface TTeam {
   id: string
   name: string
+  avatar: string
+  cover: string
   display_name: string
   description: string
   created_at: string
+  head: TUser[]
 }
 
 export interface TRole {

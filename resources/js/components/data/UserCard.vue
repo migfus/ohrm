@@ -8,7 +8,7 @@
           </div>
           <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
             <div>
-              <p class="truncate text-sm font-semibold text-brand-700">{{ data.name }}</p>
+              <p class="truncate text-sm font-semibold text-brand-700">@{{ data.name }}</p>
               <p class="mt-2 flex items-center text-sm text-brand-500 font-semibold">
                 <span class="truncate">{{ data.email }}</span>
               </p>
@@ -33,8 +33,7 @@
       <div class="flex mx-4 gap-2 flex-wrap">
         <span v-for="team in data.roles_teams" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 bg-white shadow-sm ring-inset ring-gray-200">
           <img :src="team.avatar" class="h-4 w-4 rounded-full"/>
-
-          {{  team.display_name }}
+          g/{{  team.display_name }}
         </span>
       </div>
     </Link>

@@ -8,7 +8,7 @@
           </div>
           <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
             <div>
-              <p class="truncate text-sm font-semibold text-brand-700">{{ data.display_name }}</p>
+              <p class="truncate text-sm font-semibold text-brand-700">g/{{ data.display_name }}</p>
               <p class="mt-2 flex items-center text-sm text-brand-500 font-semibold">
                 <span class="truncate">{{ data.name }}</span>
               </p>
@@ -31,7 +31,7 @@
       <div class="flex mx-4 gap-2 flex-wrap">
         <span v-for="user in data.users" :key="user.id" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 bg-white shadow-sm ring-inset ring-gray-200">
           <img :src="user.avatar" class="h-4 w-4 rounded-full"/>
-          {{  user.name }}
+          @{{ user.name }}
         </span>
       </div>
     </Link>

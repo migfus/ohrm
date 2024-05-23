@@ -9,6 +9,8 @@ use Inertia\Inertia;
 class StatusController extends Controller
 {
   public function index(Request $req) : Response {
+
+
     return Inertia::render('status/(Index)' , ['pageTitle' => 'Status']);
   }
 }

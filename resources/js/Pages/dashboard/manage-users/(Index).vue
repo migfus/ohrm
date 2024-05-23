@@ -22,7 +22,6 @@
             <span class="animate-pulse">Not Found </span>
             <span class="text-[60px] m-4 animate-pulse delay-200">😅</span>
           </p>
-
         </div>
       </DataTransition>
     </div>

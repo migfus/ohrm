@@ -3,13 +3,12 @@ import {
   HomeIcon,
   RssIcon,
   QuestionMarkCircleIcon,
-  TableCellsIcon,
   Cog6ToothIcon,
   SquaresPlusIcon,
-  UsersIcon,
   ShieldCheckIcon,
   FolderPlusIcon,
-  FolderIcon
+  FolderIcon,
+  AtSymbolIcon
 } from "@heroicons/vue/24/outline"
 
 export const CTopNavigation: TCTopNavigation[] = [
@@ -69,7 +68,7 @@ export const CAdminNavigation: TCTopNavigation[] = [
   },
   {
     name: 'Manage Users',
-    icon: UsersIcon,
+    icon: AtSymbolIcon,
     href: '/dashboard/manage-users',
     component: 'dashboard/manage-users/(Index)'
   },

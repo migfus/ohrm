@@ -145,7 +145,8 @@ class LaratrustSeeder extends Seeder
       // NOTE: SYSTEM TEAM
       Team::create([
         'name' => 'system',
-        'avatar' => 'https://cdn-icons-png.flaticon.com/128/3067/3067451.png',
+        'avatar' => 'https://images.unsplash.com/photo-1617228679684-890412dc57a5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'cover' => 'https://images.unsplash.com/photo-1617228679684-890412dc57a5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         'display_name' => 'System',
         'description' => 'System Configuration Team',
       ]);
@@ -153,7 +154,8 @@ class LaratrustSeeder extends Seeder
       // NOTE: OHRM TEAM
       Team::create([
         'name' => 'ohrm',
-        'avatar' => 'https://cdn-icons-png.flaticon.com/128/13728/13728428.png',
+        'avatar' => 'https://plus.unsplash.com/premium_photo-1663011066468-e25570646a1a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'cover' => 'https://plus.unsplash.com/premium_photo-1663011066468-e25570646a1a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         'display_name' => 'OHRM Team',
         'description' => 'These users are under from OHRM Team (Owner: OHRM Head)',
       ]);
@@ -161,31 +163,36 @@ class LaratrustSeeder extends Seeder
       // NOTE: UNIT TEAMS
       Team::create([
         'name' => 'rsp',
-        'avatar' => 'https://cdn-icons-png.flaticon.com/128/2083/2083335.png',
+        'avatar' => 'https://plus.unsplash.com/premium_photo-1678871480778-060c5d9460c1?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'cover' => 'https://plus.unsplash.com/premium_photo-1678871480778-060c5d9460c1?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         'display_name' => 'RSP - Recruitment, Selection & Placement Team',
         'description' => 'These users are under from RSP Unit (Owner: RSP Unit Head)',
       ]);
       Team::create([
         'name' => 'ld',
-        'avatar' => 'https://cdn-icons-png.flaticon.com/128/10143/10143723.png',
+        'avatar' => 'https://plus.unsplash.com/premium_photo-1665520347036-f52ddccc1d9a?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'cover' => 'https://plus.unsplash.com/premium_photo-1665520347036-f52ddccc1d9a?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         'display_name' => 'LD - Learning & Development Team',
         'description' => 'These users are under from LD Unit (Owner: LD Unit Head)',
       ]);
       Team::create([
         'name' => 'cberu',
-        'avatar' => 'https://cdn-icons-png.flaticon.com/128/4115/4115705.png',
+        'avatar' => 'https://images.unsplash.com/photo-1527525443983-6e60c75fff46?q=80&w=1970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'cover' => 'https://images.unsplash.com/photo-1527525443983-6e60c75fff46?q=80&w=1970&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         'display_name' => 'CBERU - Compensation, Benefit & Employee Relations Unit Team',
         'description' => 'These users are under from CBERU Unit (Owner: CBERU Unit Head)',
       ]);
       Team::create([
         'name' => 'HRIS',
-        'avatar' => 'https://cdn-icons-png.flaticon.com/128/2910/2910768.png',
+        'avatar' => 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bGlicmFyeXxlbnwwfHwwfHx8MA%3D%3D',
+        'cover' => 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8bGlicmFyeXxlbnwwfHwwfHx8MA%3D%3D',
         'display_name' => 'HRIS - Human Resources Information System Team',
         'description' => 'These users are under from HRIS Unit (Owner: HRIS Unit Head)',
       ]);
       Team::create([
         'name' => 'PM',
-        'avatar' => 'https://cdn-icons-png.flaticon.com/128/1013/1013386.png',
+        'avatar' => 'https://plus.unsplash.com/premium_photo-1684966119402-e237566d4576?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyZm9ybWFuY2V8ZW58MHx8MHx8fDA%3D',
+        'cover' => 'https://plus.unsplash.com/premium_photo-1684966119402-e237566d4576?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyZm9ybWFuY2V8ZW58MHx8MHx8fDA%3D',
         'display_name' => 'PM - Performance Management Team',
         'description' => 'These users are under from PM Unit (Owner: PM Unit Head)',
       ]);

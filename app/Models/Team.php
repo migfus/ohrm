@@ -13,4 +13,8 @@ class Team extends LaratrustTeam
   public function roles() {
     return $this->belongsToMany(Role::class, 'role_user');
   }
+
+  public function head() {
+    return $this->belongsToMany(User::class, 'role_user')->wherePivot('role_id', Role::where('name', 'head')->first()->id);
+  }
 }

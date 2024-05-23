@@ -10,6 +10,7 @@ const $props = defineProps<{
   type?: 'button' | 'submit' | 'reset',
   alignment?: 'l' | 'c' | 'r',
   size?: 'sm' | 'md'
+  href?: string
 }>()
 const loading = ref(false)
 
@@ -66,7 +67,25 @@ router.on('finish',() => {
 </script>
 
 <template>
+  <Link
+    v-if="href"
+    :href
+    :type
+    :disabled="loading"
+    :class="[
+      buttonColor,
+      textAlignment,
+      buttonSize,
+      'inline-flex rounded-xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
+    ]"
+  >
+    <ArrowPathIcon v-if="loading" :class="['-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+    <component v-else-if="icon" :is="icon" :class="['-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
+    <slot></slot>
+  </Link>
+
   <button
+    v-else
     :type
     :disabled="loading"
     :class="[
