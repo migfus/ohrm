@@ -11,7 +11,7 @@
       <dl class="divide-y divide-gray-100">
         <Link
           v-for="team in roles_teams_head"
-          :href="`/group/${team.id}`"
+          :href="`/dashboard/manage-groups/${team.id}/edit`"
           class="text-sm font-medium text-gray-900 hover:bg-white hover:shadow transition-all block p-2 rounded-xl"
         >
           {{ team.display_name }}

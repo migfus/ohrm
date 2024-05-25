@@ -41,9 +41,9 @@
     <div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
       <!-- Sidebar component, swap this element with another sidebar if you like -->
       <div class="flex min-h-0 flex-1 flex-col bg-brand-50">
-        <Link href="/" class="flex h-16 flex-shrink-0 items-center bg-brand px-4 shadow">
+        <Link href="/" class="flex h-16 flex-shrink-0 items-center bg-brand px-4 shadow cursor-pointer">
           <TopNavigationLogo :logo :title/>
-          <label class="font-semibold text-sm">{{ $props.title }}</label>
+          <label class="font-semibold text-sm cursor-pointer">{{ $props.title }}</label>
         </Link>
         <div class="flex flex-1 flex-col overflow-y-auto">
           <nav class="flex-1 space-y-1 px-2 py-4">

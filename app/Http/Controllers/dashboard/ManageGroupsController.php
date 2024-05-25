@@ -80,16 +80,35 @@ class ManageGroupsController extends Controller
 
   public function edit(Request $req, $id): Response {
     $data = Team::query()
-      ->select('id', 'name', 'display_name', 'avatar', 'cover')
+      ->select('id', 'name', 'display_name', 'avatar', 'cover', 'description')
       ->where('id', $id)
       ->whereNot('name', 'system')
-      ->with(['head'])
+      ->with(['head', 'members'])
       ->first();
 
     return Inertia::render('dashboard/manage-groups/(Edit)', [
       'pageTitle' => $data->display_name,
       'data' => $data,
     ]);
+  }
+  public function update(Request $req, $id): RedirectResponse {
+    if($req->type == 'basic') {
+      $val = $req->validate([
+        'name' => ['required'],
+        'description' => ['required'],
+      ]);
+
+      Team::where('id', $id)->update([
+        'name' => $req->name,
+        'display_name' => $req->name,
+        'description' => $req->description,
+      ]);
+    }
+    else {
+      return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['type' => 'Type value is missing']);
+    }
+
+    return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('flash', ['success' => 'Successfuly Updated']);
   }
 
   // NOTE: Remove

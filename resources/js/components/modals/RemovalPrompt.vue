@@ -15,16 +15,19 @@
                     <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" />
                   </div>
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Deletion Account</DialogTitle>
+                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">{{ title ?? 'Deletion Account'}}</DialogTitle>
                     <div class="mt-2">
-                      <p class="text-sm text-gray-500">Are you sure you want to remove this account? All of user's data will be permanently removed. This action cannot be undone.</p>
+                      <!-- <p class="text-sm text-gray-500">Are you sure you want to remove this account? All of user's data will be permanently removed. This action cannot be undone.</p> -->
+                      <p class="text-sm text-gray-500"><slot> </slot> </p>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="bg-gray-50 px-4 py-3 flex gap-2 justify-end">
                 <AppButton @click="$modal = false">Cancel</AppButton>
-                <AppButton @click="deleteUser()" color="danger">Yes, Delete User!</AppButton>
+                <AppButton @click="deleteUser()" color="danger">
+                  {{ confirmMessage ?? 'Yes, Delete User!'}}
+                </AppButton>
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -41,6 +44,10 @@ import AppButton from '../form/AppButton.vue'
 
 const $modal = defineModel<boolean>()
 const $emit = defineEmits(['confirm'])
+defineProps<{
+  confirmMessage?: string
+  title?: string
+}>()
 
 function deleteUser() {
   $modal.value = false

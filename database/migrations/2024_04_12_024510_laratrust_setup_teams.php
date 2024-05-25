@@ -18,6 +18,7 @@ class LaratrustSetupTeams extends Migration
             $table->string('name')->unique();
             $table->string('avatar')->nullable();
             $table->string('cover')->nullable();
+            $table->boolean('show_home')->default(false);
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();

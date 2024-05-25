@@ -65,6 +65,7 @@ export interface TTeam {
   description: string
   created_at: string
   head: TUser[]
+  members: TUser[]
 }
 
 export interface TRole {

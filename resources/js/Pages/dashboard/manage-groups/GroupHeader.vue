@@ -10,15 +10,20 @@
         </div>
         <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
           <div class="mt-6 min-w-0 flex-1 sm:hidden md:block">
-            <h1 class="truncate text-2xl font-bold text-brand-900">g/{{ form.name }}</h1>
+            <h1 class="truncate text-2xl font-bold text-brand-900">
+              <span class="text-brand-500">g/</span>
+              <span>{{ form.name }}</span>
+            </h1>
             <h1 class="truncate font-bold text-brand-500">
               <img :src="head.avatar" class="rounded-full w-5 h-5 inline"/>
-              @{{ head.name }}</h1>
+              <span class="text-brand-200 ml-2">@</span>
+              <span>{{ head.name }}</span>
+            </h1>
           </div>
           <div class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
-            <AppButton href="/dashboard/manage-groups" :icon="SquaresPlusIcon">Manage Groups</AppButton>
+            <AppButton href="/dashboard/manage-groups" :icon="ArrowLeftIcon">Manage Groups</AppButton>
 
-            <AppButton :icon="PlusIcon" @click="$emit('remove')" color="danger">Remove Group</AppButton>
+            <AppButton :icon="PlusIcon" @click="openRemove = true" color="danger">Remove Group</AppButton>
 
           </div>
         </div>
@@ -30,17 +35,22 @@
 
     <UploadAvatarModal v-model="$avatar" v-model:show="openAvatar" name="Upload Avatar" :ratio="1" :size="[400, 400]"/>
     <UploadAvatarModal v-model="$cover" v-model:show="openCover" name="Upload Cover" :ratio="639/95" :size="[1278*4, 190*4]"/>
+
+    <RemovalPrompt v-model="openRemove" confirmMessage="Yes, Delete this group!" title="Deletion Group">
+      Do you want to remove this group? All of group's data will be permanently removed. This action cannot be undone.
+    </RemovalPrompt>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
+import { TUser } from '@/globalTypes'
 
-import { XMarkIcon, PlusIcon, SquaresPlusIcon } from '@heroicons/vue/20/solid'
+import { XMarkIcon, PlusIcon, SquaresPlusIcon, ArrowLeftIcon } from '@heroicons/vue/20/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
-import { TUser } from '@/globalTypes'
+import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 const $page = usePage<{
   auth: {
@@ -60,4 +70,6 @@ const $cover = defineModel<string>('cover')
 
 const openAvatar = ref(false)
 const openCover = ref(false)
+const openRemove = ref(false)
+
 </script>
