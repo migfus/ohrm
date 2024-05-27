@@ -20,7 +20,16 @@
     </DataTransition>
 
 
-    <div class="flex justify-end">
+    <div class="flex flex-col">
+      <DataTransition>
+        <UsersComboBoxIndividual
+          :users
+          @selected="(v: TUser) => invitedUsers.add(v)"
+          name="Users"
+          class="my-3"
+        />
+      </DataTransition>
+
       <AppButton color="brand" class="mt-2" :icon="PlusIcon" size="sm">Add Member</AppButton>
     </div>
 
@@ -40,14 +49,17 @@ import AppButton from '@/components/form/AppButton.vue'
 import MemberDropdown from './MemberDropdown.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
+import UsersComboBoxIndividual from './UsersComboBoxIndividual.vue'
 
 const $props = defineProps<{
+  members: TUser[]
   users: TUser[]
   id: string
 }>()
 
 const removeOpen = ref<boolean>(false)
 const selectedUserId = ref<string>('')
+const invitedUsers = ref<Set<TUser>>(new Set([]))
 
 function Selected(value: {type: string, id: string}) {
   switch(value.type) {

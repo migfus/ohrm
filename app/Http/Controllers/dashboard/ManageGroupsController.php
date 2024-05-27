@@ -23,7 +23,7 @@ class ManageGroupsController extends Controller
       ->paginate(10);
 
     return Inertia::render(
-      'dashboard/manage-groups/(Index)',
+      'dashboard/manage-groups/index/(Index)',
       [
         'pageTitle' => 'Manage Groups',
         'data' => $groups,
@@ -45,7 +45,7 @@ class ManageGroupsController extends Controller
       ->get();
 
     return Inertia::render(
-      'dashboard/manage-groups/(Create)',
+      'dashboard/manage-groups/create/(Create)',
       [
         'pageTitle' => 'Create Group',
         'users' => $users
@@ -81,6 +81,11 @@ class ManageGroupsController extends Controller
 
   // NOTE: UPDATE
   public function edit(Request $req, $id): Response {
+    $users = User::query()
+      ->whereNot('id', $req->user()->id)
+      ->select('name', 'id', 'avatar')
+      ->get();
+
     $data = Team::query()
       ->select('id', 'name', 'display_name', 'avatar', 'cover', 'description')
       ->where('id', $id)
@@ -88,9 +93,10 @@ class ManageGroupsController extends Controller
       ->with(['head', 'members'])
       ->first();
 
-    return Inertia::render('dashboard/manage-groups/(Edit)', [
+    return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
       'pageTitle' => $data->display_name,
       'data' => $data,
+      'users' => $users,
     ]);
   }
   public function update(Request $req, $id): RedirectResponse {

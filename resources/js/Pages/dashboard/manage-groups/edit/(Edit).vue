@@ -13,7 +13,7 @@
       </div>
       <div class="col-span-4 lg:col-span-1">
         <TasksCard :users="data.members" />
-        <MembersCard :users="data.members" :id="data.id"/>
+        <MembersCard :users :members="data.members" :id="data.id"/>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
-import { TTeam } from '@/globalTypes'
+import { TTeam, TUser } from '@/globalTypes'
 
 import GroupHeader from './GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
@@ -33,6 +33,7 @@ import TasksCard from './TasksCard.vue'
 
 const $props = defineProps<{
   data: TTeam
+  users: TUser[]
 }>()
 
 const form = router.form({

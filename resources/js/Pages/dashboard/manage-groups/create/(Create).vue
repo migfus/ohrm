@@ -40,7 +40,7 @@
             <DataTransition>
               <UsersComboBox
                 :users
-                @selected="(v) => invitedUsers.add(v)"
+                @selected="(v: TUser) => invitedUsers.add(v)"
                 name="Users"
                 class="my-3"
               />
