@@ -52,7 +52,7 @@ const buttonSize = computed(() => {
     return 'text-sm px-4 py-2'
   }
   else {
-    return 'text-xs font px-2 py-2'
+    return 'text-xs font px-3 py-2'
   }
 })
 
@@ -76,7 +76,7 @@ router.on('finish',() => {
       buttonColor,
       textAlignment,
       buttonSize,
-      'inline-flex rounded-xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
+      'inline-flex rounded-2xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
     ]"
   >
     <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
@@ -92,7 +92,7 @@ router.on('finish',() => {
       buttonColor,
       textAlignment,
       buttonSize,
-      'inline-flex rounded-xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
+      'inline-flex rounded-2xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
     ]"
   >
     <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />

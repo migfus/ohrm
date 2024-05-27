@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('system_settings', function (Blueprint $table) {
           $table->id();
           $table->integer('sort_id');
-          $table->bigInteger('system_setting_category_id');
-          $table->bigInteger('system_setting_type_id');
+          $table->unsignedBigInteger('system_setting_category_id');
+          $table->unsignedBigInteger('system_setting_type_id');
           $table->string('name');
           $table->string('description');
           $table->string('value');
+
+          $table->foreign('system_setting_category_id')->references('id')->on('system_setting_categories')->onDelete('cascade');
+          $table->foreign('system_setting_type_id')->references('id')->on('system_setting_types')->onDelete('cascade');
           $table->timestamps();
         });
     }

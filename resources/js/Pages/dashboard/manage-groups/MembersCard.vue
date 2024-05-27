@@ -1,39 +1,76 @@
 <template>
-  <div class="bg-brand-50 p-4 shadow rounded-xl mb-4 group">
-    <div class="flex justify-between">
+  <div class="bg-brand-50 p-4 shadow rounded-2xl mb-4">
+    <div class="flex justify-between mb-4">
       <div class="px-4 sm:px-0">
         <h3 class="text-base font-semibold leading-7 text-gray-900">
-          <AdjustmentsHorizontalIcon class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
+          <AtSymbolIcon class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
           Members
         </h3>
-        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Joined members list.</p>
-      </div>
-      <div class="">
-        <PencilIcon class="text-sm text-brand-700 h-3 w-3 inline mr-1 mb-[3px] align-middle group-hover:opacity-100 transition-all sm:opacity-0"/>
+        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Tasks for this group.</p>
       </div>
     </div>
 
-    <div class="mt-4 border-t border-gray-100">
-      <div class="divide-y divide-gray-100 flex gap-2 flex-col">
-        <Link
-          v-for="user in users"
-          :href="`/dashboard/manage-users/${user.id}/edit`"
-          class="bg-white pb-2 pt-1 px-4 rounded-full shadow text-nowrap"
-        >
-          <img :src="user.avatar" class="w-4 h-4 rounded-full inline"/>
-          @{{ user.name }}
-        </Link>
+    <DataTransition>
+      <MemberDropdown v-for="user in users" :key="user.id" :id="user.id" @selected="Selected">
+        <div class="flex justify-start">
+          <img :src="user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mb-[3px]">
+          <span class="truncate">{{ user.name }}</span>
+        </div>
+      </MemberDropdown>
+    </DataTransition>
 
-      </div>
+
+    <div class="flex justify-end">
+      <AppButton color="brand" class="mt-2" :icon="PlusIcon" size="sm">Add Member</AppButton>
     </div>
+
+    <RemovalPrompt v-model="removeOpen" @confirm="RemoveMember" confirmMessage="Yes, Remove The Member" title="Removing a Member">
+      Are you sure do you want to remove this member?
+    </RemovalPrompt>
   </div>
 </template>
 
 <script setup lang="ts">
 import { TUser } from '@/globalTypes'
-import { AdjustmentsHorizontalIcon, PencilIcon } from '@heroicons/vue/24/solid'
+import { ref } from 'vue'
+import { router } from '@inertiajs/vue3'
 
-defineProps<{
+import { AtSymbolIcon, PlusIcon } from '@heroicons/vue/24/solid'
+import AppButton from '@/components/form/AppButton.vue'
+import MemberDropdown from './MemberDropdown.vue'
+import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
+
+const $props = defineProps<{
   users: TUser[]
+  id: string
 }>()
+
+const removeOpen = ref<boolean>(false)
+const selectedUserId = ref<string>('')
+
+function Selected(value: {type: string, id: string}) {
+  switch(value.type) {
+    case 'edit':
+      alert('edit' + value.id)
+      break;
+    case 'remove':
+      removeOpen.value = true
+      selectedUserId.value = value.id
+      break;
+    default:
+      alert('edit'  + value.id)
+  }
+}
+
+function RemoveMember() {
+  removeOpen.value = false
+
+  router.put(`/dashboard/manage-groups/${$props.id}`, {
+    type: 'remove-member',
+    memberId: selectedUserId.value
+  }, {
+    preserveScroll: true, preserveState: true
+  })
+}
 </script>

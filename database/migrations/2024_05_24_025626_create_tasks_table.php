@@ -18,6 +18,8 @@ return new class extends Migration
         $table->string('description')->nullable();
         $table->string('active')->default(true);
         $table->string('cover')->nullable();
+
+        $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         $table->timestamps();
       });
     }

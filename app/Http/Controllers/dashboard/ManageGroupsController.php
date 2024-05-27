@@ -37,6 +37,7 @@ class ManageGroupsController extends Controller
     );
   }
 
+  // NOTE: STORE
   public function create(Request $req): Response  {
     $users = User::query()
       ->whereNot('id', $req->user()->id)
@@ -78,6 +79,7 @@ class ManageGroupsController extends Controller
     return to_route('dashboard.manage-groups.index')->with('flash', ['success' => 'Successfuly Added']);
   }
 
+  // NOTE: UPDATE
   public function edit(Request $req, $id): Response {
     $data = Team::query()
       ->select('id', 'name', 'display_name', 'avatar', 'cover', 'description')
@@ -92,7 +94,20 @@ class ManageGroupsController extends Controller
     ]);
   }
   public function update(Request $req, $id): RedirectResponse {
-    if($req->type == 'basic') {
+    switch($req->type) {
+      case 'basic':
+        $this->UpdateBasic($req, $id);
+        break;
+      case'remove-member':
+        $this->RemoveMember($req, $id);
+        break;
+      default:
+        return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['type' => 'Type value is missing']);
+    }
+
+    return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('flash', ['success' => 'Successfuly Updated']);
+  }
+    private function UpdateBasic(Request $req, $id) : void {
       $val = $req->validate([
         'name' => ['required'],
         'description' => ['required'],
@@ -104,12 +119,13 @@ class ManageGroupsController extends Controller
         'description' => $req->description,
       ]);
     }
-    else {
-      return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['type' => 'Type value is missing']);
-    }
+    private function RemoveMember(Request $req, $id) : void {
+      $val = $req->validate([
+        'memberId' => ['required', 'uuid'],
+      ]);
 
-    return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('flash', ['success' => 'Successfuly Updated']);
-  }
+      User::find($req->memberId)->removeRole('staff', Team::find($id)->name);
+    }
 
   // NOTE: Remove
   public function destroy($id) : RedirectResponse {

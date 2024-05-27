@@ -13,7 +13,7 @@
       </div>
       <div class="col-span-4 lg:col-span-1">
         <TasksCard :users="data.members" />
-        <MembersCard :users="data.members" />
+        <MembersCard :users="data.members" :id="data.id"/>
       </div>
     </div>
   </div>
