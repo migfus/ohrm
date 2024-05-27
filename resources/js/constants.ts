@@ -16,19 +16,19 @@ export const CTopNavigation: TCTopNavigation[] = [
     name: 'Home',
     icon: HomeIcon,
     href: '/',
-    component: 'home/(Page)',
+    component: 'home/(Index)',
   },
   {
     name: 'Status',
     icon: RssIcon,
     href: '/status',
-    component: 'status/(Page)',
+    component: 'status/(Index)',
   },
   {
     name: 'About Us',
     icon: QuestionMarkCircleIcon,
     href: '/about',
-    component: 'about/(Page)',
+    component: 'about/(Index)',
   },
 ]
 
@@ -82,6 +82,6 @@ export const CAdminNavigation: TCTopNavigation[] = [
     name: 'System Settings',
     icon: Cog6ToothIcon,
     href: '/dashboard/system-settings',
-    component: 'dashboard/SystemSettings/(Index)'
+    component: 'dashboard/system-settings/(Index)'
   }
 ]

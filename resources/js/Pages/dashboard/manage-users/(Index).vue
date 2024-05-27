@@ -11,7 +11,6 @@
     <TabSection v-model="selected" :data="roles" @selectedData="changeTab"/>
 
 
-
     <div class="overflow-hidden bg-white shadow sm:rounded-xl mt-2">
       <DataTransition v-if="$props.data.data.length > 0" role="list" class="divide-y divide-gray-200">
         <UserCard v-for="row in $props.data.data" :data="row" :key="row.id"/>
@@ -37,23 +36,17 @@ import { useThrottle } from '@vueuse/core'
 
 import UserCard from '@/components/data/UserCard.vue'
 import PaginationCard from '@/components/data/PaginationCard.vue'
-import { TFilters, TPagination, TProps, TUser } from '@/globalTypes'
+import { TFilters, TPagination, TUser, TTab } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import HeaderContent from '@/components/header/HeaderContent.vue'
 import TabSection from '@/components/header/TabSection.vue'
 
-interface TData extends TProps {
-  roles: {
-    name: string
-    display_name: string
-    icon: string
-  } []
-  data: TPagination<TUser>
+const $props = defineProps<{
   filters: TFilters
-}
-
-const $props = defineProps<TData>()
+  roles: TTab []
+  data: TPagination<TUser>
+}>()
 
 const throttledSearch = ref($props.filters.search ?? '')
 const selected = ref(0)

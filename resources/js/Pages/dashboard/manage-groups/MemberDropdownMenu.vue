@@ -4,10 +4,11 @@
       <div>
         <MenuButton
           as="button"
-          class="inline-flex w-full justify-between rounded-2xl px-3 py-2 text-sm font-medium bg-white shadow focus:ring-2 focus:ring-brand-500"
+          :class="[disabled && 'text-yellow-600', `inline-flex w-full justify-between rounded-2xl px-3 py-2 text-sm font-medium bg-white shadow focus:ring-2 focus:ring-brand-500`]"
         >
           <slot></slot>
           <ChevronDownIcon
+            v-if="!disabled"
             class="-mr-1 ml-2 h-5 w-5  hover:text-violet-100"
             aria-hidden="true"
           />
@@ -23,6 +24,7 @@
         leave-to-class="transform scale-95 opacity-0"
       >
         <MenuItems
+          v-if="!disabled"
           class="z-10 rounded-2xl absolute right-0 mt-1 w-36 origin-top-right divide-y divide-gray-100 bg-white shadow-xl"
         >
           <div class="px-1 py-1">
@@ -39,11 +41,12 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
-import { PencilIcon, XMarkIcon, CheckCircleIcon } from '@heroicons/vue/24/outline'
+import { XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 
 defineProps<{
   id: string
+  disabled: boolean
 }>()
 
 const $emit = defineEmits(['selected'])

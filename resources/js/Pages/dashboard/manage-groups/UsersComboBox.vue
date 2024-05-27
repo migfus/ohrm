@@ -2,7 +2,7 @@
   <Combobox as="div" v-model="selectedUser" @update:modelValue="value => $emit('selected', value)" class="gap-2">
     <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">Invite a member</ComboboxLabel>
     <div class="relative mt-2 flex-grow">
-      <ComboboxInput class="w-full rounded-xl border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-600 sm:text-sm sm:leading-6" @change="query = $event.target.value" />
+      <ComboboxInput class="shadow-inner w-full rounded-xl border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-brand-600 sm:text-sm sm:leading-6" @change="query = $event.target.value" />
       <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
         <ChevronUpDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
       </ComboboxButton>

@@ -10,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+// @ts-ignore NOTE: not my issue 😅
 import { TailwindPagination } from 'laravel-vue-pagination'
 
 defineProps<{

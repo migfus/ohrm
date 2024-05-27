@@ -33,7 +33,15 @@ const $props = defineProps<{
             <TopNavigationLogo :title :logo/>
           </Link>
           <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-            <TopNavigationsDesktop v-for="row in CTopNavigation" :key="row.name" :href="row.href" :active="row.active" :icon="row.icon" :name="row.name" />
+            <TopNavigationsDesktop
+              v-for="row in CTopNavigation"
+              :key="row.name"
+              :href="row.href"
+              :active="row.active"
+              :icon="row.icon"
+              :name="row.name"
+              :component="row.component"
+            />
           </div>
 
 
@@ -58,6 +66,7 @@ const $props = defineProps<{
           :active="row.active"
           :name="row.name"
           :icon="row.icon"
+          :component="row.component"
         />
 
       </div>

@@ -1,6 +1,3 @@
-
-
-
 <template>
   <div>
     <UploadAvatarModal
@@ -52,13 +49,10 @@
                 </div>
 
                 <!-- NOTE DATA -->
-                <div class="mt-10 divide-y divide-gray-200">
+                <div class="bg-brand-50 p-4 rounded-2xl shadow mt-4">
                   <div class="space-y-1">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $props.data[selected].name }} Settings</h3>
-                    <p class="max-w-2xl text-sm text-gray-500">{{ $props.data[selected].description }}</p>
-
                     <!-- NOTE ERRORS -->
-                    <div v-if="$props.errors!.value" class="rounded-md bg-red-50 p-4">
+                    <div v-if="$page.props.errors!.value" class="rounded-md bg-red-50 p-4">
                       <div class="flex">
                         <div class="flex-shrink-0">
                           <XCircleIcon class="h-5 w-5 text-red-400" aria-hidden="true" />
@@ -67,7 +61,7 @@
                           <h3 class="text-sm font-medium text-red-800">There were 1 error submission</h3>
                           <div class="mt-2 text-sm text-red-700">
                             <ul role="list" class="list-disc space-y-1 pl-5">
-                              <li>{{ $props.errors!.value }}</li>
+                              <li>{{ $page.props.errors!.value }}</li>
                             </ul>
                           </div>
                         </div>
@@ -84,19 +78,29 @@
                         @submit.prevent="submit(row)"
                         class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5"
                       >
-                        <dt class="text-sm font-medium text-gray-500 h-[34px]">{{ row.name }}</dt>
+                        <dt class="text-sm font-medium text-gray-500">{{ row.name }}</dt>
                         <dd class="mt-1 flex justify-between text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                           <BasicTransition>
                             <!-- NOTE INPUT -->
-                            <AppInput
-                              v-if="index == selectedData && row.system_setting_type.name == 'text'"
-                              v-model="row.value"
-                              :error="undefined"
-                              :name="row.name"
-                              size="sm"
-                              type="text"
-                              class="flex-grow rounded-xl h-8 active:ring-brand-400"
-                            />
+                            <div v-if="index == selectedData && row.system_setting_type.name == 'text'" class="mb-6 w-full flex flex-col gap-2">
+                              <AppInput
+                                v-model="row.value"
+                                :error="undefined"
+                                :name="row.name"
+                                size="sm"
+                                type="text"
+                              />
+                              <div class="flex justify-end">
+                                <AppButton
+                                  color="brand"
+                                  size="sm"
+                                  type="submit"
+                                >
+                                  Update
+                                </AppButton>
+                              </div>
+                            </div>
+
 
                             <!-- NOTE PREVIEW -->
                             <img
@@ -109,18 +113,9 @@
                           </BasicTransition>
                           <span class="ml-4 flex-shrink-0">
                             <BasicTransition>
-                              <AppButton
-                                v-if="index == selectedData"
-                                color="brand"
-                                size="sm"
-                                type="submit"
-                              >
-                                Update
-                              </AppButton>
-
                               <!-- NOTE AVATAR -->
                               <PencilIcon
-                                v-else-if="row.system_setting_type.name == 'avatar'"
+                                v-if="row.system_setting_type.name == 'avatar'"
                                 @click="selectedData = index; uploadAvatarOpen = true"
                                 class="text-brand-400 group-hover:text-gray-500 mr-3 h-4 w-4"
                                 aria-hidden="true"
@@ -160,7 +155,7 @@ import { router } from '@inertiajs/vue3'
 
 import AppButton from '@/components/form/AppButton.vue'
 import AppInput from '@/components/form/AppInput.vue'
-import { PencilIcon } from '@heroicons/vue/24/outline'
+import { PencilIcon, XCircleIcon } from '@heroicons/vue/24/outline'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 import HeaderContent from '@/components/header/HeaderContent.vue'
@@ -185,22 +180,16 @@ interface TData {
   system_settings: TSystemSettings []
 }
 
-interface TErrorAndTDataWithTProps extends TProps {
-  errors?: {
-    id: string
-    value: string
-  }
-  data: TData []
-}
-
-const $props = defineProps<TErrorAndTDataWithTProps>()
+const $props = defineProps<{
+  data: TData[]
+}>()
 
 const selected = ref(0)
 const selectedData = ref<number | null>(null)
 const uploadAvatarOpen = ref(false)
 
 function submit(row: TSystemSettings) {
-  router.post('/dashboard/system-settings', {id: row.id, value: row.value, type: row.system_setting_type.name})
+  router.put(`/dashboard/system-settings/${row.id}`, {value: row.value, type: row.system_setting_type.name})
   selectedData.value = null
 }
 </script>

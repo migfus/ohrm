@@ -11,10 +11,11 @@ use App\Http\Controllers\dashboard\MyGroupsController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\dashboard\SystemSettingsController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 // NOTE: PAGES
-Route::get('/', [PageController::class, 'index'])->name('home');
+Route::resource('/', HomeController::class)->only(['index']);
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::resource('/status', StatusController::class)->only(['index']);
 

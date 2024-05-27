@@ -1,76 +1,11 @@
-<script setup lang="ts">
-import { UseFullscreen } from '@vueuse/components'
-
-import { ArrowsPointingOutIcon } from '@heroicons/vue/24/outline'
-
-const people = [
-  {
-    name: 129,
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM',
-    serving: true,
-  },
-]
-</script>
-
 <template>
   <UseFullscreen class="aspect-video bg-white" v-slot="{ toggle }" ref="rull">
-    <div class="grid grid-cols-4 max-w-7xl mx-auto gap-4">
-      <div class="my-4 col-span-3 grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-4 max-w-7xl mx-auto gap-4 mt-4">
+      <!-- NOTE: CONTENT/ADS -->
+      <div class="mb-4 col-span-3 grid grid-cols-2 gap-4">
 
         <div class="col-span-2">
-          <section class="overflow-hidden bg-gray-50 py-12 md:py-20 lg:py-20 rounded-xl shadow">
+          <section class="overflow-hidden bg-gray-50 mt-4py-12 md:py-20 lg:py-20 rounded-xl shadow">
             <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
               <svg class="absolute top-full right-full translate-x-1/3 -translate-y-1/4 transform lg:translate-x-1/2 xl:-translate-y-1/2" width="404" height="404" fill="none" viewBox="0 0 404 404" role="img" aria-labelledby="svg-workcation">
                 <title id="svg-workcation">Workcation</title>
@@ -140,29 +75,22 @@ const people = [
       </div>
 
       <!-- NOTE: QUEUING -->
-      <div class="flex flex-col bg-brand-50 p-4 sm:rounded-xl shadow my-4">
-        <div class="flex justify-between">
-          <h1 class="text-md font-semibold mb-2">Queuing</h1>
-          <button @click="toggle" class="bg-brand-600 hover:bg-brand-700 text-white rounded-xl px-2 text-xs shadow mb-1 align-middle">
-            <ArrowsPointingOutIcon class="inline text-white flex-shrink-0 h-3 w-3 mb-1" aria-hidden="true" />
-            FullScreen
-          </button>
-
-        </div>
+      <div class="flex flex-col sm:rounded-xl mb-4">
+        <BasicCard :icon="TicketIcon" title="Queuing" description="Please wait for the queue.">
           <div class="flex gap-1 justify-between">
-            <div class="relative overflow-hidden bg-yellow-200 border mb-2 py-4 px-2 rounded-xl">
+            <div class="relative overflow-hidden bg-yellow-200 border mb-2 py-4 px-2 rounded-xl shadow">
               ###
             </div>
-            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl">
+            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl shadow">
               #123
             </div>
-            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl">
+            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl shadow">
               #123
             </div>
-            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl">
+            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl shadow">
               #123
             </div>
-            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl">
+            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl shadow">
               #123
             </div>
           </div>
@@ -170,7 +98,7 @@ const people = [
           <div
             v-for="person in people"
             :key="person.email"
-            class="relative overflow-hidden bg-white border mb-2 p-4 rounded-xl"
+            class="relative overflow-hidden bg-white border mb-2 p-4 rounded-xl shadow"
           >
 
             <div class="min-w-0 flex-1">
@@ -200,8 +128,75 @@ const people = [
               </div>
             </div>
           </div>
+        </BasicCard>
       </div>
     </div>
   </UseFullscreen>
 </template>
 
+<script setup lang="ts">
+import { UseFullscreen } from '@vueuse/components'
+
+import { ArrowsPointingOutIcon, TicketIcon } from '@heroicons/vue/24/outline'
+import BasicCard from '@/components/cards/BasicCard.vue'
+
+const people = [
+  {
+    name: 129,
+    email: 'leslie.alexander@example.com',
+    role: 'Request for Landbank',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    dateTime: '12/12/2023 12:12 AM'
+  },
+  {
+    name: '127',
+    email: 'leslie.alexander@example.com',
+    role: 'Request for Landbank',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    dateTime: '12/12/2023 12:12 AM'
+  },
+  {
+    name: '127',
+    email: 'leslie.alexander@example.com',
+    role: 'Request for Landbank',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    dateTime: '12/12/2023 12:12 AM'
+  },
+  {
+    name: '127',
+    email: 'leslie.alexander@example.com',
+    role: 'Request for Landbank',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    dateTime: '12/12/2023 12:12 AM'
+  },
+  {
+    name: '127',
+    email: 'leslie.alexander@example.com',
+    role: 'Request for Landbank',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    dateTime: '12/12/2023 12:12 AM'
+  },
+  {
+    name: '127',
+    email: 'leslie.alexander@example.com',
+    role: 'Request for Landbank',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    dateTime: '12/12/2023 12:12 AM'
+  },
+  {
+    name: '127',
+    email: 'leslie.alexander@example.com',
+    role: 'Request for Landbank',
+    imageUrl:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    dateTime: '12/12/2023 12:12 AM',
+    serving: true,
+  },
+]
+</script>
