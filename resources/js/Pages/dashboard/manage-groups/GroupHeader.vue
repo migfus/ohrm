@@ -11,15 +11,18 @@
         <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
           <div class="mt-6 min-w-0 flex-1 sm:hidden md:block">
             <h1 class="truncate text-2xl font-bold text-brand-900">g/{{ form.name }}</h1>
-            <h1 class="truncate font-bold text-brand-500">
-              <img :src="$page.props.auth.avatar" class="h-5 w-5 inline rounded-xl"/>
-              @{{ $page.props.auth.name }}
-            </h1>
+            <div class="flex gap-4">
+              <h1 v-for="head in heads" :key="head.id" class="truncate font-bold text-brand-500 inline">
+                <img :src="head.avatar" class="h-5 w-5 inline rounded-xl"/>
+                @{{ head.name }}
+              </h1>
+            </div>
+
           </div>
           <div class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
             <AppButton href="/dashboard/manage-groups" :icon="XMarkIcon" color="danger">Cancel</AppButton>
 
-            <AppButton :icon="PlusIcon" @click="$emit('confirm')" color="brand">Add Group</AppButton>
+            <AppButton :icon="confirmButton.icon" @click="$emit('confirm')" color="brand">{{ confirmButton.text }}</AppButton>
 
           </div>
         </div>
@@ -35,10 +38,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, FunctionalComponent} from 'vue'
 import { usePage } from '@inertiajs/vue3'
+import { TUser } from '@/globalTypes'
 
-import { XMarkIcon, PlusIcon } from '@heroicons/vue/20/solid'
+import { XMarkIcon } from '@heroicons/vue/20/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 
@@ -50,6 +54,11 @@ const $page = usePage<{
 const $props = defineProps<{
   form: {
     name: string
+  }
+  heads: TUser []
+  confirmButton: {
+    text: string
+    icon: FunctionalComponent
   }
 }>()
 const $emit = defineEmits(['confirm'])

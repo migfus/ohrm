@@ -5,7 +5,7 @@
 
     <div class="grid grid-cols-4 gap-4 mt-4">
       <div class="col-span-4 lg:col-span-1">
-        <AboutCard :group="data"/>
+        <UpateBasicCard :group="data"/>
         <OwnerCard :user="data.head[0]" class="mt-4"/>
       </div>
       <div class="col-span-4 lg:col-span-2">
@@ -25,7 +25,7 @@ import { TTeam, TUser } from '@/globalTypes'
 
 import GroupHeader from './GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
-import AboutCard from './AboutCard.vue'
+import UpateBasicCard from './UpdateBasicCard.vue'
 import OwnerCard from './OwnerCard.vue'
 import MembersCard from './MembersCard.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'

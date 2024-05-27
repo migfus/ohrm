@@ -1,15 +1,8 @@
-import { Page, PageProps } from '@inertiajs/core'
-import type { GTAuth } from './globalTypes'
+import { TUser } from "./globalTypes"
 
-interface SharedProps extends PageProps {
-  auth?: GTAuth
-  errors: Object
-  title: string
-  flash?: Object
+interface SharedProps{
+    auth: TUser
+    [key: string]: any
 }
 
 export default SharedProps
-
-declare module '@inertiajs/vue3' {
-  export function usePage(): Page<SharedProps>
-}

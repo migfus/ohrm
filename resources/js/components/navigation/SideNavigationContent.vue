@@ -10,7 +10,7 @@
         item.component === $page.component ?
           'bg-brand-100 text-brand-900' :
           'text-gray-600 hover:bg-brand-100/50 hover:text-gray-900',
-        'group flex items-center px-2 py-2 text-base font-medium rounded-md']"
+        'group flex items-center px-2 py-2 text-sm font-medium rounded-md mb-1']"
     >
       <ArrowPathIcon v-if="index == indexLoading" class="text-gray-500 mr-3 h-6 w-6 animate-spin" aria-hidden="true" />
       <component v-else-if="item.href == removeURLParameter($page.url, '=')" :is="item.icon" class="text-gray-500 mr-3 h-6 w-6" aria-hidden="true" />
