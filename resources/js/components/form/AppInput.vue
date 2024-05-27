@@ -1,5 +1,31 @@
+<template>
+  <BasicTransition>
+    <div>
+      <label v-if="!$props.noLabel" class="block text-sm font-medium leading-6 text-brand-700 mb-1">{{ $props.name }}</label>
+      <input
+        v-model="$model"
+        :id="name"
+        :name
+        :type="type ?? 'text'"
+        :placeholder="placeholder ?? ''"
+        :class="[
+          inputSize,
+          error && 'border-red-500',
+          'w-full rounded-xl border border-gray-300 placeholder-gray-400 focus:border-brand-500 focus:outline-none focus:ring-brand-500 shadow-inner'
+        ]"
+        autocomplete="off"
+      />
+      <label v-if="$props.error" for="password" class="block text-sm font-medium text-red-600">
+        {{ $props.error }}
+      </label>
+    </div>
+  </BasicTransition>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue'
+
+import BasicTransition from '../transitions/BasicTransition.vue'
 
 type TProps = {
   error: string | undefined
@@ -23,28 +49,3 @@ const inputSize = computed(() => {
 })
 
 </script>
-
-<template>
- <div>
-  <div>
-    <label v-if="!$props.noLabel" class="block text-sm font-medium leading-6 text-brand-700 mb-1">{{ $props.name }}</label>
-    <input
-      v-model="$model"
-      :id="name"
-      :name
-      :type="type ?? 'text'"
-      :placeholder="placeholder ?? ''"
-      :class="[
-        inputSize,
-        error && 'border-red-500',
-        'w-full rounded-xl border border-gray-300 placeholder-gray-400 focus:border-brand-500 focus:outline-none focus:ring-brand-500 shadow-inner'
-      ]"
-      autocomplete="off"
-    />
-    <label v-if="$props.error" for="password" class="block text-sm font-medium text-red-600">
-      {{ $props.error }}
-    </label>
-  </div>
-</div>
-</template>
-
