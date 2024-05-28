@@ -46,7 +46,7 @@ import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 
 defineProps<{
   id: string
-  disabled: boolean
+  disabled: boolean | undefined
 }>()
 
 const $emit = defineEmits(['selected'])

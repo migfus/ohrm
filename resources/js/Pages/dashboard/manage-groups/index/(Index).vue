@@ -4,8 +4,8 @@
     <HeaderContent
       v-model="throttledSearch"
       :allowSearch="true"
-      title="Manage Users"
-      desc="Create, modify, or generate report users informations"
+      title="Manage Groups"
+      desc="Create, modify & assign members to groups"
       @add="router.visit('/dashboard/manage-groups/create')"
     />
 

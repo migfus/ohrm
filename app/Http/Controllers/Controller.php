@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 abstract class Controller
 {
-  public function GUploadAvatar($avatar, $path = 'system') {
+  public function GUploadAvatar($avatar, $path) {
     if (strpos($avatar, 'default')) {
       return $avatar;
     }
@@ -18,6 +18,7 @@ abstract class Controller
     $image = base64_decode($image);
     $imageName = time(). '.jpg';
     $location = '/uploads/'.$path;
+
     if(!file_exists(public_path().$location)) {
       mkdir(public_path().$location, 0777, true);
     }

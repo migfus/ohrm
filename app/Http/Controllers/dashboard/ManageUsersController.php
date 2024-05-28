@@ -81,9 +81,14 @@ class ManageUsersController extends Controller
       'name' => $req->name,
       'email' => $req->email,
       'password' => Hash::make($req->password),
-      'avatar' => $this->GUploadAvatar($req->avatar),
-      'cover' =>  $this->GUploadAvatar($req->cover),
     ]);
+    User::query()
+      ->where('id', $user->id)
+      ->update([
+        'avatar' => $this->GUploadAvatar($req->avatar, "users/$user->id/avatar/"),
+        'cover' => $this->GUploadAvatar($req->cover, "users/$user->id/cover/"),
+      ]);
+
     $user->addRole($req->role, 'system');
 
     return to_route('dashboard.manage-users.index')->with('flash', ['success' => 'Successfuly Created.']);

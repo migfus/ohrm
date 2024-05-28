@@ -85,10 +85,12 @@ class ManageGroupsController extends Controller
       'display_name' => $req->name,
       'description' => $req->description,
     ]);
-    Team::find($team->id)->update([
-      'avatar' => $this->GUploadAvatar($req->avatar, `groups/$team->id/avatar/`),
-      'cover' => $this->GUploadAvatar($req->cover, `groups/$team->id/cover/`)
-    ]);
+    Team::query()
+      ->where('id', $team->id)
+      ->update([
+        'avatar' => $this->GUploadAvatar($req->avatar, "groups/$team->id/avatar/"),
+        'cover' => $this->GUploadAvatar($req->cover, "groups/$team->id/cover/")
+      ]);
 
     // NOTE: ADD ROLE to head
     foreach($heads as $head) {

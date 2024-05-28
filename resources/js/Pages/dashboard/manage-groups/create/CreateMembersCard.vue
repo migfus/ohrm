@@ -4,31 +4,26 @@
     title="Members"
     description="List of staff that has access to this group."
   >
-    <DataTransition>
-      <MemberDropdownMenu
-        v-for="user in filteredUsers"
-        :key="user.id"
-        :id="user.id"
-        :disabled="user.disabled"
-        @selected="RemoveMember(user.id)"
-      >
-        <div class="flex justify-start">
-          <img :src="user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mb-[3px]">
-          <span class="truncate">{{ user.name }}</span>
-        </div>
-      </MemberDropdownMenu>
-    </DataTransition>
-
+    <MemberDropdownMenu
+      v-for="user in filteredUsers"
+      :key="user.id"
+      :id="user.id"
+      :disabled="user.disabled"
+      @selected="RemoveMember(user.id)"
+    >
+      <div class="flex justify-start">
+        <img :src="user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mb-[3px]">
+        <span class="truncate">{{ user.name }}</span>
+      </div>
+    </MemberDropdownMenu>
 
     <div class="flex flex-col">
-      <DataTransition>
-        <UsersComboBox
-          :users
-          @selected="(v: TUserWithParams) => $model?.push({...v, type:'member' } as TUserWithParams)"
-          name="Users"
-          class="my-3"
-        />
-      </DataTransition>
+      <UsersComboBox
+        :users
+        @selected="(v: TUserWithParams) => $model?.push({...v, type:'member' } as TUserWithParams)"
+        name="Users"
+        class="my-3"
+      />
     </div>
 
     <RemovalPrompt v-model="removeOpen" @confirm="ConfirmRemove" confirmMessage="Yes, Remove The Member" title="Removing a Member">

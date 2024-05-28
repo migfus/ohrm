@@ -2,7 +2,6 @@
 import { router } from '@inertiajs/vue3';
 import { FunctionalComponent, computed, onMounted, ref } from 'vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
-import BasicTransition from '../transitions/BasicTransition.vue'
 
 const $props = defineProps<{
   icon?: FunctionalComponent
