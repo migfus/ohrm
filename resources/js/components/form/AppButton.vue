@@ -2,6 +2,7 @@
 import { router } from '@inertiajs/vue3';
 import { FunctionalComponent, computed, onMounted, ref } from 'vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
+import BasicTransition from '../transitions/BasicTransition.vue';
 
 const $props = defineProps<{
   icon?: FunctionalComponent
@@ -66,36 +67,38 @@ router.on('finish',() => {
 </script>
 
 <template>
-  <Link
-    v-if="href"
-    :href
-    :type
-    :disabled="loading"
-    :class="[
-      buttonColor,
-      textAlignment,
-      buttonSize,
-      'inline-flex rounded-2xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
-    ]"
-  >
-    <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
-    <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
-    <slot></slot>
-  </Link>
+  <BasicTransition>
+    <Link
+      v-if="href"
+      :href
+      :type
+      :disabled="loading"
+      :class="[
+        buttonColor,
+        textAlignment,
+        buttonSize,
+        'inline-flex rounded-2xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
+      ]"
+    >
+      <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+      <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
+      <slot></slot>
+    </Link>
 
-  <button
-    v-else
-    :type
-    :disabled="loading"
-    :class="[
-      buttonColor,
-      textAlignment,
-      buttonSize,
-      'inline-flex rounded-2xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
-    ]"
-  >
-    <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
-    <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
-    <slot></slot>
-  </button>
+    <button
+      v-else
+      :type
+      :disabled="loading"
+      :class="[
+        buttonColor,
+        textAlignment,
+        buttonSize,
+        'inline-flex rounded-2xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
+      ]"
+    >
+      <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+      <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
+      <slot></slot>
+    </button>
+  </BasicTransition>
 </template>

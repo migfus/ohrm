@@ -4,7 +4,7 @@
       <div>
         <MenuButton
           as="button"
-          :class="[disabled && 'text-yellow-600', `inline-flex w-full justify-between rounded-2xl px-3 py-2 text-sm font-medium bg-white shadow focus:ring-2 focus:ring-brand-500`]"
+          :class="[disabled && 'text-yellow-700 bg-yellow-50', `inline-flex w-full justify-between rounded-2xl px-3 py-2 text-sm font-medium bg-white shadow focus:ring-2 focus:ring-brand-500`]"
         >
           <slot></slot>
           <ChevronDownIcon

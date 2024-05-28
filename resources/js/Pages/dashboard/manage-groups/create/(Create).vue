@@ -4,7 +4,7 @@
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
       :form
-      :heads="$page.props.auth ? [$page.props.auth] : []"
+      :heads="invitedUsers.filter(user => user.type == 'head')"
       :confirmButton="{
         text: 'Save',
         icon: PlusIcon
