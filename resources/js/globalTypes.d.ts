@@ -124,3 +124,13 @@ export interface TFilters {
   type: string
   page: number
 }
+
+export interface TTask {
+  id: string
+  team_id: string
+  name: string
+  description: string
+  active: boolean
+  cover: string
+  created_at: Date
+}

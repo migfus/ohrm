@@ -7,7 +7,7 @@
     <DataTransition>
       <MemberDropdownMenu v-for="user in filteredUsers" :key="user.id" :id="user.id" @selected="RemoveMember(user.id)" :disabled="user.disabled">
         <div class="flex justify-start">
-          <img :src="user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mb-[3px]">
+          <img :src="user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mt-[3px]">
           <span class="truncate">{{ user.name }}</span>
         </div>
       </MemberDropdownMenu>

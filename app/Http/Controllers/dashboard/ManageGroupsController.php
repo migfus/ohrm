@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\dashboard;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -8,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 
 use App\Models\Team;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class ManageGroupsController extends Controller
 {
@@ -62,6 +64,7 @@ class ManageGroupsController extends Controller
       'avatar' => ['required'],
       'cover' => ['required'],
       'invitedUsers.*' => ['required'],
+      'tasks.*' => ['required'],
     ]);
 
     $heads = array_filter($req->invitedUsers, function($row) {
@@ -80,28 +83,43 @@ class ManageGroupsController extends Controller
     });
 
 
-    $team = Team::create([
-      'name' => $req->name,
-      'display_name' => $req->name,
-      'description' => $req->description,
-    ]);
-    Team::query()
-      ->where('id', $team->id)
-      ->update([
-        'avatar' => $this->GUploadAvatar($req->avatar, "groups/$team->id/avatar/"),
-        'cover' => $this->GUploadAvatar($req->cover, "groups/$team->id/cover/")
+    // DB::beginTransaction();
+
+    // try {
+      $team = Team::create([
+        'name' => $req->name,
+        'display_name' => $req->name,
+        'description' => $req->description,
       ]);
+      Team::query()
+        ->where('id', $team->id)
+        ->update([
+          'avatar' => $this->GUploadAvatar($req->avatar, "groups/$team->id/avatar/"),
+          'cover' => $this->GUploadAvatar($req->cover, "groups/$team->id/cover/")
+        ]);
 
-    // NOTE: ADD ROLE to head
-    foreach($heads as $head) {
-      User::find($head['id'])->addRole('head', $team->name);
-    }
-    // NOTE: Invited User as Staff in group;
-    foreach($staffs as $staff) {
-      User::find($staff['id'])->addRole('staff', $team->name);
-    }
+      // NOTE: ADD ROLE to head
+      foreach($heads as $head) {
+        User::find($head['id'])->addRole('head', $team->name);
+      }
+      // NOTE: Invited User as Staff in group;
+      foreach($staffs as $staff) {
+        User::find($staff['id'])->addRole('staff', $team->name);
+      }
 
-    return to_route('dashboard.manage-groups.index')->with('flash', ['success' => 'Successfuly Added']);
+      foreach($req->tasks as $task) {
+        Task::create([
+          'team_id' => $team->id,
+          'name' => $task['name'],
+        ]);
+      }
+
+      return to_route('dashboard.manage-groups.edit', ['manage_group' => $team->id])->with('flash', ['success' => 'Successfuly Added']);
+    // }
+    // catch(\Exception $e) {
+      // DB::rollBack();
+      // return to_route('dashboard.manage-groups.create')->withErrors(['Unknown' => 'Something went wrong 😅']);
+    // }
   }
 
   // NOTE: UPDATE

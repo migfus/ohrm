@@ -4,12 +4,17 @@
       <div>
         <MenuButton
           as="button"
-          :class="[disabled && 'text-yellow-700 bg-yellow-50', `inline-flex w-full justify-between rounded-2xl px-3 py-2 text-sm font-medium bg-white shadow focus:ring-2 focus:ring-brand-500`]"
+          :class="[disabled && 'text-brand-700 bg-brand-200', `inline-flex w-full justify-between rounded-2xl px-3 py-2 text-sm font-medium bg-white shadow focus:ring-2 focus:ring-brand-500`]"
         >
           <slot></slot>
           <ChevronDownIcon
             v-if="!disabled"
             class="-mr-1 ml-2 h-5 w-5  hover:text-violet-100"
+            aria-hidden="true"
+          />
+          <StarIcon
+            v-else
+            class="mt-[2px] h-4 w-4  hover:text-violet-100"
             aria-hidden="true"
           />
         </MenuButton>
@@ -40,7 +45,7 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
-import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon, StarIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 

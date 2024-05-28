@@ -1,5 +1,5 @@
 <template>
-  <label class="ml-2 font-semibold text-gray-500">{{ title }}</label>
+  <label class="ml-2 font-semibold text-brand-200">{{ title }}</label>
   <DataTransition>
     <Link
       v-for="(item, index) in data"
@@ -8,13 +8,13 @@
       @click="loadingAnimation(index)"
       :class="[
         item.component === $page.component ?
-          'bg-brand-100 text-brand-900' :
-          'text-gray-600 hover:bg-brand-100/50 hover:text-gray-900',
-        'group flex items-center px-2 py-2 text-sm font-medium rounded-md mb-1']"
+          'bg-brand-200 text-brand-900' :
+          'text-brand-100 hover:bg-brand-100 hover:text-gray-900',
+        'group flex items-center px-2 py-2 text-sm font-medium rounded-2xl mb-1']"
     >
-      <ArrowPathIcon v-if="index == indexLoading" class="text-gray-500 mr-3 h-6 w-6 animate-spin" aria-hidden="true" />
-      <component v-else-if="item.href == removeURLParameter($page.url, '=')" :is="item.icon" class="text-gray-500 mr-3 h-6 w-6" aria-hidden="true" />
-      <component v-else :is="item.icon" :class="['text-brand-400 group-hover:text-gray-500', 'mr-3 h-6 w-6']" aria-hidden="true" />
+      <ArrowPathIcon v-if="index == indexLoading" class="text-brand-100 mr-3 h-6 w-6 animate-spin group-hover:text-brand-700" aria-hidden="true" />
+      <component v-else-if="item.href == removeURLParameter($page.url, '=')" :is="item.icon" class="text-brand-500 mr-3 h-6 w-6" aria-hidden="true" />
+      <component v-else :is="item.icon" :class="['text-brand-100 group-hover:text-brand-700', 'mr-3 h-6 w-6']" aria-hidden="true" />
       <div class="truncate">{{ item.name }}</div>
     </Link>
   </DataTransition>

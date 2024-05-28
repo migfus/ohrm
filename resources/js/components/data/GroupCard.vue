@@ -29,7 +29,7 @@
       </div>
 
       <div class="flex mx-4 gap-2 flex-wrap">
-        <span v-for="user in data.heads" :key="user.id" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-yellow-700 ring-1 bg-yellow-50 shadow-sm ring-inset ring-gray-200">
+        <span v-for="user in data.heads" :key="user.id" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-brand-50 bg-brand-400 shadow">
           <img :src="user.avatar" class="h-4 w-4 rounded-full"/>
           @{{ user.name }}
         </span>

@@ -5,9 +5,9 @@
       <p class="mt-2 max-w-4xl text-sm text-gray-500">{{ desc }}</p>
     </div>
 
-    <div v-if="allowSearch" class="mt-3 flex ">
+    <div v-if="allowSearch" class="mt-3 flex">
       <AppButton @click="add()" color="brand" :icon="PlusIcon" class="mb-[8px] h-[34px] rounded-r-sm">Add</AppButton>
-      <AppInput v-model="$model" :error="undefined" name="search" placeholder="Search" noLabel size="sm" injectCSS="rounded-l-sm"/>
+      <AppInput v-model="$model" :error="undefined" name="search" placeholder="Search" noLabel size="sm" injectCSS="rounded-l-sm" class="flex-grow"/>
     </div>
 
   </div>
