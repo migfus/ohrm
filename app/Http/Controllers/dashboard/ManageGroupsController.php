@@ -12,14 +12,17 @@ use App\Models\User;
 class ManageGroupsController extends Controller
 {
   public function index(Request $req): Response {
+    $val = $req->validate([
+      'search' => [],
+    ]);
+
     $groups = Team::query()
       ->select('display_name', 'name', 'id', 'avatar')
       ->whereNot('name', 'system')
       ->when($req->search != '', function ($q) use($req) {
-        $q->where(`display_name`, `LIKE`, `%`.$req->search.`%`);
+        $q->where("display_name", 'LIKE', "%$req->search%");
       })
-      ->with(['users' => function($q) {
-      }])
+      ->with(['heads', 'members'])
       ->paginate(10);
 
     return Inertia::render(
@@ -58,22 +61,42 @@ class ManageGroupsController extends Controller
       'description' => ['required'],
       'avatar' => ['required'],
       'cover' => ['required'],
-      'invitedUsers.*' => ['required', 'uuid'],
+      'invitedUsers.*' => ['required'],
     ]);
+
+    $heads = array_filter($req->invitedUsers, function($row) {
+      if(isset($row['type'])) {
+        if($row['type'] == 'head')
+          return true;
+      }
+      return false;
+    });
+    $staffs = array_filter($req->invitedUsers, function($row) {
+      if(isset($row['type'])) {
+        if($row['type'] =='member')
+          return true;
+      }
+      return false;
+    });
+
 
     $team = Team::create([
       'name' => $req->name,
       'display_name' => $req->name,
       'description' => $req->description,
-      'avatar' => $req->avatar,
-      'cover' => $req->cover,
     ]);
-    // NOTE: ADD ROLE to auth->user as Head
-    $req->user()->addRole('head', $team->name);
+    Team::find($team->id)->update([
+      'avatar' => $this->GUploadAvatar($req->avatar, `groups/$team->id/avatar/`),
+      'cover' => $this->GUploadAvatar($req->cover, `groups/$team->id/cover/`)
+    ]);
 
+    // NOTE: ADD ROLE to head
+    foreach($heads as $head) {
+      User::find($head['id'])->addRole('head', $team->name);
+    }
     // NOTE: Invited User as Staff in group;
-    foreach($req->invitedUsers as $userId) {
-      User::where('id', $userId)->first()->addRole('staff', $team->name);
+    foreach($staffs as $staff) {
+      User::find($staff['id'])->addRole('staff', $team->name);
     }
 
     return to_route('dashboard.manage-groups.index')->with('flash', ['success' => 'Successfuly Added']);
@@ -90,7 +113,7 @@ class ManageGroupsController extends Controller
       ->select('id', 'name', 'display_name', 'avatar', 'cover', 'description')
       ->where('id', $id)
       ->whereNot('name', 'system')
-      ->with(['head', 'members'])
+      ->with(['heads', 'members'])
       ->first();
 
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [

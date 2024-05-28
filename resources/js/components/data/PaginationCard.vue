@@ -3,8 +3,8 @@
     <TailwindPagination
       :data
       @pagination-change-page="changePage"
-      :active-classes="['bg-brand-400', 'text-white', 'border-brand-500']"
-      :item-classes="['border-brand-300', 'text-brand-600']"
+      :active-classes="['bg-brand-400', 'text-white', 'border-brand-200', 'shadow-inner rounded']"
+      :item-classes="['border-brand-100', 'text-brand-600', 'bg-white', 'shadow']"
     />
   </div>
 </template>

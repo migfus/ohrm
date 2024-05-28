@@ -64,7 +64,7 @@ export interface TTeam {
   display_name: string
   description: string
   created_at: string
-  head: TUser[]
+  heads: TUser[]
   members: TUser[]
 }
 

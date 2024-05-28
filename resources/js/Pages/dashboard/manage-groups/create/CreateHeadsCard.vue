@@ -5,7 +5,7 @@
     description="List of staff that has access to this group."
   >
     <DataTransition>
-      <MemberDropdownMenu v-for="user, index in filteredUsers" :key="user.id" :id="user.id" @selected="RemoveMember(index)" :disabled="user.disabled">
+      <MemberDropdownMenu v-for="user in filteredUsers" :key="user.id" :id="user.id" @selected="RemoveMember(user.id)" :disabled="user.disabled">
         <div class="flex justify-start">
           <img :src="user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mb-[3px]">
           <span class="truncate">{{ user.name }}</span>
@@ -52,7 +52,7 @@ defineProps<{
 }>()
 
 const removeOpen = ref<boolean>(false)
-const selectedUser = ref<number>()
+const selectedUser = ref<string>()
 const filteredUsers = computed(() => {
   if($model.value) {
     const arrayUser = Array.from($model.value)
@@ -61,13 +61,14 @@ const filteredUsers = computed(() => {
   return null
 })
 
-function RemoveMember(index: number) {
+function RemoveMember(id: string) {
   removeOpen.value = true
-  selectedUser.value = index
+  selectedUser.value = id
 }
 function ConfirmRemove() {
-  if(selectedUser!.value) {
-    $model.value?.splice(selectedUser.value, 1)
+  if(selectedUser!.value !== undefined) {
+    const index = $model.value?.findIndex(user => user.id === selectedUser.value) as number
+    $model.value?.splice(index, 1)
   }
 }
 </script>
