@@ -6,8 +6,9 @@
       v-model:name="form.name"
       :heads="data.heads"
       :confirmButton="{
-        text: 'Update',
-        icon: CheckIcon
+        text: 'Delete',
+        icon: XMarkIcon,
+        color: 'danger'
       }"
       @remove="removeGroup"
     />
@@ -43,7 +44,7 @@ import GroupHeatMapCard from './GroupHeatMapCard.vue'
 import UpateBasicCard from './UpdateBasicCard.vue'
 import MembersCard from './MembersCard.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'
-import { CheckIcon } from '@heroicons/vue/20/solid'
+import { XMarkIcon } from '@heroicons/vue/20/solid'
 import UpdateTasksCard from './UpdateTasksCard.vue'
 import UpdateHeadsCard from './UpdateHeadsCard.vue'
 

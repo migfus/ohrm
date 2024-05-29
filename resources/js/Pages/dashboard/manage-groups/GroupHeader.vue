@@ -20,10 +20,9 @@
 
           </div>
           <div class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
-            <AppButton href="/dashboard/manage-groups" :icon="XMarkIcon" color="danger">Cancel</AppButton>
+            <AppButton href="/dashboard/manage-groups" :icon="XMarkIcon" :color="confirmButton.color == 'danger' ? '' : ''">Cancel</AppButton>
 
-            <AppButton :icon="confirmButton.icon" @click="$emit('confirm')" color="brand">{{ confirmButton.text }}</AppButton>
-
+            <AppButton :icon="confirmButton.icon" @click="$emit('confirm')" :color="confirmButton.color">{{ confirmButton.text }}</AppButton>
           </div>
         </div>
       </div>
@@ -50,6 +49,7 @@ defineProps<{
   confirmButton: {
     text: string
     icon: FunctionalComponent
+    color: string
   }
 }>()
 const $emit = defineEmits(['confirm'])

@@ -7,7 +7,8 @@
       :heads="invitedUsers.filter(user => user.type == 'head')"
       :confirmButton="{
         text: 'Save',
-        icon: PlusIcon
+        icon: PlusIcon,
+        color: 'brand'
       }"
       @confirm="submit()"
     />
