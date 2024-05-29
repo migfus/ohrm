@@ -1,18 +1,33 @@
 <template>
   <div>
-    <GroupHeader v-model:avatar="form.avatar" v-model:cover="form.cover" :form :head="data.head[0]" @remove="removeGroup"/>
+    <GroupHeader
+      v-model:avatar="form.avatar"
+      v-model:cover="form.cover"
+      v-model:name="form.name"
+      :heads="data.heads"
+      :confirmButton="{
+        text: 'Update',
+        icon: CheckIcon
+      }"
+      @remove="removeGroup"
+    />
     <FlashErrors :errors="$page.props.errors"/>
 
     <div class="grid grid-cols-4 gap-4 mt-4">
       <div class="col-span-4 lg:col-span-1">
-        <UpateBasicCard :group="data"/>
-        <OwnerCard :user="data.head[0]" class="mt-4"/>
+        <UpateBasicCard
+          v-model:name="form.name"
+          v-model:description="form.description"
+          :id="data.id"
+        />
+        <UpdateTasksCard :tasks="data.tasks" :id="data.id"/>
+
       </div>
       <div class="col-span-4 lg:col-span-2">
         <GroupHeatMapCard />
       </div>
       <div class="col-span-4 lg:col-span-1">
-        <TasksCard :users="data.members" />
+        <UpdateHeadsCard :users="data.heads"/>
         <MembersCard :users :members="data.members" :id="data.id"/>
       </div>
     </div>
@@ -23,13 +38,14 @@
 import { router } from '@inertiajs/vue3'
 import { TTeam, TUser } from '@/globalTypes'
 
-import GroupHeader from './GroupHeader.vue'
+import GroupHeader from '.././GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
 import UpateBasicCard from './UpdateBasicCard.vue'
-import OwnerCard from './OwnerCard.vue'
 import MembersCard from './MembersCard.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'
-import TasksCard from './TasksCard.vue'
+import { CheckIcon } from '@heroicons/vue/20/solid'
+import UpdateTasksCard from './UpdateTasksCard.vue'
+import UpdateHeadsCard from './UpdateHeadsCard.vue'
 
 const $props = defineProps<{
   data: TTeam
@@ -41,10 +57,12 @@ const form = router.form({
   description: $props.data.description,
   avatar: $props.data.avatar,
   cover: $props.data.cover,
-  head: $props.data.head
+  heads: $props.data.heads
 })
 
 function removeGroup() {
   router.delete(`/dashboard/manage-groups/${$props.data.id}`)
 }
+
+
 </script>

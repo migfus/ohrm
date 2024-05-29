@@ -5,7 +5,7 @@
     description="List of staff that has access to this group."
   >
     <DataTransition>
-      <MemberDropdownMenu v-for="user in filteredUsers" :key="user.id" :id="user.id" @selected="RemoveMember(user.id)" :disabled="user.disabled">
+      <MemberDropdownMenu v-for="user in filteredUsers" :key="user.id" :id="user.id" @selected="RemoveMember(user.id)" :disabled="false">
         <div class="flex justify-start">
           <img :src="user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mt-[3px]">
           <span class="truncate">{{ user.name }}</span>
@@ -16,8 +16,8 @@
 
     <div class="flex flex-col">
       <UsersComboBox
-        v-model="$invitedUsersModel"
-        type="head"
+        :users
+        @selected="(v: TUserWithParams) => $model?.push({...v, type:'head' } as TUserWithParams)"
         name="Users"
         class="my-3"
         label="Invite a heads"
@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { TUser, TUserWithType } from '@/globalTypes'
+import { TUser } from '@/globalTypes'
 import { ref, computed } from 'vue'
 
 import { StarIcon } from '@heroicons/vue/24/solid'
@@ -41,28 +41,34 @@ import DataTransition from '@/components/transitions/DataTransition.vue'
 import UsersComboBox from '.././UsersComboBox.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
 
-const $invitedUsersModel = defineModel<TUserWithType[]>()
+const $model = defineModel<TUserWithParams []>()
+
+interface TUserWithParams extends TUser {
+  disabled: boolean
+  type: 'head' |'member'
+}
+defineProps<{
+  users: TUser[]
+}>()
 
 const removeOpen = ref<boolean>(false)
-const selectedUser = ref<TUser>()
+const selectedUser = ref<string>()
 const filteredUsers = computed(() => {
-  if($invitedUsersModel.value) {
-    return Array.from($invitedUsersModel.value.filter(user => user.type == 'head'))
+  if($model.value) {
+    const arrayUser = Array.from($model.value)
+    return new Set(arrayUser.filter(user => user.type ==='head'))
   }
   return null
 })
 
 function RemoveMember(id: string) {
-  if($invitedUsersModel.value !== undefined) {
-    removeOpen.value = true
-    selectedUser.value = $invitedUsersModel.value?.find(user => user.id === id)
-  }
+  removeOpen.value = true
+  selectedUser.value = id
 }
 function ConfirmRemove() {
   if(selectedUser!.value !== undefined) {
-    const index = $invitedUsersModel.value?.findIndex(user => user.id === selectedUser.value!.id) as number
-    $invitedUsersModel.value?.splice(index, 1)
+    const index = $model.value?.findIndex(user => user.id === selectedUser.value) as number
+    $model.value?.splice(index, 1)
   }
 }
-
 </script>

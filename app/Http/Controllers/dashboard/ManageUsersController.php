@@ -13,6 +13,28 @@ use Illuminate\Support\Facades\Auth;
 
 class ManageUsersController extends Controller
 {
+  // NOTE: SEARCH ALL
+  public function all(Request $req) {
+    // dd($req->filter);
+    if(isset($req->search)) {
+      return response()->json(
+        User::query()
+          ->select('name', 'id', 'avatar')
+          ->when($req->filter != '', function($q) use ($req) {
+            $q->whereNotIn('id', array_column($req->filter, 'id'));
+          })
+          ->where('name', 'LIKE', '%'. $req->search. '%')
+          ->orderBy('name', 'ASC')
+          ->limit(5)
+          ->get()
+      );
+    }
+    return User::query()
+      ->select('name', 'id', 'avatar')
+      ->orderBy('name', 'ASC')
+      ->limit(5)
+      ->get();
+  }
   // NOTE: ALL
   public function index(Request $req) : Response {
     $roles = Role::select('display_name', 'name', 'icon')->orderBy('created_at', 'ASC')->get();

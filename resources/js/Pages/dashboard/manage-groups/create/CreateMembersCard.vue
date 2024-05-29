@@ -19,8 +19,8 @@
 
     <div class="flex flex-col">
       <UsersComboBox
-        :users
-        @selected="(v: TUserWithParams) => $model?.push({...v, type:'member' } as TUserWithParams)"
+        v-model="$invitedUsersModel"
+        type="member"
         name="Users"
         class="my-3"
       />
@@ -33,46 +33,36 @@
 </template>
 
 <script setup lang="ts">
-import { TUser } from '@/globalTypes'
+import { TUser, TUserWithType } from '@/globalTypes'
 import { ref, computed } from 'vue'
 
 import { AtSymbolIcon } from '@heroicons/vue/24/solid'
 import MemberDropdownMenu from '.././MemberDropdownMenu.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
-import DataTransition from '@/components/transitions/DataTransition.vue'
 import UsersComboBox from '.././UsersComboBox.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
 
-interface TUserWithParams extends TUser {
-  disabled: boolean
-  type: 'head' |'member'
-}
-
-const $model = defineModel<TUserWithParams []>()
-
-defineProps<{
-  users: TUserWithParams[]
-}>()
+const $invitedUsersModel = defineModel<TUserWithType[]>()
 
 const removeOpen = ref<boolean>(false)
-const selectedUser = ref<string>()
+const selectedUser = ref<TUser>()
 const filteredUsers = computed(() => {
-  if($model.value) {
-    const arrayUser = Array.from($model.value)
-    return new Set(arrayUser.filter(user => user.type ==='member'))
+  if($invitedUsersModel.value) {
+    return Array.from($invitedUsersModel.value.filter(user => user.type == 'member'))
   }
   return null
 })
 
-
 function RemoveMember(id: string) {
-  removeOpen.value = true
-  selectedUser.value = id
+  if($invitedUsersModel.value !== undefined) {
+    removeOpen.value = true
+    selectedUser.value = $invitedUsersModel.value?.find(user => user.id === id)
+  }
 }
 function ConfirmRemove() {
   if(selectedUser!.value !== undefined) {
-    const index = $model.value?.findIndex(user => user.id === selectedUser!.value) as number
-    $model.value?.splice(index, 1)
+    const index = $invitedUsersModel.value?.findIndex(user => user.id === selectedUser.value!.id) as number
+    $invitedUsersModel.value?.splice(index, 1)
   }
 }
 </script>

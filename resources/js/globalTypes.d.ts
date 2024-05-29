@@ -56,6 +56,11 @@ export interface TUser {
   roles_teams_head?: TTeam[]
 }
 
+export interface TUserWithType extends TUser {
+  type: 'head' |'member'
+  disabled: boolean
+}
+
 export interface TTeam {
   id: string
   name: string
@@ -66,6 +71,7 @@ export interface TTeam {
   created_at: string
   heads: TUser[]
   members: TUser[]
+  tasks: TTask []
 }
 
 export interface TRole {
@@ -126,11 +132,11 @@ export interface TFilters {
 }
 
 export interface TTask {
-  id: string
-  team_id: string
+  id?: string
+  team_id?: string
   name: string
-  description: string
-  active: boolean
-  cover: string
-  created_at: Date
+  description?: string
+  active?: boolean
+  cover?: string
+  created_at?: Date
 }

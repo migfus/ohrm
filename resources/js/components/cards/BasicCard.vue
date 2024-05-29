@@ -1,6 +1,6 @@
 <template>
   <BasicTransition>
-    <div class="bg-brand-50 p-4 shadow rounded-2xl group">
+    <div class="bg-brand-50 p-4 shadow rounded-2xl group mb-4">
       <div class="px-4 sm:px-0">
         <div class="flex justify-between">
           <h3 class="text-base font-semibold leading-7 text-gray-900">
@@ -12,7 +12,7 @@
         <p v-if="description" class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{{ description }}</p>
       </div>
 
-      <div class="mt-6">
+      <div class="mt-4">
         <slot></slot>
       </div>
   </div>

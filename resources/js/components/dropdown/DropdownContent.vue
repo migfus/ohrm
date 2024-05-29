@@ -2,7 +2,7 @@
   <MenuItem v-slot="{ active }">
     <button
       :class="[
-        active ? 'bg-brand-400 text-white' : 'text-gray-900',
+        active ? 'bg-brand-400 text-white shadow' : 'text-gray-900',
         danger && 'text-red-400',
         danger && active ? 'bg-red-400' : '',
         'group flex w-full items-center rounded-2xl px-2 py-2 text-sm',

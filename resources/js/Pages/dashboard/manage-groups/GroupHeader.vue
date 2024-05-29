@@ -10,7 +10,7 @@
         </div>
         <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
           <div class="mt-6 min-w-0 flex-1 sm:hidden md:block">
-            <h1 class="truncate text-2xl font-bold text-brand-900">g/{{ form.name }}</h1>
+            <h1 class="truncate text-2xl font-bold text-brand-900">g/{{ name }}</h1>
             <div class="flex gap-4">
               <h1 v-for="head in heads" :key="head.id" class="truncate font-bold text-brand-500 inline">
                 <img :src="head.avatar" class="h-5 w-5 inline rounded-xl"/>
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="mt-6 hidden min-w-0 flex-1 sm:block md:hidden">
-        <h1 class="truncate text-2xl font-bold text-gray-900">{{ form.name }}</h1>
+        <h1 class="truncate text-2xl font-bold text-gray-900">{{ $name }}</h1>
       </div>
     </div>
 
@@ -39,22 +39,13 @@
 
 <script setup lang="ts">
 import { ref, FunctionalComponent} from 'vue'
-import { usePage } from '@inertiajs/vue3'
 import { TUser } from '@/globalTypes'
 
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 
-const $page = usePage<{
-  auth: {
-    name: string
-  }
-}>()
-const $props = defineProps<{
-  form: {
-    name: string
-  }
+defineProps<{
   heads: TUser []
   confirmButton: {
     text: string
@@ -65,6 +56,7 @@ const $emit = defineEmits(['confirm'])
 
 const $avatar = defineModel<string>('avatar')
 const $cover = defineModel<string>('cover')
+const $name = defineModel<string>('name')
 
 const openAvatar = ref(false)
 const openCover = ref(false)

@@ -3,7 +3,7 @@
     <GroupHeader
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
-      :form
+      v-model:name="form.name"
       :heads="invitedUsers.filter(user => user.type == 'head')"
       :confirmButton="{
         text: 'Save',
@@ -22,11 +22,11 @@
 
 
       <div class="col-span-4 lg:col-span-2 xl:col-span-1 mt-4">
-        <CreateHeadsCard :users="filterUsers" v-model="invitedUsers"/>
+        <CreateHeadsCard v-model="invitedUsers"/>
       </div>
 
       <div class="col-span-4 lg:col-span-2 xl:col-span-1 mt-4">
-        <CreateMembersCard :users="filterUsers" v-model="invitedUsers"/>
+        <CreateMembersCard v-model="invitedUsers"/>
       </div>
 
       <div class="col-span-4 lg:col-span-2 xl:col-span-1 mt-4">
@@ -40,10 +40,10 @@
 <script setup lang="ts">
 import { router, usePage } from '@inertiajs/vue3'
 import { TUser } from '@/globalTypes'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 import GroupHeader from '.././GroupHeader.vue'
-import { PlusIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'
+import { PlusIcon } from '@heroicons/vue/24/outline'
 import FlashErrors from '@/components/header/FlashErrors.vue'
 import SharedProps from '@/SharedProps'
 import CreateBasicCard from './CreateBasicCard.vue'
@@ -70,9 +70,6 @@ const form = router.form({
 })
 
 const invitedUsers = ref<TUserWithParams []>($page.props.auth ? [{...$page.props.auth, disabled: true, type: 'head'}] : [])
-const filterUsers = computed(() => {
-  return $props.users.filter(({id: id1}) => !invitedUsers.value.some(({id: id2}) => id1 === id2))
-})
 
 function submit() {
   if(invitedUsers.value) {

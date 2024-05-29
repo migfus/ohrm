@@ -10,7 +10,7 @@
             <div>
               <p class="truncate text-sm font-semibold text-brand-700">g/{{ data.display_name }}</p>
               <p class="mt-2 flex items-center text-sm text-brand-500 font-semibold">
-                <span class="truncate">{{ data.name }}</span>
+                <span class="truncate">{{ data.description }}</span>
               </p>
             </div>
             <div class="hidden md:block">
@@ -44,7 +44,6 @@
 
 <script setup lang="ts">
 import { TTeam } from '@/globalTypes'
-import moment from 'moment'
 import { ChevronRightIcon } from '@heroicons/vue/20/solid'
 
 const { data } = defineProps<{

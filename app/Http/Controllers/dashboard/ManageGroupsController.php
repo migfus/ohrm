@@ -19,7 +19,7 @@ class ManageGroupsController extends Controller
     ]);
 
     $groups = Team::query()
-      ->select('display_name', 'name', 'id', 'avatar')
+      ->select('display_name', 'description', 'name', 'id', 'avatar')
       ->whereNot('name', 'system')
       ->when($req->search != '', function ($q) use($req) {
         $q->where("display_name", 'LIKE', "%$req->search%");
@@ -133,7 +133,7 @@ class ManageGroupsController extends Controller
       ->select('id', 'name', 'display_name', 'avatar', 'cover', 'description')
       ->where('id', $id)
       ->whereNot('name', 'system')
-      ->with(['heads', 'members'])
+      ->with(['heads', 'members', 'tasks'])
       ->first();
 
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
@@ -150,12 +150,49 @@ class ManageGroupsController extends Controller
       case'remove-member':
         $this->RemoveMember($req, $id);
         break;
+      case 'addTask':
+        $this->AddTask($req, $id);
+        break;
+      case 'removeTask':
+        $this->RemoveTask($req, $id);
+        break;
+      case 'updateTask':
+        $this->updateTask($req);
+        break;
+      case'removeTask':
       default:
         return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['type' => 'Type value is missing']);
     }
 
     return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('flash', ['success' => 'Successfuly Updated']);
   }
+    private function updateTask(Request $req): void {
+      $req->validate([
+        'taskId' => ['required', 'uuid'],
+        'name' => ['required'],
+      ]);
+
+      Task::where('id', $req->taskId)->update([
+        'name' => $req->name,
+      ]);
+    }
+    private function RemoveTask(Request $req): void {
+      $req->validate([
+        'taskId' => ['required', 'uuid'],
+      ]);
+
+      Task::where('id', $req->taskId)->delete();
+    }
+    private function AddTask(Request $req, $id): void {
+      $req->validate([
+        'name' => ['required'],
+      ]);
+
+      Task::create([
+        'team_id' => $id,
+        'name' => $req->name,
+      ]);
+    }
     private function UpdateBasic(Request $req, $id) : void {
       $val = $req->validate([
         'name' => ['required'],

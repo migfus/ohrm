@@ -6,10 +6,10 @@ import Layout from '@/layout/BaseLayout.vue'
 import Notifications from 'notiwind'
 
 createInertiaApp({
-  resolve: name => {
-    const pages = import.meta.glob<DefineComponent>('./Pages/**/*.vue', { eager: true })
-    let page = pages[`./Pages/${name}.vue`]
-    page.default.layout = page.default.layout || Layout
+  resolve: async name => {
+    const pages = import.meta.glob<DefineComponent>('./Pages/**/*.vue')
+    let page = (await pages[`./Pages/${name}.vue`]()).default
+    page.layout = page.layout || Layout
     return page
   },
   setup({ el, App, props, plugin }) {

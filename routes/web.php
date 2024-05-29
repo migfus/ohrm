@@ -41,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
 
     // NOTE: ADMIN
     Route::resource('/manage-groups', ManageGroupsController::class)->except('show');
+      Route::get('/manage-users/all', [ManageUsersController::class, 'all'])->name('manage-users.all'); // NOTE: manage-groups search all possible users
     Route::resource('/manage-users', ManageUsersController::class)->except('show');
     Route::resource('/manage-roles-permissions', ManageRolesPermissionsController::class)->only(['index', 'create']);
     Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);
