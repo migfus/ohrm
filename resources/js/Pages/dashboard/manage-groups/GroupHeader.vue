@@ -31,8 +31,22 @@
       </div>
     </div>
 
-    <UploadAvatarModal v-model="$avatar" v-model:show="openAvatar" name="Upload Avatar" :ratio="1" :size="[400, 400]"/>
-    <UploadAvatarModal v-model="$cover" v-model:show="openCover" name="Upload Cover" :ratio="639/95" :size="[1278*4, 190*4]"/>
+    <UploadAvatarModal
+      v-model="$avatar"
+      v-model:show="openAvatar"
+      name="Upload Avatar"
+      :ratio="1"
+      :size="[400, 400]"
+      @upload="$emit('updateImage', $avatar)"
+    />
+    <UploadAvatarModal
+      v-model="$cover"
+      v-model:show="openCover"
+      name="Upload Cover"
+      :ratio="639/95"
+      :size="[1278*4, 190*4]"
+      @upload="$emit('updateImage', $cover)"
+    />
   </div>
 </template>
 
@@ -52,7 +66,7 @@ defineProps<{
     color: string
   }
 }>()
-const $emit = defineEmits(['confirm'])
+const $emit = defineEmits(['confirm', 'updateImage'])
 
 const $avatar = defineModel<string>('avatar')
 const $cover = defineModel<string>('cover')

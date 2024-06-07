@@ -215,6 +215,8 @@ class ManageGroupsController extends Controller
 
   // NOTE: Remove
   public function destroy($id) : RedirectResponse {
+    Team::find($id)->delete();
+
     return to_route('dashboard.manage-groups.index')->with('flash', ['success' => 'Successfuly Removed']);
   }
 }

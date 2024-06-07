@@ -10,7 +10,8 @@
         icon: XMarkIcon,
         color: 'danger'
       }"
-      @remove="removeGroup"
+      @confirm="remove()"
+      @updateImage="avatarUpload"
     />
     <FlashErrors :errors="$page.props.errors"/>
 
@@ -32,10 +33,15 @@
         <MembersCard :users :members="data.members" :id="data.id"/>
       </div>
     </div>
+
+    <RemovalPrompt v-model="openPrompt" title="Deletion Group" confirmMessage="Yes, Delete Group!" @confirm="removeGroup">
+      Do you want to remove this group? This action cannot be undone.
+    </RemovalPrompt>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { TTeam, TUser } from '@/globalTypes'
 
@@ -47,6 +53,7 @@ import FlashErrors from '@/components/header/FlashErrors.vue'
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import UpdateTasksCard from './UpdateTasksCard.vue'
 import UpdateHeadsCard from './UpdateHeadsCard.vue'
+import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 const $props = defineProps<{
   data: TTeam
@@ -61,9 +68,19 @@ const form = router.form({
   heads: $props.data.heads
 })
 
+const openPrompt = ref<boolean>(false)
+
+function remove() {
+  openPrompt.value = true
+}
 function removeGroup() {
   router.delete(`/dashboard/manage-groups/${$props.data.id}`)
 }
 
-
+function avatarUpload(value: string) {
+  router.put(`/dashboard/manage-groups/${$props.data.id}`, {avatar: value, type: 'avatar'})
+}
+function coverUpload(value: string) {
+  router.put(`/dashboard/manage-groups/${$props.data.id}`, {cover: value, type: 'cover'})
+}
 </script>
