@@ -3,12 +3,12 @@
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog as="div" class="relative z-40 md:hidden" @close="sidebarOpen = false">
         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100" leave-to="opacity-0">
-          <div class="fixed inset-0 bg-gray-600 bg-opacity-75" />
+          <div class="fixed inset-0 bg-gray-600 bg-opacity-75 backdrop-blur-sm" />
         </TransitionChild>
 
         <div class="fixed inset-0 z-40 flex">
           <TransitionChild as="template" enter="transition ease-in-out duration-300 transform" enter-from="-translate-x-full" enter-to="translate-x-0" leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0" leave-to="-translate-x-full">
-            <DialogPanel class="relative flex w-full max-w-xs flex-1 flex-col bg-brand-500 pt-5 pb-4">
+            <DialogPanel class="relative flex w-full max-w-xs flex-1 flex-col bg-brand-700 pt-5 pb-4">
               <TransitionChild as="template" enter="ease-in-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-300" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="absolute top-0 right-0 -mr-12 pt-2">
                   <button type="button" class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="sidebarOpen = false">
@@ -17,7 +17,7 @@
                   </button>
                 </div>
               </TransitionChild>
-              <div class="flex flex-shrink-0 items-center h-14 px-4 mx-4 text-brand-700 rounded-2xl bg-brand-100">
+              <div class="flex flex-shrink-0 items-center h-14 px-4 mx-4 text-brand-700 rounded-2xl bg-brand-100 shadow">
                 <TopNavigationLogo :logo :title/>
                 <label class="text-sm font-semibold">{{ $props.title }}</label>
               </div>
@@ -26,7 +26,7 @@
                   <SideNavigationContent title="Dashboard" :data="CSidebarNavigation" v-model="sidebarOpen"/>
                   <SideNavigationContent title="Admin" :data="CAdminNavigation" v-model="sidebarOpen"/>
                   <SideNavigationContent title="Pages" :data="CTopNavigation" v-model="sidebarOpen"/>
-                </nav>
+              </nav>
               </div>
             </DialogPanel>
           </TransitionChild>

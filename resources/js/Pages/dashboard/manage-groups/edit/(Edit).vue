@@ -23,7 +23,6 @@
           :id="data.id"
         />
         <UpdateTasksCard :tasks="data.tasks" :id="data.id"/>
-
       </div>
       <div class="col-span-4 lg:col-span-2">
         <GroupHeatMapCard />

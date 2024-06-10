@@ -6,15 +6,15 @@
     <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
       <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
         <div class="flex">
-          <img @click="openAvatar = true" class="hover:shadow-xl transition-all cursor-pointer h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32 hover:opacity-80" :src="$avatar" alt="" />
+          <img @click="openAvatar = true" class="shadow transition-all cursor-pointer h-24 w-24 rounded-2xl ring-4 ring-white sm:h-32 sm:w-32 hover:opacity-80" :src="$avatar" alt="" />
         </div>
         <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
           <div class="mt-6 min-w-0 flex-1 sm:hidden md:block">
-            <h1 class="truncate text-2xl font-bold text-brand-900">g/{{ name }}</h1>
+            <h1 class="truncate text-2xl font-bold text-brand-900">{{ name }}</h1>
             <div class="flex gap-4">
               <h1 v-for="head in heads" :key="head.id" class="truncate font-bold text-brand-500 inline">
                 <img :src="head.avatar" class="h-5 w-5 inline rounded-xl"/>
-                @{{ head.name }}
+                {{ head.name }}
               </h1>
             </div>
 

@@ -2,7 +2,6 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\Models\Role;
-use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,6 +34,7 @@ class ManageUsersController extends Controller
       ->limit(5)
       ->get();
   }
+
   // NOTE: ALL
   public function index(Request $req) : Response {
     $roles = Role::select('display_name', 'name', 'icon')->orderBy('created_at', 'ASC')->get();
@@ -62,7 +62,7 @@ class ManageUsersController extends Controller
         $q->whereHasRole($type, 'system');
       })
       ->with(['rolesTeams' => function ($q) {
-        $q->orderBy('created_at', 'ASC');
+        $q->whereNot('name', 'system')->orderBy('created_at', 'ASC');
       }])
       ->orderBy('name', 'ASC')
       ->paginate(10);

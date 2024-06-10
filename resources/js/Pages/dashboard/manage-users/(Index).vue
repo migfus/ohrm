@@ -10,7 +10,6 @@
 
     <TabSection v-model="selected" :data="roles" @selectedData="changeTab"/>
 
-
     <div class="overflow-hidden bg-white shadow sm:rounded-xl mt-2">
       <DataTransition v-if="$props.data.data.length > 0" role="list" class="divide-y divide-gray-200">
         <UserCard v-for="row in $props.data.data" :data="row" :key="row.id"/>

@@ -4,7 +4,7 @@
       <div class="flex items-center px-4 py-4 sm:px-6">
         <div class="flex min-w-0 flex-1 items-center">
           <div class="flex-shrink-0">
-            <img class="h-12 w-12 rounded-full" :src="data.avatar" alt="" />
+            <img class="h-12 w-12 rounded-xl" :src="data.avatar" alt="" />
           </div>
           <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
             <div>
@@ -29,13 +29,13 @@
       </div>
 
       <div class="flex mx-4 gap-2 flex-wrap">
-        <span v-for="user in data.heads" :key="user.id" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-brand-50 bg-brand-400 shadow">
+        <span v-for="user in data.heads" :key="user.id" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-brand-50 bg-brand-500 shadow">
           <img :src="user.avatar" class="h-4 w-4 rounded-full"/>
-          @{{ user.name }}
+          {{ user.name }}
         </span>
         <span v-for="user in data.members" :key="user.id" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 bg-white shadow-sm ring-inset ring-gray-200">
           <img :src="user.avatar" class="h-4 w-4 rounded-full"/>
-          @{{ user.name }}
+          {{ user.name }}
         </span>
       </div>
     </Link>
