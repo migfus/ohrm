@@ -12,9 +12,9 @@
           <div class="mt-6 min-w-0 flex-1 sm:hidden md:block">
             <h1 class="truncate text-2xl font-bold text-brand-900">{{ name }}</h1>
             <div class="flex gap-4">
-              <h1 v-for="head in heads" :key="head.id" class="truncate font-bold text-brand-500 inline">
-                <img :src="head.avatar" class="h-5 w-5 inline rounded-xl"/>
-                {{ head.name }}
+              <h1 v-for="head in heads" :key="head.id" class="truncate font-semibold text-brand-500 inline">
+                <img :src="head.user.avatar" class="h-5 w-5 inline rounded-xl mr-1"/>
+                {{ head.user.name }}
               </h1>
             </div>
 
@@ -37,7 +37,7 @@
       name="Upload Avatar"
       :ratio="1"
       :size="[400, 400]"
-      @upload="$emit('updateImage', $avatar)"
+      @upload="$emit('uploadAvatar', $avatar)"
     />
     <UploadAvatarModal
       v-model="$cover"
@@ -45,32 +45,35 @@
       name="Upload Cover"
       :ratio="639/95"
       :size="[1278*4, 190*4]"
-      @upload="$emit('updateImage', $cover)"
+      @upload="$emit('uploadCover', $cover)"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, FunctionalComponent} from 'vue'
-import { TUser } from '@/globalTypes'
+import { ref, FunctionalComponent, computed } from 'vue'
+import { TGroupMember } from '@/globalTypes'
 
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 
-defineProps<{
-  heads: TUser []
+const $props = defineProps<{
+  members: TGroupMember []
   confirmButton: {
     text: string
     icon: FunctionalComponent
     color: string
   }
 }>()
-const $emit = defineEmits(['confirm', 'updateImage'])
+const $emit = defineEmits(['confirm', 'uploadAvatar', 'uploadCover'])
 
 const $avatar = defineModel<string>('avatar')
 const $cover = defineModel<string>('cover')
 const $name = defineModel<string>('name')
+const heads = computed(() => {
+  return $props.members.filter(user => user.role.name == 'admin')
+})
 
 const openAvatar = ref(false)
 const openCover = ref(false)

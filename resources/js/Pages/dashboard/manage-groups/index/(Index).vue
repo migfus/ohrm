@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { ref, watch, reactive } from 'vue'
-import { TFilters, TTab, TTeam } from '@/globalTypes'
+import { TFilters, TTab, TGroup } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import { useThrottle } from '@vueuse/core'
 
@@ -46,7 +46,7 @@ import GroupCard from '@/components/data/GroupCard.vue'
 const $props = defineProps<{
   filters: TFilters,
   data: {
-    data: TTeam []
+    data: TGroup []
   }
 }>()
 

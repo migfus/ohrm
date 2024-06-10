@@ -239,7 +239,7 @@ return [
         | Please check the docs to see what you need to do in case you have the package already configured.
         |
         */
-        'enabled' => true,
+        'enabled' => false,
 
         /*
         |--------------------------------------------------------------------------
@@ -251,7 +251,7 @@ return [
         | it will check only if the user has added that role/permission ignoring the team.
         |
         */
-        'strict_check' => true,
+        'strict_check' => false,
     ],
 
     /*

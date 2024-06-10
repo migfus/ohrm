@@ -13,13 +13,10 @@ return new class extends Migration
     {
       Schema::create('tasks', function (Blueprint $table) {
         $table->uuid('id')->primary();
-        $table->uuid('team_id');
         $table->string('name');
         $table->string('description')->nullable();
         $table->string('active')->default(true);
         $table->string('cover')->nullable();
-
-        $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         $table->timestamps();
       });
     }

@@ -54,16 +54,14 @@ class ManageUsersController extends Controller
     $type = $req->type ?? 'all';
 
     $users = User::query()
-      ->when($req->search, function ($q) use ($req) {
+      ->when($req->search != '', function ($q) use ($req) {
         $q->where('name', 'LIKE', '%' . $req->search . '%');
         $q->orWhere('email', 'LIKE', '%' . $req->search . '%');
       })
       ->when($type != 'all', function ($q) use($type) {
-        $q->whereHasRole($type, 'system');
+        $q->whereHasRole($type);
       })
-      ->with(['rolesTeams' => function ($q) {
-        $q->whereNot('name', 'system')->orderBy('created_at', 'ASC');
-      }])
+      ->with(['group_members.role', 'group_members.group'])
       ->orderBy('name', 'ASC')
       ->paginate(10);
 

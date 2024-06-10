@@ -4,14 +4,15 @@
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
       v-model:name="form.name"
-      :heads="data.heads"
+      :members="data.group_members"
       :confirmButton="{
         text: 'Delete',
         icon: XMarkIcon,
         color: 'danger'
       }"
       @confirm="remove()"
-      @updateImage="avatarUpload"
+      @uploadAvatar="uploadAvatar"
+      @uploadCover="uploadCover"
     />
     <FlashErrors :errors="$page.props.errors"/>
 
@@ -22,14 +23,14 @@
           v-model:description="form.description"
           :id="data.id"
         />
-        <UpdateTasksCard :tasks="data.tasks" :id="data.id"/>
+        <!-- <UpdateTasksCard :tasks="data.tasks" :id="data.id"/> -->
       </div>
       <div class="col-span-4 lg:col-span-2">
         <GroupHeatMapCard />
       </div>
       <div class="col-span-4 lg:col-span-1">
-        <UpdateHeadsCard :users="data.heads"/>
-        <MembersCard :users :members="data.members" :id="data.id"/>
+        <UpdateHeadsCard :members="data.group_members"/>
+        <MembersCard :members="data.group_members"/>
       </div>
     </div>
 
@@ -42,7 +43,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { TTeam, TUser } from '@/globalTypes'
+import { TGroup, TUser } from '@/globalTypes'
 
 import GroupHeader from '.././GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
@@ -55,16 +56,15 @@ import UpdateHeadsCard from './UpdateHeadsCard.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 const $props = defineProps<{
-  data: TTeam
+  data: TGroup
   users: TUser[]
 }>()
 
 const form = router.form({
-  name: $props.data.display_name,
+  name: $props.data.name,
   description: $props.data.description,
   avatar: $props.data.avatar,
   cover: $props.data.cover,
-  heads: $props.data.heads
 })
 
 const openPrompt = ref<boolean>(false)
@@ -76,10 +76,10 @@ function removeGroup() {
   router.delete(`/dashboard/manage-groups/${$props.data.id}`)
 }
 
-function avatarUpload(value: string) {
+function uploadAvatar(value: string) {
   router.put(`/dashboard/manage-groups/${$props.data.id}`, {avatar: value, type: 'avatar'})
 }
-function coverUpload(value: string) {
+function uploadCover(value: string) {
   router.put(`/dashboard/manage-groups/${$props.data.id}`, {cover: value, type: 'cover'})
 }
 </script>

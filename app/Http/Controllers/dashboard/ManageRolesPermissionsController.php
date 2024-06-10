@@ -10,18 +10,13 @@ use App\Models\Role;
 class ManageRolesPermissionsController extends Controller
 {
   public function index() : Response {
-    $roles = \App\Models\Role::query()
+    $roles = Role::query()
       ->with(['permissions', 'users' => function($q) {
         $q->limit(5);
       }])
       ->get();
 
-    $permissions = \App\Models\Permission::query()
-      ->orderBy('created_at', 'DESC')
-      ->get();
-
-    $teams = \App\Models\Team::query()
-      ->with(['users.roles'])
+    $permissions = Permission::query()
       ->orderBy('created_at', 'DESC')
       ->get();
 
@@ -31,7 +26,6 @@ class ManageRolesPermissionsController extends Controller
         'pageTitle' => 'Manage Roles & Permissions',
         'roles' => $roles,
         'permissions' => $permissions,
-        'teams' => $teams
       ]
     );
   }
@@ -40,7 +34,7 @@ class ManageRolesPermissionsController extends Controller
     $val = $req->validate([
       'type' => ['required'],
       'role_id' => ['required'],
-      'permission_id' => ['required'],
+    'permission_id' => ['required'],
       'value' => ['required']
     ]);
 

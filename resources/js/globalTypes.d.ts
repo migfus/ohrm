@@ -51,9 +51,18 @@ export interface TUser {
   cover: string
   created_at: string
   name: string
-  team_roles?: TRole[]
-  roles_teams?: TTeam[]
-  roles_teams_head?: TTeam[]
+  group_members: {
+    roles: {
+      name: string
+      display_name: string
+    }
+    group: {
+      name: string
+      description: string
+      avatar: string
+    }
+    id: string
+  } []
 }
 
 export interface TUserWithType extends TUser {
@@ -61,17 +70,27 @@ export interface TUserWithType extends TUser {
   disabled: boolean
 }
 
-export interface TTeam {
+export interface TGroup {
   id: string
   name: string
   avatar: string
   cover: string
-  display_name: string
   description: string
   created_at: string
-  heads: TUser[]
-  members: TUser[]
-  tasks: TTask []
+  group_members: TGroupMember []
+}
+
+export interface TGroupMember {
+  user: TUser
+  role: TGroupRole
+  id: string
+}
+
+export interface TGroupRole {
+  id: string
+  name: string
+  display_name: string
+  created_at: string
 }
 
 export interface TRole {
@@ -95,16 +114,6 @@ export interface TTab {
   display_name: string
   icon: string
 }
-
-export interface TTeam {
-  id: string
-  name: string
-  avatar: string
-  display_name: string
-  description: string
-  users: TUser[]
-}
-
 
 export interface TPage extends PageProps {
   // NOTE: Shared

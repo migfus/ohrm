@@ -40,8 +40,8 @@
 </template>
 
 <script setup lang="ts">
-import { TUser } from '@/globalTypes'
-import { ref } from 'vue'
+import { TGroupMember, TUser } from '@/globalTypes'
+import { ref, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 
 import { AtSymbolIcon, PlusIcon } from '@heroicons/vue/24/solid'
@@ -52,7 +52,7 @@ import DataTransition from '@/components/transitions/DataTransition.vue'
 import UsersComboBoxIndividual from './UsersComboBoxIndividual.vue'
 
 const $props = defineProps<{
-  members: TUser[]
+  members: TGroupMember[]
   users: TUser[]
   id: string
 }>()
@@ -60,6 +60,7 @@ const $props = defineProps<{
 const removeOpen = ref<boolean>(false)
 const selectedUserId = ref<string>('')
 const invitedUsers = ref<Set<TUser>>(new Set([]))
+const member_ = computed(() => $props.members.filter(user => user.role.name != 'admin'))
 
 function Selected(value: {type: string, id: string}) {
   switch(value.type) {

@@ -56,21 +56,11 @@ class User extends Authenticatable implements LaratrustUser
         ];
     }
 
-    public function rolesTeamsHead(): ? MorphToMany
-    {
-      if (! Config::get('laratrust.teams.enabled')) {
-        return null;
-      }
-
-      return $this->morphToMany(
-          Config::get('laratrust.models.team'),
-          'user',
-          Config::get('laratrust.tables.role_user'),
-          Config::get('laratrust.foreign_keys.user'),
-          Config::get('laratrust.foreign_keys.team')
-      )
-          ->withPivot(Config::get('laratrust.foreign_keys.role'));
+    public function group_members() {
+      return $this->hasMany(GroupMember::class);
     }
+
+
 
     // public function
 

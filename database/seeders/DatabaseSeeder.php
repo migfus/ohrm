@@ -17,8 +17,12 @@ class DatabaseSeeder extends Seeder
       $this->call([
         LaratrustSeeder::class,
         SystemSettingsSeeder::class,
+        GroupSeeder::class,
+        GroupPermissionSeeder::class,
+        GroupRoleSeeder::class,
 
         UserSeeder::class,
+
       ]);
     }
 }

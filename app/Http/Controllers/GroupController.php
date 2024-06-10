@@ -4,20 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use Illuminate\Http\Request;
-use Inertia\Response;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class GroupController extends Controller
 {
-  public function index(Request $req) : Response {
-    $groups = Group::orderBy('created_at', 'ASC')->get();
-    return Inertia::render('home/(Index)' , [
-      'pageTitle' => 'Home',
-      'groups' => $groups
-    ]);
-  }
-
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -38,7 +34,7 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Group $group)
     {
         //
     }
@@ -46,7 +42,7 @@ class HomeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Group $group)
     {
         //
     }
@@ -54,7 +50,7 @@ class HomeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Group $group)
     {
         //
     }
@@ -62,7 +58,7 @@ class HomeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Group $group)
     {
         //
     }

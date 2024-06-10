@@ -29,10 +29,10 @@
     </div>
 
     <div class="flex mx-4 gap-2 flex-wrap">
-      <span v-for="team in data.roles_teams" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 bg-white shadow-sm ring-inset ring-gray-200">
-        <img :src="team.avatar" class="h-4 w-4 rounded"/>
-        {{  team.display_name }}
-      </span>
+      <Link v-for="row in data.group_members" :key="row.id" :href="`/dashboard/manage-groups/${row.id}/edit`" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 bg-white shadow-sm ring-inset ring-gray-200">
+        <img :src="row.group.avatar" class="h-4 w-4 rounded"/>
+        {{ row.group.name }}
+      </Link>
     </div>
   </Link>
 </template>

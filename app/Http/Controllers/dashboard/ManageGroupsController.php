@@ -7,9 +7,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 
-use App\Models\Team;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
+use App\Models\Group;
 
 class ManageGroupsController extends Controller
 {
@@ -18,13 +17,14 @@ class ManageGroupsController extends Controller
       'search' => [],
     ]);
 
-    $groups = Team::query()
-      ->select('display_name', 'description', 'name', 'id', 'avatar')
-      ->whereNot('name', 'system')
+    $groups = Group::query()
+      ->select('description', 'name', 'id', 'avatar')
       ->when($req->search != '', function ($q) use($req) {
-        $q->where("display_name", 'LIKE', "%$req->search%");
+        $q->where("name", 'LIKE', "%$req->search%");
       })
-      ->with(['heads', 'members'])
+      ->with(['group_members' => function($q) {
+        $q->limit(10);
+      }, 'group_members.user', 'group_members.role'])
       ->paginate(10);
 
     return Inertia::render(
@@ -129,11 +129,10 @@ class ManageGroupsController extends Controller
       ->select('name', 'id', 'avatar')
       ->get();
 
-    $data = Team::query()
-      ->select('id', 'name', 'display_name', 'avatar', 'cover', 'description')
+    $data = Group::query()
+      ->select('id', 'name', 'avatar', 'cover', 'description')
       ->where('id', $id)
-      ->whereNot('name', 'system')
-      ->with(['heads', 'members', 'tasks'])
+      ->with(['group_members.user', 'group_members.role'])
       ->first();
 
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
@@ -146,6 +145,12 @@ class ManageGroupsController extends Controller
     switch($req->type) {
       case 'basic':
         $this->UpdateBasic($req, $id);
+        break;
+      case 'avatar':
+        $this->UpdateAvatar($req, $id);
+        break;
+      case 'cover':
+        $this->UpdateCover($req, $id);
         break;
       case'remove-member':
         $this->RemoveMember($req, $id);
@@ -166,6 +171,36 @@ class ManageGroupsController extends Controller
 
     return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('flash', ['success' => 'Successfuly Updated']);
   }
+    private function UpdateBasic(Request $req, $id) : void {
+      $val = $req->validate([
+        'name' => ['required'],
+        'description' => ['required'],
+      ]);
+
+      Group::where('id', $id)->update([
+        'name' => $req->name,
+        'description' => $req->description,
+      ]);
+    }
+    private function UpdateAvatar(Request $req, $id) : void {
+      $val = $req->validate([
+        'avatar' => ['required']
+      ]);
+
+      Group::where('id', $id)->update([
+        'avatar' => $this->GUploadAvatar($req->avatar, "groups/$id/avatar/"),
+      ]);
+    }
+    private function UpdateCover(Request $req, $id) : void {
+      $val = $req->validate([
+        'cover' => ['required']
+      ]);
+
+      Group::where('id', $id)->update([
+        'cover' => $this->GUploadAvatar($req->cover, "groups/$id/cover/")
+      ]);
+    }
+
     private function updateTask(Request $req): void {
       $req->validate([
         'taskId' => ['required', 'uuid'],
@@ -193,18 +228,6 @@ class ManageGroupsController extends Controller
         'name' => $req->name,
       ]);
     }
-    private function UpdateBasic(Request $req, $id) : void {
-      $val = $req->validate([
-        'name' => ['required'],
-        'description' => ['required'],
-      ]);
-
-      Team::where('id', $id)->update([
-        'name' => $req->name,
-        'display_name' => $req->name,
-        'description' => $req->description,
-      ]);
-    }
     private function RemoveMember(Request $req, $id) : void {
       $val = $req->validate([
         'memberId' => ['required', 'uuid'],
@@ -215,7 +238,7 @@ class ManageGroupsController extends Controller
 
   // NOTE: Remove
   public function destroy($id) : RedirectResponse {
-    Team::find($id)->delete();
+    Group::find($id)->delete();
 
     return to_route('dashboard.manage-groups.index')->with('flash', ['success' => 'Successfuly Removed']);
   }

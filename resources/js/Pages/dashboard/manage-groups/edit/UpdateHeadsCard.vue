@@ -5,10 +5,10 @@
     description="List of staff that has access to this group."
   >
     <DataTransition>
-      <MemberDropdownMenu v-for="user in filteredUsers" :key="user.id" :id="user.id" @selected="RemoveMember(user.id)" :disabled="false">
+      <MemberDropdownMenu v-for="user in admins" :key="user.id" :id="user.id" @selected="RemoveMember(user.id)" :disabled="false">
         <div class="flex justify-start">
-          <img :src="user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mt-[3px]">
-          <span class="truncate">{{ user.name }}</span>
+          <img :src="user.user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mt-[3px]">
+          <span class="truncate">{{ user.user.name }}</span>
         </div>
       </MemberDropdownMenu>
     </DataTransition>
@@ -16,7 +16,6 @@
 
     <div class="flex flex-col">
       <UsersComboBox
-        :users
         @selected="(v: TUserWithParams) => $model?.push({...v, type:'head' } as TUserWithParams)"
         name="Users"
         class="my-3"
@@ -31,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { TUser } from '@/globalTypes'
+import { TGroupMember, TUser } from '@/globalTypes'
 import { ref, computed } from 'vue'
 
 import { StarIcon } from '@heroicons/vue/24/solid'
@@ -47,19 +46,14 @@ interface TUserWithParams extends TUser {
   disabled: boolean
   type: 'head' |'member'
 }
-defineProps<{
-  users: TUser[]
+
+const $props = defineProps<{
+  members: TGroupMember[]
 }>()
 
 const removeOpen = ref<boolean>(false)
 const selectedUser = ref<string>()
-const filteredUsers = computed(() => {
-  if($model.value) {
-    const arrayUser = Array.from($model.value)
-    return new Set(arrayUser.filter(user => user.type ==='head'))
-  }
-  return null
-})
+const admins = computed(() => $props.members.filter(user => user.role.name == 'admin'))
 
 function RemoveMember(id: string) {
   removeOpen.value = true
