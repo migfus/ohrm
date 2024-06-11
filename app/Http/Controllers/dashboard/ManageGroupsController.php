@@ -1,18 +1,21 @@
 <?php
 namespace App\Http\Controllers\dashboard;
 
-use App\Models\Task;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 
 use App\Models\User;
 use App\Models\Group;
-use Illuminate\Http\JsonResponse;
+use App\Models\GroupRole;
+use App\Models\Task;
 
 class ManageGroupsController extends Controller
 {
+  // FIXME: There's some group_member without users
+  // REASON: During seeeder or mismatch ID.
   public function index(Request $req): Response {
     $val = $req->validate([
       'search' => [],
@@ -23,9 +26,11 @@ class ManageGroupsController extends Controller
       ->when($req->search != '', function ($q) use($req) {
         $q->where("name", 'LIKE', "%$req->search%");
       })
-      ->with(['group_members' => function($q) {
-        $q->limit(10);
-      }, 'group_members.user', 'group_members.role'])
+      ->with([
+        'group_members_admin_only.user' => fn($q) => $q->limit(5),
+        'group_members_member_only.user' => fn($q) => $q->limit(5)
+      ])
+      ->withCount(['group_members_admin_only', 'group_members_member_only'])
       ->paginate(10);
 
     return Inertia::render(
@@ -87,12 +92,12 @@ class ManageGroupsController extends Controller
     // DB::beginTransaction();
 
     // try {
-      $team = Team::create([
+      $team = Group::create([
         'name' => $req->name,
         'display_name' => $req->name,
         'description' => $req->description,
       ]);
-      Team::query()
+      Group::query()
         ->where('id', $team->id)
         ->update([
           'avatar' => $this->GUploadAvatar($req->avatar, "groups/$team->id/avatar/"),
@@ -125,37 +130,40 @@ class ManageGroupsController extends Controller
 
   // NOTE: UPDATE
   public function edit(Request $req, $id): Response {
-    // $users = User::query()
-    //   ->whereNot('id', $req->user()->id)
-    //   ->select('name', 'id', 'avatar')
-    //   ->get();
-
     $data = Group::query()
       ->select('id', 'name', 'avatar', 'cover', 'description')
       ->where('id', $id)
-      ->with(['group_members.user', 'group_members.role'])
+      ->with(['group_members_admin_only.user', 'group_members_admin_only.user'])
       ->first();
 
-    $roles = GroupRole::query()
-      ->select()
+    $roles = GroupRole::query()->get();
 
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
       'pageTitle' => $data->display_name,
       'data' => $data,
-      // 'users' => $users,
+      'group_roles' => $roles,
     ]);
   }
+  // ✏️
   public function update(Request $req, $id): RedirectResponse {
     switch($req->type) {
+      // ✅
       case 'basic':
         $this->UpdateBasic($req, $id);
         break;
+      // ✅
       case 'avatar':
         $this->UpdateAvatar($req, $id);
         break;
+      // ✅
       case 'cover':
         $this->UpdateCover($req, $id);
         break;
+      // ✏️
+      case 'add-member':
+        $this->AddMember($req, $id);
+        break;
+
       case'remove-member':
         $this->RemoveMember($req, $id);
         break;
@@ -175,6 +183,7 @@ class ManageGroupsController extends Controller
 
     return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('flash', ['success' => 'Successfuly Updated']);
   }
+    // ✅
     private function UpdateBasic(Request $req, $id) : void {
       $val = $req->validate([
         'name' => ['required'],
@@ -186,6 +195,7 @@ class ManageGroupsController extends Controller
         'description' => $req->description,
       ]);
     }
+    // ✅
     private function UpdateAvatar(Request $req, $id) : void {
       $val = $req->validate([
         'avatar' => ['required']
@@ -195,6 +205,7 @@ class ManageGroupsController extends Controller
         'avatar' => $this->GUploadAvatar($req->avatar, "groups/$id/avatar/"),
       ]);
     }
+    // ✅
     private function UpdateCover(Request $req, $id) : void {
       $val = $req->validate([
         'cover' => ['required']
@@ -203,6 +214,15 @@ class ManageGroupsController extends Controller
       Group::where('id', $id)->update([
         'cover' => $this->GUploadAvatar($req->cover, "groups/$id/cover/")
       ]);
+    }
+    // ✏️
+    private function AddMember(Request $req, $id) : void {
+      $val = $req->validate([
+        'user_id' => ['required'],
+        'type' => ['required'] // NOTE: admin/moderator/member
+      ]);
+
+      dd($req->all());
     }
 
     private function updateTask(Request $req): void {
@@ -237,9 +257,10 @@ class ManageGroupsController extends Controller
         'memberId' => ['required', 'uuid'],
       ]);
 
-      User::find($req->memberId)->removeRole('staff', Team::find($id)->name);
+      User::find($req->memberId)->removeRole('staff', Group::find($id)->name);
     }
 
+  // ✅
   // NOTE: Remove
   public function destroy($id) : RedirectResponse {
     Group::find($id)->delete();
@@ -247,31 +268,24 @@ class ManageGroupsController extends Controller
     return to_route('dashboard.manage-groups.index')->with('flash', ['success' => 'Successfuly Removed']);
   }
 
+  // ✅
   // NOTE: SHOW USERS BASED ON CURRENT/SELECTED GROUP (for security improvement)
   // REASON: We want to show up users list upon selecting admin/moderator/member but no duplicates.
   // FILTERING: We should look for [Group] first before we provide users, to prevent duplicates.
   // SECURITY CONCERN: Filters will work as well but vulnerable for duplicates and injections.
   public function UserComboBox(Request $req, $id) : JsonResponse {
-    if(isset($req->search)) {
-      return response()->json(
-        User::query()
-          ->select('name', 'id', 'avatar')
-          ->where('name', 'LIKE', '%'. $req->search. '%')
-          ->whereHas('group_members', function($q) use($id) {
-            $q->whereNot('group_id', $id);
-          })
-          ->orderBy('name', 'ASC')
-          ->limit(5)
-          ->get()
-      );
-    }
-    return User::query()
-      ->select('name', 'id', 'avatar')
-      ->whereHas('group_members', function($q) use($id) {
-        $q->whereNot('group_id', $id);
-      })
-      ->orderBy('name', 'ASC')
-      ->limit(5)
-      ->get();
+    return response()->json(
+      User::query()
+        ->select('name', 'id', 'avatar')
+        ->when(isset($req->search), function($q) use($req) {
+          $q->where('name', 'LIKE', '%'. $req->search. '%');
+        })
+        ->whereHas('group_members', function($q) use($id) {
+          $q->whereNot('group_id', $id);
+        })
+        ->orderBy('name', 'ASC')
+        ->limit(5)
+        ->get()
+    );
   }
 }

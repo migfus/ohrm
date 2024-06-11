@@ -4,7 +4,7 @@
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
       v-model:name="form.name"
-      :members="data.group_members"
+      :admins="data.group_members_admin_only"
       :confirmButton="{
         text: 'Delete',
         icon: XMarkIcon,
@@ -29,7 +29,7 @@
         <GroupHeatMapCard />
       </div>
       <div class="col-span-4 lg:col-span-1">
-        <UpdateAdminCard :groupId="data.id" :members="data.group_members"/>
+        <UpdateAdminCard :groupId="data.id" :admins="data.group_members_admin_only"/>
         <!-- <MembersCard :members="data.group_members"/> -->
       </div>
     </div>
@@ -57,7 +57,6 @@ import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 const $props = defineProps<{
   data: TGroup
-  users: TUser[]
 }>()
 
 const form = router.form({

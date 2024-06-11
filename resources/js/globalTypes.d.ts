@@ -77,7 +77,9 @@ export interface TGroup {
   cover: string
   description: string
   created_at: string
-  group_members: TGroupMember []
+  group_members_admin_only: TGroupMember []
+  group_members_member_only: TGroupMember []
+  group_members_member_only_count: number
 }
 
 export interface TGroupMember {

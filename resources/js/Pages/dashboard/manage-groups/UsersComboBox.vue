@@ -1,5 +1,5 @@
 <template>
-  <Combobox as="div" @update:modelValue="value => insertUser(value)" class="gap-2">
+  <Combobox as="div" @update:modelValue="value => AddMember(value)" class="gap-2">
     <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">Invite a member</ComboboxLabel>
 
     <div class="relative mt-2 flex-grow">
@@ -15,9 +15,9 @@
         </div>
       </div>
 
-      <div v-else-if="filteredUserToShow !== undefined">
-        <ComboboxOptions v-if="filteredUserToShow.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-          <ComboboxOption v-for="user in filteredUserToShow" :key="user.id" :value="user" as="template" v-slot="{ active, selected }">
+      <div v-else-if="usersFromDB !== undefined">
+        <ComboboxOptions v-if="usersFromDB.data.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <ComboboxOption v-for="user in usersFromDB.data" :key="user.id" :value="user" as="template" v-slot="{ active, selected }">
             <li :class="['relative cursor-pointer select-none py-2 pl-4 pr-4', active ? 'bg-brand-600 text-white' : 'text-gray-900']">
               <span :class="['block truncate', selected && 'font-semibold']">
                 <img :src="user.avatar" class="w-5 h-5 inline rounded-full mr-2"/>
@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import { TUserWithType, TUser, TGroupMember } from '@/globalTypes'
+import { TUser, TGroupMember } from '@/globalTypes'
 import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core'
 
@@ -52,26 +52,20 @@ const $props = defineProps<{
   type: 'admin' | 'member'
   groupId: string
 }>()
-const $selectedUserModel = defineModel<TGroupMember[]>()
 
 const searchInput = ref('')
-const usersFromDB = ref<{data: TUserWithType[]}>()
-const filteredUserToShow = computed(() => {
-  return usersFromDB.value?.data.filter(user => !$selectedUserModel.value?.some(r => r.id === user.id))
-})
+const usersFromDB = ref<{data: TUser[]}>()
 const loading = ref<boolean>(false)
+const $emit = defineEmits(['addMember'])
 
-function insertUser(value: TUser) {
-  $selectedUserModel.value?.push({type: $props.type, disabled: false, ...value})
+function AddMember(value: TUser) {
+ $emit('addMember', value)
 }
 
 async function userSearch() {
   loading.value = true
   usersFromDB.value = await axios.get(`/dashboard/manage-groups/users-suggestion/${$props.groupId}`, {
-    params: {
-      search: searchInput.value,
-      filter: $selectedUserModel.value,
-    }
+    params: { search: searchInput.value }
   })
   loading.value = false
 }

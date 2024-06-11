@@ -15,4 +15,16 @@ class Group extends Model
   public function group_members() {
     return $this->hasMany(GroupMember::class);
   }
+
+  public function group_members_admin_only() {
+    return $this->hasMany(GroupMember::class)->whereHas('role', function($q) {
+      $q->where('name', 'admin');
+    });
+  }
+
+  public function group_members_member_only() {
+    return $this->hasMany(GroupMember::class)->whereHas('role', function($q) {
+      $q->whereNot('name', 'admin');
+    });
+  }
 }

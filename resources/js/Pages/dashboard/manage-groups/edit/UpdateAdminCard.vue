@@ -18,10 +18,10 @@
       <UsersComboBox
         :groupId
         type="admin"
-        @selected="(v: TUserWithParams) => $model?.push({...v, type:'head' } as TUserWithParams)"
         name="Users"
         class="my-3"
         label="Invite a heads"
+        @addMember="AddMember"
       />
     </div>
 
@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { TGroupMember, TUser } from '@/globalTypes'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 import { StarIcon } from '@heroicons/vue/24/solid'
 import MemberDropdownMenu from '.././MemberDropdownMenu.vue'
@@ -50,13 +50,12 @@ interface TUserWithParams extends TUser {
 }
 
 const $props = defineProps<{
-  members: TGroupMember[]
+  admins: TGroupMember[]
   groupId: string
 }>()
 
 const removeOpen = ref<boolean>(false)
 const selectedUser = ref<string>()
-const admins = computed(() => $props.members.filter(user => user.role.name == 'admin'))
 
 function RemoveMember(id: string) {
   removeOpen.value = true
@@ -67,5 +66,9 @@ function ConfirmRemove() {
     const index = $model.value?.findIndex(user => user.id === selectedUser.value) as number
     $model.value?.splice(index, 1)
   }
+}
+
+function AddMember(user: TUser) {
+
 }
 </script>

@@ -12,7 +12,7 @@
           <div class="mt-6 min-w-0 flex-1 sm:hidden md:block">
             <h1 class="truncate text-2xl font-bold text-brand-900">{{ name }}</h1>
             <div class="flex gap-4">
-              <h1 v-for="head in heads" :key="head.id" class="truncate font-semibold text-brand-500 inline">
+              <h1 v-for="head in admins" :key="head.id" class="truncate font-semibold text-brand-500 inline">
                 <img :src="head.user.avatar" class="h-5 w-5 inline rounded-xl mr-1"/>
                 {{ head.user.name }}
               </h1>
@@ -59,7 +59,7 @@ import AppButton from '@/components/form/AppButton.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 
 const $props = defineProps<{
-  members: TGroupMember []
+  admins: TGroupMember []
   confirmButton: {
     text: string
     icon: FunctionalComponent
@@ -71,9 +71,6 @@ const $emit = defineEmits(['confirm', 'uploadAvatar', 'uploadCover'])
 const $avatar = defineModel<string>('avatar')
 const $cover = defineModel<string>('cover')
 const $name = defineModel<string>('name')
-const heads = computed(() => {
-  return $props.members.filter(user => user.role.name == 'admin')
-})
 
 const openAvatar = ref(false)
 const openCover = ref(false)
