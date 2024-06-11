@@ -1,8 +1,8 @@
 <template>
   <BasicCard
     :icon="StarIcon"
-    title="Heads"
-    description="List of staff that has access to this group."
+    title="Admins"
+    description="Users who administrate the group."
   >
     <DataTransition>
       <MemberDropdownMenu v-for="user in admins" :key="user.id" :id="user.id" @selected="RemoveMember(user.id)" :disabled="false">
@@ -16,6 +16,8 @@
 
     <div class="flex flex-col">
       <UsersComboBox
+        :groupId
+        type="admin"
         @selected="(v: TUserWithParams) => $model?.push({...v, type:'head' } as TUserWithParams)"
         name="Users"
         class="my-3"
@@ -49,6 +51,7 @@ interface TUserWithParams extends TUser {
 
 const $props = defineProps<{
   members: TGroupMember[]
+  groupId: string
 }>()
 
 const removeOpen = ref<boolean>(false)

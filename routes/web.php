@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\dashboard\DashboardController;
 use App\Http\Controllers\dashboard\JoinedGroupsController;
 use App\Http\Controllers\dashboard\ManageGroupsController;
-use App\Http\Controllers\dashboard\ManageRolesPermissionsController;
+use App\Http\Controllers\dashboard\SystemRolesPermissionsController;
 use App\Http\Controllers\dashboard\ManageUsersController;
 use App\Http\Controllers\dashboard\MyGroupsController;
 use App\Http\Controllers\PageController;
@@ -41,9 +41,9 @@ Route::middleware(['auth'])->group(function () {
 
     // NOTE: ADMIN
     Route::resource('/manage-groups', ManageGroupsController::class)->except('show');
-      Route::get('/manage-users/all', [ManageUsersController::class, 'all'])->name('manage-users.all'); // NOTE: manage-groups search all possible users
+      Route::get('/manage-groups/users-suggestion/{id}', [ManageGroupsController::class, 'UserComboBox'])->name('manage-groups.users-suggestion');
     Route::resource('/manage-users', ManageUsersController::class)->except('show');
-    Route::resource('/manage-roles-permissions', ManageRolesPermissionsController::class)->only(['index', 'create']);
+    Route::resource('/system-roles-permissions', SystemRolesPermissionsController::class)->only(['index', 'create']);
     Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);
   });
 });

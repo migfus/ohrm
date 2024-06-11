@@ -1,7 +1,6 @@
 <template>
   <Combobox as="div" @update:modelValue="value => insertUser(value)" class="gap-2">
     <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">Invite a member</ComboboxLabel>
-    <!-- {{  $selectedUserModel }} -->
 
     <div class="relative mt-2 flex-grow">
       <ComboboxButton class="absolute top-2 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
@@ -28,13 +27,6 @@
           </ComboboxOption>
         </ComboboxOptions>
       </div>
-
-
-      <!-- <div v-else class="bg-white shadow-md rounded-2xl mt-1 z-10 absolute w-full">
-        <div class="flex justify-center font-medium py-4">
-          No Users Found 😅
-        </div>
-      </div> -->
     </div>
 
   </Combobox>
@@ -42,7 +34,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
-import { TUserWithType, TUser } from '@/globalTypes'
+import { TUserWithType, TUser, TGroupMember } from '@/globalTypes'
 import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core'
 
@@ -57,9 +49,10 @@ import {
 } from '@headlessui/vue'
 
 const $props = defineProps<{
-  type: 'head' | 'member'
+  type: 'admin' | 'member'
+  groupId: string
 }>()
-const $selectedUserModel = defineModel<TUserWithType[]>()
+const $selectedUserModel = defineModel<TGroupMember[]>()
 
 const searchInput = ref('')
 const usersFromDB = ref<{data: TUserWithType[]}>()
@@ -74,7 +67,7 @@ function insertUser(value: TUser) {
 
 async function userSearch() {
   loading.value = true
-  usersFromDB.value = await axios.get(`/dashboard/manage-users/all`, {
+  usersFromDB.value = await axios.get(`/dashboard/manage-groups/users-suggestion/${$props.groupId}`, {
     params: {
       search: searchInput.value,
       filter: $selectedUserModel.value,

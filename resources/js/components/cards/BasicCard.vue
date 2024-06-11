@@ -1,6 +1,6 @@
 <template>
   <BasicTransition>
-    <div class="bg-brand-50 p-4 shadow rounded-2xl group mb-4">
+    <div class="bg-brand-50 p-4 shadow rounded-2xl group mb-4 transition-all">
       <div class="px-4 sm:px-0">
         <div class="flex justify-between">
           <h3 class="text-base font-semibold leading-7 text-gray-900">

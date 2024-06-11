@@ -20,4 +20,8 @@ class Role extends RoleModel
   {
       return $this->permissions()->detach($permissionId);
   }
+
+  public function hero_icon() {
+    return $this->belongsTo(HeroIcon::class, 'icon_name', 'name');
+  }
 }

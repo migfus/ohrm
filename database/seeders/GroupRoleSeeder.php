@@ -13,7 +13,8 @@ class GroupRoleSeeder extends Seeder
   public function run(): void {
     GroupRole::create([
       'name' => 'admin',
-      'display_name' => 'Administrator'
+      'display_name' => 'Administrator',
+      'description' => 'Users who administrate the group.',
     ])
       ->group_permission_role()
       ->sync([
@@ -28,7 +29,8 @@ class GroupRoleSeeder extends Seeder
 
     GroupRole::create([
       'name' => 'moderator',
-      'display_name' => 'Moderator'
+      'display_name' => 'Moderator',
+      'description' => 'Users who moderate the group.',
     ])
       ->group_permission_role()
       ->sync([
@@ -40,7 +42,8 @@ class GroupRoleSeeder extends Seeder
 
     GroupRole::create([
       'name' => 'member',
-      'display_name' => 'Member'
+      'display_name' => 'Member',
+      'description' => 'Members lists.',
     ])
       ->group_permission_role()
       ->sync([

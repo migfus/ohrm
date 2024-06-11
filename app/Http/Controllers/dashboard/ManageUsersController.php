@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\dashboard;
 
+use App\Models\HeroIcon;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -12,40 +13,16 @@ use Illuminate\Support\Facades\Auth;
 
 class ManageUsersController extends Controller
 {
-  // NOTE: SEARCH ALL
-  public function all(Request $req) {
-    // dd($req->filter);
-    if(isset($req->search)) {
-      return response()->json(
-        User::query()
-          ->select('name', 'id', 'avatar')
-          ->when($req->filter != '', function($q) use ($req) {
-            $q->whereNotIn('id', array_column($req->filter, 'id'));
-          })
-          ->where('name', 'LIKE', '%'. $req->search. '%')
-          ->orderBy('name', 'ASC')
-          ->limit(5)
-          ->get()
-      );
-    }
-    return User::query()
-      ->select('name', 'id', 'avatar')
-      ->orderBy('name', 'ASC')
-      ->limit(5)
-      ->get();
-  }
+
 
   // NOTE: ALL
   public function index(Request $req) : Response {
-    $roles = Role::select('display_name', 'name', 'icon')->orderBy('created_at', 'ASC')->get();
+    $roles = Role::select('display_name', 'name', 'icon_name')->with('hero_icon')->orderBy('created_at', 'ASC')->get();
     $roles_processed = [
       [
         'name' => 'all',
         'display_name' => 'All',
-        'icon' => '
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-          </svg>'
+        'icon_name' => HeroIcon::where('name', 'at-symbol_outline')->first()->content
       ],
       ...$roles
     ];

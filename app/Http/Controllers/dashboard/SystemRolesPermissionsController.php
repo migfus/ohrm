@@ -7,7 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Role;
 
-class ManageRolesPermissionsController extends Controller
+class SystemRolesPermissionsController extends Controller
 {
   public function index() : Response {
     $roles = Role::query()
@@ -21,7 +21,7 @@ class ManageRolesPermissionsController extends Controller
       ->get();
 
     return Inertia::render(
-      'dashboard/manage-roles-permissions/(Index)',
+      'dashboard/system-roles-permissions/(Index)',
       [
         'pageTitle' => 'Manage Roles & Permissions',
         'roles' => $roles,
@@ -41,7 +41,7 @@ class ManageRolesPermissionsController extends Controller
     $role = Role::where('id', $req->role_id)->where('name', '!=', 'admin')->first();
 
     if(!$role) {
-      return to_route('dashboard.manage-roles-permissions')->withErrors([
+      return to_route('dashboard.system-roles-permissions')->withErrors([
         'Admin Permissions' => 'You cannot modify admin permissions <img src="/assets/i see you.gif" class="mt-4">',
       ]);
     }
@@ -53,6 +53,6 @@ class ManageRolesPermissionsController extends Controller
       $role->detachPermission($req->permission_id);
     }
 
-    return to_route('dashboard.manage-roles-permissions');
+    return to_route('dashboard.system-roles-permissions');
   }
 }

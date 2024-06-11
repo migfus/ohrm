@@ -29,8 +29,8 @@
         <GroupHeatMapCard />
       </div>
       <div class="col-span-4 lg:col-span-1">
-        <UpdateHeadsCard :members="data.group_members"/>
-        <MembersCard :members="data.group_members"/>
+        <UpdateAdminCard :groupId="data.id" :members="data.group_members"/>
+        <!-- <MembersCard :members="data.group_members"/> -->
       </div>
     </div>
 
@@ -52,7 +52,7 @@ import MembersCard from './MembersCard.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import UpdateTasksCard from './UpdateTasksCard.vue'
-import UpdateHeadsCard from './UpdateHeadsCard.vue'
+import UpdateAdminCard from './UpdateAdminCard.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 const $props = defineProps<{

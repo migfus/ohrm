@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 
 use App\Models\User;
 use App\Models\Group;
+use Illuminate\Http\JsonResponse;
 
 class ManageGroupsController extends Controller
 {
@@ -124,10 +125,10 @@ class ManageGroupsController extends Controller
 
   // NOTE: UPDATE
   public function edit(Request $req, $id): Response {
-    $users = User::query()
-      ->whereNot('id', $req->user()->id)
-      ->select('name', 'id', 'avatar')
-      ->get();
+    // $users = User::query()
+    //   ->whereNot('id', $req->user()->id)
+    //   ->select('name', 'id', 'avatar')
+    //   ->get();
 
     $data = Group::query()
       ->select('id', 'name', 'avatar', 'cover', 'description')
@@ -135,10 +136,13 @@ class ManageGroupsController extends Controller
       ->with(['group_members.user', 'group_members.role'])
       ->first();
 
+    $roles = GroupRole::query()
+      ->select()
+
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
       'pageTitle' => $data->display_name,
       'data' => $data,
-      'users' => $users,
+      // 'users' => $users,
     ]);
   }
   public function update(Request $req, $id): RedirectResponse {
@@ -241,5 +245,33 @@ class ManageGroupsController extends Controller
     Group::find($id)->delete();
 
     return to_route('dashboard.manage-groups.index')->with('flash', ['success' => 'Successfuly Removed']);
+  }
+
+  // NOTE: SHOW USERS BASED ON CURRENT/SELECTED GROUP (for security improvement)
+  // REASON: We want to show up users list upon selecting admin/moderator/member but no duplicates.
+  // FILTERING: We should look for [Group] first before we provide users, to prevent duplicates.
+  // SECURITY CONCERN: Filters will work as well but vulnerable for duplicates and injections.
+  public function UserComboBox(Request $req, $id) : JsonResponse {
+    if(isset($req->search)) {
+      return response()->json(
+        User::query()
+          ->select('name', 'id', 'avatar')
+          ->where('name', 'LIKE', '%'. $req->search. '%')
+          ->whereHas('group_members', function($q) use($id) {
+            $q->whereNot('group_id', $id);
+          })
+          ->orderBy('name', 'ASC')
+          ->limit(5)
+          ->get()
+      );
+    }
+    return User::query()
+      ->select('name', 'id', 'avatar')
+      ->whereHas('group_members', function($q) use($id) {
+        $q->whereNot('group_id', $id);
+      })
+      ->orderBy('name', 'ASC')
+      ->limit(5)
+      ->get();
   }
 }

@@ -75,8 +75,8 @@ export const CAdminNavigation: TCTopNavigation[] = [
   {
     name: 'System\'s Roles & Permission',
     icon: ShieldCheckIcon,
-    href: '/dashboard/manage-roles-permissions',
-    component: 'dashboard/manage-roles-permissions/(Index)'
+    href: '/dashboard/system-roles-permissions',
+    component: 'dashboard/system-roles-permissions/(Index)'
   },
   {
     name: 'System Settings',

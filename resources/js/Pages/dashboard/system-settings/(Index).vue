@@ -150,7 +150,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TProps } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 
 import AppButton from '@/components/form/AppButton.vue'
