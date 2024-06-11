@@ -112,7 +112,9 @@ export interface TPermission {
 
 export interface TTab {
   display_name: string
-  icon: string
+  hero_icon: {
+    content: string
+  }
 }
 
 export interface TPage extends PageProps {

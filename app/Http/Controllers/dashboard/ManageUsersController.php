@@ -17,12 +17,21 @@ class ManageUsersController extends Controller
 
   // NOTE: ALL
   public function index(Request $req) : Response {
-    $roles = Role::select('display_name', 'name', 'icon_name')->with('hero_icon')->orderBy('created_at', 'ASC')->get();
+    $roles = Role::query()
+      ->select('display_name', 'name', 'icon_name')
+      ->with(['hero_icon' => function($q) {
+        $q->select('content', 'name');
+      }])
+      ->orderBy('created_at', 'ASC')
+      ->get();
+
+    // dd($roles);
+
     $roles_processed = [
       [
         'name' => 'all',
         'display_name' => 'All',
-        'icon_name' => HeroIcon::where('name', 'at-symbol_outline')->first()->content
+        'hero_icon' => ['content' => HeroIcon::where('name', 'at-symbol_outline')->first()->content]
       ],
       ...$roles
     ];

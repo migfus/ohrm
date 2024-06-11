@@ -16,7 +16,7 @@
       <!-- NOTE IF LOADING -->
       <ArrowPathIcon v-if="index == indexLoading" class="text-brand-100 mr-3 h-5 w-5 animate-spin group-hover:text-brand-700" aria-hidden="true" />
       <!-- NOTE IF ACTIVE -->
-      <component v-else-if="item.href == removeURLParameter($page.url, '=')" :is="item.icon" class="text-brand-700 mr-3 h-5 w-5" aria-hidden="true" />
+      <component v-else-if="item.component == $page.component" :is="item.icon" class="text-brand-700 mr-3 h-5 w-5" aria-hidden="true" />
       <!-- NOTE IF DEFAULT -->
       <component v-else :is="item.icon" :class="['text-brand-100 group-hover:text-brand-700', 'mr-3 h-5 w-5']" aria-hidden="true" />
       <div class="truncate">{{ item.name }}</div>

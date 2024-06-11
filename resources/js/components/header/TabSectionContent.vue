@@ -1,7 +1,7 @@
 <template>
   <div
     @click="checkIfActive"
-    :class="[index == $model ? 'border-brand-500 text-brand-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium cursor-pointer gap-2']"
+    :class="[index == $model ? 'border-brand-500 text-brand-600' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700', 'group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium cursor-pointer gap-2 mr-2']"
     :aria-current="index == $model ? 'page' : undefined"
   >
     <ArrowPathIcon v-if="loading && disableLoading != true" class="h-4 w-4 animate-spin" aria-hidden="true" />

@@ -17,7 +17,7 @@
               :key="tab.display_name"
               :display_name="tab.display_name"
               :index="index"
-              :icon="tab.icon"
+              :icon="tab.hero_icon.content"
               :disableLoading
               v-model="$model"
             />
