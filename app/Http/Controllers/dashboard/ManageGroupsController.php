@@ -29,9 +29,9 @@ class ManageGroupsController extends Controller
       })
       ->with([
         'group_members_admin_only.user' => fn($q) => $q->limit(5),
-        'group_members_member_only.user' => fn($q) => $q->limit(5)
+        'group_members_not_admin_only.user' => fn($q) => $q->limit(5)
       ])
-      ->withCount(['group_members_admin_only', 'group_members_member_only'])
+      ->withCount(['group_members_admin_only', 'group_members_not_admin_only'])
       ->paginate(10);
 
     return Inertia::render(
@@ -50,78 +50,43 @@ class ManageGroupsController extends Controller
   }
 
   // NOTE: STORE
-  public function create(Request $req): Response  {
-    $users = User::query()
-      ->whereNot('id', $req->user()->id)
-      ->select('name', 'id', 'avatar')
-      ->get();
-
+  public function create(): Response  {
     return Inertia::render(
       'dashboard/manage-groups/create/(Create)',
       [
         'pageTitle' => 'Create Group',
-        'users' => $users
       ]
     );
   }
   public function store(Request $req): RedirectResponse {
     $val = $req->validate([
-      'name' => ['required', 'unique:teams,name'],
+      'name' => ['required', 'unique:groups,name'],
       'description' => ['required'],
       'avatar' => ['required'],
       'cover' => ['required'],
-      'invitedUsers.*' => ['required'],
-      'tasks.*' => ['required'],
     ]);
-
-    $heads = array_filter($req->invitedUsers, function($row) {
-      if(isset($row['type'])) {
-        if($row['type'] == 'head')
-          return true;
-      }
-      return false;
-    });
-    $staffs = array_filter($req->invitedUsers, function($row) {
-      if(isset($row['type'])) {
-        if($row['type'] =='member')
-          return true;
-      }
-      return false;
-    });
-
 
     // DB::beginTransaction();
 
     // try {
-      $team = Group::create([
+      $group = Group::create([
         'name' => $req->name,
         'display_name' => $req->name,
         'description' => $req->description,
       ]);
       Group::query()
-        ->where('id', $team->id)
+        ->where('id', $group->id)
         ->update([
-          'avatar' => $this->GUploadAvatar($req->avatar, "groups/$team->id/avatar/"),
-          'cover' => $this->GUploadAvatar($req->cover, "groups/$team->id/cover/")
+          'avatar' => $this->GUploadAvatar($req->avatar, "groups/$group->id/avatar/"),
+          'cover' => $this->GUploadAvatar($req->cover, "groups/$group->id/cover/")
         ]);
+      GroupMember::create([
+        'user_id' => $req->user()->id,
+        'group_id' => $group->id,
+        'group_role_id' => GroupRole::where('name', 'admin')->first()->id,
+      ]);
 
-      // NOTE: ADD ROLE to head
-      foreach($heads as $head) {
-        User::find($head['id'])->addRole('head', $team->name);
-      }
-      // NOTE: Invited User as Staff in group;
-      foreach($staffs as $staff) {
-        User::find($staff['id'])->addRole('staff', $team->name);
-      }
-
-      foreach($req->tasks as $task) {
-        Task::create([
-          'team_id' => $team->id,
-          'name' => $task['name'],
-        ]);
-      }
-
-      return to_route('dashboard.manage-groups.edit', ['manage_group' => $team->id])->with('flash', ['success' => 'Successfuly Added']);
+      return to_route('dashboard.manage-groups.edit', ['manage_group' => $group->id])->with('flash', ['success' => 'Successfuly Added']);
     // }
     // catch(\Exception $e) {
       // DB::rollBack();
@@ -136,16 +101,19 @@ class ManageGroupsController extends Controller
       ->select('id', 'name', 'avatar', 'cover', 'description')
       ->where('id', $id)
       ->with([
-        'group_members_admin_only.user',
-        'group_members_member_only.user',
-        'group_members_moderator_only.user',
+        'group_members.user',
       ])
       ->first();
 
-    $roles = GroupRole::query()->get();
+    $roles = GroupRole::query()
+      ->select('display_name', 'id', 'description', 'icon_name')
+      ->with(['hero_icon' => function ($q) {
+        $q->select('content', 'name');
+      }])
+      ->get();
 
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
-      'pageTitle' => $data->display_name,
+      'pageTitle' => $data->name,
       'data' => $data,
       'group_roles' => $roles,
     ]);
@@ -225,32 +193,15 @@ class ManageGroupsController extends Controller
     // ✅
     private function AddMember(Request $req, $id) : void {
       $val = $req->validate([
-        'user_id' => ['required'],
-        'as' => ['required'] // NOTE: admin/moderator/member
+        'user_id' => ['required', 'uuid'],
+        'roleId' => ['required', 'uuid']
       ]);
 
-      switch($req->as) {
-        case 'admin':
-          GroupMember::create([
-            'user_id' => $req->user_id,
-            'group_role_id' => GroupRole::where('name', 'admin')->first()->id,
-            'group_id' => $id,
-          ]);
-          break;
-        case 'moderator':
-          GroupMember::create([
-            'user_id' => $req->user_id,
-            'group_role_id' => GroupRole::where('name', 'moderator')->first()->id,
-            'group_id' => $id,
-          ]);
-          break;
-        default:
-          GroupMember::create([
-            'user_id' => $req->user_id,
-            'group_role_id' => GroupRole::where('name', 'member')->first()->id,
-            'group_id' => $id,
-          ]);
-      }
+      GroupMember::create([
+        'user_id' => $req->user_id,
+        'group_role_id' => $req->roleId,
+        'group_id' => $id,
+      ]);
     }
     // ✅
     private function RemoveMember(Request $req, $id) {
@@ -259,7 +210,7 @@ class ManageGroupsController extends Controller
       ]);
 
       // NOTE: Prevents no member in a group.
-      if(Group::where('id', $id)->withCount('group_members_admin_only')->first()->group_members_admin_only_count > 1) {
+      if(Group::where('id', $id)->withCount('group_members')->first()->group_members_count > 1) {
         GroupMember::find($req->memberId)->delete();
       }
       else {

@@ -3,8 +3,9 @@
     <div class="bg-brand-50 p-4 shadow rounded-2xl group mb-4 transition-all">
       <div class="px-4 sm:px-0">
         <div class="flex justify-between">
-          <h3 class="text-base font-semibold leading-7 text-gray-900">
-            <component :is="icon" class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
+          <h3 class="text-base font-semibold leading-7 text-gray-900 ">
+            <component v-if="icon" :is="icon" class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
+            <div v-else class="inline-block h-4 w-4 pt-[2px] text-brand-700" v-html="iconHtml"></div>
             {{ title }}
           </h3>
         </div>
@@ -25,7 +26,8 @@ import { FunctionalComponent } from 'vue'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 
 defineProps<{
-  icon: FunctionalComponent
+  icon?: FunctionalComponent
+  iconHtml?: string
   title: string
   description?: string
 }>()

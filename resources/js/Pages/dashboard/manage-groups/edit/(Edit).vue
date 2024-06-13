@@ -4,7 +4,10 @@
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
       v-model:name="form.name"
-      :admins="data.group_members_admin_only"
+      :admins="data.group_members.filter( member =>
+        member.group_role_id == group_roles.filter(role =>
+          role.display_name == 'Administrator')[0].id
+        )"
       :confirmButton="{
         text: 'Delete',
         icon: XMarkIcon,
@@ -29,9 +32,16 @@
         <GroupHeatMapCard />
       </div>
       <div class="col-span-4 lg:col-span-1">
-        <UpdateAdminCard :groupId="data.id" :admins="data.group_members_admin_only"/>
-        <UpdateModeratorsCard :groupId="data.id" :members="data.group_members_moderator_only"/>
-        <UpdateMembersCard :groupId="data.id" :members="data.group_members_member_only"/>
+        <UpdateMembersCard
+          v-for="role in group_roles"
+          :key="role.id"
+          :roleId="role.id"
+          :groupId="data.id"
+          :icon="role.hero_icon.content"
+          :name="`${role.display_name}s`"
+          :description="role.description"
+          :members="data.group_members"
+        />
       </div>
     </div>
 
@@ -44,16 +54,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { TGroup } from '@/globalTypes'
+import { TGroup, TGroupRole } from '@/globalTypes'
 
 import GroupHeader from '.././GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
 import UpateBasicCard from './UpdateBasicCard.vue'
-
-import UpdateAdminCard from './UpdateAdminCard.vue'
-import UpdateModeratorsCard from './UpdateModeratorsCard.vue'
 import UpdateMembersCard from './UpdateMembersCard.vue'
-
 import FlashErrors from '@/components/header/FlashErrors.vue'
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import UpdateTasksCard from './UpdateTasksCard.vue'
@@ -61,6 +67,7 @@ import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 const $props = defineProps<{
   data: TGroup
+  group_roles: TGroupRole []
 }>()
 
 const form = router.form({

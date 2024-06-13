@@ -10,9 +10,17 @@ class GroupRole extends Model
 {
     use HasFactory, HasUuids;
 
-  protected $fillable  = ['name', 'display_name', 'description'];
+  protected $fillable  = ['name', 'display_name', 'description', 'icon_name'];
 
   public function group_permission_role() {
     return $this->belongsToMany(GroupPermission::class)->withTimestamps();
+  }
+
+  public function group_members() {
+    return $this->hasMany(GroupMember::class);
+  }
+
+  public function hero_icon() {
+    return $this->belongsTo(HeroIcon::class, 'icon_name', 'name');
   }
 }

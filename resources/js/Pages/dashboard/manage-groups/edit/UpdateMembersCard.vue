@@ -1,15 +1,15 @@
 <template>
   <BasicCard
-    :icon="AtSymbolIcon"
-    title="Members"
-    description="Users who's part of the group"
+    :iconHtml="icon"
+    :title="name"
+    :description
   >
     <DataTransition>
       <MemberDropdownMenu
-        v-for="member in members"
+        v-for="member in filteredMembers"
         :key="member.id"
         :id="member.id"
-        :disabled="false"
+        :disabled="filteredMembers.length <= 1 && name == 'Administrator'"
         @selected="RemoveMember(member.id)"
       >
         <div class="flex justify-start">
@@ -39,7 +39,7 @@
 
 <script setup lang="ts">
 import { TGroupMember, TUser } from '@/globalTypes'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 
 import { AtSymbolIcon } from '@heroicons/vue/24/solid'
@@ -52,10 +52,17 @@ import BasicCard from '@/components/cards/BasicCard.vue'
 const $props = defineProps<{
   members: TGroupMember[]
   groupId: string
+  roleId: string
+  name: string
+  icon: string
+  description: string
 }>()
 
 const removeOpen = ref<boolean>(false)
 const selectedMemberId = ref<string>()
+const filteredMembers = computed<TGroupMember[]>(() => {
+  return $props.members.filter(user => user.group_role_id == $props.roleId)
+})
 
 function RemoveMember(id: string) {
   removeOpen.value = true
@@ -65,7 +72,7 @@ function RemoveMember(id: string) {
 function ConfirmRemove() {
   router.put(`/dashboard/manage-groups/${$props.groupId}`, {
     memberId: selectedMemberId.value,
-    type: 'remove-member'
+    type: 'remove-member',
   }, {
     preserveScroll: true,
     preserveState: true
@@ -76,7 +83,7 @@ function AddMember(user: TUser) {
   router.put(`/dashboard/manage-groups/${$props.groupId}`, {
     user_id: user.id,
     type: 'add-member',
-    as: 'member'
+    roleId: $props.roleId
   }, {
     preserveScroll: true,
     preserveState: true

@@ -12,8 +12,8 @@ return new class extends Migration
       $table->uuid('id')->primary();
       $table->string('name');
       $table->text('description')->nullable();
-      $table->string('cover');
-      $table->string('avatar');
+      $table->string('cover')->nullable();
+      $table->string('avatar')->nullable();
       $table->timestamps();
     });
   }

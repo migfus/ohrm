@@ -12,6 +12,7 @@ return new class extends Migration
         $table->string('name');
         $table->string('display_name');
         $table->text('description')->nullable();
+        $table->string('icon_name');
         $table->timestamps();
       });
     }

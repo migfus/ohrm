@@ -42,7 +42,7 @@
 
 
       <!-- NOTE: MEMBERS -->
-      <div v-for="row in data.group_members_member_only" :key="row.id">
+      <div v-for="row in data.group_members_not_admin_only" :key="row.id">
         <Link
           v-if="row.user"
           :href="`/dashboard/manage-users/${row.user.id}/edit`"
@@ -54,11 +54,11 @@
       </div>
 
       <div
-        v-if="data.group_members_member_only.length > 5"
+        v-if="data.group_members_not_admin_only.length > 5"
         class="bg-white text-brand-700 text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium shadow"
       >
         <UsersIcon class="h-4 w-4 text-brand-700" />
-        {{ data.group_members_member_only_count - data.group_members_admin_only.length}} More Members...
+        {{ data.group_members_not_admin_only_count - data.group_members_admin_only.length}} More Members...
       </div>
     </div>
   </Link>

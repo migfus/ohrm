@@ -78,21 +78,24 @@ export interface TGroup {
   description: string
   created_at: string
   group_members_admin_only: TGroupMember []
-  group_members_moderator_only: TGroupMember []
-  group_members_member_only: TGroupMember []
-  group_members_member_only_count: number
+  group_members_not_admin_only: TGroupMember []
+  group_members_not_admin_only_count: number
+  group_members: TGroupMember []
 }
 
 export interface TGroupMember {
   user: TUser
   role: TGroupRole
   id: string
+  group_role_id: string
 }
 
 export interface TGroupRole {
   id: string
   name: string
+  description: string
   display_name: string
+  hero_icon: { content: string }
   created_at: string
 }
 
