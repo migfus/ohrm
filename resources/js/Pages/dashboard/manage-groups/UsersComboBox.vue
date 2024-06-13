@@ -1,6 +1,6 @@
 <template>
   <Combobox as="div" @update:modelValue="value => AddMember(value)" class="gap-2">
-    <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">Invite a member</ComboboxLabel>
+    <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">Invite a user</ComboboxLabel>
 
     <div class="relative mt-2 flex-grow">
       <ComboboxButton class="absolute top-2 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
@@ -26,6 +26,10 @@
             </li>
           </ComboboxOption>
         </ComboboxOptions>
+
+        <!-- NOTE: DEBUGGING PURPOSES
+        count [{{  usersFromDB.data.length }}]
+        <div v-for="user in usersFromDB.data">{{ user.name }}</div> -->
       </div>
     </div>
 
@@ -33,8 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
-import { TUser, TGroupMember } from '@/globalTypes'
+import { ref, watch } from 'vue'
+import { TUser } from '@/globalTypes'
 import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core'
 
@@ -60,6 +64,7 @@ const $emit = defineEmits(['addMember'])
 
 function AddMember(value: TUser) {
  $emit('addMember', value)
+ userSearch()
 }
 
 async function userSearch() {

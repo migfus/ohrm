@@ -24,7 +24,13 @@ class Group extends Model
 
   public function group_members_member_only() {
     return $this->hasMany(GroupMember::class)->whereHas('role', function($q) {
-      $q->whereNot('name', 'admin');
+      $q->where('name', 'member');
+    });
+  }
+
+  public function group_members_moderator_only() {
+    return $this->hasMany(GroupMember::class)->whereHas('role', function($q) {
+      $q->where('name', 'moderator');
     });
   }
 }

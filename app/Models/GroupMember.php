@@ -10,7 +10,7 @@ class GroupMember extends Model
 {
     use HasFactory, HasUuids;
 
-  protected $fillabe = ['user_id', 'group_id', 'group_role_id'];
+  protected $fillable = ['user_id', 'group_id', 'group_role_id'];
 
   public function group() {
     return $this->belongsTo(Group::class);

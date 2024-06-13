@@ -30,7 +30,8 @@
       </div>
       <div class="col-span-4 lg:col-span-1">
         <UpdateAdminCard :groupId="data.id" :admins="data.group_members_admin_only"/>
-        <!-- <MembersCard :members="data.group_members"/> -->
+        <UpdateModeratorsCard :groupId="data.id" :members="data.group_members_moderator_only"/>
+        <UpdateMembersCard :groupId="data.id" :members="data.group_members_member_only"/>
       </div>
     </div>
 
@@ -43,16 +44,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { TGroup, TUser } from '@/globalTypes'
+import { TGroup } from '@/globalTypes'
 
 import GroupHeader from '.././GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
 import UpateBasicCard from './UpdateBasicCard.vue'
-import MembersCard from './MembersCard.vue'
+
+import UpdateAdminCard from './UpdateAdminCard.vue'
+import UpdateModeratorsCard from './UpdateModeratorsCard.vue'
+import UpdateMembersCard from './UpdateMembersCard.vue'
+
 import FlashErrors from '@/components/header/FlashErrors.vue'
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import UpdateTasksCard from './UpdateTasksCard.vue'
-import UpdateAdminCard from './UpdateAdminCard.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 const $props = defineProps<{
@@ -68,16 +72,19 @@ const form = router.form({
 
 const openPrompt = ref<boolean>(false)
 
+// ✅
 function remove() {
   openPrompt.value = true
 }
+// ✅
 function removeGroup() {
   router.delete(`/dashboard/manage-groups/${$props.data.id}`)
 }
-
+// ✅
 function uploadAvatar(value: string) {
   router.put(`/dashboard/manage-groups/${$props.data.id}`, {avatar: value, type: 'avatar'})
 }
+// ✅
 function uploadCover(value: string) {
   router.put(`/dashboard/manage-groups/${$props.data.id}`, {cover: value, type: 'cover'})
 }

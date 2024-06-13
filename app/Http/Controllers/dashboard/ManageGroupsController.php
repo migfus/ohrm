@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 use App\Models\User;
 use App\Models\Group;
+use App\Models\GroupMember;
 use App\Models\GroupRole;
 use App\Models\Task;
 
@@ -128,12 +129,17 @@ class ManageGroupsController extends Controller
     // }
   }
 
+  // ✅
   // NOTE: UPDATE
   public function edit(Request $req, $id): Response {
     $data = Group::query()
       ->select('id', 'name', 'avatar', 'cover', 'description')
       ->where('id', $id)
-      ->with(['group_members_admin_only.user', 'group_members_admin_only.user'])
+      ->with([
+        'group_members_admin_only.user',
+        'group_members_member_only.user',
+        'group_members_moderator_only.user',
+      ])
       ->first();
 
     $roles = GroupRole::query()->get();
@@ -163,10 +169,11 @@ class ManageGroupsController extends Controller
       case 'add-member':
         $this->AddMember($req, $id);
         break;
-
-      case'remove-member':
+      // ✅
+      case 'remove-member':
         $this->RemoveMember($req, $id);
         break;
+
       case 'addTask':
         $this->AddTask($req, $id);
         break;
@@ -215,14 +222,49 @@ class ManageGroupsController extends Controller
         'cover' => $this->GUploadAvatar($req->cover, "groups/$id/cover/")
       ]);
     }
-    // ✏️
+    // ✅
     private function AddMember(Request $req, $id) : void {
       $val = $req->validate([
         'user_id' => ['required'],
-        'type' => ['required'] // NOTE: admin/moderator/member
+        'as' => ['required'] // NOTE: admin/moderator/member
       ]);
 
-      dd($req->all());
+      switch($req->as) {
+        case 'admin':
+          GroupMember::create([
+            'user_id' => $req->user_id,
+            'group_role_id' => GroupRole::where('name', 'admin')->first()->id,
+            'group_id' => $id,
+          ]);
+          break;
+        case 'moderator':
+          GroupMember::create([
+            'user_id' => $req->user_id,
+            'group_role_id' => GroupRole::where('name', 'moderator')->first()->id,
+            'group_id' => $id,
+          ]);
+          break;
+        default:
+          GroupMember::create([
+            'user_id' => $req->user_id,
+            'group_role_id' => GroupRole::where('name', 'member')->first()->id,
+            'group_id' => $id,
+          ]);
+      }
+    }
+    // ✅
+    private function RemoveMember(Request $req, $id) {
+      $val = $req->validate([
+        'memberId' => ['required', 'uuid'],
+      ]);
+
+      // NOTE: Prevents no member in a group.
+      if(Group::where('id', $id)->withCount('group_members_admin_only')->first()->group_members_admin_only_count > 1) {
+        GroupMember::find($req->memberId)->delete();
+      }
+      else {
+        return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['member' => 'At least 1 member should access the group.']);
+      }
     }
 
     private function updateTask(Request $req): void {
@@ -252,13 +294,7 @@ class ManageGroupsController extends Controller
         'name' => $req->name,
       ]);
     }
-    private function RemoveMember(Request $req, $id) : void {
-      $val = $req->validate([
-        'memberId' => ['required', 'uuid'],
-      ]);
 
-      User::find($req->memberId)->removeRole('staff', Group::find($id)->name);
-    }
 
   // ✅
   // NOTE: Remove
@@ -269,20 +305,23 @@ class ManageGroupsController extends Controller
   }
 
   // ✅
+  // FIXME: Need optimization, for now (6/13/2024) I don't want to touch the code as long it works.
   // NOTE: SHOW USERS BASED ON CURRENT/SELECTED GROUP (for security improvement)
   // REASON: We want to show up users list upon selecting admin/moderator/member but no duplicates.
   // FILTERING: We should look for [Group] first before we provide users, to prevent duplicates.
   // SECURITY CONCERN: Filters will work as well but vulnerable for duplicates and injections.
   public function UserComboBox(Request $req, $id) : JsonResponse {
+    $dontIncludeUsers = [];
+    $members = GroupMember::where('group_id', $id)->with('user')->get();
+    foreach($members as $row) {
+      $dontIncludeUsers[]  = $row->user['id'];
+    }
+
     return response()->json(
       User::query()
         ->select('name', 'id', 'avatar')
-        ->when(isset($req->search), function($q) use($req) {
-          $q->where('name', 'LIKE', '%'. $req->search. '%');
-        })
-        ->whereHas('group_members', function($q) use($id) {
-          $q->whereNot('group_id', $id);
-        })
+        ->whereNotIn('id', $dontIncludeUsers)
+        ->where('name', 'LIKE', '%'. $req->search. '%')
         ->orderBy('name', 'ASC')
         ->limit(5)
         ->get()
