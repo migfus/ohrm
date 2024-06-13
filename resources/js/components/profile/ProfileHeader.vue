@@ -14,7 +14,7 @@
             <h1 class="truncate font-bold text-brand-500">{{ user.email }}</h1>
           </div>
           <div class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
-            <Link href="/dashboard/manage-users"><AppButton :icon="UsersIcon">Manage Users</AppButton></Link>
+            <Link href="/dashboard/manage-users"><AppButton :icon="XMarkIcon">Cancel</AppButton></Link>
             <AppButton :icon="PaperAirplaneIcon">Message</AppButton>
             <AppButton v-if="authId != user.id" @click="openRemove = true" color="danger" :icon="XMarkIcon">Remove</AppButton>
           </div>

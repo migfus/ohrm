@@ -1,15 +1,17 @@
 <?php
 namespace App\Http\Controllers\dashboard;
 
-use App\Models\HeroIcon;
-use App\Models\Role;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\HeroIcon;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\GroupMember;
 
 class ManageUsersController extends Controller
 {
@@ -135,6 +137,9 @@ class ManageUsersController extends Controller
       case 'update-role':
         $this->UpdateRole($req, $id);
         break;
+      case 'remove-joined-group':
+        $this->RemoveJoinedGroup($req, $id);
+        break;
       default:
         return to_route('dashboard.manage-users.edit', ['manage_user' => $id])->withErrors(['type' => 'Invalid Type!']);
     }
@@ -188,13 +193,21 @@ class ManageUsersController extends Controller
 
       User::find($id)->update(['cover' => $this->GUploadAvatar($req->cover, 'covers/'.$id)]);
     }
-    // ✏️
+    // ✅
     private function UpdateRole(Request $req, $id) : void {
       $val = $req->validate([
         'userRoleId' => ['required', 'uuid']
       ]);
 
       User::where('id', $id)->first()->syncRoles([Role::where('id', $req->userRoleId)->first()]);
+    }
+    // ✏️
+    private function RemoveJoinedGroup($req, $id): void {
+      $val = $req->validate([
+        'groupMemberId' => ['required', 'uuid']
+      ]);
+
+      GroupMember::where('id', $req->groupMemberId)->delete();
     }
 
   // NOTE: DELETE
