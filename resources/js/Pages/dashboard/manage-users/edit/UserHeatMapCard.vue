@@ -1,13 +1,5 @@
 <template>
-  <div class="bg-brand-50 mb-4 shadow rounded-xl p-4 block">
-    <div class="px-4 sm:px-0 mb-4">
-      <h3 class="text-base font-semibold leading-7 text-gray-900">
-        <ChartBarIcon class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
-        User's Task Activities
-      </h3>
-      <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Modify basic information of the user.</p>
-    </div>
-
+  <BasicCard :icon="ChartBarIcon" title="Tasks' Heatmap" description="Group's heatmap activities.">
     <CalendarHeatmap
       :values="[
         { date: '2024-05-9', count: 6 },
@@ -16,15 +8,16 @@
       ]"
       end-date="2024-12-31"
       :round="5"
-
       tooltip-unit="activity"
+      class="bg-white py-3 px-4 rounded-xl shadow"
     />
-  </div>
+  </BasicCard>
 </template>
 
 <script setup lang="ts">
 import { CalendarHeatmap } from 'vue3-calendar-heatmap'
 import { ChartBarIcon } from '@heroicons/vue/24/solid'
+import BasicCard from '@/components/cards/BasicCard.vue'
 </script>
 
 <style>

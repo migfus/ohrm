@@ -9,7 +9,7 @@
         v-for="member in filteredMembers"
         :key="member.id"
         :id="member.id"
-        :disabled="filteredMembers.length <= 1 && name == 'Administrator'"
+        :disabled="filteredMembers.length <= 1 && name == 'Administrators'"
         @selected="RemoveMember(member.id)"
       >
         <div class="flex justify-start">

@@ -51,18 +51,8 @@ export interface TUser {
   cover: string
   created_at: string
   name: string
-  group_members: {
-    roles: {
-      name: string
-      display_name: string
-    }
-    group: {
-      name: string
-      description: string
-      avatar: string
-    }
-    id: string
-  } []
+  group_members: TGroupMember []
+  roles: TRole []
 }
 
 export interface TUserWithType extends TUser {
@@ -84,8 +74,9 @@ export interface TGroup {
 }
 
 export interface TGroupMember {
-  user: TUser
-  role: TGroupRole
+  user?: TUser
+  role?: TGroupRole
+  group?: TGroup
   id: string
   group_role_id: string
 }
@@ -156,4 +147,9 @@ export interface TTask {
   active?: boolean
   cover?: string
   created_at?: Date
+}
+
+export interface TSelect {
+  display_name: string
+  id: string
 }

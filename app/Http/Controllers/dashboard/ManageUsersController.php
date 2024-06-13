@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ManageUsersController extends Controller
 {
-
-
+  // ✅
   // NOTE: ALL
   public function index(Request $req) : Response {
     $roles = Role::query()
@@ -51,7 +50,7 @@ class ManageUsersController extends Controller
       ->orderBy('name', 'ASC')
       ->paginate(10);
 
-    return Inertia::render('dashboard/manage-users/(Index)' , [
+    return Inertia::render('dashboard/manage-users/index/(Index)' , [
       'pageTitle' => 'Manage Users',
       'roles' => $roles_processed,
       'data' => $users,
@@ -69,7 +68,7 @@ class ManageUsersController extends Controller
       ->select('display_name', 'id', 'name')
       ->orderBy('name', 'ASC')
       ->get();
-    return Inertia::render('dashboard/manage-users/(Create)', ['pageTitle' => 'Create User', 'roles' => $roles]);
+    return Inertia::render('dashboard/manage-users/create/(Create)', ['pageTitle' => 'Create User', 'roles' => $roles]);
   }
   public function store(Request $req) {
     $val = $req->validate([
@@ -100,26 +99,50 @@ class ManageUsersController extends Controller
     return to_route('dashboard.manage-users.index')->with('flash', ['success' => 'Successfuly Created.']);
   }
 
+  // ✏️
   // NOTE: UPDATE
   public function edit(Request $req, $id) : Response {
+    $roles = Role::query()
+      ->select('id', 'display_name')
+      ->get();
     $user = User::query()
+      ->with(['roles', 'group_members.group', 'group_members.role.hero_icon'])
       ->where('id', $id)
-      ->with(['rolesTeams',
-        'rolesTeamsHead' => function ($q) {
-        $q->wherePivot('role_id', Role::where('name', 'head')->first()->id);
-      }])
       ->first();
 
-    return Inertia::render('dashboard/manage-users/(Edit)', ['pageTitle' => $user->name, 'user' => $user]);
+    return Inertia::render('dashboard/manage-users/edit/(Edit)', [
+      'pageTitle' => $user->name,
+      'user' => $user,
+      'roles' => $roles
+    ]);
   }
+  // ✏️
   public function update(Request $req, $id) : RedirectResponse {
-    if($req->type == 'avatar') {
-      $this->uploadAvatar($req, $id);
+    $req->validate([
+      'type' => ['required']
+    ]);
+
+    switch($req->type) {
+      case 'avatar':
+        $this->UpdateAvatar($req, $id);
+        break;
+      case 'cover':
+        $this->UpdateCover($req, $id);
+        break;
+      case 'basic':
+        $this->UpdateBasic($req, $id);
+        break;
+      case 'update-role':
+        $this->UpdateRole($req, $id);
+        break;
+      default:
+        return to_route('dashboard.manage-users.edit', ['manage_user' => $id])->withErrors(['type' => 'Invalid Type!']);
     }
-    else if($req->type == 'cover') {
-      $this->uploadCover($req, $id);
-    }
-    else {
+
+    return to_route('dashboard.manage-users.edit', ['manage_user' => $id]);
+  }
+    // ✅
+    private function UpdateBasic($req, $id): void {
       $req->validate([
         '_name' => ['required'],
         '_email' => ['required', 'email'],
@@ -128,21 +151,19 @@ class ManageUsersController extends Controller
         'password' => ['required', 'min:8'],
       ]);
 
-      User::find($id)
+      User::where('id', $id)
         ->when($req->_name != $req->name, function ($q) use ($req) {
           $q->update(['name' => $req->name]);
         })
         ->when($req->_email != $req->email, function ($q) use ($req) {
           $q->update(['email' => $req->email]);
         })
-        ->when($req->password != '*******************', function ($q) use ($req) {
+        ->when($req->password != '●●●●●●●●', function ($q) use ($req) {
           $q->update(['password' => Hash::make($req->password)]);
         });
     }
-    return to_route('dashboard.manage-user.show', ['id' => $id]);
-  }
-
-    private function uploadAvatar(Request $req, $id) {
+    // ✅
+    private function UpdateAvatar(Request $req, $id){
       $req->validate([
         'avatar' => ['required'],
       ]);
@@ -154,8 +175,8 @@ class ManageUsersController extends Controller
 
       User::find($id)->update(['avatar' => $this->GUploadAvatar($req->avatar, 'avatars/'.$id)]);
     }
-
-    private function uploadCover(Request $req, $id) {
+    // ✅
+    private function UpdateCover(Request $req, $id){
       $req->validate([
         'cover' => ['required'],
       ]);
@@ -166,6 +187,14 @@ class ManageUsersController extends Controller
       }
 
       User::find($id)->update(['cover' => $this->GUploadAvatar($req->cover, 'covers/'.$id)]);
+    }
+    // ✏️
+    private function UpdateRole(Request $req, $id) : void {
+      $val = $req->validate([
+        'userRoleId' => ['required', 'uuid']
+      ]);
+
+      User::where('id', $id)->first()->syncRoles([Role::where('id', $req->userRoleId)->first()]);
     }
 
   // NOTE: DELETE

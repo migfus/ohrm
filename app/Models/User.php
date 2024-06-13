@@ -62,6 +62,8 @@ class User extends Authenticatable implements LaratrustUser
 
 
 
+
+
     // public function
 
 

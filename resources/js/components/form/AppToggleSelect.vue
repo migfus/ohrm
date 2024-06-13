@@ -3,16 +3,21 @@
     <dd class="text-sm leading-6 text-gray-700 font-semibold">{{ name }}</dd>
     <BasicTransition>
       <form @submit.prevent="submit()" v-if="active">
-        <AppTextArea v-model="$model" size="sm" name="Name" :error="undefined" noLabel/>
+        <AppSelect
+          :suggestions
+          name="Role"
+          v-model="$model"
+        />
         <div class="flex justify-end gap-2 mt-2">
           <AppButton type="button" @click="cancel()" size="sm">Cancel</AppButton>
           <AppButton type="submit" size="sm" color="brand">Update</AppButton>
         </div>
       </form>
+
       <dt v-else @click="active = true" class="cursor-pointer text-sm font-medium leading-6 text-gray-900 bg-white rounded-xl shadow py-2 px-4">
         <div class="flex justify-between">
           <div class="">
-            {{ $model }}
+            {{ $model?.display_name }}
           </div>
           <div>
             <PencilIcon class="text-sm text-brand-700 h-4 w-4 inline mb-[3px] align-middle group-hover:opacity-100 transition-all sm:opacity-0"/>
@@ -30,14 +35,17 @@ import { ref } from 'vue'
 import BasicTransition from "@/components/transitions/BasicTransition.vue"
 import AppButton from './AppButton.vue'
 import { PencilIcon } from '@heroicons/vue/24/solid'
-import AppTextArea from './AppTextArea.vue'
+import AppSelect from './AppSelect.vue'
+import { TSelect } from '@/globalTypes'
 
 const $props = defineProps<{
   name: string
-  defaultValue: string
+  defaultValue: TSelect
+  enablePasswordGenerator?: boolean
+  suggestions: TSelect []
 }>()
 const defaultValue = $props.defaultValue
-const $model = defineModel<string>()
+const $model = defineModel<TSelect>()
 const $emits = defineEmits(['submit'])
 const active = ref<boolean>(false)
 
