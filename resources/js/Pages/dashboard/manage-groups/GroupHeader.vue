@@ -37,7 +37,7 @@
       name="Upload Avatar"
       :ratio="1"
       :size="[400, 400]"
-      @upload="$emit('uploadAvatar', $avatar)"
+      @upload="image => $emit('uploadAvatar', image)"
     />
     <UploadAvatarModal
       v-model="$cover"
@@ -45,7 +45,7 @@
       name="Upload Cover"
       :ratio="639/95"
       :size="[1278*4, 190*4]"
-      @upload="$emit('uploadCover', $cover)"
+      @upload="image => $emit('uploadCover', image)"
     />
   </div>
 </template>
@@ -58,7 +58,7 @@ import { XMarkIcon } from '@heroicons/vue/20/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 
-const $props = defineProps<{
+defineProps<{
   admins: TGroupMember []
   confirmButton: {
     text: string

@@ -6,7 +6,7 @@
       :allowSearch="true"
       title="Manage Groups"
       desc="Create, modify & assign members to groups"
-      @add="router.visit('/dashboard/manage-groups/create')"
+      @add="showCreateGroupModal = true"
     />
 
     <TabSection v-model="selected" :data="tabs"/>
@@ -27,12 +27,14 @@
 
     <PaginationCard :data @changePage="ChangePage" />
 
+    <!-- NOTE: CREATE MODAL -->
+    <Create v-model="showCreateGroupModal" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, reactive } from 'vue'
-import { TFilters, TTab, TGroup } from '@/globalTypes'
+import { TFilters, TGroup } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import { useThrottle } from '@vueuse/core'
 
@@ -41,6 +43,8 @@ import TabSection from '@/components/header/TabSection.vue'
 import PaginationCard from '@/components/data/PaginationCard.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import GroupCard from '@/components/data/GroupCard.vue'
+import Create from './Create.vue'
+
 
 const $props = defineProps<{
   filters: TFilters,
@@ -49,6 +53,7 @@ const $props = defineProps<{
   }
 }>()
 
+const showCreateGroupModal = ref<boolean>(false)
 // NOTE: Search
 const throttledSearch = ref($props.filters.search ?? '')
 const form = reactive({

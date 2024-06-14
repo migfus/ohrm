@@ -66,7 +66,7 @@ import { ref } from 'vue'
 
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XMarkIcon, ArrowUpOnSquareIcon } from '@heroicons/vue/24/outline'
-// @ts-ignore 😅 Weird
+// @ts-ignore 😅 Weird, probably an old plugin
 import VuePictureCropper, { cropper } from 'vue-picture-cropper'
 import AppButton from '@/components/form/AppButton.vue'
 
@@ -116,6 +116,6 @@ async function GetResult() {
     imageSmoothingQuality: 'high'
   })
   $model.value = base64
-  $emit('upload')
+  $emit('upload', base64)
 }
 </script>

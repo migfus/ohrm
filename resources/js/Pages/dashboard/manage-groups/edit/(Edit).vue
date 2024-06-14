@@ -31,7 +31,7 @@
       <div class="col-span-4 lg:col-span-2">
         <GroupHeatMapCard />
       </div>
-      <div class="col-span-4 lg:col-span-1">
+      <div class="col-span-4 lg:col-span-1 space-y-4">
         <UpdateMembersCard
           v-for="role in group_roles"
           :key="role.id"
@@ -87,10 +87,9 @@ function remove() {
 function removeGroup() {
   router.delete(`/dashboard/manage-groups/${$props.data.id}`)
 }
-// ✏️
+// ✅
 function uploadAvatar(value: string) {
-  console.log('avatar', value)
-  // router.put(`/dashboard/manage-groups/${$props.data.id}`, {avatar: value, type: 'avatar'})
+  router.put(`/dashboard/manage-groups/${$props.data.id}`, {avatar: value, type: 'avatar'})
 }
 // ✅
 function uploadCover(value: string) {

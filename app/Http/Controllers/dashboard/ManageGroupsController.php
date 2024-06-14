@@ -50,20 +50,10 @@ class ManageGroupsController extends Controller
   }
 
   // NOTE: STORE
-  public function create(): Response  {
-    return Inertia::render(
-      'dashboard/manage-groups/create/(Create)',
-      [
-        'pageTitle' => 'Create Group',
-      ]
-    );
-  }
   public function store(Request $req): RedirectResponse {
     $val = $req->validate([
       'name' => ['required', 'unique:groups,name'],
       'description' => ['required'],
-      'avatar' => ['required'],
-      'cover' => ['required'],
     ]);
 
     // DB::beginTransaction();
@@ -77,8 +67,8 @@ class ManageGroupsController extends Controller
       Group::query()
         ->where('id', $group->id)
         ->update([
-          'avatar' => $this->GUploadAvatar($req->avatar, "groups/$group->id/avatar/"),
-          'cover' => $this->GUploadAvatar($req->cover, "groups/$group->id/cover/")
+          'avatar' => $this->GUploadAvatar('/assets/avatar_cover_default.jpg', "groups/$group->id/avatar/"),
+          'cover' => $this->GUploadAvatar('/assets/cover_group_default.jpg', "groups/$group->id/cover/")
         ]);
       GroupMember::create([
         'user_id' => $req->user()->id,

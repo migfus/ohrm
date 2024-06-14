@@ -40,7 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/account', AccountController::class)->only(['index']);
 
     // NOTE: ADMIN
-    Route::resource('/manage-groups', ManageGroupsController::class)->except('show');
+    Route::resource('/manage-groups', ManageGroupsController::class)->except(['show', 'create']);
       Route::get('/manage-groups/users-suggestion/{id}', [ManageGroupsController::class, 'UserComboBox'])->name('manage-groups.users-suggestion');
     Route::resource('/manage-users', ManageUsersController::class)->except('show');
     Route::resource('/system-roles-permissions', SystemRolesPermissionsController::class)->only(['index', 'update']);

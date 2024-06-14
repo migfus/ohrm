@@ -1,7 +1,7 @@
 <template>
   <BasicTransition>
-    <div class="bg-brand-50 p-4 shadow rounded-2xl group mb-4 transition-all">
-      <div class="px-4 sm:px-0">
+    <div class="bg-brand-50 p-4 shadow rounded-2xl group transition-all">
+      <div class="">
         <div class="flex justify-between">
           <h3 class="text-base font-semibold leading-7 text-gray-900 ">
             <component v-if="icon" :is="icon" class="text-sm text-brand-700 h-4 w-4 inline mr-1 mb-[3px] align-middle"/>
