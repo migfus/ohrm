@@ -21,7 +21,7 @@ class ManageUsersController extends Controller
   // NOTE: ALL
   public function index(Request $req) : Response {
     $roles = Role::query()
-      ->select('display_name', 'name', 'icon_name')
+      ->select('display_name', 'name', 'icon_name', 'id')
       ->with(['hero_icon' => function($q) {
         $q->select('content', 'name');
       }])
@@ -57,6 +57,7 @@ class ManageUsersController extends Controller
     return Inertia::render('dashboard/manage-users/index/(Index)' , [
       'pageTitle' => 'Manage Users',
       'roles' => $roles_processed,
+      'userRoles' => $roles,
       'data' => $users,
       'filters' => [
         'page' => $req->page ?? null,
@@ -67,24 +68,13 @@ class ManageUsersController extends Controller
   }
 
   // NOTE: CREATE
-  public function create() : Response {
-    $roles = Role::query()
-      ->select('display_name', 'id', 'name')
-      ->orderBy('name', 'ASC')
-      ->get();
-    return Inertia::render('dashboard/manage-users/create/(Create)', ['pageTitle' => 'Create User', 'roles' => $roles]);
-  }
   public function store(Request $req) {
     $val = $req->validate([
       'name' => ['required',],
       'email' => ['required', 'email', 'unique:users'],
       'password' => ['required', 'min:6'],
-      'role' => ['required'],
-      'avatar' => ['required'],
-      'cover' => ['required'],
+      'roleId' => ['required', 'uuid'],
     ]);
-
-    // return Team::where('name', 'system')->first();
 
     $user = User::create([
       'name' => $req->name,
@@ -94,16 +84,16 @@ class ManageUsersController extends Controller
     User::query()
       ->where('id', $user->id)
       ->update([
-        'avatar' => $this->GUploadAvatar($req->avatar, "users/$user->id/avatar/"),
-        'cover' => $this->GUploadAvatar($req->cover, "users/$user->id/cover/"),
+        'avatar' => $this->GUploadAvatar('/assets/avatar_default.png', "users/$user->id/avatar/"),
+        'cover' => $this->GUploadAvatar('/assets/cover_group_default.jpg', "users/$user->id/cover/"),
       ]);
 
-    $user->addRole($req->role, 'system');
+    $user->addRole(Role::where('id', $req->roleId)->first(), 'system');
 
     return to_route('dashboard.manage-users.index')->with('flash', ['success' => 'Successfuly Created.']);
   }
 
-  // ✏️
+  // ✅
   // NOTE: UPDATE
   public function edit(Request $req, $id) : Response {
     $roles = Role::query()
@@ -120,7 +110,7 @@ class ManageUsersController extends Controller
       'roles' => $roles
     ]);
   }
-  // ✏️
+  // ✅
   public function update(Request $req, $id) : RedirectResponse {
     $req->validate([
       'type' => ['required']

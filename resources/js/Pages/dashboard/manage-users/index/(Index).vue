@@ -5,7 +5,7 @@
       :allowSearch="true"
       title="Manage Users"
       desc="Create, modify, or generate report users informations"
-      @add="router.visit('/dashboard/manage-users/create')"
+      @add="showCreateUserModal = true"
     />
 
     <TabSection v-model="selected" :data="roles" @selectedData="changeTab"/>
@@ -25,6 +25,7 @@
     </div>
 
     <PaginationCard :data @changePage="changePage" />
+    <Create v-model="showCreateUserModal" :roles="userRoles"/>
 
   </div>
 </template>
@@ -35,18 +36,21 @@ import { useThrottle } from '@vueuse/core'
 
 import UserCard from '@/components/data/UserCard.vue'
 import PaginationCard from '@/components/data/PaginationCard.vue'
-import { TFilters, TPagination, TUser, TTab } from '@/globalTypes'
+import { TFilters, TPagination, TUser, TTab, TRole } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import HeaderContent from '@/components/header/HeaderContent.vue'
 import TabSection from '@/components/header/TabSection.vue'
+import Create from './Create.vue'
 
 const $props = defineProps<{
   filters: TFilters
   roles: TTab []
+  userRoles: TRole []
   data: TPagination<TUser>
 }>()
 
+const showCreateUserModal = ref<boolean>(false)
 const throttledSearch = ref($props.filters.search ?? '')
 const selected = ref(0)
 const form = reactive({
