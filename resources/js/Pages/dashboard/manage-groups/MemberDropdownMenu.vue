@@ -29,13 +29,18 @@
         leave-to-class="transform scale-95 opacity-0"
       >
         <MenuItems
-          v-if="!disabled"
           class="z-10 rounded-2xl absolute right-0 mt-1 w-36 origin-top-right divide-y divide-gray-100 bg-white shadow-xl"
         >
           <div class="px-1 py-1">
-            <!-- <DropdownContent :icon="CheckCircleIcon" @selected="$emit('selected', {type: 'visibility', id: id})">Show</DropdownContent>
-            <DropdownContent :icon="PencilIcon" @selected="$emit('selected', {type: 'edit', id: id})">Edit</DropdownContent> -->
-            <DropdownContent :icon="XMarkIcon" @selected="$emit('selected', {type: 'remove', id: id})" danger>Remove</DropdownContent>
+            <DropdownContent :icon="ArrowRightCircleIcon" :href="`/dashboard/manage-users/${userId}/edit`">More Info</DropdownContent>
+            <DropdownContent
+              v-if="!disabled"
+              :icon="XMarkIcon"
+              danger
+              @selected="$emit('selected', {type: 'remove', id: id})"
+            >
+              Remove
+            </DropdownContent>
           </div>
         </MenuItems>
       </transition>
@@ -45,12 +50,13 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
-import { ChevronDownIcon, StarIcon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon, StarIcon, ArrowRightCircleIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 
 defineProps<{
   id: string
+  userId: string
   disabled: boolean | undefined
 }>()
 

@@ -12,6 +12,8 @@ use App\Models\HeroIcon;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\GroupMember;
+use App\Models\Group;
+
 
 class ManageUsersController extends Controller
 {
@@ -202,11 +204,19 @@ class ManageUsersController extends Controller
       User::where('id', $id)->first()->syncRoles([Role::where('id', $req->userRoleId)->first()]);
     }
     // ✏️
-    private function RemoveJoinedGroup($req, $id): void {
+    private function RemoveJoinedGroup($req, $id){
       $val = $req->validate([
         'groupMemberId' => ['required', 'uuid']
       ]);
 
+      // NOTE: Check if there's any available user's left as an admin role
+      // REASON: We don't want a group without an admin user.
+      $groupMember = GroupMember::where('id', $req->groupMemberId)->first();
+      $group = Group::where('id', $groupMember->group_id)->withCount('group_members_admin_only')->first();
+
+      if($group->group_members_admin_only_count <= 1) {
+        return to_route('dashboard.manage-users.edit', ['manage_user' => $id])->withErrors(['group-member' => 'You cannot remove this member, this user is the only admin to this group. You need to assign a new admin in order to remove this user from the group.']);
+      }
       GroupMember::where('id', $req->groupMemberId)->delete();
     }
 

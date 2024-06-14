@@ -2,7 +2,7 @@
   <BasicCard :icon="AdjustmentsHorizontalIcon" title="Update System Role" description="User's system role.">
     <AppToggleSelect
       name="Role"
-      :defaultValue="form.role"
+      :defaultValue="userRole"
       v-model="form.role"
       :suggestions="roles.map(role => {
         return {

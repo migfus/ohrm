@@ -1,6 +1,6 @@
 <template>
   <BasicCard :icon="SquaresPlusIcon" title="Joined Groups" description="User's joined groups">
-    <GroupDropdownMenu v-for="member in groupMembers" id="1" @selected="selected(member.id)">
+    <GroupDropdownMenu v-for="member in groupMembers" :id="member.id" :groupId="member.group_id" @selected="selected(member.id)">
       <div class="flex justify-between">
         <img :src="member.group?.avatar ?? ''" class="h-3 w-3 mt-1 rounded mr-2" />
         <span class="grow flex truncate">

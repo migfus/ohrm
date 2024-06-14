@@ -6,7 +6,7 @@ export type TCTopNavigation = {
   icon?: FunctionalComponent
   href: string
   active?: boolean
-  component: string
+  components: string []
 }
 
 export type GTAuth = {
@@ -79,6 +79,8 @@ export interface TGroupMember {
   group?: TGroup
   id: string
   group_role_id: string
+  group_id: string
+  user_id: string
 }
 
 export interface TGroupRole {

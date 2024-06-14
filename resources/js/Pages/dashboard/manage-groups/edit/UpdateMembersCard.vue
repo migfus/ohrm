@@ -9,12 +9,13 @@
         v-for="member in filteredMembers"
         :key="member.id"
         :id="member.id"
+        :userId="member.user_id"
         :disabled="filteredMembers.length <= 1 && name == 'Administrators'"
         @selected="RemoveMember(member.id)"
       >
         <div class="flex justify-start">
-          <img :src="member.user.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mt-[3px]">
-          <span class="truncate">{{ member.user.name }}</span>
+          <img :src="member?.user?.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mt-[3px]">
+          <span class="truncate">{{ member?.user?.name }}</span>
         </div>
       </MemberDropdownMenu>
     </DataTransition>

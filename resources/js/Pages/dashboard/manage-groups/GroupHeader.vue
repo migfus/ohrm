@@ -13,8 +13,8 @@
             <h1 class="truncate text-2xl font-bold text-brand-900">{{ name }}</h1>
             <div class="flex gap-4">
               <h1 v-for="head in admins" :key="head.id" class="truncate font-semibold text-brand-500 inline">
-                <img :src="head.user.avatar" class="h-5 w-5 inline rounded-xl mr-1"/>
-                {{ head.user.name }}
+                <img :src="head.user?.avatar" class="h-5 w-5 inline rounded-xl mr-1"/>
+                {{ head.user?.name }}
               </h1>
             </div>
 

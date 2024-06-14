@@ -7,7 +7,6 @@
           :class="[`w-full rounded-2xl px-3 py-2 text-sm font-medium bg-white shadow focus:ring-2 focus:ring-brand-500 truncate`]"
         >
           <slot></slot>
-
         </MenuButton>
       </div>
 
@@ -21,9 +20,20 @@
       >
         <MenuItems class="z-10 rounded-2xl absolute right-0 mt-1 w-36 origin-top-right divide-y divide-gray-100 bg-white shadow-xl" >
           <div class="px-1 py-1">
-            <!-- <DropdownContent :icon="CheckCircleIcon" @selected="$emit('selected', {type: 'visibility', id: id})">Show</DropdownContent>
-            <DropdownContent :icon="PencilIcon" @selected="$emit('selected', {type: 'edit', id: id})">Edit</DropdownContent> -->
-            <DropdownContent :icon="XMarkIcon" @selected="$emit('selected', {type: 'remove', id: id})" danger>Remove</DropdownContent>
+            <DropdownContent
+              :icon=" ArrowRightCircleIcon "
+              :href="`/dashboard/manage-groups/${groupId}/edit`"
+            >
+              More Info
+            </DropdownContent>
+
+            <DropdownContent
+              :icon="XMarkIcon"
+              @selected="$emit('selected', {type: 'remove', id: id})"
+              danger
+            >
+              Remove
+            </DropdownContent>
           </div>
         </MenuItems>
       </transition>
@@ -33,12 +43,12 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
-import { ChevronDownIcon, StarIcon } from '@heroicons/vue/20/solid'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
+import { ArrowRightCircleIcon, XMarkIcon } from '@heroicons/vue/20/solid'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 
 defineProps<{
   id: string
+  groupId: string
 }>()
 
 const $emit = defineEmits(['selected'])

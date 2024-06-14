@@ -35,10 +35,8 @@ defineProps<{
 const loading = ref(false)
 
 function changePermission(role: TRole, permission_id: string, event: Event) {
-  router.post(
-    `/dashboard/manage-roles-permissions`,
+  router.put(`/dashboard/system-roles-permissions/${permission_id}`,
     {
-      permission_id: permission_id,
       role_id: role.id,
       type: 'permission',
       // @ts-ignore

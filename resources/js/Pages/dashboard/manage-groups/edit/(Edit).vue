@@ -87,9 +87,10 @@ function remove() {
 function removeGroup() {
   router.delete(`/dashboard/manage-groups/${$props.data.id}`)
 }
-// ✅
+// ✏️
 function uploadAvatar(value: string) {
-  router.put(`/dashboard/manage-groups/${$props.data.id}`, {avatar: value, type: 'avatar'})
+  console.log('avatar', value)
+  // router.put(`/dashboard/manage-groups/${$props.data.id}`, {avatar: value, type: 'avatar'})
 }
 // ✅
 function uploadCover(value: string) {

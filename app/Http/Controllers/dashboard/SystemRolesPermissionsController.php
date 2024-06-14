@@ -30,29 +30,28 @@ class SystemRolesPermissionsController extends Controller
     );
   }
 
-  public function create(Request $req) {
+  public function update(Request $req, $permissionId) {
     $val = $req->validate([
       'type' => ['required'],
       'role_id' => ['required'],
-    'permission_id' => ['required'],
       'value' => ['required']
     ]);
 
     $role = Role::where('id', $req->role_id)->where('name', '!=', 'admin')->first();
 
     if(!$role) {
-      return to_route('dashboard.system-roles-permissions')->withErrors([
+      return to_route('dashboard.system-roles-permissions.index')->withErrors([
         'Admin Permissions' => 'You cannot modify admin permissions <img src="/assets/i see you.gif" class="mt-4">',
       ]);
     }
 
     if($req->value == true) {
-      $role->attachPermission($req->permission_id);
+      $role->attachPermission($permissionId);
     }
     else {
-      $role->detachPermission($req->permission_id);
+      $role->detachPermission($permissionId);
     }
 
-    return to_route('dashboard.system-roles-permissions');
+    return to_route('dashboard.system-roles-permissions.index');
   }
 }
