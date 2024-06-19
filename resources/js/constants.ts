@@ -9,7 +9,7 @@ import {
   FolderPlusIcon,
   FolderIcon,
   AtSymbolIcon
-} from "@heroicons/vue/24/outline"
+} from "@heroicons/vue/24/solid"
 
 export const CTopNavigation: TCTopNavigation[] = [
   {

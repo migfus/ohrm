@@ -68,6 +68,7 @@ function changePage(page: number) {
 }
 function changeTab(data: { name: string }) {
   form.type = data.name
+  form.page = 1
 }
 function search() {
   router.get('/dashboard/manage-users', form, { preserveState: true })

@@ -1,20 +1,3 @@
-<script setup lang="ts">
-import { CTopNavigation } from '@/constants'
-
-import { Disclosure, DisclosureButton, DisclosurePanel, } from '@headlessui/vue'
-import { Bars3Icon, BellIcon, XMarkIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
-import TopNavigationsDesktop from './TopNavigationsDesktop.vue'
-import TopNavigationsMobile from './TopNavigationsMobile.vue'
-import TopNavigationLogo from './TopNavigationLogo.vue'
-import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
-
-const $props = defineProps<{
-  title: string
-  logo: string
-}>()
-</script>
-
-
 <template>
   <!-- <TopBanner /> -->
   <Disclosure as="nav" class="bg-brand-50 shadow z-50" v-slot="{ open }">
@@ -40,7 +23,7 @@ const $props = defineProps<{
               :active="row.active"
               :icon="row.icon"
               :name="row.name"
-              :component="row.component"
+              :components="row.components"
             />
           </div>
 
@@ -66,7 +49,7 @@ const $props = defineProps<{
           :active="row.active"
           :name="row.name"
           :icon="row.icon"
-          :component="row.component"
+          :components="row.components"
         />
 
       </div>
@@ -75,3 +58,19 @@ const $props = defineProps<{
 
   <slot></slot>
 </template>
+
+<script setup lang="ts">
+import { CTopNavigation } from '@/constants'
+
+import { Disclosure, DisclosureButton, DisclosurePanel, } from '@headlessui/vue'
+import { Bars3Icon, XMarkIcon, } from '@heroicons/vue/24/outline'
+import TopNavigationsDesktop from './TopNavigationsDesktop.vue'
+import TopNavigationsMobile from './TopNavigationsMobile.vue'
+import TopNavigationLogo from './TopNavigationLogo.vue'
+import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
+
+const $props = defineProps<{
+  title: string
+  logo: string
+}>()
+</script>

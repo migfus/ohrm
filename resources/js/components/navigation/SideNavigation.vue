@@ -106,7 +106,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import { Bars3BottomLeftIcon, XMarkIcon, MagnifyingGlassIcon} from '@heroicons/vue/24/outline'
+import { Bars3BottomLeftIcon, XMarkIcon, MagnifyingGlassIcon} from '@heroicons/vue/24/solid'
 import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
 import TopNavigationLogo from './TopNavigationLogo.vue'
 

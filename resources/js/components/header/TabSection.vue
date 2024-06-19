@@ -22,7 +22,6 @@
               v-model="$model"
             />
           </DataTransition>
-
         </nav>
       </div>
     </div>

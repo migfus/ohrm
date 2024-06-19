@@ -1,5 +1,5 @@
 <template>
-  <Link :href="`/dashboard/manage-users/${data.id}/edit`" class="block hover:bg-white bg-brand-50 pb-4">
+  <Link :href="`/dashboard/manage-users/${data.id}/edit`" @click="loading = true" class="block hover:bg-white bg-brand-50 pb-4">
     <div class="flex items-center px-4 py-4 sm:px-6">
       <div class="flex min-w-0 flex-1 items-center">
         <div class="flex-shrink-0">
@@ -24,13 +24,14 @@
         </div>
       </div>
       <div>
-        <ChevronRightIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+        <ArrowPathIcon v-if="loading" class="animate-spin h-5 w-5 text-gray-400" aria-hidden="true" />
+        <ChevronRightIcon v-else class="h-5 w-5 text-gray-400" aria-hidden="true" />
       </div>
     </div>
 
     <div class="flex mx-4 gap-2 flex-wrap">
       <Link v-for="row in data.group_members" :key="row.id" :href="`/dashboard/manage-groups/${row.id}/edit`" class="text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium text-gray-900 ring-1 bg-white shadow-sm ring-inset ring-gray-200">
-        <img :src="row.group?.avatar" class="h-4 w-4 rounded"/>
+        <img :src="row.group?.avatar" class="h-3 w-3 rounded"/>
         {{ row.group?.name }}
       </Link>
     </div>
@@ -40,9 +41,13 @@
 <script setup lang="ts">
 import { TUser } from '@/globalTypes'
 import moment from 'moment'
-import { ChevronRightIcon } from '@heroicons/vue/20/solid'
+import { ref } from 'vue'
+
+import { ChevronRightIcon, ArrowPathIcon } from '@heroicons/vue/20/solid'
 
 const { data } = defineProps<{
   data: TUser
 }>()
+
+const loading = ref<boolean>(false)
 </script>

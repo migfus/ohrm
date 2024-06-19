@@ -1,12 +1,18 @@
 <template>
-  <div>
-    <div class="hover:shadow-md rounded-b-3xl transition-all hover:opacity-80 z-0 -mt-6">
-      <img @click="openCover = true" class="h-32 w-full object-cover lg:h-48 rounded-b-3xl" :src="$cover" alt="" />
+  <div class="-mt-6 z-0">
+    <div @click="openCover = true" class="hover:shadow-md rounded-b-3xl transition-all z-0 group bg-white">
+      <img  class="h-32 w-full object-cover lg:h-48 rounded-b-3xl shadow group-hover:opacity-80 transition-all" :src="$cover" alt="" />
+      <div class="flex justify-center align-middle group-hover:opacity-100 opacity-0 transition-all">
+        <ArrowPathIcon class="h-10 w-10 top-52 group-hover:top-36 absolute mx-auto text-white transition-all"/>
+      </div>
     </div>
     <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
       <div class="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
-        <div class="flex">
-          <img @click="openAvatar = true" class="shadow transition-all cursor-pointer h-24 w-24 rounded-2xl ring-4 ring-white sm:h-32 sm:w-32 hover:opacity-80" :src="$avatar" alt="" />
+        <div @click="openAvatar = true" class="flex hover:shadow-xl shadow-lg transition-all cursor-pointer h-24 w-24 rounded-full bg-white ring-4 ring-white sm:h-32 sm:w-32 group">
+          <img class="rounded-full group-hover:opacity-80 transition-all group-hover:blur-xs" :src="$avatar" alt="" />
+          <div class="flex justify-center align-middle">
+            <ArrowPathIcon class="h-10 w-10 z-10 mx-auto mr-32 mt-32 group-hover:mt-11 absolute text-white group-hover:opacity-100 opacity-0 transition-all"/>
+          </div>
         </div>
         <div class="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
           <div class="mt-6 min-w-0 flex-1 sm:hidden md:block">
@@ -54,7 +60,7 @@
 import { ref, FunctionalComponent, computed } from 'vue'
 import { TGroupMember } from '@/globalTypes'
 
-import { XMarkIcon } from '@heroicons/vue/20/solid'
+import { XMarkIcon, ArrowPathIcon } from '@heroicons/vue/20/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 

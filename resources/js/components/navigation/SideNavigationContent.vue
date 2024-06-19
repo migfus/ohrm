@@ -14,7 +14,7 @@
       ]"
     >
       <!-- NOTE IF LOADING -->
-      <ArrowPathIcon v-if="index == indexLoading" :class="[index == indexLoading && 'text-brand-700', 'text-brand-100 mr-3 h-5 w-5 animate-spin group-hover:text-brand-700']" aria-hidden="true" />
+      <ArrowPathIcon v-if="index == indexLoading" :class="['mr-3 h-5 w-5 animate-spin ']" aria-hidden="true" />
       <!-- NOTE IF ACTIVE -->
       <component v-else-if="item.components.some(row => row === $page.component)" :is="item.icon" class="text-brand-700 mr-3 h-5 w-5" aria-hidden="true" />
       <!-- NOTE IF DEFAULT -->

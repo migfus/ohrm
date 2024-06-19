@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { TRole, TUser } from '@/globalTypes'
 
-import ProfileHeader from '@/components/profile/ProfileHeader.vue'
+import ProfileHeader from '@/components/header/ProfileHeader.vue'
 
 import UpdateBasicCard from './UpdateBasicCard.vue'
 import OwnerCard from './OwnerCard.vue'
