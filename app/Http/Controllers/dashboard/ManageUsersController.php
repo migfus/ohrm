@@ -34,7 +34,7 @@ class ManageUsersController extends Controller
       [
         'name' => 'all',
         'display_name' => 'All',
-        'hero_icon' => ['content' => HeroIcon::where('name', 'at-symbol_outline')->first()->content]
+        'hero_icon' => ['content' => HeroIcon::where('name', 'at-symbol_micro')->first()->content]
       ],
       ...$roles
     ];

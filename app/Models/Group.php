@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Group extends Model
 {
-    use HasFactory, HasUuids;
+  use HasFactory, HasUuids;
 
   protected $fillable = ['name', 'description', 'cover', 'avatar'];
 
+  // SECTION: GROUPS
   public function group_members() {
     return $this->hasMany(GroupMember::class);
   }
@@ -38,5 +39,10 @@ class Group extends Model
     return $this->hasMany(GroupMember::class)->whereHas('role', function($q) {
       $q->where('name', 'moderator');
     });
+  }
+
+  // SECTION: TASKS
+  public function task_templates() {
+    return $this->hasMany(TaskTemplate::class);
   }
 }

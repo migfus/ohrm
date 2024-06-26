@@ -14,21 +14,21 @@ class LaratrustSeeder extends Seeder
     // SECTION ROLE
     $role_staff = Role::create([
       'name' => 'staff',
-      'icon_name' => 'identification_outline',
+      'icon_name' => 'identification_micro',
       'display_name' => 'Staff',
       'description' => 'Staff who manage the system'
     ]);
 
     $role_admin = Role::create([
       'name' => 'admin',
-      'icon_name' => 'star_outline',
+      'icon_name' => 'star_micro',
       'display_name' => 'Administrator',
       'description' => 'Administrator for the system.'
     ]);
 
     $role_head = Role::create([
       'name' => 'head',
-      'icon_name' => 'users_outline',
+      'icon_name' => 'users_micro',
       'display_name' => 'Head',
       'description' => 'Head of the team',
     ]);

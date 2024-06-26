@@ -63,15 +63,9 @@
           <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />
         </button>
         <div class="flex flex-1 justify-between px-4 max-w-7xl mx-auto">
-          <div class="flex flex-1">
-            <form class="flex w-full md:ml-0" action="#" method="GET">
-              <label for="search-field" class="sr-only">Search</label>
-              <div class="relative w-full text-gray-400 focus-within:text-gray-600">
-                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-                  <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
-                </div>
-                <input id="search-field" class="bg-brand-50 block h-full w-full border-transparent py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm" placeholder="Search" type="search" name="search" />
-              </div>
+          <div class="w-64 sm:grow-0 max-w-lg">
+            <form class="mt-4" action="#" method="GET">
+              <AppInput name="Search" :error="undefined" noLabel placeholder="Search Settings" size="sm"/>
             </form>
           </div>
           <div class="ml-4 flex items-center md:ml-6">
@@ -98,7 +92,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { CTopNavigation, CSidebarNavigation, CAdminNavigation } from '@/constants'
-import SideNavigationContent from '@/components/navigation/SideNavigationContent.vue'
 
 import {
   Dialog,
@@ -109,6 +102,8 @@ import {
 import { Bars3BottomLeftIcon, XMarkIcon, MagnifyingGlassIcon} from '@heroicons/vue/24/solid'
 import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
 import TopNavigationLogo from './TopNavigationLogo.vue'
+import SideNavigationContent from '@/components/navigation/SideNavigationContent.vue'
+import AppInput from '../form/AppInput.vue'
 
 const sidebarOpen = ref(false)
 

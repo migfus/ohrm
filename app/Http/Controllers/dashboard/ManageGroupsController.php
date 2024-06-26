@@ -86,12 +86,15 @@ class ManageGroupsController extends Controller
 
   // ✅
   // NOTE: UPDATE
-  public function edit(Request $req, $id): Response {
+  public function edit($id): Response {
     $data = Group::query()
       ->select('id', 'name', 'avatar', 'cover', 'description')
       ->where('id', $id)
       ->with([
         'group_members.user',
+        'task_templates' => function ($q) {
+          $q->with(['task_priority.hero_icon', '']);
+        }
       ])
       ->first();
 

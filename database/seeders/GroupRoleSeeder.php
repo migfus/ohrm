@@ -16,7 +16,7 @@ class GroupRoleSeeder extends Seeder
       'name' => 'admin',
       'display_name' => 'Administrator',
       'description' => 'Users who administrate the group.',
-      'icon_name' => 'star_solid',
+      'icon_name' => 'star_micro',
     ])
       ->group_permission_role()
       ->sync([
@@ -33,7 +33,7 @@ class GroupRoleSeeder extends Seeder
       'name' => 'moderator',
       'display_name' => 'Moderator',
       'description' => 'Users who moderate the group.',
-      'icon_name' => 'users_solid'
+      'icon_name' => 'users_micro'
     ])
       ->group_permission_role()
       ->sync([
@@ -47,7 +47,7 @@ class GroupRoleSeeder extends Seeder
       'name' => 'member',
       'display_name' => 'Member',
       'description' => 'Members lists.',
-      'icon_name' => 'at-symbol_solid'
+      'icon_name' => 'at-symbol_micro'
     ])
       ->group_permission_role()
       ->sync([

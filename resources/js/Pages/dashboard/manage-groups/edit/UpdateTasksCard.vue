@@ -1,17 +1,24 @@
 <template>
   <BasicCard
     :icon="TicketIcon"
-    title="Update Tasks"
-    description="Tasks list for this group."
+    title="Customer's Request Template"
+    description="Manage request templates and assignments."
   >
-    <TaskDropdownMenu
-      v-for="task, index in tasks"
-      :key="task.name"
-      :index="index"
-      :name="task.name"
-      @selected="SelectedTaskFromMenu"
-      @updated="value => updateTask(value, task.id!)"
-    />
+    <div class="grid grid-cols-2 gap-2">
+      <TaskDropdownMenu
+        v-for="task, index in tasks"
+        :key="task.name"
+        :index="index"
+        :name="task.name"
+        :color="task.task_priority.color"
+        :icon="task.task_priority.hero_icon"
+        :priorityName="task.task_priority.name"
+        :description="task.description ?? ''"
+        @selected="SelectedTaskFromMenu"
+        @updated="value => updateTask(value, task.id!)"
+        class="col-span-2 lg:col-span-1"
+      />
+    </div>
 
     <form @submit.prevent="addTask()">
       <AppInput v-model="inputTask.name" :error="undefined" name="Add Task" size="sm" />
@@ -28,7 +35,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TTask } from '@/globalTypes'
+import { TTaskTemplate } from '@/globalTypes'
 
 import { TicketIcon, PlusIcon } from '@heroicons/vue/24/solid'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
@@ -40,12 +47,29 @@ import { router } from '@inertiajs/vue3'
 
 const $props = defineProps<{
   id: string
-  tasks: TTask []
+  tasks: TTaskTemplate []
 }>()
+
+const initTemplateTask =  {
+  id: '',
+  group_id: '',
+  task_priority: {
+    id: '',
+    name: '',
+    color: '',
+    hero_icon:{
+      name: '',
+      content: ''
+    }
+  },
+  name: '',
+  is_show: true,
+}
 
 const removeOpen = ref<boolean>(false)
 const selectedIndex = ref<number>()
-const inputTask = ref<TTask>({ name: ''})
+const inputTask = ref<TTaskTemplate>(initTemplateTask)
+
 
 
 function SelectedTaskFromMenu(value: {type: string, index: number}) {
@@ -66,13 +90,13 @@ function ConfirmRemove() {
 
 
 function addTask() {
-  if(inputTask.value !== undefined) {
+  if(inputTask.value !== null) {
     router.put(`/dashboard/manage-groups/${$props.id}`, {
-      name: inputTask.value.name ?? '',
+      name: inputTask?.value.name ?? '',
       type: 'addTask',
     }, {
       onSuccess: () => {
-        inputTask.value = { name: ''}
+        inputTask.value = initTemplateTask
       },
       preserveScroll: true,
       preserveState: true,

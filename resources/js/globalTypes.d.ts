@@ -1,6 +1,11 @@
 import { FunctionalComponent } from 'vue'
 import { PageProps } from '@inertiajs/core'
 
+export interface THeroIcon {
+  name: string
+  content: string
+}
+
 export type TCTopNavigation = {
   name: string
   icon?: FunctionalComponent
@@ -71,6 +76,23 @@ export interface TGroup {
   group_members_not_admin_only: TGroupMember []
   group_members_not_admin_only_count: number
   group_members: TGroupMember []
+  task_templates: TTaskTemplate []
+}
+
+export interface TTaskTemplate {
+  id: string
+  group_id: string
+  task_priority: TTaskPriority
+  name: string
+  description?: string
+  is_show: boolean
+}
+
+export interface TTaskPriority {
+  id: string
+  name: string
+  color: string
+  hero_icon: THeroIcon
 }
 
 export interface TGroupMember {
@@ -88,7 +110,7 @@ export interface TGroupRole {
   name: string
   description: string
   display_name: string
-  hero_icon: { content: string }
+  hero_icon: THeroIcon
   created_at: string
 }
 
@@ -111,9 +133,7 @@ export interface TPermission {
 
 export interface TTab {
   display_name: string
-  hero_icon: {
-    content: string
-  }
+  hero_icon: THeroIcon
 }
 
 export interface TPage extends PageProps {

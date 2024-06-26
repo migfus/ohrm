@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import AppInput from '../form/AppInput.vue'
 import AppButton from '../form/AppButton.vue'
-import { PlusIcon } from '@heroicons/vue/24/outline'
+import { PlusIcon } from '@heroicons/vue/24/solid'
 
 const $model = defineModel<string>()
 const $emit = defineEmits(['add'])

@@ -9,6 +9,7 @@
       :defaultValue="defaultName"
       v-model="$name"
       @submit="putBasic()"
+
     />
 
     <AppToggleTextArea

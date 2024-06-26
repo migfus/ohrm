@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\SystemSettings;
+use App\Models\TaskTemplate;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -24,6 +25,9 @@ class DatabaseSeeder extends Seeder
 
         UserSeeder::class,
 
+        TaskPrioritySeeder::class,
+        TaskTemplateSeeder::class,
+        TaskUserAssignSeeder::class,
       ]);
     }
 }

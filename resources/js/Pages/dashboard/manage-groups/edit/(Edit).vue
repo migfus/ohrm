@@ -20,16 +20,18 @@
     <FlashErrors :errors="$page.props.errors"/>
 
     <div class="grid grid-cols-4 gap-4 mt-4">
-      <div class="col-span-4 lg:col-span-1">
+      <div class="col-span-4 lg:col-span-1 space-y-4">
         <UpateBasicCard
           v-model:name="form.name"
           v-model:description="form.description"
           :id="data.id"
         />
-        <!-- <UpdateTasksCard :tasks="data.tasks" :id="data.id"/> -->
+        <PinnedPostsCard />
+
       </div>
-      <div class="col-span-4 lg:col-span-2">
+      <div class="col-span-4 lg:col-span-2 space-y-4">
         <GroupHeatMapCard />
+        <UpdateTasksCard :tasks="data.task_templates" :id="data.id"/>
       </div>
       <div class="col-span-4 lg:col-span-1 space-y-4">
         <UpdateMembersCard
@@ -64,6 +66,7 @@ import FlashErrors from '@/components/header/FlashErrors.vue'
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import UpdateTasksCard from './UpdateTasksCard.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
+import PinnedPostsCard from './PinnedPostsCard.vue'
 
 const $props = defineProps<{
   data: TGroup
