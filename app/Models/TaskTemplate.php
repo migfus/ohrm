@@ -10,7 +10,7 @@ class TaskTemplate extends Model
 {
   use HasFactory, HasUuids;
 
-  protected $fillable = [];
+  protected $fillable = ['name', 'description', 'group_id', 'default_task_priority_id', 'is_show' ];
 
   // NOTE: GET TASK PRIORITY
   public function task_priority() {
@@ -20,6 +20,4 @@ class TaskTemplate extends Model
   public function task_user_assigns() {
     return $this->hasMany(TaskUserAssign::class);
   }
-
-
 }

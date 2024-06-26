@@ -86,6 +86,10 @@ export interface TTaskTemplate {
   name: string
   description?: string
   is_show: boolean
+  task_user_assigns: {
+    user: TUser
+  } []
+  task_user_assigns_count: number
 }
 
 export interface TTaskPriority {

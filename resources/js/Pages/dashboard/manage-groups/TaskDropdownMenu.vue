@@ -15,7 +15,7 @@
           <div class="flex justify-between mb-2 flex-grow">
             <div v-html="icon.content" :class="[priorityName == 'Urgent' && 'animate-bounce', 'h-4 w-4 mr-2 mt-[2px] align-middle']" :style="`color: #${color}`"></div>
             <div class="flex justify-center flex-grow">
-              <span :class="[priorityName == 'Urgent' && 'animate-bounce delay-100']">{{ priorityName }}</span>
+              <span :class="[priorityName == 'Urgent' && 'animate-bounce delay-100']">default: {{ priorityName }}</span>
             </div>
             <ChevronDownIcon
               class="-mr-1 ml-2 h-5 w-5"
@@ -29,13 +29,12 @@
             <span>{{ description }}</span>
           </div>
 
-          <div class="flex -space-x-1 overflow-hidden justify-end ">
-            <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white " src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-            <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-            <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-            <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-            <img class="inline-block h-6 w-6 rounded-full ring-2 ring-white" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt="" />
-            <div class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-brand-100 pt-[3px] text-xs text-brand-600" > +9 </div>
+          <div v-if="userAssigns.length > 0" class="flex -space-x-1 overflow-hidden justify-end">
+            <img v-for="row in userAssigns" class="inline-block h-6 w-6 rounded-full ring-2 ring-white " :src="row.user.avatar" alt="" />
+            <div v-if="0 < userCount" class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-brand-100 pt-[3px] text-xs text-brand-600" > +{{ userCount }} </div>
+          </div>
+          <div v-else class="flex justify-end text-brand-500 mt-[3px]">
+            No user assigned.
           </div>
 
         </MenuButton>
@@ -72,7 +71,7 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
-import { THeroIcon } from '@/globalTypes'
+import { THeroIcon, TUser } from '@/globalTypes'
 
 const $props = defineProps<{
   index: number
@@ -81,6 +80,10 @@ const $props = defineProps<{
   color: string
   icon: THeroIcon
   priorityName: string
+  userAssigns: {
+    user: TUser
+  } []
+  userCount: number
 }>()
 
 const $emit = defineEmits(['selected', 'updated'])

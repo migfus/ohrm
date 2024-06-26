@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaskPriority extends Model
 {
-    use HasFactory, HasUuids;
+  use HasFactory, HasUuids;
 
   public function hero_icon() {
     return $this->belongsTo(HeroIcon::class, 'hero_icon', 'name');

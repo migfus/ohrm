@@ -12,6 +12,8 @@ use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\GroupRole;
 use App\Models\Task;
+use App\Models\TaskPriority;
+use App\Models\TaskTemplate;
 
 class ManageGroupsController extends Controller
 {
@@ -93,7 +95,13 @@ class ManageGroupsController extends Controller
       ->with([
         'group_members.user',
         'task_templates' => function ($q) {
-          $q->with(['task_priority.hero_icon', '']);
+          $q->with([
+            'task_priority.hero_icon',
+            'task_user_assigns' => function ($q_) {
+              $q_->with('user')->limit(5);
+            }
+          ])
+          ->withCount('task_user_assigns');
         }
       ])
       ->first();
@@ -105,10 +113,13 @@ class ManageGroupsController extends Controller
       }])
       ->get();
 
+    $task_priority = TaskPriority::get();
+
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
       'pageTitle' => $data->name,
       'data' => $data,
       'group_roles' => $roles,
+      'task_priority' => $task_priority,
     ]);
   }
   // ✏️
@@ -126,7 +137,7 @@ class ManageGroupsController extends Controller
       case 'cover':
         $this->UpdateCover($req, $id);
         break;
-      // ✏️
+      // ✅
       case 'add-member':
         $this->AddMember($req, $id);
         break;
@@ -134,17 +145,18 @@ class ManageGroupsController extends Controller
       case 'remove-member':
         $this->RemoveMember($req, $id);
         break;
-
+      // ✅
       case 'addTask':
-        $this->AddTask($req, $id);
+        $this->AddTemplateTask($req, $id);
         break;
+      // ✅
       case 'removeTask':
-        $this->RemoveTask($req, $id);
+        $this->RemoveTemplateTask($req, $id);
         break;
+      // ✏️
       case 'updateTask':
-        $this->updateTask($req);
+        $this->UpdateTemplateTask($req);
         break;
-      case'removeTask':
       default:
         return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['type' => 'Type value is missing']);
     }
@@ -210,8 +222,8 @@ class ManageGroupsController extends Controller
         return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['member' => 'At least 1 member should access the group.']);
       }
     }
-
-    private function updateTask(Request $req): void {
+    // ✏️
+    private function UpdateTemplateTask(Request $req): void {
       $req->validate([
         'taskId' => ['required', 'uuid'],
         'name' => ['required'],
@@ -221,21 +233,29 @@ class ManageGroupsController extends Controller
         'name' => $req->name,
       ]);
     }
-    private function RemoveTask(Request $req): void {
+    // ✅
+    private function RemoveTemplateTask(Request $req): void {
       $req->validate([
         'taskId' => ['required', 'uuid'],
       ]);
 
-      Task::where('id', $req->taskId)->delete();
+      TaskTemplate::where('id', $req->taskId)->delete();
     }
-    private function AddTask(Request $req, $id): void {
+    // ✅
+    private function AddTemplateTask(Request $req, $id): void {
       $req->validate([
         'name' => ['required'],
+        'priority_id' => ['required', 'uuid'],
+        'description' => [''],
+        'is_show' => ['required', 'boolean'],
       ]);
 
-      Task::create([
-        'team_id' => $id,
+      TaskTemplate::create([
         'name' => $req->name,
+        'description' => $req->description,
+        'group_id' => $id,
+        'default_task_priority_id' => $req->priority_id,
+        'is_show' => $req->is_show ? true : false,
       ]);
     }
 

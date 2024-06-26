@@ -9,4 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class TaskUserAssign extends Model
 {
     use HasFactory, HasUuids;
+
+  public function user() {
+    return $this->belongsTo(User::class);
+  }
 }

@@ -31,7 +31,7 @@
       </div>
       <div class="col-span-4 lg:col-span-2 space-y-4">
         <GroupHeatMapCard />
-        <UpdateTasksCard :tasks="data.task_templates" :id="data.id"/>
+        <UpdateTasksCard :tasks="data.task_templates" :id="data.id" :taskPriority="task_priority"/>
       </div>
       <div class="col-span-4 lg:col-span-1 space-y-4">
         <UpdateMembersCard
@@ -56,7 +56,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { TGroup, TGroupRole } from '@/globalTypes'
+import { TGroup, TGroupRole, TTaskPriority } from '@/globalTypes'
 
 import GroupHeader from '.././GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
@@ -71,6 +71,7 @@ import PinnedPostsCard from './PinnedPostsCard.vue'
 const $props = defineProps<{
   data: TGroup
   group_roles: TGroupRole []
+  task_priority: TTaskPriority []
 }>()
 
 const form = router.form({
