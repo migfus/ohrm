@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class TaskUserAssign extends Model
 {
-    use HasFactory, HasUuids;
+  use HasFactory, HasUuids;
+
+  protected $fillable = ['user_id', 'task_template_id'];
 
   public function user() {
     return $this->belongsTo(User::class);

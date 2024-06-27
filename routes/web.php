@@ -12,6 +12,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\dashboard\SystemSettingsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\dashboard\ManageTemplateTaskController;
 use Illuminate\Support\Facades\Route;
 
 // NOTE: PAGES
@@ -31,7 +32,6 @@ Route::middleware(['auth'])->group(function () {
   Route::resource('/dashboard', DashboardController::class)->only(['index']);
   Route::resource('/my-groups', MyGroupsController::class)->only(['index']);
 
-
   Route::group(['prefix' => '/dashboard', 'as' => 'dashboard.'], function () {
     // NOTE: Dashboard
     Route::resource('/', DashboardController::class)->only(['index']);
@@ -45,6 +45,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/manage-users', ManageUsersController::class)->except(['show', 'create']);
     Route::resource('/system-roles-permissions', SystemRolesPermissionsController::class)->only(['index', 'update']);
     Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);
+    Route::resource('/manage-template-tasks', ManageTemplateTaskController::class)->only(['edit', 'update']);
+      Route::get('/manage-template-tasks/users-suggestion/{id}', [ManageTemplateTaskController::class, 'UserComboBox'])->name('manage-groups.users-suggestion');
   });
 });
 

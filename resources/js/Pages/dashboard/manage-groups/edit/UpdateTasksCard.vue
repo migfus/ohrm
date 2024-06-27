@@ -7,6 +7,7 @@
     <div class="grid grid-cols-2 gap-2">
       <TaskDropdownMenu
         v-for="task, index in tasks"
+        :id="task.id"
         :key="task.name"
         :index="index"
         :name="task.name"
@@ -17,7 +18,6 @@
         :userAssigns="task.task_user_assigns"
         :userCount="task.task_user_assigns_count - 5"
         @selected="SelectedTaskFromMenu"
-        @updated="value => updateTask(value, task.id!)"
         class="col-span-2 lg:col-span-1"
       />
     </div>
@@ -110,7 +110,7 @@ function ConfirmRemove() {
   }
 }
 
-// ✏️
+// ✅
 function addTask() {
   router.put(`/dashboard/manage-groups/${$props.id}`, {
     name: form.name,
@@ -127,7 +127,7 @@ function addTask() {
   })
 }
 
-// ✏️
+// ✅
 function removeTask() {
   if(selectedIndex!.value !== undefined) {
     router.put(`/dashboard/manage-groups/${$props.id}`, {
@@ -135,21 +135,7 @@ function removeTask() {
       type: 'removeTask',
     },{
       preserveScroll: true,
-      preserveState: true
-    })
-  }
-}
-
-// ✏️
-function updateTask(name: string, id: string) {
-  if(id !== '') {
-    router.put(`/dashboard/manage-groups/${$props.id}`, {
-      taskId: id,
-      name: name,
-      type: 'updateTask',
-    },{
       preserveState: true,
-      preserveScroll: true
     })
   }
 }

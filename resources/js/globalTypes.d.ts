@@ -82,14 +82,18 @@ export interface TGroup {
 export interface TTaskTemplate {
   id: string
   group_id: string
+  group: TGroup
   task_priority: TTaskPriority
   name: string
   description?: string
   is_show: boolean
-  task_user_assigns: {
-    user: TUser
-  } []
+  task_user_assigns: TTaskAssignedUser []
   task_user_assigns_count: number
+}
+
+export interface TTaskAssignedUser {
+  id: string
+  user: TUser
 }
 
 export interface TTaskPriority {

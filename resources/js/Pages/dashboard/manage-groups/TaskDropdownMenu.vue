@@ -30,7 +30,7 @@
           </div>
 
           <div v-if="userAssigns.length > 0" class="flex -space-x-1 overflow-hidden justify-end">
-            <img v-for="row in userAssigns" class="inline-block h-6 w-6 rounded-full ring-2 ring-white " :src="row.user.avatar" alt="" />
+            <img v-for="row in userAssigns" class="inline-block h-6 w-6 rounded-full ring-2 ring-white" :src="row.user.avatar" alt="" />
             <div v-if="0 < userCount" class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-brand-100 pt-[3px] text-xs text-brand-600" > +{{ userCount }} </div>
           </div>
           <div v-else class="flex justify-end text-brand-500 mt-[3px]">
@@ -53,7 +53,7 @@
         >
           <div class="px-1 py-1">
             <!-- <DropdownContent :icon="CheckCircleIcon" @selected="$emit('selected', {type: 'visibility', index: index})">Show</DropdownContent> -->
-            <DropdownContent :icon="PencilIcon" @selected="toggleEdit()">Edit</DropdownContent>
+            <DropdownContent :icon="PencilIcon" :href="`/dashboard/manage-template-tasks/${id}/edit`">Edit</DropdownContent>
             <DropdownContent :icon="XMarkIcon" @selected="$emit('selected', {type: 'remove', index: index})" danger>Remove</DropdownContent>
           </div>
         </MenuItems>
@@ -73,7 +73,8 @@ import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 import { THeroIcon, TUser } from '@/globalTypes'
 
-const $props = defineProps<{
+defineProps<{
+  id: string
   index: number
   name: string
   description: string
@@ -89,11 +90,6 @@ const $props = defineProps<{
 const $emit = defineEmits(['selected', 'updated'])
 const selectedEdit = ref<boolean>(false)
 const inputValue = ref<string>('')
-
-function toggleEdit() {
-  selectedEdit.value = true
-  inputValue.value = $props.name
-}
 
 function updateEdit() {
   selectedEdit.value = false

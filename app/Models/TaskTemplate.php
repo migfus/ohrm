@@ -20,4 +20,8 @@ class TaskTemplate extends Model
   public function task_user_assigns() {
     return $this->hasMany(TaskUserAssign::class);
   }
+
+  public function group() {
+    return $this->belongsTo(Group::class);
+  }
 }
