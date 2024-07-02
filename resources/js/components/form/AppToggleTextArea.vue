@@ -1,5 +1,5 @@
 <template>
-  <div class="group mb-2">
+  <div class="mb-2">
     <dd class="text-sm leading-6 text-gray-700 font-semibold">{{ name }}</dd>
     <BasicTransition>
       <form @submit.prevent="submit()" v-if="active">
@@ -9,7 +9,7 @@
           <AppButton type="submit" size="sm" color="brand">Update</AppButton>
         </div>
       </form>
-      <dt v-else @click="active = true" class="cursor-pointer text-sm font-medium leading-6 text-gray-900 bg-white rounded-xl shadow py-2 px-4">
+      <dt v-else @click="active = true" class="group cursor-pointer text-sm font-medium leading-6 text-gray-900 bg-white rounded-xl shadow hover:shadow-md transition-all py-2 px-4">
         <div class="flex justify-between">
           <div class="">
             {{ $model }}

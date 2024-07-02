@@ -10,10 +10,11 @@ use Inertia\Response;
 use App\Models\TaskTemplate;
 use App\Models\TaskUserAssign;
 use App\Models\GroupMember;
+use App\Models\Task;
 
 class ManageTemplateTaskController extends Controller
 {
-  // ✅
+  // ✏️
   public function edit(string $id) : Response {
     $templateTask = TaskTemplate::query()
       ->where('id', $id)
@@ -21,13 +22,30 @@ class ManageTemplateTaskController extends Controller
       ->first();
     $assignedUsers = TaskUserAssign::query()
       ->where('task_template_id', $templateTask->id)
-      ->with(['user'])
+      ->with(['user', 'tasks' => function ($q) {
+        $q->limit(20);
+      }])
       ->get();
+
+    $tasks = [];
+    foreach($assignedUsers as $row) {
+      $tasks = [
+        ...$tasks,
+        ...Task::query()
+          ->where('task_user_assigns_id', $row->id)
+          ->with(['task_user_assigns.user', 'task_priority.hero_icon', 'task_status.hero_icon'])
+          ->limit(10)
+          ->orderBy('created_at', 'desc')
+          ->get()
+          ->toArray()
+      ];
+    }
 
     return Inertia::render('dashboard/manage-template-tasks/(Edit)', [
       'pageTitle' => 'Edit Template Task',
       'taskTemplate' => $templateTask,
       'assignedUsers' => $assignedUsers,
+      'tasks' => $tasks,
     ]);
   }
 

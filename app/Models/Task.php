@@ -8,7 +8,26 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Task extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory;
 
-    protected $fillable = ['name', 'description', 'team_id' ];
+    protected $fillable = [
+      'id',
+      'task_user_assigns_id',
+      'task_priority_id',
+      'task_status_id',
+      'task_status_at',
+      'expired_at'
+    ];
+
+  public function task_user_assigns() {
+    return $this->belongsTo(TaskUserAssign::class, 'task_user_assigns_id');
+  }
+
+  public function task_priority() {
+    return $this->belongsTo(TaskPriority::class);
+  }
+
+  public function task_status() {
+    return $this->belongsTo(TaskStatus::class);
+  }
 }

@@ -94,6 +94,7 @@ export interface TTaskTemplate {
 export interface TTaskAssignedUser {
   id: string
   user: TUser
+  tasks: TTask []
 }
 
 export interface TTaskPriority {
@@ -170,13 +171,21 @@ export interface TFilters {
 }
 
 export interface TTask {
-  id?: string
-  team_id?: string
+  id: number // no longer uuid
+  task_user_assigns_id: string
+  task_priority_id: string
+  task_status_id: string
+  task_status_at?: Date
+  expired_at?: Date
+  created_at: Date
+  task_user_assigns: TTaskAssignedUser
+  task_priority: TTaskPriority
+  task_status: TTaskStatus
+}
+
+export interface TTaskStatus {
   name: string
-  description?: string
-  active?: boolean
-  cover?: string
-  created_at?: Date
+  hero_icon: THeroIcon
 }
 
 export interface TSelect {

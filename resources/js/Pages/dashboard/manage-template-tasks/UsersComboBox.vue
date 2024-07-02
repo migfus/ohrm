@@ -1,6 +1,6 @@
 <template>
-  <Combobox as="div" @update:modelValue="value => AddMember(value)" class="gap-2">
-    <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">Invite a user</ComboboxLabel>
+  <Combobox as="div" @update:modelValue="value => AddMember(value)" class="gap-2 mt-4">
+    <ComboboxLabel class="block text-sm font-medium leading-6 text-gray-900">Assign a member</ComboboxLabel>
 
     <div class="relative mt-2 flex-grow">
       <ComboboxButton class="absolute top-2 right-0 flex items-center rounded-r-md px-2 focus:outline-none">

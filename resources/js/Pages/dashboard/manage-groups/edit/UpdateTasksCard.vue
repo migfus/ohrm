@@ -17,6 +17,7 @@
         :description="task.description ?? ''"
         :userAssigns="task.task_user_assigns"
         :userCount="task.task_user_assigns_count - 5"
+        :task="task"
         @selected="SelectedTaskFromMenu"
         class="col-span-2 lg:col-span-1"
       />

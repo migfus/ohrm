@@ -33,8 +33,10 @@
             <img v-for="row in userAssigns" class="inline-block h-6 w-6 rounded-full ring-2 ring-white" :src="row.user.avatar" alt="" />
             <div v-if="0 < userCount" class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-brand-100 pt-[3px] text-xs text-brand-600" > +{{ userCount }} </div>
           </div>
-          <div v-else class="flex justify-end text-brand-500 mt-[3px]">
-            No user assigned.
+          <div v-else class="flex justify-between text-brand-500 mt-[3px]">
+            <GlobeAsiaAustraliaIcon v-if="task.is_show" class="h-4 w-4 mt-[4px]"/>
+            <LockClosedIcon v-else class="h-4 w-4 mt-[4px]"/>
+            <div>No user assigned.</div>
           </div>
 
         </MenuButton>
@@ -66,12 +68,12 @@
 import { ref } from 'vue'
 
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
-import { ChevronDownIcon, PencilIcon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon, PencilIcon, LockClosedIcon, GlobeAsiaAustraliaIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
-import { THeroIcon, TUser } from '@/globalTypes'
+import { THeroIcon, TTask, TTaskTemplate, TUser } from '@/globalTypes'
 
 defineProps<{
   id: string
@@ -85,6 +87,7 @@ defineProps<{
     user: TUser
   } []
   userCount: number
+  task: TTaskTemplate
 }>()
 
 const $emit = defineEmits(['selected', 'updated'])
