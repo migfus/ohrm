@@ -87,11 +87,11 @@ export interface TTaskTemplate {
   name: string
   description?: string
   is_show: boolean
-  task_user_assigns: TTaskAssignedUser []
-  task_user_assigns_count: number
+  task_user_access: TTaskAccessUser []
+  task_user_access_count: number
 }
 
-export interface TTaskAssignedUser {
+export interface TTaskAccessUser {
   id: string
   user: TUser
   tasks: TTask []
@@ -172,13 +172,13 @@ export interface TFilters {
 
 export interface TTask {
   id: number // no longer uuid
-  task_user_assigns_id: string
+  task_user_access_id: string
   task_priority_id: string
   task_status_id: string
   task_status_at?: Date
   expired_at?: Date
   created_at: Date
-  task_user_assigns: TTaskAssignedUser
+  task_user_access: TTaskAccessUser
   task_priority: TTaskPriority
   task_status: TTaskStatus
 }

@@ -1,8 +1,8 @@
 <template>
-  <BasicCard :icon="UsersIcon" title="Assigned Users" description="Update assigned users to this template task">
+  <BasicCard :icon="UsersIcon" title="Give access to members" description="Update user's access to this template.">
     <AssignedUserDropdownMenu
       v-for="assigned in assignedUsers"
-      :taskUserAssignId="assigned.id"
+      :taskUserAccessId="assigned.id"
       :user="assigned.user"
       :key="assigned.id"
       @selected="UnassignUser"
@@ -14,14 +14,14 @@
 
 <script setup lang="ts">
 import BasicCard from '@/components/cards/BasicCard.vue'
-import { TTaskAssignedUser, TUser } from '@/globalTypes'
+import { TTaskAccessUser, TUser } from '@/globalTypes'
 import { UsersIcon } from '@heroicons/vue/24/solid'
 import AssignedUserDropdownMenu from './AssignedUserDropdownMenu.vue'
 import UsersComboBox from './UsersComboBox.vue'
 import { router } from '@inertiajs/vue3'
 
 const $props = defineProps<{
-  assignedUsers: TTaskAssignedUser[]
+  assignedUsers: TTaskAccessUser[]
   groupId: string
   taskTemplateId: string
 }>()
@@ -36,9 +36,9 @@ function AssignMember(user: TUser) {
   })
 }
 
-function UnassignUser(value: { type: string, taskUserAssignId: string}) {
+function UnassignUser(value: { type: string, taskUserAccessId: string}) {
   router.put(`/dashboard/manage-template-tasks/${$props.taskTemplateId}`, {
-    taskUserAssignId: value.taskUserAssignId,
+    taskUserAccessId: value.taskUserAccessId,
     type: 'unassign-user'
   }, {
     preserveScroll: true,

@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
 
         TaskPrioritySeeder::class,
         TaskTemplateSeeder::class,
-        TaskUserAssignSeeder::class,
+        TaskUserAccessSeeder::class,
         TaskStatusSeeder::class,
         TaskSeeder::class,
       ]);

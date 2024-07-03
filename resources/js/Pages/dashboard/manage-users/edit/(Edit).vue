@@ -7,7 +7,6 @@
       <div class="col-span-4 md:col-span-2 lg:col-span-1">
         <UpdateBasicCard :user :errors class="mb-4"/>
         <UpdateSystemRole :roles :userRole="user.roles[0]" :userId="user.id"/>
-        <!-- <OwnerCard v-if="user.roles_teams_head" :roles_teams_head="user.roles_teams_head" class="mb-4"/> -->
         <!-- <JoinedCard v-if="user.roles_teams" :roles_teams="user.roles_teams" class="mb-4"/> -->
       </div>
       <div class="col-span-4 md:col-span-2">
@@ -26,7 +25,6 @@ import { TRole, TUser } from '@/globalTypes'
 import ProfileHeader from '@/components/header/ProfileHeader.vue'
 
 import UpdateBasicCard from './UpdateBasicCard.vue'
-import OwnerCard from './OwnerCard.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'
 import UpdateSystemRole from './UpdateSystemRole.vue'
 import UserHeatMapCard from './UserHeatMapCard.vue'

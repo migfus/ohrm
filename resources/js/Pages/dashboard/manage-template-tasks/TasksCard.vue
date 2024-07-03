@@ -27,8 +27,8 @@
             <span class="truncate">{{ moment(row.created_at).format('MM/DD/YYYY hh:mm A') }}</span>
           </div>
           <div class="text-sm flex justify-end mt-1">
-            <img :src="row.task_user_assigns.user.avatar" class="w-3 h-3 inline mr-2 mt-[4px] rounded-full text-green-800" />
-            <span class="truncate">{{ row.task_user_assigns.user.name }}</span>
+            <img :src="row.task_user_access.user.avatar" class="w-3 h-3 inline mr-2 mt-[4px] rounded-full text-green-800" />
+            <span class="truncate">{{ row.task_user_access.user.name }}</span>
           </div>
         </div>
       </div>

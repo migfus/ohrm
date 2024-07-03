@@ -16,7 +16,7 @@ use App\Http\Controllers\dashboard\ManageTemplateTaskController;
 use Illuminate\Support\Facades\Route;
 
 // NOTE: PAGES
-Route::resource('/', HomeController::class)->only(['index']);
+Route::resource('/', HomeController::class)->only(['index', 'store']);
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::resource('/status', StatusController::class)->only(['index']);
 

@@ -9,7 +9,7 @@
         <img :src="group.avatar" class="h-4 w-4 inline mr-2 rounded mb-[2px]"/>
         <span class="font-medium">{{ group.name }}</span>
       </div>
-      <ArrowLeftIcon class="w-5 h-5 mt-[4px]"/>
+      <ArrowLeftIcon class="w-5 h-5 mt-[2px]"/>
     </Link>
 
     <AppToggleInput v-model="form.name" name="Name" :defaultValue="name" @submit="update()"/>

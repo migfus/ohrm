@@ -97,11 +97,11 @@ class ManageGroupsController extends Controller
         'task_templates' => function ($q) {
           $q->with([
             'task_priority.hero_icon',
-            'task_user_assigns' => function ($q_) {
+            'task_user_access' => function ($q_) {
               $q_->with('user')->limit(5);
             }
           ])
-          ->withCount('task_user_assigns');
+          ->withCount('task_user_access');
         }
       ])
       ->first();

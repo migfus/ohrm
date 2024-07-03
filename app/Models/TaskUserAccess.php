@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TaskUserAssign extends Model
+class TaskUserAccess extends Model
 {
   use HasFactory, HasUuids;
 
@@ -17,6 +17,6 @@ class TaskUserAssign extends Model
   }
 
   public function tasks() {
-    return $this->hasMany(Task::class, 'task_user_assigns_id');
+    return $this->hasMany(Task::class, 'task_user_access_id');
   }
 }

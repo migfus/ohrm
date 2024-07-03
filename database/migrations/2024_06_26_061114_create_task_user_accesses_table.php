@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
   public function up(): void {
-    Schema::create('task_user_assigns', function (Blueprint $table) {
+    Schema::create('task_user_accesses', function (Blueprint $table) {
       $table->uuid('id')->primary();
       $table->uuid('user_id');
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -21,6 +21,6 @@ return new class extends Migration
    * Reverse the migrations.
    */
   public function down(): void {
-    Schema::dropIfExists('task_user_assigns');
+    Schema::dropIfExists('task_user_accesses');
   }
 };

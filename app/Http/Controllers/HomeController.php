@@ -3,67 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use App\Models\TaskPriority;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
+
+use App\Models\Task;
+use App\Models\TaskTemplate;
 
 class HomeController extends Controller
 {
+  // ✅
   public function index(Request $req) : Response {
-    $groups = Group::orderBy('created_at', 'ASC')->get();
+    $groups = Group::query()
+      ->with('task_templates.task_priority.hero_icon')
+      ->orderBy('created_at', 'ASC')
+      ->get();
+
+    $task_priorities = TaskPriority::get();
+
     return Inertia::render('home/(Index)' , [
       'pageTitle' => 'Home',
-      'groups' => $groups
+      'groups' => $groups,
+      'task_priorities' => $task_priorities
     ]);
   }
 
+  // ✏️
+  function store(Request $req) : RedirectResponse {
+    $req->validate([
+      'task_template_id' => ['required', 'uuid'],
+      'task_priority_id' => ['required', 'uuid'],
+      'message' => [],
+    ]);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    $task_template = TaskTemplate::where('id', $req->task_template_id)->first();
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+    // Task::create([
+    //   'group_id' => $task_template->group_id,
+    //   ''
+    // ]);
+    return to_route('index')->with('success', $task_template->name . " is now on queue!");
+  }
 }

@@ -8,23 +8,41 @@ import SideNavigation from '@/components/navigation/SideNavigation.vue'
 import TopBanner from '@/components/navigation/TopBanner.vue'
 import BaseFooter from '@/components/footer/BaseFooter.vue'
 import SharedProps from '@/SharedProps'
+import NotiWind from '@/components/notifications/NotiWind.vue'
+import { notify } from "notiwind"
 
 const $page = usePage<SharedProps>()
 const title = computed(() => $page.props.title)
 const pageTitle = computed(() => $page.props.pageTitle)
-const flash = computed(() => {
-  if($page.props.flash?.success) {
-    alert($page.props.flash?.success)
-  }
-  else if($page.props.flash?.error) {
-    alert($page.props.flash?.error)
-  }
-  return $page.props.flash;
-})
+const flash = computed<{
+    success?: string
+    error?: string
+  }>(() => {
+    return {
+      success: $page.props.flash?.success,
+      error: $page.props.flash?.error,
+    };
+  })
 
 const _title = useTitle(pageTitle.value ? `${pageTitle.value} | ${title.value}` : title.value)
 watch(pageTitle, () => {
   _title.value = `${pageTitle.value} | ${title.value}`
+})
+watch(flash, () => {
+  if(flash.value.success){
+    notify({
+      group: "success",
+      title: "Success",
+      text: flash.value.success
+    }, 4000)
+  }
+  else if(flash.value.error){
+    notify({
+      group: "danger",
+      title: "Error",
+      text: flash.value.error
+    }, 5 * 1000)
+  }
 })
 </script>
 
@@ -34,6 +52,7 @@ watch(pageTitle, () => {
   </Head>
 
   <!-- <TopBanner /> -->
+  <NotiWind />
 
   <SideNavigation v-if="$page.props.sidebar" :title="$page.props.title" :logo="$page.props.logo.lg">
     <div class="mx-auto max-w-7xl">

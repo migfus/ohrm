@@ -47,9 +47,7 @@ function changePermission(role: TRole, permission_id: string, event: Event) {
   loading.value = true
 }
 
-
 router.on('finish',() => {
   loading.value = false
 })
-
 </script>

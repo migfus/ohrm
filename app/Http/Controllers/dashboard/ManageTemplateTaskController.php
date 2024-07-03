@@ -8,7 +8,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 use App\Models\TaskTemplate;
-use App\Models\TaskUserAssign;
+use App\Models\TaskUserAccess;
 use App\Models\GroupMember;
 use App\Models\Task;
 
@@ -20,7 +20,7 @@ class ManageTemplateTaskController extends Controller
       ->where('id', $id)
       ->with('group')
       ->first();
-    $assignedUsers = TaskUserAssign::query()
+    $taskUserAccess = TaskUserAccess::query()
       ->where('task_template_id', $templateTask->id)
       ->with(['user', 'tasks' => function ($q) {
         $q->limit(20);
@@ -28,12 +28,12 @@ class ManageTemplateTaskController extends Controller
       ->get();
 
     $tasks = [];
-    foreach($assignedUsers as $row) {
+    foreach($taskUserAccess as $row) {
       $tasks = [
         ...$tasks,
         ...Task::query()
-          ->where('task_user_assigns_id', $row->id)
-          ->with(['task_user_assigns.user', 'task_priority.hero_icon', 'task_status.hero_icon'])
+          ->where('task_user_access_id', $row->id)
+          ->with(['task_user_access.user', 'task_priority.hero_icon', 'task_status.hero_icon'])
           ->limit(10)
           ->orderBy('created_at', 'desc')
           ->get()
@@ -44,7 +44,7 @@ class ManageTemplateTaskController extends Controller
     return Inertia::render('dashboard/manage-template-tasks/(Edit)', [
       'pageTitle' => 'Edit Template Task',
       'taskTemplate' => $templateTask,
-      'assignedUsers' => $assignedUsers,
+      'taskUserAccess' => $taskUserAccess,
       'tasks' => $tasks,
     ]);
   }
@@ -92,7 +92,7 @@ class ManageTemplateTaskController extends Controller
         'userId' => ['required', 'uuid'],
       ]);
 
-      TaskUserAssign::create([
+      TaskUserAccess::create([
         'task_template_id' => $id,
         'user_id' => $req->userId,
       ]);
@@ -100,10 +100,10 @@ class ManageTemplateTaskController extends Controller
     // ✅
     private function UnassignUser(Request $req, string $id) : void {
       $req->validate([
-        'taskUserAssignId' => ['required', 'uuid'],
+        'TaskUserAccessId' => ['required', 'uuid'],
       ]);
 
-      TaskUserAssign::where('id', $req->taskUserAssignId)->delete();
+      TaskUserAccess::where('id', $req->TaskUserAccessId)->delete();
     }
 
   // ✅
@@ -113,7 +113,7 @@ class ManageTemplateTaskController extends Controller
     ]);
 
     $dontIncludeUsers = [];
-    $members = TaskUserAssign::query()
+    $members = TaskUserAccess::query()
       ->where('task_template_id', $req->taskTemplateId)
       ->with('user')
       ->get();

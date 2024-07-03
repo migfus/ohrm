@@ -17,8 +17,8 @@ class TaskTemplate extends Model
     return $this->belongsTo(TaskPriority::class, 'default_task_priority_id', 'id');
   }
 
-  public function task_user_assigns() {
-    return $this->hasMany(TaskUserAssign::class);
+  public function task_user_access() {
+    return $this->hasMany(TaskUserAccess::class);
   }
 
   public function group() {

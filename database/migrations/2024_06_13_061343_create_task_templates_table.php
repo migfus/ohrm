@@ -10,7 +10,9 @@ return new class extends Migration
     Schema::create('task_templates', function (Blueprint $table) {
       $table->uuid('id')->primary();
       $table->uuid('group_id');
+      $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
       $table->uuid('default_task_priority_id');
+      $table->foreign('default_task_priority_id')->references('id')->on('task_priorities')->onDelete('cascade');
       $table->string('name');
       $table->text('description')->nullable();
       $table->boolean('is_show');

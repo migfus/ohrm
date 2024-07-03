@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\TaskTemplate;
-use App\Models\TaskUserAssign;
+use App\Models\TaskUserAccess;
 use Illuminate\Database\Seeder;
 
 use App\Models\User;
 
-class TaskUserAssignSeeder extends Seeder
+class TaskUserAccessSeeder extends Seeder
 {
   public function run(): void {
     $data = [
@@ -53,7 +53,7 @@ class TaskUserAssignSeeder extends Seeder
     ];
 
     foreach($data as $item) {
-      TaskUserAssign::create($item);
+      TaskUserAccess::create($item);
     }
   }
 }

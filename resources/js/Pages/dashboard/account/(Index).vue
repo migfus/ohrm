@@ -1,25 +1,4 @@
-<!--
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
 <template>
-  <!--
-    This example requires updating your template:
-    ```
-    <html class="h-full bg-white">
-    <body class="h-full">
-    ```
-  -->
   <div>
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog as="div" class="relative z-40 md:hidden" @close="sidebarOpen = false">
@@ -294,6 +273,4 @@ const tabs = [
 const sidebarOpen = ref(false)
 const automaticTimezoneEnabled = ref(true)
 const autoUpdateApplicantDataEnabled = ref(false)
-
-import { TProps } from '@/globalTypes'
 </script>

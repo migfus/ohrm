@@ -73,6 +73,4 @@ function usersCount(users: TUser []) {
 function limitUsers(users: TUser []) {
   return users.slice(0, 3)
 }
-
-
 </script>

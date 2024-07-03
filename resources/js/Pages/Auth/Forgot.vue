@@ -1,30 +1,4 @@
-<script setup lang="ts">
-import { router } from '@inertiajs/vue3'
-import { reactive } from 'vue'
-import { TProps } from '@/globalTypes'
-
-import AppInput from '@/components/form/AppInput.vue'
-import AppButton from '@/components/form/AppButton.vue'
-
-interface TErrorWithTProps extends TProps {
-  errors: {
-    email: string | undefined
-  }
-}
-
-const $props = defineProps<TErrorWithTProps>()
-
-const form = reactive<{ email: string }>({
-  email: '',
-})
-
-function submit() {
-  router.post('/forgot', form);
-}
-</script>
-
 <template>
-
   <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <object class="mx-auto h-12 w-auto" data="/assets/logo.svg" alt="Your Company" />
@@ -57,8 +31,32 @@ function submit() {
           </div>
         </form>
 
-
       </div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { router } from '@inertiajs/vue3'
+import { reactive } from 'vue'
+import { TProps } from '@/globalTypes'
+
+import AppInput from '@/components/form/AppInput.vue'
+import AppButton from '@/components/form/AppButton.vue'
+
+interface TErrorWithTProps extends TProps {
+  errors: {
+    email: string | undefined
+  }
+}
+
+const $props = defineProps<TErrorWithTProps>()
+
+const form = reactive<{ email: string }>({
+  email: '',
+})
+
+function submit() {
+  router.post('/forgot', form);
+}
+</script>
