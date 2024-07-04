@@ -36,7 +36,7 @@
           <div v-else class="flex justify-between text-brand-500 mt-[3px]">
             <GlobeAsiaAustraliaIcon v-if="task.is_show" class="h-4 w-4 mt-[4px]"/>
             <LockClosedIcon v-else class="h-4 w-4 mt-[4px]"/>
-            <div>No user assigned.</div>
+            <div>No member assigned.</div>
           </div>
 
         </MenuButton>

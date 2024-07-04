@@ -1,6 +1,6 @@
 <template>
   <BasicTransition>
-    <div :class="[size === 'lg' && 'p-6', 'bg-brand-50 p-4 shadow rounded-2xl group transition-all']">
+    <div :class="[size === 'lg' && 'p-6', 'bg-brand-50 p-4 shadow sm:rounded-2xl group transition-all']">
       <div class="">
         <div class="flex justify-between">
           <h3 class="text-base font-semibold leading-7 text-gray-900">

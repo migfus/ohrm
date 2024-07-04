@@ -181,6 +181,7 @@ export interface TTask {
   task_user_access: TTaskAccessUser
   task_priority: TTaskPriority
   task_status: TTaskStatus
+  task_template: TTaskTemplate
 }
 
 export interface TTaskStatus {

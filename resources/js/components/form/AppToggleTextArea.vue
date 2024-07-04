@@ -3,7 +3,7 @@
     <dd class="text-sm leading-6 text-gray-700 font-semibold">{{ name }}</dd>
     <BasicTransition>
       <form @submit.prevent="submit()" v-if="active">
-        <AppTextArea v-model="$model" size="sm" name="Name" :error="undefined" noLabel/>
+        <AppTextArea v-model="$model" size="sm" :name :error="undefined" noLabel/>
         <div class="flex justify-end gap-2 mt-2">
           <AppButton type="button" @click="cancel()" size="sm">Cancel</AppButton>
           <AppButton type="submit" size="sm" color="brand">Update</AppButton>

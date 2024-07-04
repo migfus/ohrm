@@ -12,36 +12,42 @@
       <ArrowLeftIcon class="w-5 h-5 mt-[2px]"/>
     </Link>
 
-    <AppToggleInput v-model="form.name" name="Name" :defaultValue="name" @submit="update()"/>
-    <AppToggleTextArea v-model="form.description" name="Description" :defaultValue="description" @submit="update()"/>
+    <AppToggleInput v-model="form.name" name="Name" :defaultValue="taskTemplate.name" @submit="update()"/>
+    <AppToggleTextArea v-model="form.description" name="Description" :defaultValue="taskTemplate.description ?? ''" @submit="update()" noLabel/>
+    <AppToggle v-model="form.show" :name="isShowToggleName"/>
   </BasicCard>
 </template>
 
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3'
+import { TGroup, TTaskTemplate } from '@/globalTypes'
+import { computed } from 'vue'
+
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { TicketIcon, ArrowLeftIcon } from '@heroicons/vue/24/solid'
 import AppToggleInput from '@/components/form/AppToggleInput.vue'
 import AppToggleTextArea from '@/components/form/AppToggleTextArea.vue'
-import { router } from '@inertiajs/vue3'
-import { TGroup } from '@/globalTypes'
+import AppToggle from '@/components/form/AppToggle.vue'
 
 const $props = defineProps<{
-  name: string
-  description: string
-  id: string
+  taskTemplate: TTaskTemplate
   group: TGroup
 }>()
 
+const isShowToggleName = computed(() => form.show ? 'Visible to requesting page' : 'Hidden')
+
 const form = router.form({
-  name: $props.name,
-  description: $props.description,
+  name: $props.taskTemplate.name,
+  description: $props.taskTemplate.description,
+  show: $props.taskTemplate.is_show,
 })
 
 function update() {
-  router.put(`/dashboard/manage-template-tasks/${$props.id}`, {
+  router.put(`/dashboard/manage-template-tasks/${$props.taskTemplate.id}`, {
     type: 'basic',
     name: form.name,
     description: form.description,
+    show: form.show,
   }, {
     preserveScroll: true,
     preserveState: true

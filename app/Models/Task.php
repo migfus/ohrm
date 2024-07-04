@@ -20,8 +20,12 @@ class Task extends Model
       'message'
     ];
 
-  public function task_user_access() {
-    return $this->belongsTo(TaskUserAccess::class, 'task_user_access_id');
+  public function user_assigned() {
+    return $this->belongsTo(User::class, 'user_assigned_id');
+  }
+
+  public function task_template() {
+    return $this->belongsTo(TaskTemplate::class, 'task_template_id');
   }
 
   public function task_priority() {

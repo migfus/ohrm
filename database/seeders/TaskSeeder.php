@@ -3,10 +3,12 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 use App\Models\Task;
 use App\Models\TaskPriority;
 use App\Models\TaskStatus;
+use App\Models\TaskTemplate;
 use App\Models\TaskUserAccess;
 use App\Models\User;
 
@@ -16,10 +18,11 @@ class TaskSeeder extends Seeder
   {
     $data = [
       [
-        'id' => 240627001,
-        'task_user_access_id' => TaskUserAccess::where('user_id', User::where('name', 'Eunice Jane O. Sarausa')->first()->id)->first()->id,
+        'id' => 2406270001,
+        'task_template_id' => TaskTemplate::where('name', 'High Task')->first()->id,
         'task_priority_id' => TaskPriority::where('name', 'Mid')->first()->id,
-        'task_status_id' => TaskStatus::where('name', 'Pending')->first()->id,
+        'task_status_id' => TaskStatus::where('name', 'Queuing')->first()->id,
+        'task_status_at' => Carbon::now(),
       ]
     ];
 

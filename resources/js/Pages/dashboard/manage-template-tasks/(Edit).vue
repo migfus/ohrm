@@ -2,18 +2,17 @@
   <div class="grid grid-cols-6 gap-4">
     <InfoCard
       :id="taskTemplate.id"
-      :name="taskTemplate.name"
-      :description="taskTemplate.description ?? ''"
+      :taskTemplate
       :group="taskTemplate.group"
       class="col-span-6 lg:col-span-3"
     />
     <AssignedUsersCard
-      :assignedUsers
+      :taskUserAccess
       :groupId="taskTemplate.group_id"
       :taskTemplateId="taskTemplate.id"
       class="col-span-6 lg:col-span-3"
     />
-    <TasksCard :name="taskTemplate.name" :tasks class="col-span-6"/>
+    <TasksCard :tasks class="col-span-6"/>
   </div>
 </template>
 
@@ -25,7 +24,7 @@ import TasksCard from './TasksCard.vue'
 
 defineProps<{
   taskTemplate: TTaskTemplate
-  assignedUsers: TTaskAccessUser[]
+  taskUserAccess: TTaskAccessUser[]
   tasks: TTask[]
 }>()
 </script>

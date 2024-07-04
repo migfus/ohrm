@@ -26,7 +26,7 @@
           class="z-10 rounded-2xl absolute right-0 w-36 origin-top-right divide-y divide-gray-100 bg-white shadow-xl"
         >
           <div class="px-1 py-1">
-            <DropdownContent :icon="XMarkIcon" @selected="$emit('selected', {type: 'remove', TaskUserAccessId: TaskUserAccessId})" danger>Remove</DropdownContent>
+            <DropdownContent :icon="XMarkIcon" @selected="$emit('selected', {type: 'remove', TaskUserAccessId: taskUserAccessId})" danger>Remove</DropdownContent>
           </div>
         </MenuItems>
       </transition>
@@ -42,7 +42,7 @@ import { TUser } from '@/globalTypes'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 
 defineProps<{
-  TaskUserAccessId: string
+  taskUserAccessId: string
   user: TUser
 }>()
 

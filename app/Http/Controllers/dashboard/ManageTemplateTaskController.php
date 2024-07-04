@@ -27,19 +27,12 @@ class ManageTemplateTaskController extends Controller
       }])
       ->get();
 
-    $tasks = [];
-    foreach($taskUserAccess as $row) {
-      $tasks = [
-        ...$tasks,
-        ...Task::query()
-          ->where('task_user_access_id', $row->id)
-          ->with(['task_user_access.user', 'task_priority.hero_icon', 'task_status.hero_icon'])
-          ->limit(10)
-          ->orderBy('created_at', 'desc')
-          ->get()
-          ->toArray()
-      ];
-    }
+    $tasks = Task::query()
+    ->where('task_template_id', $id)
+    ->with(['user_assigned.user', 'task_priority.hero_icon', 'task_status.hero_icon', 'task_template'])
+    ->limit(10)
+    ->orderBy('created_at', 'desc')
+    ->get();
 
     return Inertia::render('dashboard/manage-template-tasks/(Edit)', [
       'pageTitle' => 'Edit Template Task',

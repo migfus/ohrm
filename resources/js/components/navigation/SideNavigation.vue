@@ -75,7 +75,7 @@
       </div>
 
       <main class="flex-1">
-        <div class="py-6 mx-4">
+        <div class="py-6 sm:mx-4">
           <div class="max-w-7xl mx-auto">
 
             <slot></slot>

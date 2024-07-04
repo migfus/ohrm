@@ -1,10 +1,10 @@
 <template>
-  <BasicCard :icon="UsersIcon" title="Give access to members" description="Update user's access to this template.">
+  <BasicCard :icon="UsersIcon" title="Member's Access" description="Gives access to the members">
     <AssignedUserDropdownMenu
-      v-for="assigned in assignedUsers"
-      :taskUserAccessId="assigned.id"
-      :user="assigned.user"
-      :key="assigned.id"
+      v-for="access in taskUserAccess"
+      :key="access.id"
+      :taskUserAccessId="access.id"
+      :user="access.user"
       @selected="UnassignUser"
     />
 
@@ -21,7 +21,7 @@ import UsersComboBox from './UsersComboBox.vue'
 import { router } from '@inertiajs/vue3'
 
 const $props = defineProps<{
-  assignedUsers: TTaskAccessUser[]
+  taskUserAccess: TTaskAccessUser[]
   groupId: string
   taskTemplateId: string
 }>()

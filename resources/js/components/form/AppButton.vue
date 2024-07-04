@@ -77,7 +77,7 @@ router.on('finish',() => {
         buttonColor,
         textAlignment,
         buttonSize,
-        'inline-flex rounded-2xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
+        'inline-flex rounded-2xl font-medium shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
       ]"
     >
       <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
@@ -93,7 +93,7 @@ router.on('finish',() => {
         buttonColor,
         textAlignment,
         buttonSize,
-        'inline-flex rounded-2xl font-medium shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
+        'inline-flex rounded-2xl font-medium shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
       ]"
     >
       <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
