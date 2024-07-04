@@ -20,6 +20,7 @@ class TaskSeeder extends Seeder
       [
         'id' => 2406270001,
         'task_template_id' => TaskTemplate::where('name', 'High Task')->first()->id,
+        'group_id' => TaskTemplate::where('name', 'High Task')->first()->group_id,
         'task_priority_id' => TaskPriority::where('name', 'Mid')->first()->id,
         'task_status_id' => TaskStatus::where('name', 'Queuing')->first()->id,
         'task_status_at' => Carbon::now(),

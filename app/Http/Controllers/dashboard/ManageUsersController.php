@@ -136,7 +136,7 @@ class ManageUsersController extends Controller
         return to_route('dashboard.manage-users.edit', ['manage_user' => $id])->withErrors(['type' => 'Invalid Type!']);
     }
 
-    return to_route('dashboard.manage-users.edit', ['manage_user' => $id]);
+    return to_route('dashboard.manage-users.edit', ['manage_user' => $id])->with('success', "Updated");
   }
     // ✅
     private function UpdateBasic($req, $id): void {

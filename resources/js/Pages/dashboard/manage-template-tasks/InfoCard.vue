@@ -14,7 +14,7 @@
 
     <AppToggleInput v-model="form.name" name="Name" :defaultValue="taskTemplate.name" @submit="update()"/>
     <AppToggleTextArea v-model="form.description" name="Description" :defaultValue="taskTemplate.description ?? ''" @submit="update()" noLabel/>
-    <AppToggle v-model="form.show" :name="isShowToggleName"/>
+    <AppToggle v-model="form.show" :name="isShowToggleName" @changed="update()"/>
   </BasicCard>
 </template>
 
@@ -39,7 +39,7 @@ const isShowToggleName = computed(() => form.show ? 'Visible to requesting page'
 const form = router.form({
   name: $props.taskTemplate.name,
   description: $props.taskTemplate.description,
-  show: $props.taskTemplate.is_show,
+  show: $props.taskTemplate.is_show ? true : false,
 })
 
 function update() {

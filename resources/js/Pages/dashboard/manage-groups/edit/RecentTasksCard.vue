@@ -1,5 +1,5 @@
 <template>
-  <BasicCard :icon="TicketIcon" title="Tasks" description="Task">
+  <BasicCard :icon="TicketIcon" title="Recent tasks" description="Task">
     <div v-for="row in tasks" class="bg-white mb-2 shadow rounded-2xl px-4 py-2">
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="flex justify-between font-medium">

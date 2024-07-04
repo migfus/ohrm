@@ -22,9 +22,7 @@ class ManageTemplateTaskController extends Controller
       ->first();
     $taskUserAccess = TaskUserAccess::query()
       ->where('task_template_id', $templateTask->id)
-      ->with(['user', 'tasks' => function ($q) {
-        $q->limit(20);
-      }])
+      ->with(['user'])
       ->get();
 
     $tasks = Task::query()
@@ -65,7 +63,7 @@ class ManageTemplateTaskController extends Controller
         return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id])->withErrors(['type' => 'Invalid Type!']);
     }
 
-    return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id]);
+    return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id])->with('success', "Updated");
   }
     // ✅
     private function UpdateBasic(Request $req, string $id) : void {

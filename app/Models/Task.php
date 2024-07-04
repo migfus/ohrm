@@ -12,12 +12,15 @@ class Task extends Model
 
     protected $fillable = [
       'id',
-      'task_user_access_id',
+      'task_template_id',
+      'user_assignor_id',
+      'user_assigned_id',
       'task_priority_id',
       'task_status_id',
       'task_status_at',
       'expired_at',
-      'message'
+      'message',
+      'group_id' // NOTE: to bypass the task_templates 🙏
     ];
 
   public function user_assigned() {
@@ -35,4 +38,5 @@ class Task extends Model
   public function task_status() {
     return $this->belongsTo(TaskStatus::class);
   }
+
 }

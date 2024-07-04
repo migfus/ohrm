@@ -45,4 +45,8 @@ class Group extends Model
   public function task_templates() {
     return $this->hasMany(TaskTemplate::class);
   }
+
+  public function tasks() {
+    return $this->hasMany(Task::class);
+  }
 }

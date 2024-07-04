@@ -39,7 +39,7 @@
         })"
       />
 
-        <AppTextArea name="Message (optional)" class="mt-4"/>
+        <AppTextArea v-model="form.message" name="Message (optional)" class="mt-4"/>
     </div>
 
     <div class="flex gap-2 justify-end">

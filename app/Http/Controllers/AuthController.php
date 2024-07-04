@@ -23,7 +23,7 @@ class AuthController extends Controller
 
     if(Auth::attempt($val)) {
       $req->session()->regenerate();
-      return to_route('dashboard.index');
+      return to_route('dashboard.index')->with('success', "Welcome back!");
     }
 
     return to_route('login')->withErrors([
@@ -40,7 +40,7 @@ class AuthController extends Controller
       'email' => ['required', 'email']
     ]);
 
-    return to_route('forgot');
+    return to_route('forgot')->with('success', "Email Sent! Please check your email.");
   }
 
   public function logout(Request $req) : RedirectResponse {
@@ -48,6 +48,6 @@ class AuthController extends Controller
     $req->session()->invalidate();
     $req->session()->regenerate();
 
-    return to_route('login');
+    return to_route('login')->with('success', "Logged Out!");
   }
 }

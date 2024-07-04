@@ -77,6 +77,7 @@ export interface TGroup {
   group_members_not_admin_only_count: number
   group_members: TGroupMember []
   task_templates: TTaskTemplate []
+  tasks: TTask[]
 }
 
 export interface TTaskTemplate {
@@ -182,6 +183,7 @@ export interface TTask {
   task_priority: TTaskPriority
   task_status: TTaskStatus
   task_template: TTaskTemplate
+  message: string
 }
 
 export interface TTaskStatus {

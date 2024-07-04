@@ -44,6 +44,6 @@ class SystemSettingsController extends Controller
       SystemSettings::where('id', $id)->update(['value' => $req->value]);
     }
 
-    return to_route('dashboard.system-settings.index');
+    return to_route('dashboard.system-settings.index')->with('success', "Updated");
   }
 }

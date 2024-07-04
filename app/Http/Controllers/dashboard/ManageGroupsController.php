@@ -94,15 +94,19 @@ class ManageGroupsController extends Controller
       ->where('id', $id)
       ->with([
         'group_members.user',
-        'task_templates' => function ($q) {
+        'task_templates' => fn($q) =>
           $q->with([
             'task_priority.hero_icon',
             'task_user_access' => function ($q_) {
               $q_->with('user')->limit(5);
             }
           ])
-          ->withCount('task_user_access');
-        }
+          ->withCount('task_user_access')
+        ,
+        'tasks' => fn($q) =>
+          $q->with(['user_assigned.user', 'task_priority.hero_icon', 'task_status.hero_icon', 'task_template'])
+          ->orderBy('created_at', 'desc')
+          ->limit(10)
       ])
       ->first();
 
@@ -115,11 +119,19 @@ class ManageGroupsController extends Controller
 
     $task_priority = TaskPriority::get();
 
+    // $tasks = Task::query()
+    // ->where('task_template_id', $id)
+    // ->with(['user_assigned.user', 'task_priority.hero_icon', 'task_status.hero_icon', 'task_template'])
+    // ->limit(10)
+    // ->orderBy('created_at', 'desc')
+    // ->get();
+
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
       'pageTitle' => $data->name,
       'data' => $data,
       'group_roles' => $roles,
       'task_priority' => $task_priority,
+
     ]);
   }
   // ✏️
@@ -161,7 +173,7 @@ class ManageGroupsController extends Controller
         return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['type' => 'Type value is missing']);
     }
 
-    return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('flash', ['success' => 'Successfuly Updated']);
+    return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('success', "Updated");
   }
     // ✅
     private function UpdateBasic(Request $req, $id) : void {

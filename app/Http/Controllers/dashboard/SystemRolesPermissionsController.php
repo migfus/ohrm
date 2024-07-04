@@ -52,6 +52,6 @@ class SystemRolesPermissionsController extends Controller
       $role->detachPermission($permissionId);
     }
 
-    return to_route('dashboard.system-roles-permissions.index');
+    return to_route('dashboard.system-roles-permissions.index')->with('success', "Updated");
   }
 }

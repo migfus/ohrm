@@ -22,10 +22,16 @@
 
 <script setup lang="ts">
 import { Switch } from '@headlessui/vue'
+import { watch } from 'vue'
 
 defineProps<{
   name: string
 }>()
 
 const enabled = defineModel<boolean>()
+const $emits = defineEmits(['changed'])
+
+watch(enabled, () => {
+  $emits('changed')
+})
 </script>
