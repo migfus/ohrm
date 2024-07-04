@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Events\MakeRequestEvent;
 use App\Models\Group;
 use App\Models\TaskPriority;
 use Illuminate\Http\RedirectResponse;
@@ -59,6 +60,12 @@ class HomeController extends Controller
       'task_status_at' => Carbon::now(),
       'message' => $req->message,
     ]);
+
+    // event(new MakeRequestEvent([
+    //   'message' => 'new Data',
+    // ]));
+    // broadcast(new MakeRequestEvent([]));
+    MakeRequestEvent::dispatch(['message' => 'new data']);
 
     return to_route('index')->with('success', $task_template->name . " is now on queue!");
   }

@@ -1,11 +1,17 @@
 <template>
   <UseFullscreen class="aspect-video bg-white" v-slot="{ toggle }" ref="rull">
     <div class="grid grid-cols-4 max-w-7xl mx-auto gap-4 mt-4">
+
       <!-- NOTE: CONTENT/ADS -->
       <div class="mb-4 col-span-3 grid grid-cols-2 gap-4">
 
         <div class="col-span-2">
-          <section class="overflow-hidden bg-gray-50 mt-4py-12 md:py-20 lg:py-20 rounded-xl shadow">
+           <!-- NOTE: TOGGLES -->
+          <div class="flex col-span-3 rounded-xl mb-4 py-2 gap-2">
+            <AppButton name="Fullscreen" :icon="ArrowsPointingOutIcon" @click="toggle()">FullScreen</AppButton>
+            <AppButton name="Fullscreen" :icon="ArrowPathIcon" href="/status">Force Refresh</AppButton>
+          </div>
+          <section class="overflow-hidden bg-gray-50 mt-4py-12 md:py-24 lg:py-12 rounded-xl shadow">
             <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
               <svg class="absolute top-full right-full translate-x-1/3 -translate-y-1/4 transform lg:translate-x-1/2 xl:-translate-y-1/2" width="404" height="404" fill="none" viewBox="0 0 404 404" role="img" aria-labelledby="svg-workcation">
                 <title id="svg-workcation">Workcation</title>
@@ -47,9 +53,9 @@
 
 
         <!-- NOTE: YOUTUBE EMBED -->
-        <div class="aspect-video bg-brand-50">
+        <!-- <div class="aspect-video bg-brand-50">
           <iframe class="aspect-video w-full rounded-xl" src="https://www.youtube.com/embed/Wv0TYJBRSP0?si=rxyc0aU77YbKvHQT&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
+        </div> -->
 
         <!-- NOTE: Boost Productivity Card -->
         <div class="bg-brand-50 rounded-xl">
@@ -77,53 +83,43 @@
       <!-- NOTE: QUEUING -->
       <div class="flex flex-col sm:rounded-xl mb-4">
         <BasicCard :icon="TicketIcon" title="Queuing" description="Please wait for the queue.">
-          <div class="flex gap-1 justify-between">
-            <div class="relative overflow-hidden bg-yellow-200 border mb-2 py-4 px-2 rounded-xl shadow">
+          <div v-if="tasks.length > 7" class="flex gap-1 justify-end">
+            <div v-if="tasks.length > 11" class="relative overflow-hidden bg-yellow-200 mb-2 py-4 px-2 rounded-xl shadow">
               ###
             </div>
-            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl shadow">
-              #123
-            </div>
-            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl shadow">
-              #123
-            </div>
-            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl shadow">
-              #123
-            </div>
-            <div class="relative overflow-hidden bg-white border mb-2 py-4 px-2 rounded-xl shadow">
-              #123
+            <div v-for="task in tasks.slice(6, 10).reverse()" :key="task.id" :class="[task.task_status.name == 'Processing' ? 'bg-green-400 text-green-900' : 'bg-white','relative overflow-hidden mb-2 py-4 px-2 rounded-xl shadow flex-grow text-center']">
+              #{{ task.id.toString().substring(6, 9) }}
             </div>
           </div>
 
           <div
-            v-for="person in people"
-            :key="person.email"
-            class="relative overflow-hidden bg-white border mb-2 p-4 rounded-xl shadow"
+            v-for="task in tasks.slice(0, 6).reverse()"
+            :key="task.id"
+            class="relative overflow-hidden bg-white mb-2 p-4 rounded-xl shadow"
           >
-
             <div class="min-w-0 flex-1">
               <a href="#" class="focus:outline-none">
                 <div class="flex justify-between">
                   <p :class="['text-gray-900', 'text-md font-medium ']">
-                  #{{ person.name }}
+                  #{{ task.id.toString().substring(6, 9) }}
                   </p>
-                  <p v-if="!person.serving" :class="['text-gray-500', 'truncate text-xs mt-1']">
-                    <!-- <ClockIcon class="h-4 w-4 inline mb-1"/> -->
-                    {{ person.dateTime }}
+                  <p :class="['text-gray-500', 'truncate text-xs mt-1']">
+                    <span v-if="task.task_status.name == 'Queuing'" >{{ moment(task.created_at).format('MMM DD, YYYY hh:mm A') }}</span>
                   </p>
                 </div>
 
-                <p :class="['text-gray-500', 'truncate text-md font-semibold']">
-                  <!-- <PencilSquareIcon class="h-4 w-4 inline mb-1"/> -->
-                  {{ person.role }}
+                <p :class="['text-gray-500', 'truncate text-md font-semibold flex justify-between']">
+                   <div>{{ task.task_template.name }}</div>
+                   <div v-if="task.user_assigned" class="text-xs mt-1">
+                    <img :src="task.user_assigned.avatar" class="rounded-full h-4 w-4 inline" />
+                   </div>
                 </p>
 
               </a>
             </div>
 
-            <div v-if="person.serving" class="absolute right-0 top-0">
-              <div
-                class="absolute transform rotate-45 bg-green-600 text-center text-white text-xs py-1 right-[-65px] top-[8px] w-[170px]">
+            <div v-if="task.task_status.name == 'Processing'" class="absolute right-0 top-0 w-12">
+              <div class="absolute transform rotate-45 bg-green-600 text-center text-white text-xs py-1 right-[-65px] top-[8px] w-[170px]">
                 Serving
               </div>
             </div>
@@ -136,67 +132,20 @@
 
 <script setup lang="ts">
 import { UseFullscreen } from '@vueuse/components'
+import moment from 'moment'
+import Echo from 'laravel-echo'
 
-import { ArrowsPointingOutIcon, TicketIcon } from '@heroicons/vue/24/outline'
+import { TicketIcon, ArrowsPointingOutIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
 import BasicCard from '@/components/cards/BasicCard.vue'
+import { TTask } from '@/globalTypes'
+import AppButton from '@/components/form/AppButton.vue'
 
-const people = [
-  {
-    name: 129,
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM'
-  },
-  {
-    name: '127',
-    email: 'leslie.alexander@example.com',
-    role: 'Request for Landbank',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    dateTime: '12/12/2023 12:12 AM',
-    serving: true,
-  },
-]
+defineProps<{
+  tasks: TTask[]
+}>()
+
+Echo.channel('make-request-channel')
+  .listen('MakeRequestEvent', (e) => {
+    alert('new data added')
+  })
 </script>

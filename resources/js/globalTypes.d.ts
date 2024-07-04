@@ -184,6 +184,7 @@ export interface TTask {
   task_status: TTaskStatus
   task_template: TTaskTemplate
   message: string
+  user_assigned: TUser
 }
 
 export interface TTaskStatus {
