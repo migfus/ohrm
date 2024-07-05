@@ -4,7 +4,7 @@
     title="Customer's Request Template"
     description="Manage request templates and assignments."
   >
-    <div class="grid grid-cols-2 gap-2">
+    <DataTransition class="grid grid-cols-2 gap-2">
       <TaskDropdownMenu
         v-for="task, index in tasks"
         :id="task.id"
@@ -21,7 +21,7 @@
         @selected="SelectedTaskFromMenu"
         class="col-span-2 lg:col-span-1"
       />
-    </div>
+    </DataTransition>
 
     <div class="flex justify-end mt-4">
       <AppButton @click="showAddTask = true" :icon="PlusIcon" color="brand" size="sm" type="submit">Add Request</AppButton>
@@ -73,6 +73,7 @@ import AppInput from '@/components/form/AppInput.vue'
 import AppTextArea from '@/components/form/AppTextArea.vue'
 import AppToggle from '@/components/form/AppToggle.vue'
 import ComboBox from '@/components/form/ComboBox.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
 
 const $props = defineProps<{
   id: string

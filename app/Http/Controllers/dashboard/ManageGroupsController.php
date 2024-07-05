@@ -14,6 +14,7 @@ use App\Models\GroupRole;
 use App\Models\Task;
 use App\Models\TaskPriority;
 use App\Models\TaskTemplate;
+use App\Models\Post;
 
 class ManageGroupsController extends Controller
 {
@@ -106,7 +107,7 @@ class ManageGroupsController extends Controller
         'tasks' => fn($q) =>
           $q->with(['user_assigned.user', 'task_priority.hero_icon', 'task_status.hero_icon', 'task_template'])
           ->orderBy('created_at', 'desc')
-          ->limit(10)
+          ->limit(5)
       ])
       ->first();
 
@@ -168,6 +169,10 @@ class ManageGroupsController extends Controller
       // ✏️
       case 'updateTask':
         $this->UpdateTemplateTask($req);
+        break;
+      // ✏️
+      case 'post':
+        $this->AddPost($req, $id);
         break;
       default:
         return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['type' => 'Type value is missing']);
@@ -268,6 +273,18 @@ class ManageGroupsController extends Controller
         'group_id' => $id,
         'default_task_priority_id' => $req->priority_id,
         'is_show' => $req->is_show ? true : false,
+      ]);
+    }
+    // ✏️
+    private function AddPost(Request $req, $id): void {
+      $req->validate([
+        'content' => ['required'],
+      ]);
+
+      Post::create([
+        'user_id' => $req->user()->id,
+        'content' => $req->content,
+        'group_id' => $id,
       ]);
     }
 

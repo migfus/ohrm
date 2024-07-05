@@ -34,6 +34,7 @@
         <GroupHeatMapCard />
         <UpdateTasksCard :tasks="data.task_templates" :id="data.id" :taskPriority="task_priority"/>
         <RecentTasksCard :tasks="data.tasks"/>
+        <CreatePost :groupId="data.id"/>
       </div>
 
       <div class="col-span-4 lg:col-span-1 space-y-4">
@@ -71,6 +72,7 @@ import UpdateTasksCard from './UpdateTasksCard.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 import PinnedPostsCard from './PinnedPostsCard.vue'
 import RecentTasksCard from './RecentTasksCard.vue'
+import CreatePost from './CreatePost.vue'
 
 const $props = defineProps<{
   data: TGroup

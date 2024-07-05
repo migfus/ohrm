@@ -9,12 +9,17 @@
             <div v-else class="inline-block h-4 w-4 pt-[2px] text-brand-700" v-html="iconHtml"></div>
             {{ title }}
           </h3>
+          <div class="pt-1.5 px-1 rounded cursor-pointer hover:bg-white" @click="expand = !expand">
+            <MinusIcon v-if="expand" class="h-4 w-4 text-brand-800" />
+            <StopIcon v-else class="h-4 w-4 text-brand-800" />
+          </div>
+
         </div>
 
-        <p v-if="description" class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{{ description }}</p>
+        <p v-if="description && expand" class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{{ description }}</p>
       </div>
 
-      <div class="mt-4">
+      <div v-if="expand" class="mt-4 transition-all">
         <slot></slot>
       </div>
   </div>
@@ -22,9 +27,10 @@
 </template>
 
 <script setup lang="ts">
-import { FunctionalComponent } from 'vue'
+import { FunctionalComponent, ref } from 'vue'
 
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
+import { StopIcon, MinusIcon } from '@heroicons/vue/24/outline'
 
 defineProps<{
   icon?: FunctionalComponent
@@ -34,4 +40,6 @@ defineProps<{
   description?: string
   size?: 'lg'
 }>()
+
+const expand = ref(true)
 </script>

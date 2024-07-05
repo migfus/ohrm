@@ -23,6 +23,7 @@
         "@inertiajs/vue3": "^1.0.15",
         "@tailwindcss/forms": "^0.5.7",
         "@vitejs/plugin-vue": "^5.0.4",
+        "@vueup/vue-quill": "^1.2.0",
         "@vueuse/components": "^10.9.0",
         "@vueuse/core": "^10.9.0",
         "chart.js": "^3.9.1",

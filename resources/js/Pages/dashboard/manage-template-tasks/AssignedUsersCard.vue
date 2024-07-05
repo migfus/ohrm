@@ -1,12 +1,14 @@
 <template>
   <BasicCard :icon="UsersIcon" title="Member's Access" description="Gives access to the members">
-    <AssignedUserDropdownMenu
-      v-for="access in taskUserAccess"
-      :key="access.id"
-      :taskUserAccessId="access.id"
-      :user="access.user"
-      @selected="UnassignUser"
-    />
+    <DataTransition>
+      <AssignedUserDropdownMenu
+        v-for="access in taskUserAccess"
+        :key="access.id"
+        :taskUserAccessId="access.id"
+        :user="access.user"
+        @selected="UnassignUser"
+      />
+    </DataTransition>
 
     <UsersComboBox :taskTemplateId :groupId @addMember="AssignMember" />
   </BasicCard>
@@ -19,6 +21,7 @@ import { UsersIcon } from '@heroicons/vue/24/solid'
 import AssignedUserDropdownMenu from './AssignedUserDropdownMenu.vue'
 import UsersComboBox from './UsersComboBox.vue'
 import { router } from '@inertiajs/vue3'
+import DataTransition from '@/components/transitions/DataTransition.vue'
 
 const $props = defineProps<{
   taskUserAccess: TTaskAccessUser[]

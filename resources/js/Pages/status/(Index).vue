@@ -51,11 +51,10 @@
           </section>
         </div>
 
-
         <!-- NOTE: YOUTUBE EMBED -->
-        <!-- <div class="aspect-video bg-brand-50">
+        <div class="aspect-video bg-brand-50">
           <iframe class="aspect-video w-full rounded-xl" src="https://www.youtube.com/embed/Wv0TYJBRSP0?si=rxyc0aU77YbKvHQT&amp;controls=0&amp;autoplay=1&amp;loop=1&amp;mute=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div> -->
+        </div>
 
         <!-- NOTE: Boost Productivity Card -->
         <div class="bg-brand-50 rounded-xl">
@@ -92,7 +91,8 @@
             </div>
           </div>
 
-          <div
+          <DataTransition>
+            <div
             v-for="task in tasks.slice(0, 6).reverse()"
             :key="task.id"
             class="relative overflow-hidden bg-white mb-2 p-4 rounded-xl shadow"
@@ -104,7 +104,8 @@
                   #{{ task.id.toString().substring(6, 9) }}
                   </p>
                   <p :class="['text-gray-500', 'truncate text-xs mt-1']">
-                    <span v-if="task.task_status.name == 'Queuing'" >{{ moment(task.created_at).format('MMM DD, YYYY hh:mm A') }}</span>
+                    <span v-if="task.task_status.name == 'Queuing' && moment().format('YYYYMMDD') == moment(task.created_at).format('YYYYMMDD')" >{{ moment(task.created_at).format('hh:mm A') }}</span>
+                    <span v-else-if="task.task_status.name == 'Queuing'" >{{ moment(task.created_at).format('MMM DD, YYYY hh:mm A') }}</span>
                   </p>
                 </div>
 
@@ -114,16 +115,16 @@
                     <img :src="task.user_assigned.avatar" class="rounded-full h-4 w-4 inline" />
                    </div>
                 </p>
-
               </a>
             </div>
 
-            <div v-if="task.task_status.name == 'Processing'" class="absolute right-0 top-0 w-12">
-              <div class="absolute transform rotate-45 bg-green-600 text-center text-white text-xs py-1 right-[-65px] top-[8px] w-[170px]">
-                Serving
+              <div v-if="task.task_status.name == 'Processing'" class="absolute right-0 top-0 w-12">
+                <div class="absolute transform rotate-45 bg-green-600 text-center text-white text-xs py-1 right-[-65px] top-[8px] w-[170px]">
+                  Serving
+                </div>
               </div>
             </div>
-          </div>
+          </DataTransition>
         </BasicCard>
       </div>
     </div>
@@ -133,19 +134,35 @@
 <script setup lang="ts">
 import { UseFullscreen } from '@vueuse/components'
 import moment from 'moment'
+import { inject, onMounted, onUnmounted } from 'vue'
 import Echo from 'laravel-echo'
+import { router } from '@inertiajs/vue3'
 
 import { TicketIcon, ArrowsPointingOutIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { TTask } from '@/globalTypes'
 import AppButton from '@/components/form/AppButton.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
 
 defineProps<{
   tasks: TTask[]
 }>()
 
-Echo.channel('make-request-channel')
-  .listen('MakeRequestEvent', (e) => {
-    alert('new data added')
+const echo = inject<Echo>('echo')
+
+onMounted(() => {
+  echo?.channel('update-status-page-channel')
+  .listen('UpdateStatusPageEvent', () => {
+    refreshPage()
+    console.log('update-status-page-channel connected')
   })
+})
+onUnmounted(() => {
+  echo?.leaveChannel('UpdateStatusPageEvent')
+})
+
+function refreshPage() {
+  router.get('/status', {}, { preserveScroll: true, preserveState: true })
+  console.log('update-status-page-channel disconnected')
+}
 </script>
