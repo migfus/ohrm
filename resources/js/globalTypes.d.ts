@@ -196,3 +196,16 @@ export interface TSelect {
   display_name: string
   id: string
 }
+
+export interface TPost {
+  content: TPostContent[]
+  user: TUser
+  created_at: Date
+  id: string
+  is_pinned: boolean
+}
+
+export interface TPostContent {
+  insert: string
+  attributes?: object
+}

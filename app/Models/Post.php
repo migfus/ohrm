@@ -9,4 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory, HasUuids;
+  protected $fillable = ['user_id', 'content', 'group_id', 'is_pinned'];
+
+  public function user() {
+    return $this->belongsTo(User::class);
+  }
 }

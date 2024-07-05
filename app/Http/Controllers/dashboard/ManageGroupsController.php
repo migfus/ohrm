@@ -120,6 +120,9 @@ class ManageGroupsController extends Controller
 
     $task_priority = TaskPriority::get();
 
+    $posts = Post::where('group_id', $id)->with('user')->limit(10)->get();
+    $pinnedPosts = Post::where('group_id', $id)->where('is_pinned', 1)->with('user')->limit(5)->get();
+
     // $tasks = Task::query()
     // ->where('task_template_id', $id)
     // ->with(['user_assigned.user', 'task_priority.hero_icon', 'task_status.hero_icon', 'task_template'])
@@ -132,7 +135,18 @@ class ManageGroupsController extends Controller
       'data' => $data,
       'group_roles' => $roles,
       'task_priority' => $task_priority,
-
+      'posts' => $posts->map(fn($r) => [
+        'content' => json_decode($r->content),
+        'created_at' => $r->created_at,
+        'user' => $r->user,
+        'id' => $r->id,
+      ]),
+      'pinned_posts' => $pinnedPosts->map(fn($r) => [
+        'content' => json_decode($r->content),
+        'created_at' => $r->created_at,
+        'user' => $r->user,
+        'id' => $r->id,
+      ]),
     ]);
   }
   // ✏️
@@ -283,7 +297,7 @@ class ManageGroupsController extends Controller
 
       Post::create([
         'user_id' => $req->user()->id,
-        'content' => $req->content,
+        'content' => json_encode($req->content),
         'group_id' => $id,
       ]);
     }

@@ -1,5 +1,5 @@
 <template>
-  <BasicCard :icon="TicketIcon" title="Recent tasks" description="Task">
+  <BasicCard :icon="TicketIcon" title="Recent Tasks" description="Task">
     <DataTransition>
       <div v-for="row in tasks" :key="row.id" class="bg-white mb-2 shadow rounded-2xl px-4 py-2">
         <Link class="grid grid-cols-1 sm:grid-cols-3 gap-4" :href="`/dashboard/manage-template-tasks/${row.task_template.id}/edit`">
@@ -62,18 +62,25 @@
         </Link>
       </div>
     </DataTransition>
+    <DataTransition class="flex gap-2 justify-end mt-4">
+      <AppButton v-for="temp in taskTemplates" name="" class="unwrap">{{ temp.name }}</AppButton>
+
+    </DataTransition>
 
   </BasicCard>
 </template>
 
 <script setup lang="ts">
-import BasicCard from '@/components/cards/BasicCard.vue'
-import { TTask } from '@/globalTypes'
-import { TicketIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
 import moment from 'moment'
+import { TTask, TTaskTemplate } from '@/globalTypes'
+
+import BasicCard from '@/components/cards/BasicCard.vue'
+import { TicketIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'
+import AppButton from '@/components/form/AppButton.vue'
 
 defineProps<{
-  tasks: TTask []
+  tasks: TTask[]
+  taskTemplates: TTaskTemplate[]
 }>()
 </script>

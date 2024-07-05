@@ -11,7 +11,8 @@ return new class extends Migration
       $table->uuid('id')->primary();
       $table->uuid('user_id');
       $table->uuid('group_id');
-      $table->longText('content');
+      $table->json('content');
+      $table->boolean('is_pinned')->default(false);
       $table->timestamps();
     });
   }

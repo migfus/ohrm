@@ -26,15 +26,16 @@
           v-model:description="form.description"
           :id="data.id"
         />
-        <PinnedPostsCard />
+        <PinnedPostsCard :posts="pinned_posts" :groupId="data.id" />
 
       </div>
 
       <div class="col-span-4 lg:col-span-2 space-y-4">
         <GroupHeatMapCard />
         <UpdateTasksCard :tasks="data.task_templates" :id="data.id" :taskPriority="task_priority"/>
-        <RecentTasksCard :tasks="data.tasks"/>
+        <RecentTasksCard :tasks="data.tasks" :taskTemplates="data.task_templates"/>
         <CreatePost :groupId="data.id"/>
+        <PostsData :posts :groupId="data.id" />
       </div>
 
       <div class="col-span-4 lg:col-span-1 space-y-4">
@@ -60,7 +61,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { TGroup, TGroupRole, TTaskPriority, TTask } from '@/globalTypes'
+import { TGroup, TGroupRole, TTaskPriority, TPost } from '@/globalTypes'
 
 import GroupHeader from '.././GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
@@ -73,11 +74,14 @@ import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 import PinnedPostsCard from './PinnedPostsCard.vue'
 import RecentTasksCard from './RecentTasksCard.vue'
 import CreatePost from './CreatePost.vue'
+import PostsData from './PostsData.vue'
 
 const $props = defineProps<{
   data: TGroup
   group_roles: TGroupRole []
   task_priority: TTaskPriority []
+  posts: TPost []
+  pinned_posts: TPost[]
 }>()
 
 const form = router.form({
