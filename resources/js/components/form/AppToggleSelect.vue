@@ -1,7 +1,10 @@
 <template>
   <div class="group mb-2">
+    <!-- NOTE: LABEL -->
     <dd class="text-sm leading-6 text-gray-700 font-semibold">{{ name }}</dd>
+
     <BasicTransition>
+      <!-- NOTE: SELECT -->
       <form @submit.prevent="submit()" v-if="active">
         <AppSelect
           :suggestions
@@ -14,6 +17,7 @@
         </div>
       </form>
 
+      <!-- NOTE: TOGGLE -->
       <dt v-else @click="active = true" class="cursor-pointer text-sm font-medium leading-6 text-gray-900 bg-white rounded-xl shadow py-2 px-4">
         <div class="flex justify-between">
           <div class="">
@@ -24,6 +28,7 @@
           </div>
         </div>
       </dt>
+
     </BasicTransition>
   </div>
 
@@ -31,12 +36,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { TSelect } from '@/globalTypes'
 
 import BasicTransition from "@/components/transitions/BasicTransition.vue"
-import AppButton from './AppButton.vue'
+import AppButton from '@/components/form/AppButton.vue'
 import { PencilIcon } from '@heroicons/vue/24/solid'
-import AppSelect from './AppSelect.vue'
-import { TSelect } from '@/globalTypes'
+import AppSelect from '@/components/form/AppSelect.vue'
+
 
 const $props = defineProps<{
   name: string

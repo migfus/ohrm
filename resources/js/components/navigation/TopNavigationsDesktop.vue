@@ -5,7 +5,9 @@
     ]"
     :href="href"
   >
+    <!-- NOTE: ICON -->
     <component v-if="icon" :is="icon" class="h-6 w-6 text-brand-700 mr-2" aria-hidden="true" />
+    <!-- NOTE: NAME -->
     {{ name }}
   </Link>
 </template>

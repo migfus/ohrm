@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);
     Route::resource('/manage-template-tasks', ManageTemplateTaskController::class)->only(['edit', 'update']);
       Route::get('/manage-template-tasks/users-suggestion/{id}', [ManageTemplateTaskController::class, 'UserComboBox'])->name('manage-groups.users-suggestion');
-    Route::resource('manage-posts', ManagePostController::class)->only(['destroy', 'update']);
+    Route::resource('manage-posts', ManagePostController::class)->only(['destroy', 'update', 'index']);
   });
 });
 

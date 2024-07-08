@@ -7,19 +7,20 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
   public function up(): void {
-    Schema::create('posts', function (Blueprint $table) {
+    Schema::create('post_comments', function (Blueprint $table) {
       $table->uuid('id')->primary();
+      $table->uuid('post_comment_id')->nullable();
+      $table->foreign('post_comment_id')->references('id')->on('post_comments')->onDelete('cascade');
       $table->uuid('user_id');
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-      $table->uuid('group_id');
-      $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+      $table->uuid('post_id');
+      $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
       $table->json('content');
-      $table->boolean('is_pinned')->default(false);
       $table->timestamps();
     });
   }
 
   public function down(): void {
-      Schema::dropIfExists('posts');
+      Schema::dropIfExists('post_comments');
   }
 };

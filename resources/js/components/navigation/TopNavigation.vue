@@ -1,6 +1,7 @@
 <template>
   <!-- <TopBanner /> -->
   <Disclosure as="nav" class="bg-brand-50 shadow z-50" v-slot="{ open }">
+    <!-- NOTE: MOBILE VIEW -->
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -40,6 +41,7 @@
         </div>
       </div>
     </div>
+    <!-- NOTE: DESKTOP VIEW -->
     <DisclosurePanel class="sm:hidden">
       <div class="space-y-1 pt-2 pb-4">
         <TopNavigationsMobile
@@ -56,6 +58,7 @@
     </DisclosurePanel>
   </Disclosure>
 
+  <!-- NOTE: CONTENTS -->
   <slot></slot>
 </template>
 
@@ -69,7 +72,7 @@ import TopNavigationsMobile from './TopNavigationsMobile.vue'
 import TopNavigationLogo from './TopNavigationLogo.vue'
 import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
 
-const $props = defineProps<{
+defineProps<{
   title: string
   logo: string
 }>()

@@ -1,7 +1,11 @@
 <template>
   <div class="mb-2">
+    <!-- NOTE: LABEL -->
     <dd class="text-sm leading-6 text-gray-700 font-semibold">{{ name }}</dd>
+
     <BasicTransition>
+
+      <!-- NOTE: TEXT AREA -->
       <form @submit.prevent="submit()" v-if="active">
         <AppTextArea v-model="$model" size="sm" :name :error="undefined" noLabel/>
         <div class="flex justify-end gap-2 mt-2">
@@ -9,6 +13,8 @@
           <AppButton type="submit" size="sm" color="brand">Update</AppButton>
         </div>
       </form>
+
+      <!-- NOTE: TOGGLE -->
       <dt v-else @click="active = true" class="group cursor-pointer text-sm font-medium leading-6 text-gray-900 bg-white rounded-xl shadow hover:shadow-md transition-all py-2 px-4">
         <div class="flex justify-between">
           <div class="">
@@ -19,6 +25,7 @@
           </div>
         </div>
       </dt>
+
     </BasicTransition>
   </div>
 

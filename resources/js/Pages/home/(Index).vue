@@ -1,7 +1,9 @@
 <template>
   <div class="my-4 flex flex-col gap-4">
+    <!-- NOTE: GROUPS -->
     <BasicCard v-for="group in groups" :key="group.id" :title="group.name" :iconImg="group.avatar">
       <div class="flex gap-4">
+        <!-- NOTE: TASK TEMPLATES (will open a prompt/modal when clicked) -->
         <button
           v-for="taskTemplate in group.task_templates"
           :key="taskTemplate.id"
@@ -16,6 +18,7 @@
     </BasicCard>
   </div>
 
+  <!-- NOTE: REQUEST PROMPT/MODAL -->
   <FormModal
     :icon="PlusIcon"
     title="New Request"
@@ -46,7 +49,6 @@
       <AppButton @click="resetRequest()" :icon="XMarkIcon">Cancel</AppButton>
       <AppButton @click="submitRequest()" color="brand" :icon="PaperAirplaneIcon">Make a request</AppButton>
     </div>
-
   </FormModal>
 
 </template>

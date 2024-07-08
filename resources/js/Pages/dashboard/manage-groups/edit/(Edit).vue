@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="editpo">
     <GroupHeader
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
@@ -31,11 +31,15 @@
       </div>
 
       <div class="col-span-4 lg:col-span-2 space-y-4">
+        <div class="flex gap-2">
+          <AppButton :icon="PaperAirplaneIcon" :color="remember.category == 'social' ? `brand` : ''" @click="remember.category = 'social'">Social</AppButton>
+          <AppButton :icon="TicketIcon" :color="remember.category == 'tasks' ? `brand` : ''" @click="remember.category = 'tasks'">Tasks</AppButton>
+        </div>
         <GroupHeatMapCard />
         <UpdateTasksCard :tasks="data.task_templates" :id="data.id" :taskPriority="task_priority"/>
         <RecentTasksCard :tasks="data.tasks" :taskTemplates="data.task_templates"/>
         <CreatePost :groupId="data.id"/>
-        <PostsData :posts :groupId="data.id" />
+        <PostsData :groupId="data.id" />
       </div>
 
       <div class="col-span-4 lg:col-span-1 space-y-4">
@@ -60,7 +64,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { router, useRemember } from '@inertiajs/vue3'
 import { TGroup, TGroupRole, TTaskPriority, TPost } from '@/globalTypes'
 
 import GroupHeader from '.././GroupHeader.vue'
@@ -68,19 +72,19 @@ import GroupHeatMapCard from './GroupHeatMapCard.vue'
 import UpateBasicCard from './UpdateBasicCard.vue'
 import UpdateMembersCard from './UpdateMembersCard.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'
-import { XMarkIcon } from '@heroicons/vue/20/solid'
+import { XMarkIcon, PaperAirplaneIcon, TicketIcon } from '@heroicons/vue/20/solid'
 import UpdateTasksCard from './UpdateTasksCard.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 import PinnedPostsCard from './PinnedPostsCard.vue'
 import RecentTasksCard from './RecentTasksCard.vue'
 import CreatePost from './CreatePost.vue'
 import PostsData from './PostsData.vue'
+import AppButton from '@/components/form/AppButton.vue'
 
 const $props = defineProps<{
   data: TGroup
   group_roles: TGroupRole []
   task_priority: TTaskPriority []
-  posts: TPost []
   pinned_posts: TPost[]
 }>()
 
@@ -90,6 +94,10 @@ const form = router.form({
   avatar: $props.data.avatar,
   cover: $props.data.cover,
 })
+
+const remember = useRemember({
+  category: 'ticket'
+}, 'dashboard/manage-groups')
 
 const openPrompt = ref<boolean>(false)
 

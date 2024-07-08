@@ -14,10 +14,7 @@
           </div>
           <div class="hidden md:block">
             <div>
-              <p class="text-sm text-gray-900">
-
-              </p>
-
+              <p class="text-sm text-gray-900"></p>
             </div>
           </div>
         </div>

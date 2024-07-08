@@ -1,27 +1,26 @@
 <template>
   <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <BasicTransition>
-        <img src="http://127.0.0.1:8000/assets/logo.png"  class="mx-auto h-32 w-auto shadow-md rounded-2xl p-2" alt="OHRM Logo">
-      </BasicTransition>
+      <img src="http://127.0.0.1:8000/assets/logo.png" class="mx-auto h-32 w-auto shadow-md rounded-2xl p-2" alt="OHRM Logo">
       <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-brand-800">Sign in to your account</h2>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-brand-50 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-
+      <div class="bg-brand-50 py-8 px-4 shadow sm:rounded-2xl sm:px-10">
+        <FlashErrors :errors="$page.props.errors" />
+        <!-- NOTE: FORM -->
         <form class="space-y-6" @submit.prevent="submit()">
 
           <AppInput
             v-model="form.email"
-            :error="$props.errors.email"
+            :error="form.errors.email"
             name="Email"
             type="email"
             placeholder="Enter a email"
           />
           <AppInput
             v-model="form.password"
-            :error="$props.errors.password"
+            :error="form.errors.password"
             type="password"
             name="Password"
             placeholder="Enter a password"
@@ -51,36 +50,23 @@
 </template>
 
 <script setup lang="ts">
-import { router } from '@inertiajs/vue3'
-import { reactive } from 'vue'
-import { TProps } from '@/globalTypes'
+import { router, useForm } from '@inertiajs/vue3'
 
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
-import BasicTransition from '@/components/transitions/BasicTransition.vue'
+import FlashErrors from '@/components/header/FlashErrors.vue'
 
-interface TError extends TProps {
-  errors: {
-    email: string | undefined
-    password: string | undefined
-  }
-}
-
-const $props = defineProps<TError>()
-
-type TForm = {
-  email: string
-  password: string
-  remember: boolean,
-}
-
-const form = reactive<TForm>({
+const form = useForm({
   email: 'admin@gmail.com',
   password: '#Admin.123',
   remember: false,
 })
 
 function submit() {
-  router.post('/login', form);
+  router.post('/login', {
+    email: form.email,
+    password: form.password,
+    remember: form.remember,
+  });
 }
 </script>

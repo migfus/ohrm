@@ -1,7 +1,7 @@
 <template>
   <Menu as="div" class="relative inline-block text-left">
     <div>
-      <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-brand-50 pl-3 pb-2 text-sm font-semibold text-brand-900 hover:bg-brand-50 ">
+      <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-brand-50 pl-2 pb-2 text-sm font-semibold text-brand-900 hover:bg-brand-50 ">
         <ChevronDownIcon class="-mr-1 h-5 w-5 text-brand-400" aria-hidden="true" />
       </MenuButton>
     </div>
@@ -12,7 +12,7 @@
           <MenuItem v-slot="{ active }">
             <div @click="click('pin')" :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
               <MapPinIcon :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'h-4 w-5 text-brand-400 inline mr-2']"  />
-              <span>Pin</span>
+              <span>{{ isPinned ? 'Unpin' : 'Pin'}}</span>
             </div>
           </MenuItem>
           <MenuItem v-slot="{ active }">
@@ -47,8 +47,12 @@ import { ref } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems,  } from '@headlessui/vue'
 import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon, MapPinIcon } from '@heroicons/vue/20/solid'
-import BasicTransition from '../transitions/BasicTransition.vue'
-import RemovalPrompt from '../modals/RemovalPrompt.vue'
+import BasicTransition from '@/components/transitions/BasicTransition.vue'
+import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
+
+defineProps<{
+  isPinned: number // 0 or 1
+}>()
 
 const $emits = defineEmits(['click'])
 const openRemovePrompt = ref(false)

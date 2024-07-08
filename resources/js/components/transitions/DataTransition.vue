@@ -1,5 +1,3 @@
-
-
 <template>
     <TransitionGroup
       enter-active-class="transform ease-out duration-300 transition"

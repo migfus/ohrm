@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { TSelect } from '@/globalTypes';
+import { TSelect } from '@/globalTypes'
 
 defineProps<{
   suggestions: TSelect []

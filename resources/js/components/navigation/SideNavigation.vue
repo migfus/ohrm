@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- NOTE: MOBILE VIEW -->
     <TransitionRoot as="template" :show="sidebarOpen">
       <Dialog as="div" class="relative z-40 md:hidden" @close="sidebarOpen = false">
         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100" leave-to="opacity-0">
@@ -26,7 +27,7 @@
                   <SideNavigationContent title="Dashboard" :data="CSidebarNavigation" v-model="sidebarOpen"/>
                   <SideNavigationContent title="Admin" :data="CAdminNavigation" v-model="sidebarOpen"/>
                   <SideNavigationContent title="Pages" :data="CTopNavigation" v-model="sidebarOpen"/>
-              </nav>
+                </nav>
               </div>
             </DialogPanel>
           </TransitionChild>
@@ -37,7 +38,7 @@
       </Dialog>
     </TransitionRoot>
 
-    <!-- MARK: DESKTOP Static sidebar for desktop -->
+    <!-- NOTE: DESKTOP VIEW-->
     <div class="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
       <!-- Sidebar component, swap this element with another sidebar if you like -->
       <div class="flex min-h-0 flex-1 flex-col bg-brand-700">
@@ -51,12 +52,12 @@
             <SideNavigationContent title="Admin" :data="CAdminNavigation" v-model="sidebarOpen"/>
             <SideNavigationContent title="Pages" :data="CTopNavigation" v-model="sidebarOpen"/>
           </nav>
-
-
         </div>
       </div>
     </div>
+
     <div class="flex flex-col md:pl-64">
+      <!-- NOTE: TOP NAVIGATION -->
       <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-brand-50 shadow">
         <button type="button" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500 md:hidden" @click="sidebarOpen = true">
           <span class="sr-only">Open sidebar</span>
@@ -74,18 +75,16 @@
         </div>
       </div>
 
+      <!-- NOTE: CONTENTS -->
       <main class="flex-1">
         <div class="py-6 sm:mx-4">
           <div class="max-w-7xl mx-auto">
-
             <slot></slot>
-
           </div>
         </div>
       </main>
+
     </div>
-
-
   </div>
 </template>
 
@@ -99,7 +98,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue'
-import { Bars3BottomLeftIcon, XMarkIcon, MagnifyingGlassIcon} from '@heroicons/vue/24/solid'
+import { Bars3BottomLeftIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
 import TopNavigationLogo from './TopNavigationLogo.vue'
 import SideNavigationContent from '@/components/navigation/SideNavigationContent.vue'

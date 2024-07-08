@@ -1,7 +1,11 @@
 <template>
   <div class="mb-2">
+    <!-- NOTE: LABEL -->
     <dd class="text-sm leading-6 text-gray-700 font-semibold">{{ name }}</dd>
+
     <BasicTransition>
+
+      <!-- NOTE FORM -->
       <form @submit.prevent="submit()" v-if="active">
         <AppInput v-model="$model" size="sm" name="Name" :error="undefined" noLabel/>
         <div class="flex justify-end gap-2 mt-2">
@@ -10,6 +14,8 @@
           <AppButton type="submit" size="sm" color="brand">Update</AppButton>
         </div>
       </form>
+
+      <!-- NOTE TOGGLE -->
       <dt v-else @click="active = true" class="group cursor-pointer text-sm font-medium leading-6 text-gray-900 bg-white rounded-xl shadow hover:shadow-md transition-all py-2 px-4">
         <div class="flex justify-between">
           <div class="">
@@ -20,6 +26,7 @@
           </div>
         </div>
       </dt>
+
     </BasicTransition>
   </div>
 
@@ -27,12 +34,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { passwordGenerator } from '@/converter'
 
 import BasicTransition from "@/components/transitions/BasicTransition.vue"
-import AppInput from './AppInput.vue'
-import AppButton from './AppButton.vue'
+import AppInput from '@/components/form/AppInput.vue'
+import AppButton from '@/components/form/AppButton.vue'
 import { PencilIcon } from '@heroicons/vue/24/solid'
-import { passwordGenerator } from '@/converter'
 
 const $props = defineProps<{
   name: string

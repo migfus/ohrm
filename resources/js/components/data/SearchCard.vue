@@ -79,6 +79,4 @@ import {
 } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItem, MenuItems,  } from '@headlessui/vue'
 import AppButton from '@/components/form/AppButton.vue'
-
-
 </script>

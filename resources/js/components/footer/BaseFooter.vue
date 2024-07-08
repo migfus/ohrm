@@ -1,7 +1,31 @@
+<template>
+  <footer class="bg-brand-50">
+    <div class="mx-auto max-w-7xl overflow-hidden py-20 px-6 sm:py-24 lg:px-8">
+      <!-- NOTE: NAVIGATIONS -->
+      <DataTransition class="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
+        <div v-for="item in CTopNavigation" :key="item.name" class="pb-6">
+          <component :is="item.icon" class="inline h-3 w-3 mr-2 text-brand-400 hover:text-gray-900"/>
+          <a :href="item.href" class="text-sm leading-6 text-brand-600 hover:text-gray-900">{{ item.name }}</a>
+        </div>
+      </DataTransition>
+
+      <!-- NOTE: SOCIALS -->
+      <DataTransition class="mt-10 flex justify-center space-x-10 text-brand-400 hover:text-brand-500">
+        <a v-for="item in navigation.social" :key="item.name" :href="item.href" target="_blank" class="text-brand-400 hover:text-brand-500">
+          <span class="sr-only">{{ item.name }}</span>
+          <component :is="item.icon" class="h-6 w-6 " aria-hidden="true" />
+        </a>
+      </DataTransition>
+
+      <!-- NOTE: COPYRIGHT -->
+      <p class="mt-10 text-center text-xs leading-5 text-brand-500">&copy; 2024 <a href="https://migfus.net" target="_blank" class="decoration:underline">Migfus.net</a> All rights reserved.</p>
+    </div>
+  </footer>
+</template>
+
 <script setup lang="ts">
 import { defineComponent, h } from 'vue'
-import { CTopNavigation } from '@/constants';
-
+import { CTopNavigation } from '@/constants'
 import DataTransition from '../transitions/DataTransition.vue'
 
 const navigation = {
@@ -76,31 +100,4 @@ const navigation = {
     },
   ],
 }
-
 </script>
-
-
-<template>
-  <footer class="bg-brand-50">
-
-
-    <div class="mx-auto max-w-7xl overflow-hidden py-20 px-6 sm:py-24 lg:px-8">
-      <DataTransition class="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
-        <div v-for="item in CTopNavigation" :key="item.name" class="pb-6">
-          <component :is="item.icon" class="inline h-3 w-3 mr-2 text-brand-400 hover:text-gray-900"/>
-          <a :href="item.href" class="text-sm leading-6 text-brand-600 hover:text-gray-900">{{ item.name }}</a>
-        </div>
-      </DataTransition>
-
-      <DataTransition class="mt-10 flex justify-center space-x-10 text-brand-400 hover:text-brand-500">
-        <a v-for="item in navigation.social" :key="item.name" :href="item.href" target="_blank" class="text-brand-400 hover:text-brand-500">
-          <span class="sr-only">{{ item.name }}</span>
-          <component :is="item.icon" class="h-6 w-6 " aria-hidden="true" />
-        </a>
-      </DataTransition>
-
-      <p class="mt-10 text-center text-xs leading-5 text-brand-500">&copy; 2024 <a href="https://migfus.net" target="_blank" class="decoration:underline">Migfus.net</a> All rights reserved.</p>
-    </div>
-  </footer>
-</template>
-

@@ -1,20 +1,7 @@
-<script setup lang="ts">
-import type { GTAuth } from '@/globalTypes'
-import { computed } from 'vue'
-import { usePage } from '@inertiajs/vue3'
-import { Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
-import { ArrowRightStartOnRectangleIcon, Cog6ToothIcon, SquaresPlusIcon, TableCellsIcon, BellIcon, ChatBubbleOvalLeftIcon, FolderOpenIcon, FolderPlusIcon } from '@heroicons/vue/24/outline'
-import AppButton from '../form/AppButton.vue'
-
-const page = usePage()
-
-const auth = computed(() => page.props.auth as GTAuth)
-</script>
-
 <template>
+  <!-- NOTE: AUTH -->
   <div v-if="auth" class="flex">
-
-    <!-- NOTE NOTIFICATIONS -->
+    <!-- NOTE MESSAGES -->
     <Menu as="div" class="relative mr-3 mt-1">
       <div>
         <MenuButton class="flex rounded-full bg-brand-100 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">
@@ -162,6 +149,7 @@ const auth = computed(() => page.props.auth as GTAuth)
     </Menu>
   </div>
 
+  <!-- NOTE: GUEST -->
   <div v-else>
     <Link href="/login">
       <AppButton color="brand">Sign-in</AppButton>
@@ -169,3 +157,16 @@ const auth = computed(() => page.props.auth as GTAuth)
   </div>
 </template>
 
+<script setup lang="ts">
+import type { GTAuth } from '@/globalTypes'
+import { computed } from 'vue'
+
+import { usePage } from '@inertiajs/vue3'
+import { Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
+import { ArrowRightStartOnRectangleIcon, Cog6ToothIcon, SquaresPlusIcon, TableCellsIcon, BellIcon, ChatBubbleOvalLeftIcon, FolderOpenIcon, FolderPlusIcon } from '@heroicons/vue/24/outline'
+import AppButton from '@/components/form/AppButton.vue'
+
+const page = usePage()
+
+const auth = computed(() => page.props.auth as GTAuth)
+</script>

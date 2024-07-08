@@ -5,8 +5,9 @@
       <textarea
         v-model="$model"
         :id="name"
+        :placeholder
         :name="name"
-        rows="3"
+        :rows="lines ?? 3"
         class="shadow-inner block w-full rounded-xl border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-600 sm:text-sm sm:leading-6"
       />
     </BasicTransition>
@@ -21,5 +22,7 @@ import BasicTransition from '@/components/transitions/BasicTransition.vue'
 defineProps<{
   name: string
   noLabel?: boolean
+  lines?: string
+  placeholder?: string
 }>()
 </script>

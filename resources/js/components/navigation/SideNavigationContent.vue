@@ -1,5 +1,7 @@
 <template>
+  <!-- NOTE: TITLE -->
   <label class="ml-2 font-semibold text-brand-200">{{ title }}</label>
+  <!-- NOTE: CONTENT -->
   <DataTransition>
     <Link
       v-for="(item, index) in data"
@@ -31,7 +33,7 @@ import { ref } from 'vue'
 import { TCTopNavigation } from '@/globalTypes'
 
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
-import DataTransition from '../transitions/DataTransition.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
 
 defineProps<{
   title: string

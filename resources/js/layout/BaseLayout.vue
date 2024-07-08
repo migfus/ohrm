@@ -1,51 +1,3 @@
-<script setup lang="ts">
-import { useTitle } from '@vueuse/core'
-import { Head } from '@inertiajs/vue3'
-import { watch, computed } from 'vue'
-import { usePage } from '@inertiajs/vue3'
-import TopNavigation from '@/components/navigation/TopNavigation.vue'
-import SideNavigation from '@/components/navigation/SideNavigation.vue'
-import TopBanner from '@/components/navigation/TopBanner.vue'
-import BaseFooter from '@/components/footer/BaseFooter.vue'
-import SharedProps from '@/SharedProps'
-import NotiWind from '@/components/notifications/NotiWind.vue'
-import { notify } from "notiwind"
-
-const $page = usePage<SharedProps>()
-const title = computed(() => $page.props.title)
-const pageTitle = computed(() => $page.props.pageTitle)
-const flash = computed<{
-    success?: string
-    error?: string
-  }>(() => {
-    return {
-      success: $page.props.flash?.success,
-      error: $page.props.flash?.error,
-    };
-  })
-
-const _title = useTitle(pageTitle.value ? `${pageTitle.value} | ${title.value}` : title.value)
-watch(pageTitle, () => {
-  _title.value = `${pageTitle.value} | ${title.value}`
-})
-watch(flash, () => {
-  if(flash.value.success){
-    notify({
-      group: "success",
-      title: "Success",
-      text: flash.value.success
-    }, 4000)
-  }
-  else if(flash.value.error){
-    notify({
-      group: "danger",
-      title: "Error",
-      text: flash.value.error
-    }, 5 * 1000)
-  }
-})
-</script>
-
 <template>
   <Head>
     <link rel="icon" type="image/png" :href="$page.props.logo.sm" />
@@ -68,3 +20,55 @@ watch(flash, () => {
 
   <BaseFooter />
 </template>
+
+<script setup lang="ts">
+import { useTitle } from '@vueuse/core'
+import { Head } from '@inertiajs/vue3'
+import { watch, computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
+import TopNavigation from '@/components/navigation/TopNavigation.vue'
+import SideNavigation from '@/components/navigation/SideNavigation.vue'
+import TopBanner from '@/components/navigation/TopBanner.vue'
+import BaseFooter from '@/components/footer/BaseFooter.vue'
+import SharedProps from '@/SharedProps'
+import NotiWind from '@/components/notifications/NotiWind.vue'
+import { notify } from "notiwind"
+
+const $page = usePage<SharedProps>()
+
+// NOTE: HEADER TITLE (Constantly change in every navigation)
+const title = computed(() => $page.props.title)
+const pageTitle = computed(() => $page.props.pageTitle)
+const _title = useTitle(pageTitle.value ? `${pageTitle.value} | ${title.value}` : title.value)
+watch(pageTitle, () => {
+  _title.value = `${pageTitle.value} | ${title.value}`
+})
+
+// NOTE: NOTIWIND BASE NOTIFICATIONS (Actively listening to flash messages)
+const flash = computed<{
+  success?: string
+  error?: string
+}>(() => {
+  return {
+    success: $page.props.flash?.success,
+    error: $page.props.flash?.error,
+  };
+})
+
+watch(flash, () => {
+  if(flash.value.success){
+    notify({
+      group: "success",
+      title: "Success",
+      text: flash.value.success
+    }, 4000)
+  }
+  else if(flash.value.error){
+    notify({
+      group: "error",
+      title: "Error",
+      text: flash.value.error
+    }, 5 * 1000)
+  }
+})
+</script>

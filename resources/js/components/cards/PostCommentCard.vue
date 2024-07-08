@@ -1,0 +1,34 @@
+<template>
+  <!-- ✏️ -->
+  <div class="py-4 px-4">
+    <div class="flex">
+      <img :src="$auth.avatar" class="h-7 w-7 rounded-full mt-[11px] mr-2"/>
+      <AppTextArea v-model="form.content" name="Comment" noLabel :lines="String(lines)" placeholder="Write a comment" class="flex-grow transition-all" @click="lines = 2"/>
+    </div>
+    <div v-if="lines > 1" class="flex justify-end mt-2 gap-2">
+      <AppButton :icon="XMarkIcon" name="Comment" size="sm" @click="form.reset(); lines = 1">Cancel</AppButton>
+      <AppButton :icon="ChatBubbleLeftIcon" name="Comment" size="sm" color="brand">Comment</AppButton>
+    </div>
+
+    <!-- {{ $auth }} -->
+  </div>
+</template>
+
+<script setup lang="ts">
+// ✏️
+import { TUser } from '@/globalTypes'
+import { ref } from 'vue'
+import { router, usePage } from '@inertiajs/vue3'
+
+import AppTextArea from '@/components/form/AppTextArea.vue'
+import AppButton from '@/components/form/AppButton.vue'
+import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/vue/24/solid'
+
+const $page = usePage()
+const $auth = $page.props.auth as TUser
+const lines = ref(1)
+
+const form = router.form({
+  content: ''
+})
+</script>

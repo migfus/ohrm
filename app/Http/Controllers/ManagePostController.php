@@ -12,13 +12,18 @@ use Inertia\Response;
 
 class ManagePostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+
+  public function index(Request $req) {
+    if($req->group_id) {
+      return response()->json(
+        Post::query()
+          ->where('group_id', $req->group_id)
+          ->with('user')
+          ->orderBy('created_at', 'DESC')
+          ->paginate(10)
+      );
     }
+  }
 
     /**
      * Show the form for creating a new resource.

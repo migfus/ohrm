@@ -1,14 +1,14 @@
 <template>
   <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <object class="mx-auto h-12 w-auto" data="/assets/logo.svg" alt="Your Company" />
+      <img src="http://127.0.0.1:8000/assets/logo.png" class="mx-auto h-32 w-auto bg-white shadow-md rounded-2xl px-2 py-2" alt="OHRM Logo" />
       <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-brand-800">Recover your account</h2>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div class="bg-brand-50 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div class="bg-brand-50 py-8 px-4 shadow sm:rounded-2xl sm:px-10">
+        <!-- NOTE: FORM -->
         <form class="space-y-6" @submit.prevent="submit()">
-
 
           <AppInput
             v-model="form.email"
@@ -37,8 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { router } from '@inertiajs/vue3'
-import { reactive } from 'vue'
+import { router, useForm } from '@inertiajs/vue3'
 import { TProps } from '@/globalTypes'
 
 import AppInput from '@/components/form/AppInput.vue'
@@ -52,11 +51,13 @@ interface TErrorWithTProps extends TProps {
 
 const $props = defineProps<TErrorWithTProps>()
 
-const form = reactive<{ email: string }>({
+const form = useForm({
   email: '',
 })
 
 function submit() {
-  router.post('/forgot', form);
+  router.post('/forgot', {
+    email: form.email
+  });
 }
 </script>

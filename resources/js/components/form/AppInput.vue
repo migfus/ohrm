@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import BasicTransition from '../transitions/BasicTransition.vue'
+import BasicTransition from '@/components/transitions/BasicTransition.vue'
 
 type TProps = {
   error: string | undefined
@@ -42,12 +42,11 @@ const $props = defineProps<TProps>()
 const $model = defineModel()
 
 const inputSize = computed(() => {
-  if(!$props.size) {
-    return ''
-  }
-  else if($props.size == 'sm') {
-    return 'text-sm h-[34px]'
+  switch($props.size) {
+    case 'sm':
+      return 'text-sm h-[34px]'
+    default:
+      return ''
   }
 })
-
 </script>

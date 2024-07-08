@@ -198,11 +198,11 @@ export interface TSelect {
 }
 
 export interface TPost {
-  content: TPostContent[]
+  content: string
   user: TUser
   created_at: Date
   id: string
-  is_pinned: boolean
+  is_pinned: number // 0 or 1
 }
 
 export interface TPostContent {

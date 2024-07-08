@@ -1,6 +1,9 @@
 <template>
   <div class="mt-4">
+    <!-- NOTE: LABEL -->
     <label class="block mb-1 text-sm font-medium text-brand-600">{{ name }}</label>
+
+    <!-- NOTE SWITCH -->
     <Switch v-model="enabled" :class="[enabled ? 'bg-brand-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-600 focus:ring-offset-2']">
       <span class="sr-only">Use setting</span>
       <span :class="[enabled ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']">
@@ -16,13 +19,14 @@
         </span>
       </span>
     </Switch>
-  </div>
 
+  </div>
 </template>
 
 <script setup lang="ts">
-import { Switch } from '@headlessui/vue'
 import { watch } from 'vue'
+
+import { Switch } from '@headlessui/vue'
 
 defineProps<{
   name: string
