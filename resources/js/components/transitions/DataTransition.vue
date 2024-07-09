@@ -9,6 +9,7 @@
       mode="out-in"
       appear
       tag="ul"
+      ref="infinite"
     >
       <slot></slot>
     </TransitionGroup>

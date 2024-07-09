@@ -88,6 +88,8 @@ const buttonColor = computed(() => {
 
 const iconColor = computed(() => {
   switch($props.color) {
+    case 'danger':
+      return 'text-red-700'
     case 'brand':
       return 'text-brand-50'
     default:

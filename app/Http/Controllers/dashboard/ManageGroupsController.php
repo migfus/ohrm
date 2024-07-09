@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\dashboard;
 
+use App\Events\UpdateGroupPostsEvent;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -120,16 +121,11 @@ class ManageGroupsController extends Controller
 
     $task_priority = TaskPriority::get();
 
-    $posts = Post::query()
-      ->where('group_id', $id)
-      ->with('user')
-      ->orderBy('created_at', 'desc')
-      ->limit(10)
-      ->get();
     $pinnedPosts = Post::query()
       ->where('group_id', $id)
       ->where('is_pinned', 1)
-      ->with('user')
+      ->with(['user'])
+      ->withCount('comments')
       ->orderBy('created_at', 'desc')
       ->limit(5)
       ->get();
@@ -146,19 +142,13 @@ class ManageGroupsController extends Controller
       'data' => $data,
       'group_roles' => $roles,
       'task_priority' => $task_priority,
-      'posts' => $posts->map(fn($r) => [
-        'content' => json_decode($r->content),
-        'created_at' => $r->created_at,
-        'user' => $r->user,
-        'id' => $r->id,
-        'is_pinned' => $r->is_pinned,
-      ]),
       'pinned_posts' => $pinnedPosts->map(fn($r) => [
-        'content' => json_decode($r->content),
+        'content' => $r->content,
         'created_at' => $r->created_at,
         'user' => $r->user,
         'id' => $r->id,
         'is_pinned' => $r->is_pinned,
+        'comments_count' => $r->comments_count,
       ]),
     ]);
   }
@@ -313,6 +303,8 @@ class ManageGroupsController extends Controller
         'content' => json_encode($req->content),
         'group_id' => $id,
       ]);
+
+      UpdateGroupPostsEvent::dispatch(['groupId' => $id]);
     }
 
 

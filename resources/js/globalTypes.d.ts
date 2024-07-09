@@ -203,6 +203,15 @@ export interface TPost {
   created_at: Date
   id: string
   is_pinned: number // 0 or 1
+  comments: TComment[]
+  comments_count: number
+}
+
+export interface TComment {
+  content: string
+  user: TUser
+  created_at: Date
+  id: string
 }
 
 export interface TPostContent {

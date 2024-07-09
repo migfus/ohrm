@@ -28,7 +28,7 @@
     <div class="flex justify-between mx-4 py-2 text-sm gap-4">
       <span class="text">😅</span>
       <span>
-        <span class="inline">0</span>
+        <span class="inline">{{ post.comments_count }}</span>
         <ChatBubbleLeftRightIcon class="w-4 h-4 inline ml-1 text-brand-500"/>
       </span>
     </div>
@@ -56,11 +56,12 @@ const minimizeContent = ref(true)
 const sentenceLines = ref(null)
 const { height } = useElementSize(sentenceLines)
 
-function quillContentToHtml(content: TPostContent[]) {
-  if(content && typeof content === 'object') {
+function quillContentToHtml(content: string) {
+  const content_ = JSON.parse(content) as TPostContent[]
+  if(content_ && typeof content_ === 'object') {
     const quill = new Quill(document.createElement('div'))
     quill.setContents(
-      content.filter(r => r.insert == null ? false : true)
+      content_.filter(r => r.insert == null ? false : true)
     )
     return quill.root.innerHTML
   }

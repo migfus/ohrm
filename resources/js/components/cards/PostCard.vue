@@ -26,9 +26,11 @@
     <!-- NOTE: POSTCARD FOOTER -->
     <div class="flex justify-between mx-4 py-2 text-sm gap-4">
       <span class="text">😅</span>
-      <span class="cursor-pointer">0 Comments</span>
+      <span class="cursor-pointer">{{ contentFormatter('Comment', post.comments_count) }}</span>
     </div>
 
+    <!-- NOTE: COMMENTS -->
+    <CommentsContent :comments="post.comments"/>
     <!-- NOTE: AUTH COMMENT -->
     <PostCommentCard />
 
@@ -42,8 +44,11 @@ import { TPost, TPostContent } from '@/globalTypes'
 import { Quill } from '@vueup/vue-quill'
 import moment from 'moment'
 import { router } from '@inertiajs/vue3'
+import axios from 'axios'
+import { contentFormatter } from '@/converter'
 
 import PostCommentCard from './PostCommentCard.vue'
+import CommentsContent from './CommentsContent.vue'
 import PostDropown from './PostDropown.vue'
 import { MapPinIcon } from '@heroicons/vue/24/solid'
 
@@ -80,7 +85,7 @@ function dropDownEmit(value: string) {
 }
 // NOTE: Remove by [Auth]
 function removePost(id: string) {
-  router.delete(`/dashboard/manage-posts/${id}?redirect=/dashboard/manage-groups/${$props.groupId}/edit`, { preserveScroll: true, preserveState: true})
+  axios.delete(`/dashboard/manage-posts/${id}?groupId=${$props.groupId}`)
 }
 // NOTE: Pin/Unpin By [admin/Mod]
 function pinPost(id: string) {

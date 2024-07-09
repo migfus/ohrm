@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
         TaskStatusSeeder::class,
         TaskSeeder::class,
         PostSeeder::class,
+        PostCommentSeeder::class
       ]);
     }
 }

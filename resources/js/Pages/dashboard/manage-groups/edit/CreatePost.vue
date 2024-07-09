@@ -35,6 +35,7 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const openCreatPostModal = ref(false)
+const $emits = defineEmits(['submit'])
 
 const toolbar = {
   container: [
@@ -63,6 +64,7 @@ function submitPost() {
   })
   openCreatPostModal.value = false
   form.reset()
+  $emits('submit')
 }
 </script>
 

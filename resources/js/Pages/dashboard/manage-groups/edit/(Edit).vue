@@ -1,5 +1,5 @@
 <template>
-  <div ref="editpo">
+  <div ref="infinite">
     <GroupHeader
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
@@ -39,7 +39,7 @@
         <UpdateTasksCard :tasks="data.task_templates" :id="data.id" :taskPriority="task_priority"/>
         <RecentTasksCard :tasks="data.tasks" :taskTemplates="data.task_templates"/>
         <CreatePost :groupId="data.id"/>
-        <PostsData :groupId="data.id" />
+        <PostsData :groupId="data.id"/>
       </div>
 
       <div class="col-span-4 lg:col-span-1 space-y-4">

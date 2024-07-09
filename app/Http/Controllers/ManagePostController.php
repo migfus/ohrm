@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Post;
-use Illuminate\Support\Facades\URL;
-use Inertia\Response;
+use App\Models\Comment;
+use Illuminate\Http\JsonResponse;
+use App\Events\UpdateGroupPostsEvent;
 
 class ManagePostController extends Controller
 {
@@ -18,44 +19,13 @@ class ManagePostController extends Controller
       return response()->json(
         Post::query()
           ->where('group_id', $req->group_id)
-          ->with('user')
+          ->with(['user', 'comments.user'])
+          ->withCount(['comments'])
           ->orderBy('created_at', 'DESC')
           ->paginate(10)
       );
     }
   }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
   public function update(Request $req, string $id) : RedirectResponse {
     $req->validate([
@@ -83,13 +53,16 @@ class ManagePostController extends Controller
       ]);
     }
 
-  public function destroy(Request $req, string $id) : RedirectResponse{
+
+  public function destroy(Request $req, string $id) : JsonResponse {
+    $req->validate([
+      'groupId' => ['required', 'uuid']
+    ]);
+
     Post::where('id', $id)->delete();
 
-    if($req->redirect) {
-      return Redirect::to($req->redirect);
-    }
+    UpdateGroupPostsEvent::dispatch(['groupId' => $req->groupId]);
 
-    return to_route('dashboard.manage-groups.index')->with('success', 'Post Removed');
+    return response()->json(['success' => true]);
   }
 }

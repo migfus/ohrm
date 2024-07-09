@@ -23,7 +23,7 @@
     @vite('resources/css/app.css')
     @inertiaHead
   </head>
-  <body>
+  <body ref="infinite">
     @inertia
   </body>
 </html>

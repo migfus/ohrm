@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const removeURLParameter = (url: string, parameter: string) => {
   //prefer to use l.search if you have a location/link object
   var urlparts = url.split('?');
@@ -27,4 +29,19 @@ export const passwordGenerator = (prefix = '', length = 8) => {
       retVal += charset.charAt(Math.floor(Math.random() * n));
   }
   return retVal;
+}
+
+
+export const dateTimeFormatted = (dateTime: Date) => {
+  if(moment().format('YYYYMMDD') === moment(dateTime).format('YYYYMMDD')) {
+    return moment(dateTime).format('hh:mm A')
+  }
+  return moment(dateTime).format('YYYY-MM-DD hh:mm A')
+}
+
+export const contentFormatter = (content: string, value: number) => {
+  if(value > 1) {
+    return `${value} ${content}s`
+  }
+  return `0 ${content}`
 }
