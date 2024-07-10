@@ -19,13 +19,13 @@
       <AppButton name="Post" @click="submitPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
     </div>
 
-    <!-- <div v-html="quillContentToHtml(form.content)"></div> -->
   </FormModal>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
+import axios from 'axios'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { ChatBubbleOvalLeftIcon, PaperAirplaneIcon, XMarkIcon } from '@heroicons/vue/24/solid'
@@ -35,7 +35,7 @@ import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 
 const openCreatPostModal = ref(false)
-const $emits = defineEmits(['submit'])
+const $emits = defineEmits(['addPostData'])
 
 const toolbar = {
   container: [
@@ -53,18 +53,16 @@ const form = router.form({
   content: ''
 })
 
-function submitPost() {
-  router.put(`/dashboard/manage-groups/${$props.groupId}`, {
+async function submitPost() {
+  const res = await axios.post(`/dashboard/manage-posts`, {
     // @ts-ignore
     content: form.content.ops,
-    type: 'post'
-  }, {
-    preserveScroll: true,
-    preserveState: true
+    groupId: $props.groupId
   })
+
   openCreatPostModal.value = false
   form.reset()
-  $emits('submit')
+  $emits('addPostData', res.data)
 }
 </script>
 

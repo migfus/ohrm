@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Post;
 use App\Models\Comment;
 use Illuminate\Http\JsonResponse;
-use App\Events\UpdateGroupPostsEvent;
+use App\Events\PostsEvent;
 
 class ManagePostController extends Controller
 {
@@ -27,7 +27,24 @@ class ManagePostController extends Controller
     }
   }
 
-  public function update(Request $req, string $id) : RedirectResponse {
+  public function store(Request $req) : JsonResponse {
+    $req->validate([
+      'content' => ['required'],
+      'groupId' => ['required', 'uuid'],
+    ]);
+
+    $post = Post::create([
+      'user_id' => $req->user()->id,
+      'content' => json_encode($req->content),
+      'group_id' => $req->groupId,
+    ]);
+
+    return response()->json($post);
+  }
+
+
+
+  public function update(Request $req, string $id) : JsonResponse {
     $req->validate([
       'type' => ['required', 'string']
     ]);
@@ -39,11 +56,13 @@ class ManagePostController extends Controller
     }
 
 
-    if($req->redirect) {
-      return Redirect::to($req->redirect);
-    }
+    // PostsEvent::dispatch(
+    //   'post-update',
+    //   Post::where('id', $id)->first()->toArray()
+    // );
 
-    return to_route('dashboard.manage-groups.index')->with('success', 'Post Removed');
+    // return to_route('dashboard.manage-groups.index')->with('success', 'Post Removed');
+    return response()->json(['success' => true]);
   }
     private function pinPost(string $id) : void {
       $pinToggle = Post::where('id', $id)->first()->is_pinned;
@@ -55,13 +74,9 @@ class ManagePostController extends Controller
 
 
   public function destroy(Request $req, string $id) : JsonResponse {
-    $req->validate([
-      'groupId' => ['required', 'uuid']
-    ]);
-
     Post::where('id', $id)->delete();
 
-    UpdateGroupPostsEvent::dispatch(['groupId' => $req->groupId]);
+    // PostsEvent::dispatch('post-delete', null);
 
     return response()->json(['success' => true]);
   }

@@ -43,5 +43,5 @@ export const contentFormatter = (content: string, value: number) => {
   if(value > 1) {
     return `${value} ${content}s`
   }
-  return `0 ${content}`
+  return `${value} ${content}`
 }

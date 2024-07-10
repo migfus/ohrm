@@ -31,14 +31,14 @@
       </div>
 
       <div class="col-span-4 lg:col-span-2 space-y-4">
-        <div class="flex gap-2">
+        <!-- <div class="flex gap-2">
           <AppButton :icon="PaperAirplaneIcon" :color="remember.category == 'social' ? `brand` : ''" @click="remember.category = 'social'">Social</AppButton>
           <AppButton :icon="TicketIcon" :color="remember.category == 'tasks' ? `brand` : ''" @click="remember.category = 'tasks'">Tasks</AppButton>
-        </div>
+        </div> -->
         <GroupHeatMapCard />
         <UpdateTasksCard :tasks="data.task_templates" :id="data.id" :taskPriority="task_priority"/>
         <RecentTasksCard :tasks="data.tasks" :taskTemplates="data.task_templates"/>
-        <CreatePost :groupId="data.id"/>
+        <CreatePost :groupId="data.id" @addPostData=""/>
         <PostsData :groupId="data.id"/>
       </div>
 

@@ -13,6 +13,7 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\dashboard\SystemSettingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\dashboard\ManageTemplateTaskController;
+use App\Http\Controllers\ManagePostComment;
 use App\Http\Controllers\ManagePostController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,7 +49,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);
     Route::resource('/manage-template-tasks', ManageTemplateTaskController::class)->only(['edit', 'update']);
       Route::get('/manage-template-tasks/users-suggestion/{id}', [ManageTemplateTaskController::class, 'UserComboBox'])->name('manage-groups.users-suggestion');
-    Route::resource('manage-posts', ManagePostController::class)->only(['destroy', 'update', 'index']);
+    Route::resource('manage-posts', ManagePostController::class)->only(['destroy', 'update', 'index', 'store']);
+    Route::resource('manage-comments', ManagePostComment::class)->only(['store', 'destroy']);
   });
 });
 

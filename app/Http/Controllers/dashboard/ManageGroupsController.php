@@ -91,44 +91,8 @@ class ManageGroupsController extends Controller
   // ✅
   // NOTE: UPDATE
   public function edit($id): Response {
-    $data = Group::query()
-      ->select('id', 'name', 'avatar', 'cover', 'description')
-      ->where('id', $id)
-      ->with([
-        'group_members.user',
-        'task_templates' => fn($q) =>
-          $q->with([
-            'task_priority.hero_icon',
-            'task_user_access' => function ($q_) {
-              $q_->with('user')->limit(5);
-            }
-          ])
-          ->withCount('task_user_access')
-        ,
-        'tasks' => fn($q) =>
-          $q->with(['user_assigned.user', 'task_priority.hero_icon', 'task_status.hero_icon', 'task_template'])
-          ->orderBy('created_at', 'desc')
-          ->limit(5)
-      ])
-      ->first();
 
-    $roles = GroupRole::query()
-      ->select('display_name', 'id', 'description', 'icon_name')
-      ->with(['hero_icon' => function ($q) {
-        $q->select('content', 'name');
-      }])
-      ->get();
 
-    $task_priority = TaskPriority::get();
-
-    $pinnedPosts = Post::query()
-      ->where('group_id', $id)
-      ->where('is_pinned', 1)
-      ->with(['user'])
-      ->withCount('comments')
-      ->orderBy('created_at', 'desc')
-      ->limit(5)
-      ->get();
 
     // $tasks = Task::query()
     // ->where('task_template_id', $id)
@@ -138,20 +102,66 @@ class ManageGroupsController extends Controller
     // ->get();
 
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
-      'pageTitle' => $data->name,
-      'data' => $data,
-      'group_roles' => $roles,
-      'task_priority' => $task_priority,
-      'pinned_posts' => $pinnedPosts->map(fn($r) => [
-        'content' => $r->content,
-        'created_at' => $r->created_at,
-        'user' => $r->user,
-        'id' => $r->id,
-        'is_pinned' => $r->is_pinned,
-        'comments_count' => $r->comments_count,
-      ]),
+      'pageTitle' => $this->editGetGroup($id)->name,
+      'group' => $this->editGetGroup($id),
+      'groupMembers' => $this->editGetGroupMembers($id),
+      'taskTemplates' => $this->editGetTaskTemplates($id),
+      'tasks' => $this->editGetTasks($id),
+      'groupRoles' => $this->editGetGroupRoles(),
+      'taskPriority' => fn () => TaskPriority::get(),
+      'pinnedPosts' => $this->editGetPinnedPost($id),
     ]);
   }
+    private function editGetGroup($groupId) {
+      return Group::where('id', $groupId)->first();
+    }
+    private function editGetGroupRoles() {
+      return GroupRole::query()
+        ->select('display_name', 'id', 'description', 'icon_name')
+        ->with(['hero_icon' => function ($q) {
+          $q->select('content', 'name');
+        }])
+        ->get();
+    }
+    private function editGetPinnedPost($groupId) {
+      return Post::query()
+      ->where('group_id', $groupId)
+      ->where('is_pinned', 1)
+      ->with(['user'])
+      ->withCount('comments')
+      ->orderBy('created_at', 'desc')
+      ->limit(5)
+      ->get();
+    }
+    private function editGetGroupMembers($id) {
+      return GroupMember::query()
+        ->where('group_id', $id)
+        ->with(['user'])
+        ->get();
+    }
+    private function editGetTaskTemplates($groupId) {
+      return TaskTemplate::query()
+        ->where('group_id', $groupId)
+        ->with([
+          'task_priority.hero_icon',
+          'task_user_access' => function ($q) {
+            $q->with('user')->limit(5);
+          }
+        ])
+        ->withCount('task_user_access')
+        ->get();
+    }
+    private function editGetTasks($groupId) {
+      Task::query()
+        ->where('group_id', $groupId)
+        ->with([
+          'user_assigned.user',
+          'task_priority.hero_icon',
+          'task_status.hero_icon',
+          'task_template'])
+          ->orderBy('created_at', 'desc')
+          ->limit(5);
+    }
   // ✏️
   public function update(Request $req, $id): RedirectResponse {
     switch($req->type) {
@@ -186,10 +196,6 @@ class ManageGroupsController extends Controller
       // ✏️
       case 'updateTask':
         $this->UpdateTemplateTask($req);
-        break;
-      // ✏️
-      case 'post':
-        $this->AddPost($req, $id);
         break;
       default:
         return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['type' => 'Type value is missing']);
@@ -292,21 +298,6 @@ class ManageGroupsController extends Controller
         'is_show' => $req->is_show ? true : false,
       ]);
     }
-    // ✏️
-    private function AddPost(Request $req, $id): void {
-      $req->validate([
-        'content' => ['required'],
-      ]);
-
-      Post::create([
-        'user_id' => $req->user()->id,
-        'content' => json_encode($req->content),
-        'group_id' => $id,
-      ]);
-
-      UpdateGroupPostsEvent::dispatch(['groupId' => $id]);
-    }
-
 
   // ✅
   // NOTE: Remove

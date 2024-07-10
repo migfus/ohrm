@@ -2,8 +2,8 @@
   <div>
     <div ref="infinite">
       <DataTransition class="flex flex-col gap-4">
-        <div v-for="post in posts" :key="post.id">
-          <PostCard :post :groupId/>
+        <div v-for="post, index in posts" :key="post.id">
+          <PostCard :post :index :groupId @removePost="removePost"/>
         </div>
       </DataTransition>
     </div>
@@ -82,5 +82,9 @@ async function loadMore() {
     await getPosts()
   }
   loading.value = false
+}
+
+function removePost(index: number) {
+  posts.value.splice(index, 1)
 }
 </script>
