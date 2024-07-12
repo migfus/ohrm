@@ -107,7 +107,7 @@ function ConfirmRemove() {
 
 // ✅
 function addTask() {
-  router.put(`/dashboard/manage-groups/${$props.groupId}`, {
+  router.put(route('dashboard.manage-groups.update', { manage_group: $props.groupId }), {
     name: form.name,
     description: form.description,
     priority_id: form.priority.id,
@@ -125,8 +125,7 @@ function addTask() {
 // ✅
 function removeTask() {
   if(selectedIndex!.value !== undefined) {
-    router.put(
-      `/dashboard/manage-groups/${$props.groupId}`, {
+    router.put(route('dashboard.manage-groups.update', { manage_group: $props.groupId }), {
         taskId: $props.taskTemplates[selectedIndex.value].id,
         type: 'removeTask',
       },

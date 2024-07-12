@@ -42,7 +42,7 @@ const $emit = defineEmits(['submit'])
 
 function putBasicAPI() {
   router.put(
-    `/dashboard/manage-groups/${$props.id}`, {
+    route('dashboard.manage-groups.update', { manage_group: $props.id }), {
       type: 'basic',
       name: $name.value,
       description: $description.value,

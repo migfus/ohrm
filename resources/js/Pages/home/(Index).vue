@@ -98,7 +98,7 @@ function resetRequest() {
 }
 
 async function submitRequest() {
-  await router.post(`/`, {
+  await router.post(route('index'), {
     task_template_id: form.taskTemplateId,
     task_priority_id: form.taskPriority.id,
     message: form.message,

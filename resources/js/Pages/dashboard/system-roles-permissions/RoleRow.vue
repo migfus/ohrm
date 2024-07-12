@@ -35,7 +35,7 @@ defineProps<{
 const loading = ref(false)
 
 function changePermission(role: TRole, permission_id: string, event: Event) {
-  router.put(`/dashboard/system-roles-permissions/${permission_id}`,
+  router.put(route('dashboard.system-roles-permissions.update', {system_roles_permission: permission_id}),
     {
       role_id: role.id,
       type: 'permission',

@@ -59,10 +59,13 @@ const avatar = ref($props.user.avatar)
 const cover = ref($props.user.cover)
 
 function upload(type: string) {
-  router.put(`/dashboard/manage-users/${$props.user.id}`, {type: type, avatar: avatar.value, cover: cover.value})
+  router.put(
+    route('dashboard.manage-users.update', { manage_user: $props.user.id }),
+    {type: type, avatar: avatar.value, cover: cover.value}
+  )
 }
 
 function removeUser() {
-  router.delete(`/dashboard/manage-users/${$props.user.id}`)
+  router.delete(route('dashboard.manage-users.destroy', { manage_user: $props.user.id }))
 }
 </script>

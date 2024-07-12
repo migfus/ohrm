@@ -35,7 +35,7 @@ const $props = defineProps<{
 }>()
 
 function selected(id: string) {
-  router.put(`/dashboard/manage-users/${$props.userId}`, {
+  router.put(route('dashboard.manage-users.update', { manage_user: $props.userId}), {
     type: 'remove-joined-group',
     groupMemberId: id
   })

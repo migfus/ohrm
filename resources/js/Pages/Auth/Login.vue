@@ -63,7 +63,7 @@ const form = useForm({
 })
 
 function submit() {
-  router.post('/login', {
+  router.post(route('login.submit'), {
     email: form.email,
     password: form.password,
     remember: form.remember,

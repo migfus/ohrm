@@ -56,7 +56,7 @@ const form = useForm({
 })
 
 function submit() {
-  router.post('/forgot', {
+  router.post(route('forgot.submit'), {
     email: form.email
   });
 }

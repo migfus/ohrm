@@ -186,7 +186,12 @@ const selectedData = ref<number | null>(null)
 const uploadAvatarOpen = ref(false)
 
 function submit(row: TSystemSettings) {
-  router.put(`/dashboard/system-settings/${row.id}`, {value: row.value, type: row.system_setting_type.name})
+  router.put(route('dashboard.system-settings.update', { system_setting: row.id}),
+    {
+      value: row.value,
+      type: row.system_setting_type.name
+    }
+  )
   selectedData.value = null
 }
 </script>

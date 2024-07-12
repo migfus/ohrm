@@ -162,7 +162,7 @@ onUnmounted(() => {
 })
 
 function refreshPage() {
-  router.get('/status', {}, { preserveScroll: true, preserveState: true })
+  router.get(route('status'), {}, { preserveScroll: true, preserveState: true })
   console.log('update-status-page-channel disconnected')
 }
 </script>

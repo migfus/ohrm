@@ -71,6 +71,8 @@ const $props = defineProps<{
   groupId: string
 }>()
 
+
+
 // NOTE: POSTS
 const posts = ref<TPost[]>([])
 const page = ref(0)

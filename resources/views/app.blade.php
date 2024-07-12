@@ -21,6 +21,7 @@
 
     @vite('resources/js/app.ts')
     @vite('resources/css/app.css')
+    @routes
     @inertiaHead
   </head>
   <body ref="infinite">

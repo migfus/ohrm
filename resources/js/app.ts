@@ -6,6 +6,8 @@ import Layout from '@/layout/BaseLayout.vue'
 import Notifications from 'notiwind'
 import Echo from 'laravel-echo'
 
+import { ZiggyVue } from 'ziggy-js'
+
 const echo = new Echo({
   broadcaster: 'reverb',
   key: import.meta.env.VITE_REVERB_APP_KEY,
@@ -27,6 +29,7 @@ createInertiaApp({
     createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(Notifications)
+      .use(ZiggyVue)
       .provide('echo', echo)
       .component('Link', Link)
       .component('Head', Head)

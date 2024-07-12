@@ -83,12 +83,13 @@ const form = router.form({
 
 // ✅
 function removeGroupAPI() {
-  router.delete(`/dashboard/manage-groups/${$props.group.id}`) // redirect to group list
+  router.delete(route('dashboard.manage-groups.destroy', { manage_group: $props.group.id }))
+  // redirect to group list
 }
 // ✅
 function uploadAvatarAPI(value: string) {
   router.put(
-    `/dashboard/manage-groups/${$props.group.id}`, {
+    route('dashboard.manage-groups.update', { manage_group: $props.group.id }), {
       avatar: value,
       type: 'avatar'
     },
@@ -98,7 +99,7 @@ function uploadAvatarAPI(value: string) {
 // ✅
 function uploadCoverAPI(value: string) {
   router.put(
-    `/dashboard/manage-groups/${$props.group.id}`, {
+    route('dashboard.manage-groups.update', { manage_group: $props.group.id }), {
       cover: value,
       type: 'cover'
     },

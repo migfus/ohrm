@@ -30,7 +30,7 @@ const $props = defineProps<{
 }>()
 
 function AssignMember(user: TUser) {
-  router.put(`/dashboard/manage-template-tasks/${$props.taskTemplateId}`, {
+  router.put(route('dashboard.manage-template-tasks.update', { manage_template_task: $props.taskTemplateId }), {
     userId: user.id,
     type: 'assign-user'
   }, {
@@ -40,7 +40,7 @@ function AssignMember(user: TUser) {
 }
 
 function UnassignUser(value: { type: string, taskUserAccessId: string}) {
-  router.put(`/dashboard/manage-template-tasks/${$props.taskTemplateId}`, {
+  router.put(route('dashboard.manage-template-tasks.update', { manage_template_task: $props.taskTemplateId }), {
     taskUserAccessId: value.taskUserAccessId,
     type: 'unassign-user'
   }, {

@@ -34,6 +34,7 @@
         "quill-delta-to-html": "^0.12.1",
         "vue-chart-3": "^3.1.8",
         "vue-picture-cropper": "^0.7.0",
-        "vue3-calendar-heatmap": "^2.0.5"
+        "vue3-calendar-heatmap": "^2.0.5",
+        "ziggy-js": "^2.2.1"
     }
 }

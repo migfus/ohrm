@@ -39,7 +39,7 @@ const form = router.form({
 })
 
 function submit() {
-  router.post(`/dashboard/manage-groups`, {
+  router.post(route('dashboard.manage-groups.index'), {
     name: form.name,
     description: form.description
   })

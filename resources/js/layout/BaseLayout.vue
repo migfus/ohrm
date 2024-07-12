@@ -4,6 +4,7 @@
   </Head>
 
   <!-- <TopBanner /> -->
+
   <NotiWind />
 
   <SideNavigation v-if="$page.props.sidebar" :title="$page.props.title" :logo="$page.props.logo.lg">

@@ -43,7 +43,7 @@ const form = router.form({
 })
 
 function update() {
-  router.put(`/dashboard/manage-template-tasks/${$props.taskTemplate.id}`, {
+  router.put(route('dashboard.manage-template-tasks.update', { manage_template_task: $props.taskTemplate.id }), {
     type: 'basic',
     name: form.name,
     description: form.description,

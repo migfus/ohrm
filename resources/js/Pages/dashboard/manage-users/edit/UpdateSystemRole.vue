@@ -34,7 +34,7 @@ const form = router.form({
 })
 
 function submit() {
-  router.put(`/dashboard/manage-users/${$props.userId}`, {
+  router.put(route('dashboard.manage-users.update', {manage_user: $props.userId}), {
     userRoleId: form.role.id,
     type: 'update-role'
   }, {

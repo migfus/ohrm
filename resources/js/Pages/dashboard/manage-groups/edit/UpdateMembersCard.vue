@@ -69,7 +69,7 @@ function RemoveMember(id: string) {
 
 function ConfirmRemove() {
   router.put(
-    `/dashboard/manage-groups/${$props.groupId}`, {
+    route('dashboard.manage-groups.update', { manage_group: $props.groupId }), {
       memberId: selectedMemberId.value,
       type: 'remove-member',
     },
@@ -79,7 +79,7 @@ function ConfirmRemove() {
 
 function AddMember(user: TUser) {
   router.put(
-    `/dashboard/manage-groups/${$props.groupId}`, {
+    route('dashboard.manage-groups.update', { manage_group: $props.groupId }), {
       user_id: user.id,
       type: 'add-member',
       roleId: $props.groupRole.id

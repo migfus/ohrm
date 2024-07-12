@@ -48,7 +48,7 @@ const form = reactive({
 
 function submit() {
   active.value = null
-  router.put(`/dashboard/manage-users/${$props.user.id}`, {
+  router.put(route('dashboard.manage-users.update', {manage_user: $props.user.id}), {
     type: 'basic',
     _name: $props.user.name,
     _email: $props.user.email,

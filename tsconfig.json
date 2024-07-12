@@ -10,7 +10,8 @@
     "moduleResolution": "node",
     "types": ["vite/client"],
     "paths": {
-      "@/*": ["./resources/js/*"]
+      "@/*": ["./resources/js/*"],
+      "ziggy-js": ["./vendor/tightenco/ziggy"]
     },
     "allowSyntheticDefaultImports": true
   },

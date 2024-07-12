@@ -62,7 +62,7 @@ const form = router.form<{
 })
 
 function submit() {
-  router.post(`/dashboard/manage-users`, {
+  router.post(route('dashboard.manage-users.store'), {
     name: form.name,
     email: form.email,
     password: form.password,

@@ -69,8 +69,14 @@ function quillContentToHtml(content: string) {
 }
 
 function unpinPost() {
-  router.put(`/dashboard/manage-posts/${$props.post.id}?redirect=/dashboard/manage-groups/${$props.groupId}/edit`,
-    { type: 'pin' },
+  router.put(
+    route('dashboard.manage-posts.update', {
+      manage_post: $props.post.id,
+      redirect: `/dashboard/manage-groups/${$props.groupId}/edit`,
+    }),
+    {
+      type: 'pin'
+    },
     { preserveScroll: true, preserveState: true }
   )
 }
