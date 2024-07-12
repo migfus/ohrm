@@ -45,8 +45,10 @@ export interface TProps {
 
 export interface TPagination<T> {
   current_page: number
+  next_page_url: string | null
   data: T []
   total: number
+  last_page: number
 }
 
 export interface TUser {

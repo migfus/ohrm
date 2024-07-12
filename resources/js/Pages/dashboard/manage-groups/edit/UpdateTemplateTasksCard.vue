@@ -6,18 +6,10 @@
   >
     <DataTransition class="grid grid-cols-2 gap-2">
       <TaskDropdownMenu
-        v-for="task, index in tasks"
-        :id="task.id"
-        :key="task.name"
+        v-for="template, index in taskTemplates"
+        :key="template.name"
         :index="index"
-        :name="task.name"
-        :color="task.task_priority.color"
-        :icon="task.task_priority.hero_icon"
-        :priorityName="task.task_priority.name"
-        :description="task.description ?? ''"
-        :userAssigns="task.task_user_access"
-        :userCount="task.task_user_access_count - 5"
-        :task="task"
+        :taskTemplate="template"
         @selected="SelectedTaskFromMenu"
         class="col-span-2 lg:col-span-1"
       />
@@ -38,7 +30,7 @@
         <ComboBox
           v-model="form.priority"
           name="Default Priority"
-          :data="taskPriority.map(row => {
+          :data="taskPriorities.map(row => {
             return {
               name: row.name,
               display_name: row.name,
@@ -61,6 +53,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { TTaskPriority, TTaskTemplate } from '@/globalTypes'
+import { defaultRouterState } from '@/converter'
+import { router } from '@inertiajs/vue3'
 
 import { TicketIcon, PlusIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
@@ -68,7 +62,6 @@ import BasicCard from '@/components/cards/BasicCard.vue'
 import TaskDropdownMenu from '../TaskDropdownMenu.vue'
 import FormModal from '@/components/modals/FormModal.vue'
 import AppButton from '@/components/form/AppButton.vue'
-import { router } from '@inertiajs/vue3'
 import AppInput from '@/components/form/AppInput.vue'
 import AppTextArea from '@/components/form/AppTextArea.vue'
 import AppToggle from '@/components/form/AppToggle.vue'
@@ -76,9 +69,9 @@ import ComboBox from '@/components/form/ComboBox.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
 const $props = defineProps<{
-  id: string
-  tasks: TTaskTemplate []
-  taskPriority: TTaskPriority []
+  groupId: string
+  taskTemplates: TTaskTemplate []
+  taskPriorities: TTaskPriority []
 }>()
 
 const removeOpen = ref<boolean>(false)
@@ -89,9 +82,9 @@ const form = router.form({
   name: '',
   description: '',
   priority: {
-    name: $props.taskPriority[2].name,
-    display_name: $props.taskPriority[2].name,
-    id: $props.taskPriority[2].id,
+    name: $props.taskPriorities[2].name,
+    display_name: $props.taskPriorities[2].name,
+    id: $props.taskPriorities[2].id,
   },
   isShow: true,
 })
@@ -114,7 +107,7 @@ function ConfirmRemove() {
 
 // ✅
 function addTask() {
-  router.put(`/dashboard/manage-groups/${$props.id}`, {
+  router.put(`/dashboard/manage-groups/${$props.groupId}`, {
     name: form.name,
     description: form.description,
     priority_id: form.priority.id,
@@ -132,13 +125,13 @@ function addTask() {
 // ✅
 function removeTask() {
   if(selectedIndex!.value !== undefined) {
-    router.put(`/dashboard/manage-groups/${$props.id}`, {
-      taskId: $props.tasks[selectedIndex.value].id,
-      type: 'removeTask',
-    },{
-      preserveScroll: true,
-      preserveState: true,
-    })
+    router.put(
+      `/dashboard/manage-groups/${$props.groupId}`, {
+        taskId: $props.taskTemplates[selectedIndex.value].id,
+        type: 'removeTask',
+      },
+      defaultRouterState([''])
+    )
   }
 }
 </script>

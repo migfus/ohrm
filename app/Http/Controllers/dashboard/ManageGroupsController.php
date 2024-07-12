@@ -90,7 +90,7 @@ class ManageGroupsController extends Controller
 
   // ✅
   // NOTE: UPDATE
-  public function edit($id): Response {
+  public function edit(Request $req, $id): Response {
 
 
 
@@ -102,14 +102,14 @@ class ManageGroupsController extends Controller
     // ->get();
 
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
-      'pageTitle' => $this->editGetGroup($id)->name,
-      'group' => $this->editGetGroup($id),
-      'groupMembers' => $this->editGetGroupMembers($id),
+      'pageTitle'     => $this->editGetGroup($id)->name,
+      'group'         => $this->editGetGroup($id),
+      'groupMembers'  => $this->editGetGroupMembers($id),
       'taskTemplates' => $this->editGetTaskTemplates($id),
-      'tasks' => $this->editGetTasks($id),
-      'groupRoles' => $this->editGetGroupRoles(),
-      'taskPriority' => fn () => TaskPriority::get(),
-      'pinnedPosts' => $this->editGetPinnedPost($id),
+      'tasks'         => $this->editGetTasks($id),
+      'groupRoles'    => $this->editGetGroupRoles(),
+      'taskPriorities'=> TaskPriority::get(),
+      'pinnedPosts'   => $this->editGetPinnedPost($id),
     ]);
   }
     private function editGetGroup($groupId) {
@@ -161,6 +161,14 @@ class ManageGroupsController extends Controller
           'task_template'])
           ->orderBy('created_at', 'desc')
           ->limit(5);
+    }
+    private function editGetPosts(Request $req, $groupId) {
+      return Post::query()
+        ->where('group_id', $groupId)
+        ->with(['user', 'comments.user'])
+        ->withCount('comments')
+        ->orderBy('created_at', 'desc')
+        ->paginate(10);
     }
   // ✏️
   public function update(Request $req, $id): RedirectResponse {

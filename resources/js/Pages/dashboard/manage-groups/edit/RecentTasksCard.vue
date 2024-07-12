@@ -63,8 +63,7 @@
       </div>
     </DataTransition>
     <DataTransition class="flex gap-2 justify-end mt-4">
-      <AppButton v-for="temp in taskTemplates" name="" class="unwrap">{{ temp.name }}</AppButton>
-
+      <AppButton v-for="temp in taskTemplates" name="" class="unwrap" noLoading>{{ temp.name }}</AppButton>
     </DataTransition>
 
   </BasicCard>

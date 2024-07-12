@@ -1,8 +1,8 @@
 <template>
   <BasicCard
-    :iconHtml="icon"
-    :title="name"
-    :description
+    :iconHtml="groupRole.hero_icon.content"
+    :title="groupRole.display_name"
+    :description="groupRole.description"
   >
     <DataTransition>
       <MemberDropdownMenu
@@ -10,7 +10,7 @@
         :key="member.id"
         :id="member.id"
         :userId="member.user_id"
-        :disabled="filteredMembers.length <= 1 && name == 'Administrators'"
+        :disabled="filteredMembers.length <= 1 && groupRole.display_name == 'Administrator'"
         @selected="RemoveMember(member.id)"
       >
         <div class="flex justify-start">
@@ -39,30 +39,27 @@
 </template>
 
 <script setup lang="ts">
-import { TGroupMember, TUser } from '@/globalTypes'
+import { TGroupMember, TGroupRole, TUser } from '@/globalTypes'
 import { ref, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 
-import { AtSymbolIcon } from '@heroicons/vue/24/solid'
 import MemberDropdownMenu from '.././MemberDropdownMenu.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import UsersComboBox from '.././UsersComboBox.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
+import { defaultRouterState } from '@/converter'
 
 const $props = defineProps<{
-  members: TGroupMember[]
   groupId: string
-  roleId: string
-  name: string
-  icon: string
-  description: string
+  groupRole: TGroupRole
+  groupMembers: TGroupMember[]
 }>()
 
 const removeOpen = ref<boolean>(false)
 const selectedMemberId = ref<string>()
 const filteredMembers = computed<TGroupMember[]>(() => {
-  return $props.members.filter(user => user.group_role_id == $props.roleId)
+  return $props.groupMembers.filter(user => user.group_role_id == $props.groupRole.id)
 })
 
 function RemoveMember(id: string) {
@@ -71,23 +68,23 @@ function RemoveMember(id: string) {
 }
 
 function ConfirmRemove() {
-  router.put(`/dashboard/manage-groups/${$props.groupId}`, {
-    memberId: selectedMemberId.value,
-    type: 'remove-member',
-  }, {
-    preserveScroll: true,
-    preserveState: true
-  })
+  router.put(
+    `/dashboard/manage-groups/${$props.groupId}`, {
+      memberId: selectedMemberId.value,
+      type: 'remove-member',
+    },
+    defaultRouterState(['groupMembers'])
+  )
 }
 
 function AddMember(user: TUser) {
-  router.put(`/dashboard/manage-groups/${$props.groupId}`, {
-    user_id: user.id,
-    type: 'add-member',
-    roleId: $props.roleId
-  }, {
-    preserveScroll: true,
-    preserveState: true
-  })
+  router.put(
+    `/dashboard/manage-groups/${$props.groupId}`, {
+      user_id: user.id,
+      type: 'add-member',
+      roleId: $props.groupRole.id
+    },
+    defaultRouterState(['groupMembers'])
+  )
 }
 </script>

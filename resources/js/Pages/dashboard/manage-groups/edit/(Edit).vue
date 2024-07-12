@@ -4,18 +4,17 @@
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
       v-model:name="form.name"
-      :admins="data.group_members.filter( member =>
-        member.group_role_id == group_roles.filter(role =>
-          role.display_name == 'Administrator')[0].id
-        )"
+      :admins="groupMembers.filter(member =>
+        member.group_role_id == groupRoles.filter(role => role.display_name == 'Administrator')[0].id
+      )"
       :confirmButton="{
         text: 'Delete',
         icon: XMarkIcon,
         color: 'danger'
       }"
-      @confirm="remove()"
-      @uploadAvatar="uploadAvatar"
-      @uploadCover="uploadCover"
+      @removeGroup="removeGroupAPI()"
+      @uploadAvatar="uploadAvatarAPI"
+      @uploadCover="uploadCoverAPI"
     />
     <FlashErrors :errors="$page.props.errors"/>
 
@@ -24,97 +23,86 @@
         <UpateBasicCard
           v-model:name="form.name"
           v-model:description="form.description"
-          :id="data.id"
+          :id="group.id"
         />
-        <PinnedPostsCard :posts="pinned_posts" :groupId="data.id" />
-
+        <PinnedPostsCard :posts="pinnedPosts" :groupId="group.id" />
       </div>
 
       <div class="col-span-4 lg:col-span-2 space-y-4">
-        <!-- <div class="flex gap-2">
-          <AppButton :icon="PaperAirplaneIcon" :color="remember.category == 'social' ? `brand` : ''" @click="remember.category = 'social'">Social</AppButton>
-          <AppButton :icon="TicketIcon" :color="remember.category == 'tasks' ? `brand` : ''" @click="remember.category = 'tasks'">Tasks</AppButton>
-        </div> -->
         <GroupHeatMapCard />
-        <UpdateTasksCard :tasks="data.task_templates" :id="data.id" :taskPriority="task_priority"/>
-        <RecentTasksCard :tasks="data.tasks" :taskTemplates="data.task_templates"/>
-        <CreatePost :groupId="data.id" @addPostData=""/>
-        <PostsData :groupId="data.id"/>
+        <UpdateTemplateTasksCard :taskTemplates :groupId="group.id" :taskPriorities/>
+        <RecentTasksCard :tasks="tasks" :taskTemplates/>
+        <PostSection :groupId="group.id"/>
       </div>
 
       <div class="col-span-4 lg:col-span-1 space-y-4">
         <UpdateMembersCard
-          v-for="role in group_roles"
-          :key="role.id"
-          :roleId="role.id"
-          :groupId="data.id"
-          :icon="role.hero_icon.content"
-          :name="`${role.display_name}s`"
-          :description="role.description"
-          :members="data.group_members"
+          v-for="groupRole in groupRoles"
+          :key="groupRole.id"
+          :groupRole
+          :groupId="group.id"
+          :groupMembers
         />
       </div>
     </div>
-
-    <RemovalPrompt v-model="openPrompt" title="Deletion Group" confirmMessage="Yes, Delete Group!" @confirm="removeGroup">
-      Do you want to remove this group? This action cannot be undone.
-    </RemovalPrompt>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { router, useRemember } from '@inertiajs/vue3'
-import { TGroup, TGroupRole, TTaskPriority, TPost } from '@/globalTypes'
+import { router } from '@inertiajs/vue3'
+import { TGroup, TGroupRole, TTaskPriority, TPost, TGroupMember, TTaskTemplate, TTask, TPagination } from '@/globalTypes'
+import { defaultRouterState } from '@/converter'
 
 import GroupHeader from '.././GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
 import UpateBasicCard from './UpdateBasicCard.vue'
 import UpdateMembersCard from './UpdateMembersCard.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'
-import { XMarkIcon, PaperAirplaneIcon, TicketIcon } from '@heroicons/vue/20/solid'
-import UpdateTasksCard from './UpdateTasksCard.vue'
-import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
+import { XMarkIcon } from '@heroicons/vue/20/solid'
+import UpdateTemplateTasksCard from './UpdateTemplateTasksCard.vue'
 import PinnedPostsCard from './PinnedPostsCard.vue'
 import RecentTasksCard from './RecentTasksCard.vue'
-import CreatePost from './CreatePost.vue'
-import PostsData from './PostsData.vue'
-import AppButton from '@/components/form/AppButton.vue'
+import PostSection from './PostSection.vue'
 
 const $props = defineProps<{
-  data: TGroup
-  group_roles: TGroupRole []
-  task_priority: TTaskPriority []
-  pinned_posts: TPost[]
+  group: TGroup
+  groupRoles: TGroupRole[]
+  groupMembers: TGroupMember[]
+  taskTemplates: TTaskTemplate[]
+  tasks: TTask[]
+  taskPriorities: TTaskPriority[]
+  pinnedPosts: TPost[]
 }>()
 
 const form = router.form({
-  name: $props.data.name,
-  description: $props.data.description,
-  avatar: $props.data.avatar,
-  cover: $props.data.cover,
+  name: $props.group.name,
+  description: $props.group.description,
+  avatar: $props.group.avatar,
+  cover: $props.group.cover,
 })
 
-const remember = useRemember({
-  category: 'ticket'
-}, 'dashboard/manage-groups')
-
-const openPrompt = ref<boolean>(false)
-
 // ✅
-function remove() {
-  openPrompt.value = true
+function removeGroupAPI() {
+  router.delete(`/dashboard/manage-groups/${$props.group.id}`) // redirect to group list
 }
 // ✅
-function removeGroup() {
-  router.delete(`/dashboard/manage-groups/${$props.data.id}`)
+function uploadAvatarAPI(value: string) {
+  router.put(
+    `/dashboard/manage-groups/${$props.group.id}`, {
+      avatar: value,
+      type: 'avatar'
+    },
+    defaultRouterState(['group'])
+  )
 }
 // ✅
-function uploadAvatar(value: string) {
-  router.put(`/dashboard/manage-groups/${$props.data.id}`, {avatar: value, type: 'avatar'})
-}
-// ✅
-function uploadCover(value: string) {
-  router.put(`/dashboard/manage-groups/${$props.data.id}`, {cover: value, type: 'cover'})
+function uploadCoverAPI(value: string) {
+  router.put(
+    `/dashboard/manage-groups/${$props.group.id}`, {
+      cover: value,
+      type: 'cover'
+    },
+    defaultRouterState(['group'])
+  )
 }
 </script>

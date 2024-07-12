@@ -13,9 +13,15 @@
           :class="[`w-full rounded-2xl px-3 py-2 text-sm font-medium  text-brand-700 shadow focus:ring-2 focus:ring-brand-500 bg-white`]"
         >
           <div class="flex justify-between mb-2 flex-grow">
-            <div v-html="icon.content" :class="[priorityName == 'Urgent' && 'animate-bounce', 'h-4 w-4 mr-2 mt-[2px] align-middle']" :style="`color: #${color}`"></div>
+            <div
+              v-html="taskTemplate.task_priority.hero_icon.content"
+              :class="[taskTemplate.task_priority.name == 'Urgent' && 'animate-bounce', 'h-4 w-4 mr-2 mt-[2px] align-middle']"
+              :style="`color: #${taskTemplate.task_priority.color}`">
+            </div>
             <div class="flex justify-center flex-grow">
-              <span :class="[priorityName == 'Urgent' && 'animate-bounce delay-100']">default: {{ priorityName }}</span>
+              <span :class="[taskTemplate.task_priority.name == 'Urgent' && 'animate-bounce delay-100']">
+                default: {{ taskTemplate.task_priority.name }}
+              </span>
             </div>
             <ChevronDownIcon
               class="-mr-1 ml-2 h-5 w-5"
@@ -23,18 +29,20 @@
             />
           </div>
           <div class="flex text-brand-700 font-semibold">
-            <span>{{ name }}</span>
+            <span>{{ taskTemplate.name }}</span>
           </div>
           <div class="flex text-brand-400 font-normal line-clamp-2 justify-start">
-            <span>{{ description }}</span>
+            <span>{{ taskTemplate.description }}</span>
           </div>
 
-          <div v-if="userAssigns.length > 0" class="flex -space-x-1 overflow-hidden justify-end">
-            <img v-for="row in userAssigns" class="inline-block h-6 w-6 rounded-full ring-2 ring-white" :src="row.user.avatar" alt="" />
-            <div v-if="0 < userCount" class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-brand-100 pt-[3px] text-xs text-brand-600" > +{{ userCount }} </div>
+          <div v-if="taskTemplate.task_user_access.length > 0" class="flex -space-x-1 overflow-hidden justify-end">
+            <img v-for="row in taskTemplate.task_user_access" class="inline-block h-6 w-6 rounded-full ring-2 ring-white" :src="row.user.avatar" alt="" />
+            <div v-if="0 < taskTemplate.task_user_access_count" class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-brand-100 pt-[3px] text-xs text-brand-600" >
+              +{{ taskTemplate.task_user_access_count }}
+            </div>
           </div>
           <div v-else class="flex justify-between text-brand-500 mt-[3px]">
-            <GlobeAsiaAustraliaIcon v-if="task.is_show" class="h-4 w-4 mt-[4px]"/>
+            <GlobeAsiaAustraliaIcon v-if="taskTemplate.is_show" class="h-4 w-4 mt-[4px]"/>
             <LockClosedIcon v-else class="h-4 w-4 mt-[4px]"/>
             <div>No member assigned.</div>
           </div>
@@ -55,7 +63,7 @@
         >
           <div class="px-1 py-1">
             <!-- <DropdownContent :icon="CheckCircleIcon" @selected="$emit('selected', {type: 'visibility', index: index})">Show</DropdownContent> -->
-            <DropdownContent :icon="PencilIcon" :href="`/dashboard/manage-template-tasks/${id}/edit`">Edit</DropdownContent>
+            <DropdownContent :icon="PencilIcon" :href="`/dashboard/manage-template-tasks/${taskTemplate.id}/edit`">Edit</DropdownContent>
             <DropdownContent :icon="XMarkIcon" @selected="$emit('selected', {type: 'remove', index: index})" danger>Remove</DropdownContent>
           </div>
         </MenuItems>
@@ -73,21 +81,11 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
-import { THeroIcon, TTask, TTaskTemplate, TUser } from '@/globalTypes'
+import { TTaskTemplate } from '@/globalTypes'
 
 defineProps<{
-  id: string
   index: number
-  name: string
-  description: string
-  color: string
-  icon: THeroIcon
-  priorityName: string
-  userAssigns: {
-    user: TUser
-  } []
-  userCount: number
-  task: TTaskTemplate
+  taskTemplate: TTaskTemplate
 }>()
 
 const $emit = defineEmits(['selected', 'updated'])

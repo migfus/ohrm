@@ -15,10 +15,10 @@ class ManagePostController extends Controller
 {
 
   public function index(Request $req) {
-    if($req->group_id) {
+    if($req->groupId) {
       return response()->json(
         Post::query()
-          ->where('group_id', $req->group_id)
+          ->where('group_id', $req->groupId)
           ->with(['user', 'comments.user'])
           ->withCount(['comments'])
           ->orderBy('created_at', 'DESC')
@@ -39,10 +39,16 @@ class ManagePostController extends Controller
       'group_id' => $req->groupId,
     ]);
 
-    return response()->json($post);
+    PostsEvent::dispatch('new-post', $post->toArray());
+
+    return response()->json(
+      Post::query()
+        ->where('id', $post->id)
+        ->with(['user', 'comments.user'])
+        ->withCount(['comments'])
+        ->first()
+    );
   }
-
-
 
   public function update(Request $req, string $id) : JsonResponse {
     $req->validate([
@@ -53,22 +59,39 @@ class ManagePostController extends Controller
       case 'pin':
         $this->pinPost($id);
         break;
+      case 'update-content':
+        $this->updateContent($req, $id);
+        break;
     }
 
+    $updatedPost = Post::query()
+      ->where('id', $id)
+      ->with(['user', 'comments.user'])
+      ->withCount(['comments'])
+      ->first();
 
-    // PostsEvent::dispatch(
-    //   'post-update',
-    //   Post::where('id', $id)->first()->toArray()
-    // );
+    PostsEvent::dispatch(
+      'post-update',
+      $updatedPost->toArray()
+    );
 
     // return to_route('dashboard.manage-groups.index')->with('success', 'Post Removed');
-    return response()->json(['success' => true]);
+    return response()->json($updatedPost);
   }
     private function pinPost(string $id) : void {
       $pinToggle = Post::where('id', $id)->first()->is_pinned;
 
       Post::where('id', $id)->update([
         'is_pinned' => !$pinToggle,
+      ]);
+    }
+    private function updateContent(Request $req, string $id) : void {
+      $req->validate([
+        'content' => ['required'],
+      ]);
+
+      Post::where('id', $id)->update([
+        'content' => json_encode($req->content),
       ]);
     }
 

@@ -45,3 +45,17 @@ export const contentFormatter = (content: string, value: number) => {
   }
   return `${value} ${content}`
 }
+
+export const defaultRouterState = (only?: string[]) => {
+  if(only) {
+    return {
+      preserveScroll: true,
+      preserveState: true,
+      only: only
+    }
+  }
+  return {
+    preserveScroll: true,
+    preserveState: true,
+  }
+}

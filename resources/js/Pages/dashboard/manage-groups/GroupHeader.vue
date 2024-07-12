@@ -28,7 +28,7 @@
           <div class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
             <AppButton href="/dashboard/manage-groups" :icon="XMarkIcon" :color="confirmButton.color == 'danger' ? '' : ''">Cancel</AppButton>
 
-            <AppButton :icon="confirmButton.icon" @click="$emit('confirm')" :color="confirmButton.color">{{ confirmButton.text }}</AppButton>
+            <AppButton :icon="confirmButton.icon" @click="removeGroupPrompt" :color="confirmButton.color">{{ confirmButton.text }}</AppButton>
           </div>
         </div>
       </div>
@@ -53,16 +53,21 @@
       :size="[1278*4, 190*4]"
       @upload="image => $emit('uploadCover', image)"
     />
+
+    <RemovalPrompt v-model="openPrompt" title="Deletion Group" confirmMessage="Yes, Delete Group!" @confirm="$emit('removeGroup')">
+      Do you want to remove this group? This action cannot be undone.
+    </RemovalPrompt>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, FunctionalComponent, computed } from 'vue'
+import { ref, FunctionalComponent } from 'vue'
 import { TGroupMember } from '@/globalTypes'
 
 import { XMarkIcon, ArrowPathIcon } from '@heroicons/vue/20/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
+import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 defineProps<{
   admins: TGroupMember []
@@ -72,7 +77,7 @@ defineProps<{
     color: string
   }
 }>()
-const $emit = defineEmits(['confirm', 'uploadAvatar', 'uploadCover'])
+const $emit = defineEmits(['removeGroup', 'uploadAvatar', 'uploadCover'])
 
 const $avatar = defineModel<string>('avatar')
 const $cover = defineModel<string>('cover')
@@ -80,4 +85,9 @@ const $name = defineModel<string>('name')
 
 const openAvatar = ref(false)
 const openCover = ref(false)
+const openPrompt = ref(false)
+
+function removeGroupPrompt() {
+  openPrompt.value = true
+}
 </script>

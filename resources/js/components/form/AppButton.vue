@@ -14,7 +14,7 @@
         'inline-flex rounded-2xl font-medium shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
       ]"
     >
-      <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+      <ArrowPathIcon v-if="loading && !noLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
       <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
       <slot></slot>
     </a>
@@ -31,7 +31,7 @@
         'inline-flex rounded-2xl font-medium shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
       ]"
     >
-      <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+      <ArrowPathIcon v-if="loading && !noLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
       <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
       <slot></slot>
     </Link>
@@ -48,7 +48,7 @@
         'inline-flex rounded-2xl font-medium shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
       ]"
     >
-      <ArrowPathIcon v-if="loading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+      <ArrowPathIcon v-if="loading && !noLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
       <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
       <slot></slot>
     </button>
@@ -70,6 +70,7 @@ const $props = defineProps<{
   size?: 'sm' | 'md'
   href?: string
   externalLink?: boolean
+  noLoading?: boolean
 }>()
 const loading = ref(false)
 

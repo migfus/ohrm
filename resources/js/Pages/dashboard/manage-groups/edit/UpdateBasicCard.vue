@@ -8,7 +8,7 @@
       name="Name"
       :defaultValue="defaultName"
       v-model="$name"
-      @submit="putBasic()"
+      @submit="putBasicAPI()"
 
     />
 
@@ -16,13 +16,14 @@
       name="Description"
       :defaultValue="defaulDescription"
       v-model="$description"
-      @submit="putBasic()"
+      @submit="putBasicAPI()"
     />
   </BasicCard>
 </template>
 
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
+import { defaultRouterState } from '@/converter'
 
 import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/solid'
 import BasicCard from '@/components/cards/BasicCard.vue'
@@ -39,14 +40,14 @@ const $props = defineProps<{
 }>()
 const $emit = defineEmits(['submit'])
 
-function putBasic() {
-  router.put(`/dashboard/manage-groups/${$props.id}`, {
-    type: 'basic',
-    name: $name.value,
-    description: $description.value,
-  }, {
-    preserveScroll: true,
-    preserveState: true,
-  })
+function putBasicAPI() {
+  router.put(
+    `/dashboard/manage-groups/${$props.id}`, {
+      type: 'basic',
+      name: $name.value,
+      description: $description.value,
+    },
+    defaultRouterState(['group'])
+  )
 }
 </script>
