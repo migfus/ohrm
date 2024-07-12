@@ -10,37 +10,40 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-  public function login(Request $req) : Response {
-    return Inertia::render('auth/Login' , ['pageTitle' => 'Login']);
+  public function login() : Response {
+    return Inertia::render('auth/Login' , ['page_title' => 'Login']);
   }
 
-  public function login_submit(Request $req) : RedirectResponse {
+  public function loginSubmit(Request $req) : RedirectResponse {
     $val = $req->validate([
-      'email' => ['required', 'email'],
+      'email'    => ['required', 'email'],
       'password' => ['required', 'min:6'],
       // 'remember' => []
     ]);
 
     if(Auth::attempt($val)) {
       $req->session()->regenerate();
-      return to_route('dashboard.index')->with('success', "Welcome back!");
+      return to_route('dashboard.index')
+        ->with('success', ['title' => 'Logged In Successfully!', 'content' => 'Welcome, '.Auth::user()->name]);
     }
 
-    return to_route('login')->withErrors([
-      'email' => 'Invalid Email & Password',
-      'password' => 'Invalid Email & Password',
-    ]);
+    return to_route('login')
+      ->withErrors([
+        'email' => 'Invalid Email & Password',
+        'password' => 'Invalid Email & Password',
+      ]);
   }
 
-  public function forgot(Request $req) : Response {
-    return Inertia::render('auth/Forgot' , ['pageTitle' => 'Forgot']);
+  public function forgot() : Response {
+    return Inertia::render('auth/Forgot' , ['page_title' => 'Forgot']);
   }
-  public function forgot_submit(Request $req) : RedirectResponse {
-    $val = $req->validate([
+  public function forgotSubmit(Request $req) : RedirectResponse {
+    $req->validate([
       'email' => ['required', 'email']
     ]);
 
-    return to_route('forgot')->with('success', "Email Sent! Please check your email.");
+    return to_route('forgot')
+      ->with('success', ['title' => 'Successfuly updated!', 'content' => 'You can now login with your new password.']);
   }
 
   public function logout(Request $req) : RedirectResponse {
@@ -48,6 +51,7 @@ class AuthController extends Controller
     $req->session()->invalidate();
     $req->session()->regenerate();
 
-    return to_route('login')->with('success', "Logged Out!");
+    return to_route('login')
+      ->with('success', ['title' => 'Logged Out', 'content' => 'Logged Out Successfully!']);
   }
 }

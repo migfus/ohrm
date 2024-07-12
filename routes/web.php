@@ -24,9 +24,9 @@ Route::resource('/status', StatusController::class)->only(['index']);
 
 // NOTE: AUTH
 Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware(['guest']);
-Route::post('/login', [AuthController::class, 'login_submit'])->name('login.submit');
+Route::post('/login', [AuthController::class, 'loginSubmit'])->name('login.submit');
 Route::get('/forgot', [AuthController::class, 'forgot'])->name('forgot');
-Route::post('/forgot', [AuthController::class, 'forgot_submit'])->name('forgot.submit');
+Route::post('/forgot', [AuthController::class, 'forgotSubmit'])->name('forgot.submit');
 
 Route::middleware(['auth'])->group(function () {
   Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/system-roles-permissions', SystemRolesPermissionsController::class)->only(['index', 'update']);
     Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);
     Route::resource('/manage-template-tasks', ManageTemplateTaskController::class)->only(['edit', 'update']);
-      Route::get('/manage-template-tasks/users-suggestion/{id}', [ManageTemplateTaskController::class, 'UserComboBox'])->name('manage-groups.users-suggestion');
+      Route::get('/manage-template-tasks/users-suggestion/{id}', [ManageTemplateTaskController::class, 'userComboBox'])->name('manage-groups.users-suggestion');
     Route::resource('manage-posts', ManagePostController::class)->only(['destroy', 'update', 'index', 'store']);
     Route::resource('manage-comments', ManagePostComment::class)->only(['store', 'destroy']);
   });

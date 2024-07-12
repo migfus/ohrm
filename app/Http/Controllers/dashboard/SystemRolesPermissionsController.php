@@ -11,19 +11,17 @@ class SystemRolesPermissionsController extends Controller
 {
   public function index() : Response {
     $roles = Role::query()
-      ->with(['permissions', 'users' => function($q) {
-        $q->limit(5);
-      }])
+      ->with(['permissions', 'users' => fn($q) => $q->limit(5)])
       ->get();
 
     $permissions = Permission::query()
-      ->orderBy('created_at', 'DESC')
+      ->orderBy('created_at', 'desc')
       ->get();
 
     return Inertia::render(
       'dashboard/system-roles-permissions/(Index)',
       [
-        'pageTitle' => 'Manage Roles & Permissions',
+        'page_title' => 'Manage Roles & Permissions',
         'roles' => $roles,
         'permissions' => $permissions,
       ]

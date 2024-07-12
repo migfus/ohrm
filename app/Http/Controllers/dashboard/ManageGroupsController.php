@@ -22,7 +22,7 @@ class ManageGroupsController extends Controller
   // FIXME: There's some group_member without users
   // REASON: During seeeder or mismatch ID.
   public function index(Request $req): Response {
-    $val = $req->validate([
+    $req->validate([
       'search' => [],
     ]);
 
@@ -32,16 +32,18 @@ class ManageGroupsController extends Controller
         $q->where("name", 'LIKE', "%$req->search%");
       })
       ->with([
-        'group_members_admin_only.user' => fn($q) => $q->limit(5),
+        'group_members_admin_only.user'     => fn($q) => $q->limit(5),
         'group_members_not_admin_only.user' => fn($q) => $q->limit(5)
       ])
-      ->withCount(['group_members_admin_only', 'group_members_not_admin_only'])
+      ->withCount([
+        'group_members_admin_only',
+        'group_members_not_admin_only'
+      ])
       ->paginate(10);
 
     return Inertia::render(
-      'dashboard/manage-groups/index/(Index)',
-      [
-        'pageTitle' => 'Manage Groups',
+      'dashboard/manage-groups/index/(Index)', [
+        'page_title' => 'Manage Groups',
         'data' => $groups,
         'tabs' => [
           ['name' => 'All'],
@@ -49,14 +51,13 @@ class ManageGroupsController extends Controller
         'filters' => [
           'search' => $req->search
         ],
-      ]
-    );
+    ]);
   }
 
   // NOTE: STORE
   public function store(Request $req): RedirectResponse {
-    $val = $req->validate([
-      'name' => ['required', 'unique:groups,name'],
+    $req->validate([
+      'name'        => ['required', 'unique:groups,name'],
       'description' => ['required'],
     ]);
 
@@ -68,15 +69,17 @@ class ManageGroupsController extends Controller
         'display_name' => $req->name,
         'description' => $req->description,
       ]);
+
       Group::query()
         ->where('id', $group->id)
         ->update([
-          'avatar' => $this->GUploadAvatar('/assets/avatar_cover_default.jpg', "groups/$group->id/avatar/"),
-          'cover' => $this->GUploadAvatar('/assets/cover_group_default.jpg', "groups/$group->id/cover/")
+          'avatar' => $this->gUploadAvatar('/assets/avatar_cover_default.jpg', "groups/$group->id/avatar/"),
+          'cover' => $this->gUploadAvatar('/assets/cover_group_default.jpg', "groups/$group->id/cover/")
         ]);
+
       GroupMember::create([
-        'user_id' => $req->user()->id,
-        'group_id' => $group->id,
+        'user_id'       => $req->user()->id,
+        'group_id'      => $group->id,
         'group_role_id' => GroupRole::where('name', 'admin')->first()->id,
       ]);
 
@@ -90,30 +93,22 @@ class ManageGroupsController extends Controller
 
   // ✅
   // NOTE: UPDATE
-  public function edit(Request $req, $id): Response {
-
-
-
-    // $tasks = Task::query()
-    // ->where('task_template_id', $id)
-    // ->with(['user_assigned.user', 'task_priority.hero_icon', 'task_status.hero_icon', 'task_template'])
-    // ->limit(10)
-    // ->orderBy('created_at', 'desc')
-    // ->get();
-
+  public function edit($id): Response {
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
-      'pageTitle'     => $this->editGetGroup($id)->name,
-      'group'         => $this->editGetGroup($id),
-      'groupMembers'  => $this->editGetGroupMembers($id),
-      'taskTemplates' => $this->editGetTaskTemplates($id),
-      'tasks'         => $this->editGetTasks($id),
-      'groupRoles'    => $this->editGetGroupRoles(),
-      'taskPriorities'=> TaskPriority::get(),
-      'pinnedPosts'   => $this->editGetPinnedPost($id),
+      'page_title'     => $this->editGetGroup($id)->name,
+      'group'          => $this->editGetGroup($id),
+      'group_members'  => $this->editGetGroupMembers($id),
+      'task_templates' => $this->editGetTaskTemplates($id),
+      'tasks'          => $this->editGetTasks($id),
+      'group_roles'    => $this->editGetGroupRoles(),
+      'task_priorities'=> TaskPriority::get(),
+      'pinned_posts'   => $this->editGetPinnedPost($id),
     ]);
   }
     private function editGetGroup($groupId) {
-      return Group::where('id', $groupId)->first();
+      return Group::query()
+        ->where('id', $groupId)
+        ->first();
     }
     private function editGetGroupRoles() {
       return GroupRole::query()
@@ -125,13 +120,13 @@ class ManageGroupsController extends Controller
     }
     private function editGetPinnedPost($groupId) {
       return Post::query()
-      ->where('group_id', $groupId)
-      ->where('is_pinned', 1)
-      ->with(['user'])
-      ->withCount('comments')
-      ->orderBy('created_at', 'desc')
-      ->limit(5)
-      ->get();
+        ->where('group_id', $groupId)
+        ->where('is_pinned', 1)
+        ->with(['user'])
+        ->withCount('comments')
+        ->orderBy('created_at', 'desc')
+        ->limit(5)
+        ->get();
     }
     private function editGetGroupMembers($id) {
       return GroupMember::query()
@@ -159,8 +154,8 @@ class ManageGroupsController extends Controller
           'task_priority.hero_icon',
           'task_status.hero_icon',
           'task_template'])
-          ->orderBy('created_at', 'desc')
-          ->limit(5);
+        ->orderBy('created_at', 'desc')
+        ->limit(5);
     }
     private function editGetPosts(Request $req, $groupId) {
       return Post::query()
@@ -175,106 +170,109 @@ class ManageGroupsController extends Controller
     switch($req->type) {
       // ✅
       case 'basic':
-        $this->UpdateBasic($req, $id);
+        $this->updateBasic($req, $id);
         break;
       // ✅
       case 'avatar':
-        $this->UpdateAvatar($req, $id);
+        $this->updateAvatar($req, $id);
         break;
       // ✅
       case 'cover':
-        $this->UpdateCover($req, $id);
+        $this->updateCover($req, $id);
         break;
       // ✅
       case 'add-member':
-        $this->AddMember($req, $id);
+        $this->addMember($req, $id);
         break;
       // ✅
       case 'remove-member':
-        $this->RemoveMember($req, $id);
+        $this->removeMember($req, $id);
         break;
       // ✅
       case 'addTask':
-        $this->AddTemplateTask($req, $id);
+        $this->addTemplateTask($req, $id);
         break;
       // ✅
       case 'removeTask':
-        $this->RemoveTemplateTask($req, $id);
+        $this->removeTemplateTask($req, $id);
         break;
       // ✏️
       case 'updateTask':
-        $this->UpdateTemplateTask($req);
+        $this->updateTemplateTask($req);
         break;
       default:
-        return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['type' => 'Type value is missing']);
+        return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])
+          ->withErrors(['type' => 'Type value is missing']);
     }
 
     return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('success', "Updated");
   }
     // ✅
-    private function UpdateBasic(Request $req, $id) : void {
-      $val = $req->validate([
-        'name' => ['required'],
+    private function updateBasic(Request $req, $id) : void {
+      $req->validate([
+        'name'        => ['required'],
         'description' => ['required'],
       ]);
 
-      Group::where('id', $id)->update([
-        'name' => $req->name,
-        'description' => $req->description,
-      ]);
+      Group::query()
+        ->where('id', $id)
+        ->update([
+          'name'        => $req->name,
+          'description' => $req->description,
+        ]);
     }
     // ✅
-    private function UpdateAvatar(Request $req, $id) : void {
-      $val = $req->validate([
+    private function updateAvatar(Request $req, $id) : void {
+      $req->validate([
         'avatar' => ['required']
       ]);
 
       Group::where('id', $id)->update([
-        'avatar' => $this->GUploadAvatar($req->avatar, "groups/$id/avatar/"),
+        'avatar' => $this->gUploadAvatar($req->avatar, "groups/$id/avatar/"),
       ]);
     }
     // ✅
-    private function UpdateCover(Request $req, $id) : void {
-      $val = $req->validate([
+    private function updateCover(Request $req, $id) : void {
+      $req->validate([
         'cover' => ['required']
       ]);
 
       Group::where('id', $id)->update([
-        'cover' => $this->GUploadAvatar($req->cover, "groups/$id/cover/")
+        'cover' => $this->gUploadAvatar($req->cover, "groups/$id/cover/")
       ]);
     }
     // ✅
-    private function AddMember(Request $req, $id) : void {
+    private function addMember(Request $req, $id) : void {
       $val = $req->validate([
         'user_id' => ['required', 'uuid'],
-        'roleId' => ['required', 'uuid']
+        'roleId'  => ['required', 'uuid']
       ]);
 
       GroupMember::create([
-        'user_id' => $req->user_id,
+        'user_id'       => $req->user_id,
         'group_role_id' => $req->roleId,
-        'group_id' => $id,
+        'group_id'      => $id,
       ]);
     }
     // ✅
-    private function RemoveMember(Request $req, $id) {
-      $val = $req->validate([
+    private function removeMember(Request $req, $id) {
+      $req->validate([
         'memberId' => ['required', 'uuid'],
       ]);
 
       // NOTE: Prevents no member in a group.
-      if(Group::where('id', $id)->withCount('group_members')->first()->group_members_count > 1) {
+      if(Group::where('id', $id)->withCount('group_members')->first()->group_members_count > 1)
         GroupMember::find($req->memberId)->delete();
-      }
-      else {
-        return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->withErrors(['member' => 'At least 1 member should access the group.']);
-      }
+      else
+        return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])
+          ->withErrors(['member' => 'At least 1 member should access the group.']);
+
     }
     // ✏️
-    private function UpdateTemplateTask(Request $req): void {
+    private function updateTemplateTask(Request $req): void {
       $req->validate([
         'taskId' => ['required', 'uuid'],
-        'name' => ['required'],
+        'name'   => ['required'],
       ]);
 
       Task::where('id', $req->taskId)->update([
@@ -282,37 +280,42 @@ class ManageGroupsController extends Controller
       ]);
     }
     // ✅
-    private function RemoveTemplateTask(Request $req): void {
+    private function removeTemplateTask(Request $req): void {
       $req->validate([
         'taskId' => ['required', 'uuid'],
       ]);
 
-      TaskTemplate::where('id', $req->taskId)->delete();
+      TaskTemplate::query()
+        ->where('id', $req->taskId)
+        ->delete();
     }
     // ✅
-    private function AddTemplateTask(Request $req, $id): void {
+    private function addTemplateTask(Request $req, $id): void {
       $req->validate([
-        'name' => ['required'],
+        'name'        => ['required'],
         'priority_id' => ['required', 'uuid'],
         'description' => [''],
-        'is_show' => ['required', 'boolean'],
+        'is_show'     => ['required', 'boolean'],
       ]);
 
       TaskTemplate::create([
-        'name' => $req->name,
+        'name'        => $req->name,
         'description' => $req->description,
-        'group_id' => $id,
+        'group_id'    => $id,
         'default_task_priority_id' => $req->priority_id,
-        'is_show' => $req->is_show ? true : false,
+        'is_show'     => $req->is_show ? true : false,
       ]);
     }
 
   // ✅
   // NOTE: Remove
   public function destroy($id) : RedirectResponse {
-    Group::find($id)->delete();
+    Group::query()
+      ->find($id)
+      ->delete();
 
-    return to_route('dashboard.manage-groups.index')->with('flash', ['success' => 'Successfuly Removed']);
+    return to_route('dashboard.manage-groups.index')
+      ->with('success', ['title' => 'Removed', 'content' => 'Successfuly Removed']);
   }
 
   // ✅
@@ -321,9 +324,13 @@ class ManageGroupsController extends Controller
   // REASON: We want to show up users list upon selecting admin/moderator/member but no duplicates.
   // FILTERING: We should look for [Group] first before we provide users, to prevent duplicates.
   // SECURITY CONCERN: Filters will work as well but vulnerable for duplicates and injections.
-  public function UserComboBox(Request $req, $id) : JsonResponse {
+  public function userComboBox(Request $req, $id) : JsonResponse {
+    $members = GroupMember::query()
+      ->where('group_id', $id)
+      ->with('user')
+      ->get();
+
     $dontIncludeUsers = [];
-    $members = GroupMember::where('group_id', $id)->with('user')->get();
     foreach($members as $row) {
       $dontIncludeUsers[]  = $row->user['id'];
     }

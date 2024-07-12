@@ -11,7 +11,7 @@ use App\Models\TaskStatus;
 
 class StatusController extends Controller
 {
-  public function index(Request $req) : Response {
+  public function index() : Response {
     $tasks = Task::query()
       ->whereNotIn('task_status_id', [
         TaskStatus::where('name', 'Completed')->first()->id,
@@ -22,6 +22,6 @@ class StatusController extends Controller
       ->limit(12)
       ->get();
 
-    return Inertia::render('status/(Index)' , ['pageTitle' => 'Status', 'tasks' => $tasks]);
+    return Inertia::render('status/(Index)' , ['page_title' => 'Status', 'tasks' => $tasks]);
   }
 }

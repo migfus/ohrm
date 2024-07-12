@@ -16,26 +16,31 @@ class ManageTemplateTaskController extends Controller
 {
   // ✏️
   public function edit(string $id) : Response {
-    $templateTask = TaskTemplate::query()
+    $template_task = TaskTemplate::query()
       ->where('id', $id)
       ->with('group')
       ->first();
-    $taskUserAccess = TaskUserAccess::query()
-      ->where('task_template_id', $templateTask->id)
-      ->with(['user'])
+    $task_user_access = TaskUserAccess::query()
+      ->where('task_template_id', $template_task->id)
+      ->with('user')
       ->get();
 
     $tasks = Task::query()
-    ->where('task_template_id', $id)
-    ->with(['user_assigned.user', 'task_priority.hero_icon', 'task_status.hero_icon', 'task_template'])
-    ->limit(10)
-    ->orderBy('created_at', 'desc')
-    ->get();
+      ->where('task_template_id', $id)
+      ->with([
+        'user_assigned.user',
+        'task_priority.hero_icon',
+        'task_status.hero_icon',
+        'task_template'
+      ])
+      ->limit(10)
+      ->orderBy('created_at', 'desc')
+      ->get();
 
     return Inertia::render('dashboard/manage-template-tasks/(Edit)', [
-      'pageTitle' => 'Edit Template Task',
-      'taskTemplate' => $templateTask,
-      'taskUserAccess' => $taskUserAccess,
+      'page_title' => 'Edit Template Task',
+      'task_template' => $template_task,
+      'task_user_access' => $task_user_access,
       'tasks' => $tasks,
     ]);
   }
@@ -49,73 +54,71 @@ class ManageTemplateTaskController extends Controller
     switch($req->type) {
       // ✅
       case 'basic':
-        $this->UpdateBasic($req, $id);
-        break;
+        $this->updateBasic($req, $id); break;
       // ✅
       case 'assign-user':
-        $this->AssignUser($req, $id);
-        break;
+        $this->assignUser($req, $id); break;
       // ✅
       case 'unassign-user':
-        $this->UnassignUser($req, $id);
-        break;
+        $this->unassignUser($req, $id); break;
       default:
-        return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id])->withErrors(['type' => 'Invalid Type!']);
+        return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id])
+          ->withErrors(['type' => 'Invalid Type!']);
     }
 
     return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id])->with('success', "Updated");
   }
     // ✅
-    private function UpdateBasic(Request $req, string $id) : void {
+    private function updateBasic(Request $req, string $id) : void {
       $req->validate([
-        'name' => ['required'],
+        'name'        => ['required'],
         'description' => ['required']
       ]);
 
       TaskTemplate::find($id)->update([
-        'name' => $req->name,
+        'name'        => $req->name,
         'description' => $req->description,
       ]);
     }
     // ✅
-    private function AssignUser(Request $req, string $id) : void {
+    private function assignUser(Request $req, string $id) : void {
       $req->validate([
-        'userId' => ['required', 'uuid'],
+        'user_id' => ['required', 'uuid'],
       ]);
 
       TaskUserAccess::create([
         'task_template_id' => $id,
-        'user_id' => $req->userId,
+        'user_id' => $req->user_id,
       ]);
     }
     // ✅
-    private function UnassignUser(Request $req, string $id) : void {
+    private function unassignUser(Request $req, string $id) : void {
       $req->validate([
-        'TaskUserAccessId' => ['required', 'uuid'],
+        'task_user_access_id' => ['required', 'uuid'],
       ]);
 
-      TaskUserAccess::where('id', $req->TaskUserAccessId)->delete();
+      TaskUserAccess::where('id', $req->task_user_access_id)->delete();
     }
 
   // ✅
-  public function UserComboBox(Request $req, $groupId) : JsonResponse {
+  public function userComboBox(Request $req, $groupId) : JsonResponse {
     $req->validate([
-      'taskTemplateId' => ['required', 'uuid'],
+      'task_template_id' => ['required', 'uuid'],
     ]);
 
-    $dontIncludeUsers = [];
+    $dont_include_users = [];
     $members = TaskUserAccess::query()
-      ->where('task_template_id', $req->taskTemplateId)
+      ->where('task_template_id', $req->task_template_id)
       ->with('user')
       ->get();
 
     foreach($members as $row) {
-      $dontIncludeUsers[]  = $row->user['id'];
+      $dont_include_users[]  = $row->user['id'];
     }
 
     $members = GroupMember::query()
       ->where('group_id', $groupId)
-      ->whereNotIn('user_id', $dontIncludeUsers)
+      ->whereNotIn('user_id', $dont_include_users)
       ->whereHas('user', function($q) use($req){
         $q->where('name', 'LIKE', '%'. $req->search. '%');
       })
@@ -125,8 +128,8 @@ class ManageTemplateTaskController extends Controller
     return response()->json(
       $members->map(function ($row) {
         return [
-          'id' => $row->user['id'],
-          'name' => $row->user['name'],
+          'id'     => $row->user['id'],
+          'name'   => $row->user['name'],
           'avatar' => $row->user['avatar'],
         ];
       })

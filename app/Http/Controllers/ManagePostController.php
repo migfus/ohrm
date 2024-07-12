@@ -2,23 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Post;
-use App\Models\Comment;
 use Illuminate\Http\JsonResponse;
 use App\Events\PostsEvent;
 
 class ManagePostController extends Controller
 {
-
   public function index(Request $req) {
-    if($req->groupId) {
+    if($req->group_id) {
       return response()->json(
         Post::query()
-          ->where('group_id', $req->groupId)
+          ->where('group_id', $req->group_id)
           ->with(['user', 'comments.user'])
           ->withCount(['comments'])
           ->orderBy('created_at', 'DESC')
@@ -30,13 +26,13 @@ class ManagePostController extends Controller
   public function store(Request $req) : JsonResponse {
     $req->validate([
       'content' => ['required'],
-      'groupId' => ['required', 'uuid'],
+      'group_id'=> ['required', 'uuid'],
     ]);
 
     $post = Post::create([
-      'user_id' => $req->user()->id,
-      'content' => json_encode($req->content),
-      'group_id' => $req->groupId,
+      'user_id'  => $req->user()->id,
+      'content'  => json_encode($req->content),
+      'group_id' => $req->group_id,
     ]);
 
     PostsEvent::dispatch('new-post', $post->toArray());
@@ -57,32 +53,24 @@ class ManagePostController extends Controller
 
     switch($req->type) {
       case 'pin':
-        $this->pinPost($id);
-        break;
+        $this->pinPost($id); break;
       case 'update-content':
-        $this->updateContent($req, $id);
-        break;
+        $this->updateContent($req, $id); break;
     }
 
-    $updatedPost = Post::query()
+    $updated_post = Post::query()
       ->where('id', $id)
       ->with(['user', 'comments.user'])
       ->withCount(['comments'])
       ->first();
 
-    PostsEvent::dispatch(
-      'post-update',
-      $updatedPost->toArray()
-    );
-
-    // return to_route('dashboard.manage-groups.index')->with('success', 'Post Removed');
-    return response()->json($updatedPost);
+    return response()->json($updated_post);
   }
     private function pinPost(string $id) : void {
-      $pinToggle = Post::where('id', $id)->first()->is_pinned;
+      $pin_toggle = Post::where('id', $id)->first()->is_pinned;
 
       Post::where('id', $id)->update([
-        'is_pinned' => !$pinToggle,
+        'is_pinned' => !$pin_toggle,
       ]);
     }
     private function updateContent(Request $req, string $id) : void {
@@ -96,10 +84,8 @@ class ManagePostController extends Controller
     }
 
 
-  public function destroy(Request $req, string $id) : JsonResponse {
+  public function destroy(string $id) : JsonResponse {
     Post::where('id', $id)->delete();
-
-    // PostsEvent::dispatch('post-delete', null);
 
     return response()->json(['success' => true]);
   }

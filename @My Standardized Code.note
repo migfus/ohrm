@@ -1,0 +1,12 @@
+
+Native Variable is on snake_case
+* It was a default case in the laravel's database data types.
+* I just want to increase the security for this website by mixing the database and native variable
+* Too obvious if not mixing together, on database is snake_case but on native variable is on camelCase
+* Just want to remind the database variable are visible to front end.
+
+Functions are on camelCase
+* Standardized on laravel
+
+Types and Classes are on PascalCase
+* Mostly globalized standard on typescript and php

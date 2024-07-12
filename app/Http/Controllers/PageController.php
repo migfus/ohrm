@@ -9,9 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
-  public function about(Request $req) : Response {
-    return Inertia::render('about/(Index)' , ['pageTitle' => 'About Us']);
+  public function about() : Response {
+    return Inertia::render('about/(Index)' , ['page_title' => 'About Us']);
   }
 }
-
-// MARK: hello

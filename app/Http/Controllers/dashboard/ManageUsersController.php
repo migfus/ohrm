@@ -14,7 +14,6 @@ use App\Models\User;
 use App\Models\GroupMember;
 use App\Models\Group;
 
-
 class ManageUsersController extends Controller
 {
   // ✅
@@ -34,7 +33,9 @@ class ManageUsersController extends Controller
       [
         'name' => 'all',
         'display_name' => 'All',
-        'hero_icon' => ['content' => HeroIcon::where('name', 'at-symbol_micro')->first()->content]
+        'hero_icon' => [
+          'content' => HeroIcon::where('name', 'at-symbol_micro')->first()->content
+        ]
       ],
       ...$roles
     ];
@@ -55,9 +56,9 @@ class ManageUsersController extends Controller
       ->paginate(10);
 
     return Inertia::render('dashboard/manage-users/index/(Index)' , [
-      'pageTitle' => 'Manage Users',
+      'page_title' => 'Manage Users',
       'roles' => $roles_processed,
-      'userRoles' => $roles,
+      'user_roles' => $roles,
       'data' => $users,
       'filters' => [
         'page' => $req->page ?? null,
@@ -69,33 +70,34 @@ class ManageUsersController extends Controller
 
   // NOTE: CREATE
   public function store(Request $req) {
-    $val = $req->validate([
-      'name' => ['required',],
-      'email' => ['required', 'email', 'unique:users'],
+    $req->validate([
+      'name'     => ['required',],
+      'email'    => ['required', 'email', 'unique:users'],
       'password' => ['required', 'min:6'],
-      'roleId' => ['required', 'uuid'],
+      'roleId'   => ['required', 'uuid'],
     ]);
 
     $user = User::create([
-      'name' => $req->name,
-      'email' => $req->email,
+      'name'     => $req->name,
+      'email'    => $req->email,
       'password' => Hash::make($req->password),
     ]);
     User::query()
       ->where('id', $user->id)
       ->update([
-        'avatar' => $this->GUploadAvatar('/assets/avatar_default.png', "users/$user->id/avatar/"),
-        'cover' => $this->GUploadAvatar('/assets/cover_group_default.jpg', "users/$user->id/cover/"),
+        'avatar' => $this->gUploadAvatar('/assets/avatar_default.png', "users/$user->id/avatar/"),
+        'cover'  => $this->gUploadAvatar('/assets/cover_group_default.jpg', "users/$user->id/cover/"),
       ]);
 
     $user->addRole(Role::where('id', $req->roleId)->first(), 'system');
 
-    return to_route('dashboard.manage-users.index')->with('flash', ['success' => 'Successfuly Created.']);
+    return to_route('dashboard.manage-users.index')
+      ->with('success', ['title' => 'Created', 'content' => 'User created successfully.']);
   }
 
   // ✅
   // NOTE: UPDATE
-  public function edit(Request $req, $id) : Response {
+  public function edit($id) : Response {
     $roles = Role::query()
       ->select('id', 'display_name')
       ->get();
@@ -105,7 +107,7 @@ class ManageUsersController extends Controller
       ->first();
 
     return Inertia::render('dashboard/manage-users/edit/(Edit)', [
-      'pageTitle' => $user->name,
+      'page_title' => $user->name,
       'user' => $user,
       'roles' => $roles
     ]);
@@ -118,28 +120,24 @@ class ManageUsersController extends Controller
 
     switch($req->type) {
       case 'avatar':
-        $this->UpdateAvatar($req, $id);
-        break;
+        $this->updateAvatar($req, $id); break;
       case 'cover':
-        $this->UpdateCover($req, $id);
-        break;
+        $this->updateCover($req, $id); break;
       case 'basic':
-        $this->UpdateBasic($req, $id);
-        break;
+        $this->updateBasic($req, $id); break;
       case 'update-role':
-        $this->UpdateRole($req, $id);
-        break;
+        $this->updateRole($req, $id); break;
       case 'remove-joined-group':
-        $this->RemoveJoinedGroup($req, $id);
-        break;
+        $this->removeJoinedGroup($req, $id); break;
       default:
-        return to_route('dashboard.manage-users.edit', ['manage_user' => $id])->withErrors(['type' => 'Invalid Type!']);
+        return to_route('dashboard.manage-users.edit', ['manage_user' => $id])
+          ->withErrors(['type' => 'Invalid Type!']);
     }
 
     return to_route('dashboard.manage-users.edit', ['manage_user' => $id])->with('success', "Updated");
   }
     // ✅
-    private function UpdateBasic($req, $id): void {
+    private function updateBasic($req, $id): void {
       $req->validate([
         '_name' => ['required'],
         '_email' => ['required', 'email'],
@@ -160,63 +158,86 @@ class ManageUsersController extends Controller
         });
     }
     // ✅
-    private function UpdateAvatar(Request $req, $id){
+    private function updateAvatar(Request $req, $id){
       $req->validate([
-        'avatar' => ['required'],
+        'avatar' => ['required']
       ]);
 
-      if(User::find($id)->avatar == $req->avatar) {
+      if(User::find($id)->avatar == $req->avatar)
         return to_route('dashboard.manage-user.show', ['id' => $id])
           ->withErrors(['avatar' => 'You can not upload the same image']);
-      }
 
-      User::find($id)->update(['avatar' => $this->GUploadAvatar($req->avatar, 'avatars/'.$id)]);
+      User::query()
+        ->find($id)
+        ->update([
+          'avatar' => $this->GUploadAvatar($req->avatar, 'avatars/'.$id)
+        ]);
     }
     // ✅
-    private function UpdateCover(Request $req, $id){
+    private function updateCover(Request $req, $id){
       $req->validate([
         'cover' => ['required'],
       ]);
 
-      if(User::find($id)->cover == $req->cover) {
+      if(User::find($id)->cover == $req->cover)
         return to_route('dashboard.manage-user.show', ['id' => $id])
           ->withErrors(['cover' => 'You can not upload the same image']);
-      }
 
-      User::find($id)->update(['cover' => $this->GUploadAvatar($req->cover, 'covers/'.$id)]);
+      User::query()
+        ->find($id)
+        ->update([
+          'cover' => $this->GUploadAvatar($req->cover, 'covers/'.$id)
+        ]);
     }
     // ✅
-    private function UpdateRole(Request $req, $id) : void {
-      $val = $req->validate([
-        'userRoleId' => ['required', 'uuid']
+    private function updateRole(Request $req, $id) : void {
+      $req->validate([
+        'user_role_id' => ['required', 'uuid']
       ]);
 
-      User::where('id', $id)->first()->syncRoles([Role::where('id', $req->userRoleId)->first()]);
+      User::query()
+        ->where('id', $id)
+        ->first()
+        ->syncRoles([
+          Role::query()
+            ->where('id', $req->user_role_id)
+            ->first()
+        ]);
     }
     // ✏️
-    private function RemoveJoinedGroup($req, $id){
-      $val = $req->validate([
-        'groupMemberId' => ['required', 'uuid']
+    private function removeJoinedGroup($req, $id){
+      $req->validate([
+        'group_member_id' => ['required', 'uuid']
       ]);
 
       // NOTE: Check if there's any available user's left as an admin role
       // REASON: We don't want a group without an admin user.
-      $groupMember = GroupMember::where('id', $req->groupMemberId)->first();
-      $group = Group::where('id', $groupMember->group_id)->withCount('group_members_admin_only')->first();
+      $group_member = GroupMember::query()
+        ->where('id', $req->group_member_id)
+        ->first();
+      $group = Group::where('id', $group_member->group_id)
+        ->withCount('group_members_admin_only')
+        ->first();
 
       if($group->group_members_admin_only_count <= 1) {
-        return to_route('dashboard.manage-users.edit', ['manage_user' => $id])->withErrors(['group-member' => 'You cannot remove this member, this user is the only admin to this group. You need to assign a new admin in order to remove this user from the group.']);
+        return to_route('dashboard.manage-users.edit', ['manage_user' => $id])
+          ->withErrors([
+            'group-member' =>
+              'You cannot remove this member, this user is the only admin to this group. You need to assign a new admin in order to remove this user from the group.'
+          ]);
       }
       GroupMember::where('id', $req->groupMemberId)->delete();
     }
 
   // NOTE: DELETE
   public function destroy($id) : RedirectResponse {
-    if(User::find($id)->id == Auth::user()->id) {
-      return to_route('dashboard.manage-user.show', ['id' => $id])->withErrors(['Invalid Permission' => 'You can not remove yourself']);
-    }
+    if(User::find($id)->id == Auth::user()->id)
+      return to_route('dashboard.manage-user.show', ['id' => $id])
+        ->withErrors(['Invalid Permission' => 'You can not remove yourself']);
+
     User::find($id)->delete();
 
-    return to_route('dashboard.manage-users.index')->with('flash', ['success' => 'Successfuly Deleted.']);
+    return to_route('dashboard.manage-users.index')
+      ->with('success', ['title' => 'Deleted', 'content' => 'Successfuly Deleted.']);
   }
 }

@@ -59,12 +59,4 @@ class User extends Authenticatable implements LaratrustUser
     public function group_members() {
       return $this->hasMany(GroupMember::class);
     }
-
-
-
-
-
-    // public function
-
-
 }

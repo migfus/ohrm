@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class GroupRole extends Model
 {
-    use HasFactory, HasUuids;
+  use HasFactory, HasUuids;
 
   protected $fillable  = ['name', 'display_name', 'description', 'icon_name'];
+
 
   public function group_permission_role() {
     return $this->belongsToMany(GroupPermission::class)->withTimestamps();

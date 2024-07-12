@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 abstract class Controller
 {
-  public function GUploadAvatar($avatar, $path) {
+  public function gUploadAvatar($avatar, $path) {
     if (strpos($avatar, 'default')) {
       return $avatar;
     }
