@@ -1,12 +1,14 @@
 <template>
   <div class="">
     <Menu as="div" class="relative inline-block text-left justify-start w-full ">
-      <form v-if="selectedEdit" @submit.prevent="updateEdit()">
-        <AppInput v-model="inputValue" :error="undefined" name="Task" size="sm" noLabel/>
+
+      <form v-if="selected_edit" @submit.prevent="updateEdit()">
+        <AppInput v-model="input_value" :error="undefined" name="Task" size="sm" noLabel/>
         <div class="flex justify-end mt-2">
           <AppButton size="sm" color="brand" :icon="PencilIcon" type="submit">Update</AppButton>
         </div>
       </form>
+
       <div v-else class="">
         <MenuButton
           as="button"
@@ -74,6 +76,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { TaskTemplate } from '@/globalTypes'
 
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ChevronDownIcon, PencilIcon, LockClosedIcon, GlobeAsiaAustraliaIcon } from '@heroicons/vue/20/solid'
@@ -81,19 +84,19 @@ import { XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
-import { TTaskTemplate } from '@/globalTypes'
+
 
 defineProps<{
   index: number
-  taskTemplate: TTaskTemplate
+  taskTemplate: TaskTemplate
 }>()
 
 const $emit = defineEmits(['selected', 'updated'])
-const selectedEdit = ref<boolean>(false)
-const inputValue = ref<string>('')
+const selected_edit = ref<boolean>(false)
+const input_value = ref<string>('')
 
 function updateEdit() {
-  selectedEdit.value = false
-  $emit('updated', inputValue.value)
+  selected_edit.value = false
+  $emit('updated', input_value.value)
 }
 </script>

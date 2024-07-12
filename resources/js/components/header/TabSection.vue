@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { TTab } from '@/globalTypes'
+import { Tab } from '@/globalTypes'
 import { watch } from 'vue'
 
 import DataTransition from '../transitions/DataTransition.vue'
@@ -38,7 +38,7 @@ import TabSectionContent from './TabSectionContent.vue'
 const $model = defineModel<number>()
 const $emits = defineEmits(['selectedData'])
 const $props = defineProps<{
-  data: TTab[]
+  data: Tab[]
   disableLoading?: boolean
 }>()
 

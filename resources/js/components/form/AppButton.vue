@@ -13,6 +13,7 @@
         buttonSize,
         'inline-flex rounded-2xl font-medium shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
       ]"
+      @click="clicked = true"
     >
       <ArrowPathIcon v-if="loading && !noLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
       <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
@@ -30,6 +31,7 @@
         buttonSize,
         'inline-flex rounded-2xl font-medium shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
       ]"
+      @click="clicked = true"
     >
       <ArrowPathIcon v-if="loading && !noLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
       <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
@@ -47,6 +49,7 @@
         buttonSize,
         'inline-flex rounded-2xl font-medium shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all'
       ]"
+      @click="clicked = true"
     >
       <ArrowPathIcon v-if="loading && !noLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
       <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
@@ -73,6 +76,7 @@ const $props = defineProps<{
   noLoading?: boolean
 }>()
 const loading = ref(false)
+const clicked = ref(false)
 
 const buttonColor = computed(() => {
   switch($props.color) {
@@ -118,7 +122,9 @@ const buttonSize = computed(() => {
 
 // NOTE: Loading Animation
 router.on('start', () => {
-  loading.value = true
+  if(clicked.value) {
+    loading.value = true
+  }
 })
 
 router.on('finish',() => {

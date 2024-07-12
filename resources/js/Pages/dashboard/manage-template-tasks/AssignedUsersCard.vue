@@ -6,17 +6,17 @@
         :key="access.id"
         :taskUserAccessId="access.id"
         :user="access.user"
-        @selected="UnassignUser"
+        @selected="unassignUser"
       />
     </DataTransition>
 
-    <UsersComboBox :taskTemplateId :groupId @addMember="AssignMember" />
+    <UsersComboBox :taskTemplateId :groupId @addMember="assignMember" />
   </BasicCard>
 </template>
 
 <script setup lang="ts">
 import BasicCard from '@/components/cards/BasicCard.vue'
-import { TTaskAccessUser, TUser } from '@/globalTypes'
+import { TaskAccessUser, User } from '@/globalTypes'
 import { UsersIcon } from '@heroicons/vue/24/solid'
 import AssignedUserDropdownMenu from './AssignedUserDropdownMenu.vue'
 import UsersComboBox from './UsersComboBox.vue'
@@ -24,14 +24,14 @@ import { router } from '@inertiajs/vue3'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
 const $props = defineProps<{
-  taskUserAccess: TTaskAccessUser[]
+  taskUserAccess: TaskAccessUser[]
   groupId: string
   taskTemplateId: string
 }>()
 
-function AssignMember(user: TUser) {
+function assignMember(user: User) {
   router.put(route('dashboard.manage-template-tasks.update', { manage_template_task: $props.taskTemplateId }), {
-    userId: user.id,
+    user_id: user.id,
     type: 'assign-user'
   }, {
     preserveScroll: true,
@@ -39,9 +39,9 @@ function AssignMember(user: TUser) {
   })
 }
 
-function UnassignUser(value: { type: string, taskUserAccessId: string}) {
+function unassignUser(value: { type: string, task_user_access_ID: string}) {
   router.put(route('dashboard.manage-template-tasks.update', { manage_template_task: $props.taskTemplateId }), {
-    taskUserAccessId: value.taskUserAccessId,
+    task_user_access_ID: value.task_user_access_ID,
     type: 'unassign-user'
   }, {
     preserveScroll: true,

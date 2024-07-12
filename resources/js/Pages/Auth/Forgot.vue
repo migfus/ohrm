@@ -20,7 +20,7 @@
 
           <div class="flex items-center justify-between">
             <div class="text-sm">
-              <Link href="/login" class="font-medium text-brand-600 hover:text-brand-500">Need to login?</Link>
+              <Link :href="route('login')" class="font-medium text-brand-600 hover:text-brand-500">Need to login?</Link>
             </div>
           </div>
 
@@ -38,12 +38,12 @@
 
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3'
-import { TProps } from '@/globalTypes'
+import { Props } from '@/globalTypes'
 
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 
-interface TErrorWithTProps extends TProps {
+interface TErrorWithTProps extends Props {
   errors: {
     email: string | undefined
   }

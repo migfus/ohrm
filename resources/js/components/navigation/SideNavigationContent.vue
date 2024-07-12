@@ -16,7 +16,7 @@
       ]"
     >
       <!-- NOTE IF LOADING -->
-      <ArrowPathIcon v-if="index == indexLoading" :class="['mr-3 h-5 w-5 animate-spin ']" aria-hidden="true" />
+      <ArrowPathIcon v-if="index == index_loading" :class="['mr-3 h-5 w-5 animate-spin ']" aria-hidden="true" />
       <!-- NOTE IF ACTIVE -->
       <component v-else-if="item.components.some(row => row === $page.component)" :is="item.icon" class="text-brand-700 mr-3 h-5 w-5" aria-hidden="true" />
       <!-- NOTE IF DEFAULT -->
@@ -30,25 +30,25 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import { TCTopNavigation } from '@/globalTypes'
+import { CTopNavigation } from '@/globalTypes'
 
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
 defineProps<{
   title: string
-  data: TCTopNavigation[]
+  data: CTopNavigation[]
 }>()
 const $model = defineModel<boolean>()
 
-const indexLoading = ref<number | null>(null)
+const index_loading = ref<number | null>(null)
 
 router.on('finish',() => {
-  indexLoading.value = null
+  index_loading.value = null
   $model.value = false
 })
 
 function loadingAnimation(index: number) {
-  indexLoading.value = index
+  index_loading.value = index
 }
 </script>

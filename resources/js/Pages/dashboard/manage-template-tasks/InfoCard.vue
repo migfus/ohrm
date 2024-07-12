@@ -4,7 +4,7 @@
     title="Basic Info"
     description="Update basic info of the template task"
   >
-    <Link :href="`/dashboard/manage-groups/${group.id}/edit`"  class="flex justify-between bg-white px-4 py-3 rounded-2xl shadow hover:shadow-md mb-4 transition-all">
+    <Link :href="route('dashboard.manage-groups.edit', {manage_group: group.id})"  class="flex justify-between bg-white px-4 py-3 rounded-2xl shadow hover:shadow-md mb-4 transition-all">
       <div class="flex-grow truncate">
         <img :src="group.avatar" class="h-4 w-4 inline mr-2 rounded mb-[2px]"/>
         <span class="font-medium">{{ group.name }}</span>
@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
-import { TGroup, TTaskTemplate } from '@/globalTypes'
+import { Group, TaskTemplate } from '@/globalTypes'
 import { computed } from 'vue'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
@@ -30,8 +30,8 @@ import AppToggleTextArea from '@/components/form/AppToggleTextArea.vue'
 import AppToggle from '@/components/form/AppToggle.vue'
 
 const $props = defineProps<{
-  taskTemplate: TTaskTemplate
-  group: TGroup
+  taskTemplate: TaskTemplate
+  group: Group
 }>()
 
 const isShowToggleName = computed(() => form.show ? 'Visible to requesting page' : 'Hidden')

@@ -30,7 +30,7 @@
         </div>
       </MenuItems>
     </BasicTransition>
-    <RemovalPrompt v-model="openRemovePrompt" title="Remove Selected Post?" confirmMessage="Remove this Post" @confirm="confirmRemove()">
+    <RemovalPrompt v-model="open_remove_prompt" title="Remove Selected Post?" confirmMessage="Remove this Post" @confirm="confirmRemove()">
       Do you want to remove this post?
     </RemovalPrompt>
   </Menu>
@@ -40,17 +40,16 @@
 import { ref } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems,  } from '@headlessui/vue'
-import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon, MapPinIcon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon, } from '@heroicons/vue/20/solid'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
-
 const $emits = defineEmits(['click'])
-const openRemovePrompt = ref(false)
+const open_remove_prompt = ref(false)
 
 function click(value: string) {
   if(value == 'delete') {
-    openRemovePrompt.value = true
+    open_remove_prompt.value = true
   }
   else {
     $emits('click', value)

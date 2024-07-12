@@ -47,21 +47,19 @@
 </template>
 
 <script setup lang="ts">
-import { TPermission, TRole, TUser } from '@/globalTypes'
-import { ref } from 'vue'
+import { Permission, Role, User } from '@/globalTypes'
 
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import RoleRow from './RoleRow.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'
 
 defineProps<{
-  roles: TRole []
-  permissions: TPermission []
+  roles: Role []
+  permissions: Permission []
   errors: object
 }>()
-const loadingIndex = ref<number | null>(null)
 
-function usersCount(users: TUser []) {
+function usersCount(users: User []) {
   if(users.length > 3) {
     return users.length - 3
   }
@@ -70,7 +68,7 @@ function usersCount(users: TUser []) {
   }
 }
 
-function limitUsers(users: TUser []) {
+function limitUsers(users: User []) {
   return users.slice(0, 3)
 }
 </script>

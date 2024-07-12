@@ -36,7 +36,7 @@
         </div>
       </MenuItems>
     </BasicTransition>
-    <RemovalPrompt v-model="openRemovePrompt" title="Remove Selected Post?" confirmMessage="Remove this Post" @confirm="confirmRemove()">
+    <RemovalPrompt v-model="open_remove_prompt" title="Remove Selected Post?" confirmMessage="Remove this Post" @confirm="confirmRemove()">
       Do you want to remove this post?
     </RemovalPrompt>
   </Menu>
@@ -55,11 +55,11 @@ defineProps<{
 }>()
 
 const $emits = defineEmits(['click'])
-const openRemovePrompt = ref(false)
+const open_remove_prompt = ref(false)
 
 function click(value: string) {
   if(value == 'delete') {
-    openRemovePrompt.value = true
+    open_remove_prompt.value = true
   }
   else {
     $emits('click', value)

@@ -35,7 +35,6 @@
 
 
 
-
           <!-- Profile dropdown -->
           <TopNavigationProfileDropdown />
         </div>

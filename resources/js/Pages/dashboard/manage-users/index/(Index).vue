@@ -1,11 +1,11 @@
 <template>
   <div ref="el">
     <HeaderContent
-      v-model="throttledSearch"
+      v-model="throttled_search"
       :allowSearch="true"
       title="Manage Users"
       desc="Create, modify, or generate report users informations"
-      @add="showCreateUserModal = true"
+      @add="show_create_user_modal = true"
     />
 
     <TabSection v-model="selected" :data="roles" @selectedData="changeTab"/>
@@ -25,7 +25,7 @@
     </div>
 
     <PaginationCard :data @changePage="changePage" />
-    <Create v-model="showCreateUserModal" :roles="userRoles"/>
+    <Create v-model="show_create_user_modal" :roles="userRoles"/>
 
   </div>
 </template>
@@ -36,7 +36,7 @@ import { useThrottle } from '@vueuse/core'
 
 import UserCard from '@/components/data/UserCard.vue'
 import PaginationCard from '@/components/data/PaginationCard.vue'
-import { TFilters, TPagination, TUser, TTab, TRole } from '@/globalTypes'
+import { Filters, Pagination, User, Tab, Role } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import HeaderContent from '@/components/header/HeaderContent.vue'
@@ -44,18 +44,18 @@ import TabSection from '@/components/header/TabSection.vue'
 import Create from './Create.vue'
 
 const $props = defineProps<{
-  filters: TFilters
-  roles: TTab []
-  userRoles: TRole []
-  data: TPagination<TUser>
+  filters: Filters
+  roles: Tab []
+  userRoles: Role []
+  data: Pagination<User>
 }>()
 
-const showCreateUserModal = ref<boolean>(false)
-const throttledSearch = ref($props.filters.search ?? '')
+const show_create_user_modal = ref<boolean>(false)
+const throttled_search = ref($props.filters.search ?? '')
 const selected = ref(0)
 const form = reactive({
   type: $props.filters.type ?? null,
-  search: useThrottle(throttledSearch, 1000),
+  search: useThrottle(throttled_search, 1000),
   page: 1
 })
 
@@ -66,10 +66,12 @@ watch(form, () => {
 function changePage(page: number) {
   form.page = page
 }
+
 function changeTab(data: { name: string }) {
   form.type = data.name
   form.page = 1
 }
+
 function search() {
   router.get(route('dashboard.manage-users.index'), form, { preserveState: true })
 }

@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
-import { TGroup, TGroupRole, TTaskPriority, TPost, TGroupMember, TTaskTemplate, TTask, TPagination } from '@/globalTypes'
+import { Group, GroupRole, TaskPriority, Post, GroupMember, TaskTemplate, Task, Pagination } from '@/globalTypes'
 import { defaultRouterState } from '@/converter'
 
 import GroupHeader from '.././GroupHeader.vue'
@@ -65,13 +65,13 @@ import RecentTasksCard from './RecentTasksCard.vue'
 import PostSection from './PostSection.vue'
 
 const $props = defineProps<{
-  group: TGroup
-  groupRoles: TGroupRole[]
-  groupMembers: TGroupMember[]
-  taskTemplates: TTaskTemplate[]
-  tasks: TTask[]
-  taskPriorities: TTaskPriority[]
-  pinnedPosts: TPost[]
+  group: Group
+  groupRoles: GroupRole[]
+  groupMembers: GroupMember[]
+  taskTemplates: TaskTemplate[]
+  tasks: Task[]
+  taskPriorities: TaskPriority[]
+  pinnedPosts: Post[]
 }>()
 
 const form = router.form({

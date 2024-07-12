@@ -158,7 +158,7 @@ import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 import HeaderContent from '@/components/header/HeaderContent.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
-interface TSystemSettings {
+interface SystemSettings {
   id: number
   system_setting_type: {
     name: string
@@ -168,30 +168,28 @@ interface TSystemSettings {
   value: string
 }
 
-interface TData {
+interface Data {
   id: number
   name: string
   icon: string
   description: string
   href: string
-  system_settings: TSystemSettings []
+  system_settings: SystemSettings []
 }
 
 const $props = defineProps<{
-  data: TData[]
+  data: Data[]
 }>()
 
 const selected = ref(0)
 const selectedData = ref<number | null>(null)
 const uploadAvatarOpen = ref(false)
 
-function submit(row: TSystemSettings) {
-  router.put(route('dashboard.system-settings.update', { system_setting: row.id}),
-    {
-      value: row.value,
-      type: row.system_setting_type.name
-    }
-  )
+function submit(row: SystemSettings) {
+  router.put(route('dashboard.system-settings.update', { system_setting: row.id}), {
+    value: row.value,
+    type: row.system_setting_type.name
+  })
   selectedData.value = null
 }
 </script>

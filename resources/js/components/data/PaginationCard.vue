@@ -10,12 +10,12 @@
 </template>
 
 <script setup lang="ts">
-
 import { TailwindPagination } from 'laravel-vue-pagination'
 
 defineProps<{
   data: Object
 }>()
+
 const $emit = defineEmits(['changePage'])
 
 function changePage(page: number) {

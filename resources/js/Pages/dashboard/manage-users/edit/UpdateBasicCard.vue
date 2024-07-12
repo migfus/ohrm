@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { TUser } from '@/globalTypes'
+import { User } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 
 import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/solid'
@@ -37,7 +37,7 @@ import AppToggleInput from '@/components/form/AppToggleInput.vue'
 const active = ref<string | null>(null)
 
 const $props = defineProps<{
-  user: TUser
+  user: User
 }>()
 
 const form = reactive({

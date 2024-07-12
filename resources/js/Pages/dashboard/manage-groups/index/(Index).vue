@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 import { ref, watch, reactive } from 'vue'
-import { TFilters, TGroup, TTab } from '@/globalTypes'
+import { Filters, Group, Tab } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import { useThrottle } from '@vueuse/core'
 
@@ -47,9 +47,9 @@ import Create from './Create.vue'
 
 
 const $props = defineProps<{
-  filters: TFilters,
+  filters: Filters,
   data: {
-    data: TGroup []
+    data: Group []
   }
 }>()
 
@@ -73,7 +73,7 @@ function Search() {
 }
 
 // NOTE: Tabs
-const tabs: TTab[] = [
+const tabs: Tab[] = [
   {
     display_name: 'All',
     hero_icon: {

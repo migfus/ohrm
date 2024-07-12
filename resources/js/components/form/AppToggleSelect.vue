@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TSelect } from '@/globalTypes'
+import { Select } from '@/globalTypes'
 
 import BasicTransition from "@/components/transitions/BasicTransition.vue"
 import AppButton from '@/components/form/AppButton.vue'
@@ -46,12 +46,12 @@ import AppSelect from '@/components/form/AppSelect.vue'
 
 const $props = defineProps<{
   name: string
-  defaultValue: TSelect
+  defaultValue: Select
   enablePasswordGenerator?: boolean
-  suggestions: TSelect []
+  suggestions: Select []
 }>()
 const defaultValue = $props.defaultValue
-const $model = defineModel<TSelect>()
+const $model = defineModel<Select>()
 const $emits = defineEmits(['submit'])
 const active = ref<boolean>(false)
 

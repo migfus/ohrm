@@ -22,7 +22,7 @@
           <div class="px-1 py-1">
             <DropdownContent
               :icon=" ArrowRightCircleIcon "
-              :href="`/dashboard/manage-groups/${groupId}/edit`"
+              :href="route('dashboard.manage-groups.edit', { manage_group: groupId})"
             >
               More Info
             </DropdownContent>

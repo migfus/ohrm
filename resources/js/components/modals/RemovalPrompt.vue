@@ -48,12 +48,12 @@ import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } fro
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/solid'
 import AppButton from '@/components/form/AppButton.vue'
 
-const $modal = defineModel<boolean>()
-const $emit = defineEmits(['confirm'])
 defineProps<{
   confirmMessage?: string
   title?: string
 }>()
+const $modal = defineModel<boolean>()
+const $emit = defineEmits(['confirm'])
 
 function deleteUser() {
   $modal.value = false

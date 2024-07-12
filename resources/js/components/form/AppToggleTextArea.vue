@@ -43,14 +43,14 @@ const $props = defineProps<{
   name: string
   defaultValue: string
 }>()
-const defaultValue = $props.defaultValue
+const default_value = $props.defaultValue
 const $model = defineModel<string>()
 const $emits = defineEmits(['submit'])
 const active = ref<boolean>(false)
 
 function cancel() {
   active.value = false
-  $model.value = defaultValue
+  $model.value = default_value
 }
 
 function submit() {

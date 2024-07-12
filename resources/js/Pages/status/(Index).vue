@@ -140,12 +140,12 @@ import { router } from '@inertiajs/vue3'
 
 import { TicketIcon, ArrowsPointingOutIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
 import BasicCard from '@/components/cards/BasicCard.vue'
-import { TTask } from '@/globalTypes'
+import { Task } from '@/globalTypes'
 import AppButton from '@/components/form/AppButton.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
 defineProps<{
-  tasks: TTask[]
+  tasks: Task[]
 }>()
 
 const echo = inject<Echo>('echo')

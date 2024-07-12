@@ -33,7 +33,7 @@
             </div>
 
             <div class="text-sm">
-              <Link href="/forgot" class="font-medium text-brand-600 hover:text-brand-500">Forgot your password?</Link>
+              <Link :href="route('forgot')" class="font-medium text-brand-600 hover:text-brand-500">Forgot your password?</Link>
             </div>
           </div>
 

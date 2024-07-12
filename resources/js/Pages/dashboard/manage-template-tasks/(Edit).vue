@@ -17,14 +17,14 @@
 </template>
 
 <script setup lang="ts">
-import { TTaskAccessUser, TTaskTemplate, TTask } from '@/globalTypes'
+import { TaskAccessUser, TaskTemplate, Task } from '@/globalTypes'
 import InfoCard from './InfoCard.vue'
 import AssignedUsersCard from './AssignedUsersCard.vue'
 import TasksCard from './TasksCard.vue'
 
 defineProps<{
-  taskTemplate: TTaskTemplate
-  taskUserAccess: TTaskAccessUser[]
-  tasks: TTask[]
+  taskTemplate: TaskTemplate
+  taskUserAccess: TaskAccessUser[]
+  tasks: Task[]
 }>()
 </script>

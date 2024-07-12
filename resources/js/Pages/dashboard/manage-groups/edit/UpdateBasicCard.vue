@@ -6,7 +6,7 @@
   >
     <AppToggleInput
       name="Name"
-      :defaultValue="defaultName"
+      :defaultValue="default_name"
       v-model="$name"
       @submit="putBasicAPI()"
 
@@ -14,7 +14,7 @@
 
     <AppToggleTextArea
       name="Description"
-      :defaultValue="defaulDescription"
+      :defaultValue="defaul_description"
       v-model="$description"
       @submit="putBasicAPI()"
     />
@@ -32,8 +32,8 @@ import AppToggleTextArea from '@/components/form/AppToggleTextArea.vue'
 
 const $name = defineModel<string>('name')
 const $description = defineModel<string>('description')
-const defaultName = $name.value ?? ''
-const defaulDescription = $description.value ?? ''
+const default_name = $name.value ?? ''
+const defaul_description = $description.value ?? ''
 
 const $props = defineProps<{
   id: string

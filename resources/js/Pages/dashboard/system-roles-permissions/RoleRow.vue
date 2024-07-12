@@ -22,19 +22,19 @@
 </template>
 
 <script setup lang="ts">
-import { TPermission, TRole } from '@/globalTypes'
+import { Permission, Role } from '@/globalTypes'
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { ArrowPathIcon } from '@heroicons/vue/20/solid'
 
 defineProps<{
-  data: TPermission
-  row: TRole
+  data: Permission
+  row: Role
 }>()
 
 const loading = ref(false)
 
-function changePermission(role: TRole, permission_id: string, event: Event) {
+function changePermission(role: Role, permission_id: string, event: Event) {
   router.put(route('dashboard.system-roles-permissions.update', {system_roles_permission: permission_id}),
     {
       role_id: role.id,

@@ -16,14 +16,14 @@
     </DataTransition>
 
     <div class="flex justify-end mt-4">
-      <AppButton @click="showAddTask = true" :icon="PlusIcon" color="brand" size="sm" type="submit">Add Request</AppButton>
+      <AppButton @click="show_add_task = true" :icon="PlusIcon" color="brand" size="sm" type="submit">Add Request</AppButton>
     </div>
 
-    <RemovalPrompt v-model="removeOpen" @confirm="ConfirmRemove" confirmMessage="Yes, Remove The Member" title="Removing a Member">
+    <RemovalPrompt v-model="remove_open" @confirm="ConfirmRemove" confirmMessage="Yes, Remove The Member" title="Removing a Member">
       Are you sure do you want to remove this member?
     </RemovalPrompt>
 
-    <FormModal v-model="showAddTask" title="Add New Template Request" description="Add New Template Request" :icon="PlusIcon" size="max-w-md">
+    <FormModal v-model="show_add_task" title="Add New Template Request" description="Add New Template Request" :icon="PlusIcon" size="max-w-md">
       <form @submit.prevent="addTask">
         <AppInput v-model="form.name" name="Name" :error="undefined"/>
         <AppTextArea v-model="form.description" name="Description" :error="undefined"/>
@@ -42,8 +42,8 @@
         <AppToggle v-model="form.isShow" name="Show to public"/>
 
         <div class="flex justify-end mt-4 gap-2">
-          <AppButton @click="showAddTask = false; form.reset()" :icon="XMarkIcon" color="danger" type="button">Cancel</AppButton>
-          <AppButton @click="showAddTask = false" :icon="PlusIcon" color="brand" type="submit">Add</AppButton>
+          <AppButton @click="show_add_task = false; form.reset()" :icon="XMarkIcon" color="danger" type="button">Cancel</AppButton>
+          <AppButton @click="show_add_task = false" :icon="PlusIcon" color="brand" type="submit">Add</AppButton>
         </div>
       </form>
     </FormModal>
@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TTaskPriority, TTaskTemplate } from '@/globalTypes'
+import { TaskPriority, TaskTemplate } from '@/globalTypes'
 import { defaultRouterState } from '@/converter'
 import { router } from '@inertiajs/vue3'
 
@@ -70,13 +70,13 @@ import DataTransition from '@/components/transitions/DataTransition.vue'
 
 const $props = defineProps<{
   groupId: string
-  taskTemplates: TTaskTemplate []
-  taskPriorities: TTaskPriority []
+  taskTemplates: TaskTemplate []
+  taskPriorities: TaskPriority []
 }>()
 
-const removeOpen = ref<boolean>(false)
-const selectedIndex = ref<number>()
-const showAddTask = ref<boolean>(false)
+const remove_open = ref<boolean>(false)
+const selected_index = ref<number>()
+const show_add_task = ref<boolean>(false)
 
 const form = router.form({
   name: '',
@@ -92,15 +92,15 @@ const form = router.form({
 function SelectedTaskFromMenu(value: {type: string, index: number}) {
   switch(value.type) {
     case 'remove':
-      removeOpen.value = true
-      selectedIndex.value = value.index
+      remove_open.value = true
+      selected_index.value = value.index
       break;
     default:
       // inputTask.value = $props.tasks[value.index]
   }
 }
 function ConfirmRemove() {
-  if(selectedIndex!.value !== undefined) {
+  if(selected_index!.value !== undefined) {
     removeTask()
   }
 }
@@ -124,9 +124,9 @@ function addTask() {
 
 // ✅
 function removeTask() {
-  if(selectedIndex!.value !== undefined) {
+  if(selected_index!.value !== undefined) {
     router.put(route('dashboard.manage-groups.update', { manage_group: $props.groupId }), {
-        taskId: $props.taskTemplates[selectedIndex.value].id,
+        taskId: $props.taskTemplates[selected_index.value].id,
         type: 'removeTask',
       },
       defaultRouterState([''])

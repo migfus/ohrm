@@ -1,5 +1,4 @@
 <template>
-  <!-- ✏️ -->
   <div class="py-4 px-4">
     <div class="flex">
       <img :src="$auth.avatar" class="h-7 w-7 rounded-full mt-[11px] mr-2"/>
@@ -9,14 +8,11 @@
       <AppButton :icon="XMarkIcon" name="Comment" size="sm" @click="form.reset(); lines = 1">Cancel</AppButton>
       <AppButton :icon="ChatBubbleLeftIcon" name="Comment" size="sm" color="brand" @click="submitComment()">Comment</AppButton>
     </div>
-
-    <!-- {{ $auth }} -->
   </div>
 </template>
 
 <script setup lang="ts">
-// ✏️
-import { TUser } from '@/globalTypes'
+import { User } from '@/globalTypes'
 import { ref } from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import axios from 'axios'
@@ -26,7 +22,7 @@ import AppButton from '@/components/form/AppButton.vue'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
 const $page = usePage()
-const $auth = $page.props.auth as TUser
+const $auth = $page.props.auth as User
 const lines = ref(1)
 const $props = defineProps<{
   postId: string
@@ -38,7 +34,6 @@ const form = router.form({
 })
 
 async function submitComment() {
-
   await axios.post(route('dashboard.manage-comments.store'), {
     postId: $props.postId,
     content: form.content

@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, inject } from 'vue'
-import { TPost } from '@/globalTypes'
+import { Post } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import Echo from 'laravel-echo'
 import axios from 'axios'
@@ -74,7 +74,7 @@ const $props = defineProps<{
 
 
 // NOTE: POSTS
-const posts = ref<TPost[]>([])
+const posts = ref<Post[]>([])
 const page = ref(0)
 const lastPage = ref<number>(2)
 const infiniteScroll = ref<HTMLElement | null>(null)
@@ -130,7 +130,7 @@ async function loadMore() {
 function removePost(index: number) {
   posts.value.splice(index, 1)
 }
-function updatedPost(dat: { index: number; data: TPost}) {
+function updatedPost(dat: { index: number; data: Post}) {
   posts.value[dat.index] = dat.data
 }
 

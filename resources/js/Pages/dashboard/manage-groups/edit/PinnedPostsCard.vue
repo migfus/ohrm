@@ -7,14 +7,14 @@
 </template>
 
 <script setup lang="ts">
-import { TPost } from '@/globalTypes'
+import { Post } from '@/globalTypes'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { MapPinIcon } from '@heroicons/vue/20/solid'
 import PinnedPostCard from '@/components/cards/PinnedPostCard.vue'
 
 defineProps<{
-  posts: TPost[]
+  posts: Post[]
   groupId: string
 }>()
 </script>

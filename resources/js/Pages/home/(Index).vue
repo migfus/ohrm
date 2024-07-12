@@ -27,13 +27,13 @@
     v-model="openRequestModal"
   >
     <div class="flex mb-4">
-      <h2 class="font-medium bg-white px-4 py-2 shadow rounded-2xl">{{ form.taskTemplateName }}</h2>
+      <h2 class="font-medium bg-white px-4 py-2 shadow rounded-2xl">{{ form.task_template_name }}</h2>
     </div>
 
     <div class="mb-7">
       <AppSelect
         name="Task Priority"
-        v-model="form.taskPriority"
+        v-model="form.task_priority"
         :suggestions="task_priorities.map(row => {
           return {
             id: row.id,
@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { TGroup, TTaskPriority, TTaskTemplate } from '@/globalTypes'
+import { Group, TaskPriority, TaskTemplate } from '@/globalTypes'
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
 
@@ -66,29 +66,28 @@ import AppSelect from '@/components/form/AppSelect.vue'
 import AppTextArea from '@/components/form/AppTextArea.vue'
 
 defineProps<{
-  groups: TGroup []
-  task_priorities: TTaskPriority[]
+  groups: Group []
+  task_priorities: TaskPriority[]
 }>()
 
 const openRequestModal = ref(false)
 const form = router.form({
-  taskTemplateId: '',
-  taskPriority: {
+  task_template_id: '',
+  task_priority: {
     display_name: '',
     id: '',
   },
-  taskTemplateName: '',
+  task_template_name: '',
   message: '',
 })
 
-function createRequest(taskTemplate: TTaskTemplate) {
-  form.taskTemplateId = taskTemplate.id
-  form.taskTemplateName = taskTemplate.name
-  form.taskPriority = {
-    display_name: taskTemplate.task_priority.name,
-    id: taskTemplate.task_priority.id,
+function createRequest(task_template: TaskTemplate) {
+  form.task_template_id = task_template.id
+  form.task_template_name = task_template.name
+  form.task_priority = {
+    display_name: task_template.task_priority.name,
+    id: task_template.task_priority.id,
   }
-
   openRequestModal.value = true
 }
 
@@ -99,12 +98,10 @@ function resetRequest() {
 
 async function submitRequest() {
   await router.post(route('index'), {
-    task_template_id: form.taskTemplateId,
-    task_priority_id: form.taskPriority.id,
+    task_template_id: form.task_template_id,
+    task_priority_id: form.task_priority.id,
     message: form.message,
   })
   resetRequest()
 }
-
-
 </script>

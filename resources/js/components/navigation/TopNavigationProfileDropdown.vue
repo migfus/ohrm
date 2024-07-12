@@ -14,35 +14,55 @@
 
           <div class="text-gray-400 ml-3 my-2 text-sm truncate">Chat Conversation</div>
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/dashboard" :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']">
+            <Link
+              @click="close"
+              :href="route('dashboard.index')"
+              :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
+            >
               <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
               Hi can I join to your group
             </Link>
           </MenuItem>
 
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/dashboard" :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']">
+            <Link
+              @click="close"
+              :href="route('dashboard.index')"
+              :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
+            >
               <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
               Where are we?
             </Link>
           </MenuItem>
 
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/dashboard" :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']">
+            <Link
+              @click="close"
+              :href="route('dashboard.index')"
+              :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
+            >
               <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
               The chat is not fully tested yet
             </Link>
           </MenuItem>
 
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/dashboard" :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']">
+            <Link
+              @click="close"
+              :href="route('dashboard.index')"
+              :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
+            >
               <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
               Hoping for good outcome
             </Link>
           </MenuItem>
 
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/dashboard" :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']">
+            <Link
+              @click="close"
+              :href="route('dashboard.index')"
+              :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
+            >
               <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
               😅🙏🙏
             </Link>
@@ -65,27 +85,27 @@
 
           <div class="text-gray-400 ml-3 my-2 text-sm truncate">Notifications</div>
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/dashboard" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+            <Link @click="close" :href="route('dashboard.my-groups.index')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
               <SquaresPlusIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
               Group Notification 1
             </Link>
           </MenuItem>
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/dashboard" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+            <Link @click="close" :href="route('dashboard.my-groups.index')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
               <SquaresPlusIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
               Group Notification 2
             </Link>
           </MenuItem>
 
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/my-groups" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 truncate']">
+            <Link @click="close" :href="route('dashboard.my-groups.index')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 truncate']">
               <TableCellsIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
               +1 New user added
             </Link>
           </MenuItem>
 
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/my-groups" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 truncate']">
+            <Link @click="close" :href="route('dashboard.my-groups.index')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 truncate']">
               <TableCellsIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
               Groups has been updated
             </Link>
@@ -109,21 +129,28 @@
           <div class="text-gray-400 ml-3 my-2 text-sm truncate">{{ auth.name }}</div>
           <div class="text-gray-400 ml-3 my-2 text-sm truncate">{{ auth.email }}</div>
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/dashboard" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+            <Link @click="close" :href="route('dashboard.my-groups.index')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
               <SquaresPlusIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
               Dashboard
             </Link>
           </MenuItem>
 
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/my-groups" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+            <Link
+              @click="close"
+              :href="route('dashboard.my-groups.index')"
+              :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
+            >
               <FolderPlusIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
               My Groups
             </Link>
           </MenuItem>
 
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" href="/my-groups" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+            <Link
+              @click="close" :href="route('dashboard.my-groups.index')"
+              :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
+            >
               <FolderOpenIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
               Joined Groups
             </Link>
@@ -131,14 +158,22 @@
 
 
           <MenuItem v-slot="{ active, close }" class="align-middle">
-            <Link @click="close" href="/dashboard/account" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+            <Link
+              @click="close" :href="route('dashboard.account.index')"
+              :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
+            >
               <Cog6ToothIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
               Account Settings
             </Link>
           </MenuItem>
 
           <MenuItem v-slot="{ active, close }" class="flex flex-row align-middle">
-            <Link @click="close" href="/logout" method="post" as="button" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 w-full']">
+            <Link
+              @click="close" :href="route('logout')"
+              method="post"
+              as="button"
+              :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 w-full']"
+            >
               <ArrowRightStartOnRectangleIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-3 inline mb-1" />
               Sign out
             </Link>
@@ -151,22 +186,31 @@
 
   <!-- NOTE: GUEST -->
   <div v-else>
-    <Link href="/login">
+    <Link :href="route('login')">
       <AppButton color="brand">Sign-in</AppButton>
     </Link>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { GTAuth } from '@/globalTypes'
+import type { Auth } from '@/globalTypes'
 import { computed } from 'vue'
 
 import { usePage } from '@inertiajs/vue3'
 import { Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
-import { ArrowRightStartOnRectangleIcon, Cog6ToothIcon, SquaresPlusIcon, TableCellsIcon, BellIcon, ChatBubbleOvalLeftIcon, FolderOpenIcon, FolderPlusIcon } from '@heroicons/vue/24/outline'
+import {
+  ArrowRightStartOnRectangleIcon,
+  Cog6ToothIcon,
+  SquaresPlusIcon,
+  TableCellsIcon,
+  BellIcon,
+  ChatBubbleOvalLeftIcon,
+  FolderOpenIcon,
+  FolderPlusIcon
+} from '@heroicons/vue/24/outline'
 import AppButton from '@/components/form/AppButton.vue'
 
 const page = usePage()
 
-const auth = computed(() => page.props.auth as GTAuth)
+const auth = computed(() => page.props.auth as Auth)
 </script>

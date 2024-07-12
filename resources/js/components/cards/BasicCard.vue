@@ -27,7 +27,6 @@
 </template>
 
 <script setup lang="ts">
-// ✅
 import { FunctionalComponent, ref } from 'vue'
 
 import BasicTransition from '@/components/transitions/BasicTransition.vue'

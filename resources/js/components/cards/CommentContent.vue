@@ -14,13 +14,13 @@
 
 <script setup lang="ts">
 import { dateTimeFormatted } from '@/converter'
-import { TComment } from '@/globalTypes'
+import { Comment } from '@/globalTypes'
 import axios from 'axios'
 
 import PostCommentDropdown from './PostCommentDropdown.vue'
 
 const $props = defineProps<{
-  comment: TComment
+  comment: Comment
   postId: string
 }>()
 

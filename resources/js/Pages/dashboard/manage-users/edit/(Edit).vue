@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { TRole, TUser } from '@/globalTypes'
+import { Role, User } from '@/globalTypes'
 
 import ProfileHeader from '@/components/header/ProfileHeader.vue'
 
@@ -31,10 +31,9 @@ import UserHeatMapCard from './UserHeatMapCard.vue'
 import JoinedGroupsCard from './JoinedGroupsCard.vue'
 
 defineProps<{
-  user: TUser
+  user: User
   errors: Object
-  auth: TUser
-  roles: TRole []
+  auth: User
+  roles: Role []
 }>()
-
 </script>

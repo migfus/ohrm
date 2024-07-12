@@ -22,13 +22,13 @@
 </template>
 
 <script setup lang="ts">
-import { TSelect } from '@/globalTypes'
+import { Select } from '@/globalTypes'
 
 defineProps<{
-  suggestions: TSelect []
+  suggestions: Select []
   name: string
   noLabel?: boolean
 }>()
 
-const $model = defineModel<TSelect>()
+const $model = defineModel<Select>()
 </script>

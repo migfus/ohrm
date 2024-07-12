@@ -19,7 +19,7 @@
 </template>
 
 <script setup lang="ts">
-import { TPermission, TRole, TTab } from '@/globalTypes'
+import { Permission, Role, Tab } from '@/globalTypes'
 import { ref, reactive } from 'vue'
 
 import HeaderContent from '@/components/header/HeaderContent.vue'
@@ -28,8 +28,8 @@ import RolesContent from './RolesContent.vue'
 import AlertSection from '@/components/header/AlertSection.vue'
 
 defineProps<{
-  roles: TRole[]
-  permissions: TPermission[]
+  roles: Role[]
+  permissions: Permission[]
   errors: object
 }>()
 
@@ -38,7 +38,7 @@ const form = reactive({
 })
 
 const selected = ref(0) // default 0 index
-const tabs: TTab[] = [
+const tabs: Tab[] = [
   {
     display_name: 'Roles',
     hero_icon: {

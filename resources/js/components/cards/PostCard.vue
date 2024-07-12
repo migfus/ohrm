@@ -2,7 +2,7 @@
   <div class="bg-brand-50 shadow sm:rounded-2xl text-brand-800">
     <!-- NOTE: POSTCARD HEADER -->
     <div class="flex font-medium justify-between px-4 pt-4 pb-2">
-      <Link :href="`/dashboard/manage-users/${$props.post.user.id}/edit`" class="flex">
+      <Link :href="route('dashboard.manage-users.edit', {manage_user: post.user.id})" class="flex">
         <img :src="$props.post.user.avatar" class="h-8 w-8 rounded-full shadow mr-2" />
         <div class="flex flex-col">
           <span class="text-sm">{{ $props.post.user.name }}</span>
@@ -17,11 +17,11 @@
 
     <!-- NOTE: POSTCARD CONTENTS -->
     <div ref="sentenceLines" class="m-1 bg-white px-4 py-2 rounded-lg mx-4 shadow">
-      <div v-if="minimizeContent" v-html="quillContentToHtml($props.post.content)" class="line-clamp-4" ></div>
+      <div v-if="minimize_content" v-html="quillContentToHtml($props.post.content)" class="line-clamp-4" ></div>
       <div v-else v-html="quillContentToHtml($props.post.content)"></div>
     </div>
 
-    <button v-if="height > 95" class="mx-4 text-sm" @click="minimizeContent = !minimizeContent">{{ minimizeContent ? 'Show More...' : 'Show Less...'}}</button>
+    <button v-if="height > 95" class="mx-4 text-sm" @click="minimize_content = !minimize_content">{{ minimize_content ? 'Show More...' : 'Show Less...'}}</button>
 
     <!-- NOTE: POSTCARD FOOTER -->
     <div class="flex justify-between mx-4 py-2 text-sm gap-4">
@@ -41,32 +41,32 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, onMounted, onUnmounted } from 'vue'
+import { ref, inject, onUnmounted } from 'vue'
 import { useElementSize } from '@vueuse/core'
-import { TPost, TPostContent } from '@/globalTypes'
+import { Post, PostContent } from '@/globalTypes'
 import { Quill } from '@vueup/vue-quill'
 import axios from 'axios'
 import { contentFormatter, dateTimeFormatted } from '@/converter'
-import { router } from '@inertiajs/vue3'
 
+import { MapPinIcon } from '@heroicons/vue/24/solid'
 import PostCommentCard from './PostCommentCard.vue'
 import CommentContent from './CommentContent.vue'
 import PostDropown from './PostDropown.vue'
-import { MapPinIcon } from '@heroicons/vue/24/solid'
 
 const $props = defineProps<{
   groupId: string
-  post: TPost
+  post: Post
   index: number
 }>()
+
 const $emit = defineEmits(['removePost', 'updatedPost', 'editPost'])
 
-const minimizeContent = ref(true)
-const sentenceLines = ref(null)
-const { height } = useElementSize(sentenceLines)
+const minimize_content = ref(true)
+const sentence_lines = ref(null)
+const { height } = useElementSize(sentence_lines)
 
 function quillContentToHtml(content: string) {
-  const _content: TPostContent[] = JSON.parse(content)
+  const _content: PostContent[] = JSON.parse(content)
   if(_content && typeof _content === 'object') {
     const quill = new Quill(document.createElement('div'))
     quill.setContents(
@@ -76,6 +76,7 @@ function quillContentToHtml(content: string) {
   }
   return _content
 }
+
 // NOTE: Emits from Dropdown
 function dropDownEmit(value: string) {
   switch(value) {
@@ -99,6 +100,7 @@ async function removePost(id: string) {
   await axios.delete(`/dashboard/manage-posts/${id}`)
   $emit('removePost', $props.index)
 }
+
 // NOTE: Pin/Unpin By [admin/Mod]
 async function pinPost(id: string) {
   const res = await axios.put(`/dashboard/manage-posts/${id}`, {type: 'pin'})
@@ -109,24 +111,6 @@ async function pinPost(id: string) {
 import Echo from 'laravel-echo'
 import DataTransition from '../transitions/DataTransition.vue'
 const echo = inject<Echo>('echo')
-
-onMounted(async () => {
-  // echo?.channel(`post.${_post.id}`)
-  //   .listen('PostEvent', (content: any) => {
-  //     switch(content.type) {
-  //       case 'comment':
-  //         _post.comments = content.data
-  //         _post.comments_count = content.data.length
-  //         break;
-  //       case 'post-delete':
-  //         $emit('removePost', $props.index)
-  //         break;
-  //       case 'post-update':
-  //         Object.assign(_post, {...content.data, ..._post.comments, ..._post.user})
-  //         break;
-  //     }
-  //   })
-})
 
 onUnmounted(() => {
   echo?.leaveChannel(`post.${$props.post.id}`)

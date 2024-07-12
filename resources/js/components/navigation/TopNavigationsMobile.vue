@@ -1,7 +1,7 @@
 <template>
   <DisclosureButton
     as="a"
-    :href="href"
+    :href
     :class="[
       components.some(row => row === $page.component) ?
         'block border-l-4 border-brand-500 bg-brand-50 py-2 pl-3 pr-4 text-base font-medium text-brand-700' :

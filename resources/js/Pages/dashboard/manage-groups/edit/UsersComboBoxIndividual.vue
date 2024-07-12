@@ -28,10 +28,9 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { TUser } from '@/globalTypes'
+import { User } from '@/globalTypes'
 
 import { CheckIcon, ChevronUpDownIcon, XMarkIcon } from '@heroicons/vue/20/solid'
-import AppButton from '@/components/form/AppButton.vue'
 import {
   Combobox,
   ComboboxButton,
@@ -42,12 +41,12 @@ import {
 } from '@headlessui/vue'
 
 const $props = defineProps<{
- users: TUser []
+ users: User []
 }>()
 const $emit = defineEmits(['selected'])
 
 const query = ref('')
-const selectedUser = ref<TUser | null>(null)
+const selectedUser = ref<User | null>(null)
 const filteredUser = computed(() =>
   query.value === ''
     ? $props.users

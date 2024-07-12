@@ -1,12 +1,12 @@
 import { FunctionalComponent } from 'vue'
 import { PageProps } from '@inertiajs/core'
 
-export interface THeroIcon {
+export interface HeroIcon {
   name: string
   content: string
 }
 
-export type TCTopNavigation = {
+export type CTopNavigation = {
   name: string
   icon?: FunctionalComponent
   href: string
@@ -14,7 +14,7 @@ export type TCTopNavigation = {
   components: string []
 }
 
-export type GTAuth = {
+export type Auth = {
   avatar: string
   created_at: Date
   email: string
@@ -22,8 +22,8 @@ export type GTAuth = {
   name: string
 }
 
-export interface TProps {
-  auth?: GTAuth
+export interface Props {
+  auth?: Auth
   flash: {
     message: string []
   }
@@ -43,7 +43,7 @@ export interface TProps {
   }
 }
 
-export interface TPagination<T> {
+export interface Pagination<T> {
   current_page: number
   next_page_url: string | null
   data: T []
@@ -51,104 +51,104 @@ export interface TPagination<T> {
   last_page: number
 }
 
-export interface TUser {
+export interface User {
   id: string
   email: string
   avatar: string
   cover: string
   created_at: string
   name: string
-  group_members: TGroupMember []
-  roles: TRole []
+  group_members: GroupMember []
+  roles: Role []
 }
 
-export interface TUserWithType extends TUser {
+export interface UserWithType extends User {
   type: 'head' |'member'
   disabled: boolean
 }
 
-export interface TGroup {
+export interface Group {
   id: string
   name: string
   avatar: string
   cover: string
   description: string
   created_at: string
-  group_members_admin_only: TGroupMember []
-  group_members_not_admin_only: TGroupMember []
+  group_members_admin_only: GroupMember []
+  group_members_not_admin_only: GroupMember []
   group_members_not_admin_only_count: number
-  group_members: TGroupMember []
-  task_templates: TTaskTemplate []
-  tasks: TTask[]
+  group_members: GroupMember []
+  task_templates: TaskTemplate []
+  tasks: Task[]
 }
 
-export interface TTaskTemplate {
+export interface TaskTemplate {
   id: string
   group_id: string
-  group: TGroup
-  task_priority: TTaskPriority
+  group: Group
+  task_priority: TaskPriority
   name: string
   description?: string
   is_show: boolean
-  task_user_access: TTaskAccessUser []
+  task_user_access: TaskAccessUser []
   task_user_access_count: number
 }
 
-export interface TTaskAccessUser {
+export interface TaskAccessUser {
   id: string
-  user: TUser
-  tasks: TTask []
+  user: User
+  tasks: Task []
 }
 
-export interface TTaskPriority {
+export interface TaskPriority {
   id: string
   name: string
   color: string
-  hero_icon: THeroIcon
+  hero_icon: HeroIcon
 }
 
-export interface TGroupMember {
-  user?: TUser
-  role?: TGroupRole
-  group?: TGroup
+export interface GroupMember {
+  user?: User
+  role?: GroupRole
+  group?: Group
   id: string
   group_role_id: string
   group_id: string
   user_id: string
 }
 
-export interface TGroupRole {
+export interface GroupRole {
   id: string
   name: string
   description: string
   display_name: string
-  hero_icon: THeroIcon
+  hero_icon: HeroIcon
   created_at: string
 }
 
-export interface TRole {
+export interface Role {
   id: string
   name: string
   display_name: string
   description: string
   created_at: string
-  permissions: TPermission []
-  users: TUser []
+  permissions: Permission []
+  users: User []
 }
 
-export interface TPermission {
+export interface Permission {
   name: string
   display_name: string
   description: string
   id: string
 }
 
-export interface TTab {
+export interface Tab {
   display_name: string
-  hero_icon: THeroIcon
+  hero_icon: HeroIcon
 }
 
-export interface TPage extends PageProps {
+export interface Page extends PageProps {
   // NOTE: Shared
   title: string
   sidebar: boolean
@@ -160,20 +160,20 @@ export interface TPage extends PageProps {
     error?: string
     success?: string
   }
-  auth?: GTAuth
+  auth?: Auth
 
   // NOTE: Independent
   pageTitle: string
 }
 
 
-export interface TFilters {
+export interface Filters {
   search: string
   type: string
   page: number
 }
 
-export interface TTask {
+export interface Task {
   id: number // no longer uuid
   task_user_access_id: string
   task_priority_id: string
@@ -181,42 +181,42 @@ export interface TTask {
   task_status_at?: Date
   expired_at?: Date
   created_at: Date
-  task_user_access: TTaskAccessUser
-  task_priority: TTaskPriority
-  task_status: TTaskStatus
-  task_template: TTaskTemplate
+  task_user_access: TaskAccessUser
+  task_priority: TaskPriority
+  task_status: TaskStatus
+  task_template: TaskTemplate
   message: string
-  user_assigned: TUser
+  user_assigned: User
 }
 
-export interface TTaskStatus {
+export interface TaskStatus {
   name: string
-  hero_icon: THeroIcon
+  hero_icon: HeroIcon
 }
 
-export interface TSelect {
+export interface Select {
   display_name: string
   id: string
 }
 
-export interface TPost {
+export interface Post {
   content: string
-  user: TUser
+  user: User
   created_at: Date
   id: string
   is_pinned: number // 0 or 1
-  comments: TComment[]
+  comments: Comment[]
   comments_count: number
 }
 
-export interface TComment {
+export interface Comment {
   content: string
-  user: TUser
+  user: User
   created_at: Date
   id: string
 }
 
-export interface TPostContent {
+export interface PostContent {
   insert: string
   attributes?: object
 }

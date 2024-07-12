@@ -38,12 +38,12 @@
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { TUser } from '@/globalTypes'
+import { User } from '@/globalTypes'
 import DropdownContent from '@/components/dropdown/DropdownContent.vue'
 
 defineProps<{
   taskUserAccessId: string
-  user: TUser
+  user: User
 }>()
 
 const $emit = defineEmits(['selected'])

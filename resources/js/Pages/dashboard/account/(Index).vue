@@ -1,7 +1,7 @@
 <template>
   <div>
-    <TransitionRoot as="template" :show="sidebarOpen">
-      <Dialog as="div" class="relative z-40 md:hidden" @close="sidebarOpen = false">
+    <TransitionRoot as="template" :show="sidebar_open">
+      <Dialog as="div" class="relative z-40 md:hidden" @close="sidebar_open = false">
         <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100" leave-to="opacity-0">
           <div class="fixed inset-0 bg-gray-600 bg-opacity-75" />
         </TransitionChild>
@@ -11,7 +11,7 @@
             <DialogPanel class="relative flex w-full max-w-xs flex-1 flex-col bg-white pt-5 pb-4">
               <TransitionChild as="template" enter="ease-in-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in-out duration-300" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="absolute top-0 right-0 -mr-14 p-1">
-                  <button type="button" class="flex h-12 w-12 items-center justify-center rounded-full focus:bg-gray-600 focus:outline-none" @click="sidebarOpen = false">
+                  <button type="button" class="flex h-12 w-12 items-center justify-center rounded-full focus:bg-gray-600 focus:outline-none" @click="sidebar_open = false">
                     <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
                     <span class="sr-only">Close sidebar</span>
                   </button>
@@ -73,7 +73,7 @@
     <div class="md:pl-64">
       <div class="mx-auto flex max-w-4xl flex-col md:px-8 xl:px-0">
         <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white">
-          <button type="button" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 md:hidden" @click="sidebarOpen = true">
+          <button type="button" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 md:hidden" @click="sidebar_open = true">
             <span class="sr-only">Open sidebar</span>
             <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />
           </button>
@@ -205,16 +205,16 @@
                         <SwitchGroup as="div" class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-5 sm:pt-5">
                           <SwitchLabel as="dt" class="text-sm font-medium text-gray-500" passive>Automatic timezone</SwitchLabel>
                           <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                            <Switch v-model="automaticTimezoneEnabled" :class="[automaticTimezoneEnabled ? 'bg-purple-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-auto']">
-                              <span aria-hidden="true" :class="[automaticTimezoneEnabled ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                            <Switch v-model="automatic_timezone_enabled" :class="[automatic_timezone_enabled ? 'bg-purple-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-auto']">
+                              <span aria-hidden="true" :class="[automatic_timezone_enabled ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                             </Switch>
                           </dd>
                         </SwitchGroup>
                         <SwitchGroup as="div" class="py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200 sm:py-5">
                           <SwitchLabel as="dt" class="text-sm font-medium text-gray-500" passive>Auto-update applicant data</SwitchLabel>
                           <dd class="mt-1 flex text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                            <Switch v-model="autoUpdateApplicantDataEnabled" :class="[autoUpdateApplicantDataEnabled ? 'bg-purple-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-auto']">
-                              <span aria-hidden="true" :class="[autoUpdateApplicantDataEnabled ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                            <Switch v-model="auto_update_applicant_data_enabled" :class="[auto_update_applicant_data_enabled ? 'bg-purple-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 sm:ml-auto']">
+                              <span aria-hidden="true" :class="[auto_update_applicant_data_enabled ? 'translate-x-5' : 'translate-x-0', 'inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                             </Switch>
                           </dd>
                         </SwitchGroup>
@@ -233,6 +233,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+
 import { Dialog, DialogPanel, Switch, SwitchGroup, SwitchLabel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import {
   ArrowLeftOnRectangleIcon,
@@ -270,7 +271,7 @@ const tabs = [
   { name: 'Team Members', href: '#', current: false },
 ]
 
-const sidebarOpen = ref(false)
-const automaticTimezoneEnabled = ref(true)
-const autoUpdateApplicantDataEnabled = ref(false)
+const sidebar_open = ref(false)
+const automatic_timezone_enabled = ref(true)
+const auto_update_applicant_data_enabled = ref(false)
 </script>

@@ -6,11 +6,11 @@
   >
     <DataTransition>
       <MemberDropdownMenu
-        v-for="member in filteredMembers"
+        v-for="member in filtered_members"
         :key="member.id"
         :id="member.id"
         :userId="member.user_id"
-        :disabled="filteredMembers.length <= 1 && groupRole.display_name == 'Administrator'"
+        :disabled="filtered_members.length <= 1 && groupRole.display_name == 'Administrator'"
         @selected="RemoveMember(member.id)"
       >
         <div class="flex justify-start">
@@ -32,14 +32,14 @@
       />
     </div>
 
-    <RemovalPrompt v-model="removeOpen" @confirm="ConfirmRemove" confirmMessage="Yes, Remove The Member" title="Removing a Member">
+    <RemovalPrompt v-model="remove_open" @confirm="ConfirmRemove" confirmMessage="Yes, Remove The Member" title="Removing a Member">
       Are you sure do you want to remove this member?
     </RemovalPrompt>
   </BasicCard>
 </template>
 
 <script setup lang="ts">
-import { TGroupMember, TGroupRole, TUser } from '@/globalTypes'
+import { GroupMember, GroupRole, User } from '@/globalTypes'
 import { ref, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 
@@ -52,32 +52,32 @@ import { defaultRouterState } from '@/converter'
 
 const $props = defineProps<{
   groupId: string
-  groupRole: TGroupRole
-  groupMembers: TGroupMember[]
+  groupRole: GroupRole
+  groupMembers: GroupMember[]
 }>()
 
-const removeOpen = ref<boolean>(false)
-const selectedMemberId = ref<string>()
-const filteredMembers = computed<TGroupMember[]>(() => {
+const remove_open = ref<boolean>(false)
+const selected_member_id = ref<string>()
+const filtered_members = computed<GroupMember[]>(() => {
   return $props.groupMembers.filter(user => user.group_role_id == $props.groupRole.id)
 })
 
 function RemoveMember(id: string) {
-  removeOpen.value = true
-  selectedMemberId.value = id
+  remove_open.value = true
+  selected_member_id.value = id
 }
 
 function ConfirmRemove() {
   router.put(
     route('dashboard.manage-groups.update', { manage_group: $props.groupId }), {
-      memberId: selectedMemberId.value,
+      memberId: selected_member_id.value,
       type: 'remove-member',
     },
     defaultRouterState(['groupMembers'])
   )
 }
 
-function AddMember(user: TUser) {
+function AddMember(user: User) {
   router.put(
     route('dashboard.manage-groups.update', { manage_group: $props.groupId }), {
       user_id: user.id,

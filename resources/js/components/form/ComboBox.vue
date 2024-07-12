@@ -11,8 +11,8 @@
       </ComboboxButton>
 
       <!-- NOTE: OPTIONS -->
-      <ComboboxOptions v-if="filteredRows.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-        <ComboboxOption v-for="row in filteredRows" :key="row.id" :value="row" as="template" v-slot="{ active, selected }">
+      <ComboboxOptions v-if="filtered_rows.length > 0" class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+        <ComboboxOption v-for="row in filtered_rows" :key="row.id" :value="row" as="template" v-slot="{ active, selected }">
           <li :class="['relative cursor-default select-none py-2 pl-3 pr-9', active ? 'bg-brand-600 text-white' : 'text-gray-900']">
             <span :class="['block truncate', selected && 'font-semibold']">
               {{ row.display_name ?? row.name }}
@@ -42,7 +42,7 @@ import {
   ComboboxOptions,
 } from '@headlessui/vue'
 
-interface IData {
+interface Data {
   name: string
   display_name: string
   id: string
@@ -50,12 +50,12 @@ interface IData {
 
 const $props = defineProps<{
   name: string
-  data: IData []
+  data: Data []
 }>()
-const $model = defineModel<IData>()
+const $model = defineModel<Data>()
 
 const query = ref('')
-const filteredRows = computed(() =>
+const filtered_rows = computed(() =>
   query.value === ''
     ? $props.data
     : $props.data.filter((row) => {

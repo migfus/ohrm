@@ -17,15 +17,15 @@
 
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
-import { TRole } from '@/globalTypes'
+import { Role } from '@/globalTypes'
 
 import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/solid'
 import BasicCard from '@/components/cards/BasicCard.vue'
 import AppToggleSelect from '@/components/form/AppToggleSelect.vue'
 
 const $props = defineProps<{
-  roles: TRole []
-  userRole: TRole
+  roles: Role[]
+  userRole: Role
   userId: string
 }>()
 
@@ -35,7 +35,7 @@ const form = router.form({
 
 function submit() {
   router.put(route('dashboard.manage-users.update', {manage_user: $props.userId}), {
-    userRoleId: form.role.id,
+    user_role_ID: form.role.id,
     type: 'update-role'
   }, {
     preserveScroll: true,

@@ -79,7 +79,7 @@ const $props = defineProps<{
   ratio: number
 }>()
 const $emit = defineEmits(['upload'])
-const uploadInput = ref<string | null>(null);
+const upload_input = ref<string | null>(null);
 const config = {
   cropperOption: {
     viewMode: 2,
@@ -104,8 +104,8 @@ function SelectFile(event: Event) {
   reader.readAsDataURL(file)
   reader.onload = () => {
     $model.value = String(reader.result)
-    if (!uploadInput.value) return
-    uploadInput.value = ''
+    if (!upload_input.value) return
+    upload_input.value = ''
   }
 }
 

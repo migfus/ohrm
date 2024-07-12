@@ -73,19 +73,12 @@
 
 <script setup lang="ts">
 import BasicCard from '@/components/cards/BasicCard.vue'
-import { TTask } from '@/globalTypes'
+import { Task } from '@/globalTypes'
 import { TicketIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
 import moment from 'moment'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
 defineProps<{
-  tasks: TTask []
+  tasks: Task []
 }>()
-
-enum EStatus {
-  QUEUING,
-  PROCESSING,
-  REJECTED,
-  COMPLETED,
-}
 </script>

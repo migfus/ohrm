@@ -25,19 +25,19 @@
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { SquaresPlusIcon } from '@heroicons/vue/24/outline'
 import GroupDropdownMenu from '../GroupDropdownMenu.vue'
-import { TGroupMember } from '@/globalTypes'
+import { GroupMember } from '@/globalTypes'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { router } from '@inertiajs/vue3'
 
 const $props = defineProps<{
-  groupMembers?: TGroupMember []
+  groupMembers?: GroupMember []
   userId: string
 }>()
 
 function selected(id: string) {
   router.put(route('dashboard.manage-users.update', { manage_user: $props.userId}), {
     type: 'remove-joined-group',
-    groupMemberId: id
+    group_member_id: id
   })
 }
 </script>

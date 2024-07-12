@@ -1,5 +1,5 @@
 <template>
-  <Link :href="`/dashboard/manage-groups/${data.id}/edit`" @click="loading = true" class="block hover:bg-white bg-brand-50 pb-4">
+  <Link :href="route('dashboard.manage-groups.edit', {manage_group: data.id})" @click="loading = true" class="block hover:bg-white bg-brand-50 pb-4">
     <div class="flex items-center px-4 py-4 sm:px-6">
       <div class="flex min-w-0 flex-1 items-center">
         <div class="flex-shrink-0">
@@ -30,7 +30,7 @@
       <div v-for="row in data.group_members_admin_only" :key="row.id">
         <Link
           v-if="row.user"
-          :href="`/dashboard/manage-users/${row.user.id}/edit`"
+          :href="route('dashboard.manage-users.edit', { manage_user: row.user.id })"
           class="bg-brand-500 text-brand-50 text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium shadow"
         >
           <img :src="row.user.avatar" class="h-3 w-3 rounded-full"/>
@@ -43,7 +43,7 @@
       <div v-for="row in data.group_members_not_admin_only" :key="row.id">
         <Link
           v-if="row.user"
-          :href="`/dashboard/manage-users/${row.user.id}/edit`"
+          :href="route('dashboard.manage-users.edit', {manage_user: row.user.id})"
           class="bg-white text-brand-700 text-nowrap inline-flex items-center gap-x-1.5 rounded-full px-2 py-1 text-xs font-medium shadow"
         >
           <img :src="row.user.avatar" class="h-3 w-3 rounded-full"/>
@@ -64,12 +64,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { Group } from '@/globalTypes'
 
-import { TGroup } from '@/globalTypes'
 import { ChevronRightIcon, UsersIcon, ArrowPathIcon  } from '@heroicons/vue/20/solid'
 
 const { data } = defineProps<{
-  data: TGroup
+  data: Group
 }>()
 
 const loading = ref<boolean>(false)
