@@ -1,15 +1,15 @@
 <template>
   <div class="grid grid-cols-6 gap-4">
     <InfoCard
-      :id="taskTemplate.id"
-      :taskTemplate
-      :group="taskTemplate.group"
+      :id="task_template.id"
+      :taskTemplate = 'task_template'
+      :group="task_template.group"
       class="col-span-6 lg:col-span-3"
     />
     <AssignedUsersCard
-      :taskUserAccess
-      :groupId="taskTemplate.group_id"
-      :taskTemplateId="taskTemplate.id"
+      :taskUserAccess = 'task_user_access'
+      :groupId="task_template.group_id"
+      :taskTemplateId="task_template.id"
       class="col-span-6 lg:col-span-3"
     />
     <TasksCard :tasks class="col-span-6"/>
@@ -23,8 +23,8 @@ import AssignedUsersCard from './AssignedUsersCard.vue'
 import TasksCard from './TasksCard.vue'
 
 defineProps<{
-  taskTemplate: TaskTemplate
-  taskUserAccess: TaskAccessUser[]
+  task_template: TaskTemplate
+  task_user_access: TaskAccessUser[]
   tasks: Task[]
 }>()
 </script>

@@ -4,8 +4,8 @@
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
       v-model:name="form.name"
-      :admins="groupMembers.filter(member =>
-        member.group_role_id == groupRoles.filter(role => role.display_name == 'Administrator')[0].id
+      :admins="group_members.filter(member =>
+        member.group_role_id == group_roles.filter(role => role.display_name == 'Administrator')[0].id
       )"
       :confirmButton="{
         text: 'Delete',
@@ -25,23 +25,23 @@
           v-model:description="form.description"
           :id="group.id"
         />
-        <PinnedPostsCard :posts="pinnedPosts" :groupId="group.id" />
+        <PinnedPostsCard :posts="pinned_posts" :groupId="group.id" />
       </div>
 
       <div class="col-span-4 lg:col-span-2 space-y-4">
         <GroupHeatMapCard />
-        <UpdateTemplateTasksCard :taskTemplates :groupId="group.id" :taskPriorities/>
-        <RecentTasksCard :tasks="tasks" :taskTemplates/>
+        <UpdateTemplateTasksCard :taskTemplates="task_templates" :groupId="group.id" :taskPriorities="task_priorities"/>
+        <RecentTasksCard :tasks="tasks" :taskTemplates="task_templates"/>
         <PostSection :groupId="group.id"/>
       </div>
 
       <div class="col-span-4 lg:col-span-1 space-y-4">
         <UpdateMembersCard
-          v-for="groupRole in groupRoles"
+          v-for="groupRole in group_roles"
           :key="groupRole.id"
           :groupRole
           :groupId="group.id"
-          :groupMembers
+          :groupMembers="group_members"
         />
       </div>
     </div>
@@ -66,12 +66,12 @@ import PostSection from './PostSection.vue'
 
 const $props = defineProps<{
   group: Group
-  groupRoles: GroupRole[]
-  groupMembers: GroupMember[]
-  taskTemplates: TaskTemplate[]
+  group_roles: GroupRole[]
+  group_members: GroupMember[]
+  task_templates: TaskTemplate[]
   tasks: Task[]
-  taskPriorities: TaskPriority[]
-  pinnedPosts: Post[]
+  task_priorities: TaskPriority[]
+  pinned_posts: Post[]
 }>()
 
 const form = router.form({

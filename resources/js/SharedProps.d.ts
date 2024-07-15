@@ -1,4 +1,4 @@
-import { TUser } from "./globalTypes"
+import { User } from "./globalTypes"
 
 interface SharedProps{
   title: string
@@ -9,10 +9,16 @@ interface SharedProps{
   }
   pageTitle: string
   flash?: {
-    error: string
-    success: string
+    error: {
+      title: string
+      content: string
+    }
+    success: {
+      title: string
+      content: string
+    }
   }
-  auth?: TUser
+  auth?: User
 
   [key: string]: any
 }

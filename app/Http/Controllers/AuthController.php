@@ -43,7 +43,7 @@ class AuthController extends Controller
     ]);
 
     return to_route('forgot')
-      ->with('success', ['title' => 'Successfuly updated!', 'content' => 'You can now login with your new password.']);
+      ->with('success', ['title' => 'Email Link Sent!', 'content' => 'You can check your email for the password reset link.']);
   }
 
   public function logout(Request $req) : RedirectResponse {

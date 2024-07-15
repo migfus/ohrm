@@ -25,7 +25,7 @@
     </div>
 
     <PaginationCard :data @changePage="changePage" />
-    <Create v-model="show_create_user_modal" :roles="userRoles"/>
+    <Create v-model="show_create_user_modal" :roles="user_roles"/>
 
   </div>
 </template>
@@ -46,7 +46,7 @@ import Create from './Create.vue'
 const $props = defineProps<{
   filters: Filters
   roles: Tab []
-  userRoles: Role []
+  user_roles: Role []
   data: Pagination<User>
 }>()
 

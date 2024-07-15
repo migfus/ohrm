@@ -2,23 +2,81 @@
   <div>
     <!-- NOTE: Create Post Card -->
     <BasicCard title="Create Post" :icon="ChatBubbleOvalLeftIcon" description="Creat Post to this group.">
-      <div class="flex flex-col">
-        <AppButton name="Post" :icon="ChatBubbleOvalLeftIcon" @click="openCreatPostModal = true">Add Post</AppButton>
+      <div class="flex mt-4 gap-2">
+        <AppButton name="Post" :icon="ChatBubbleOvalLeftIcon" @click="open_create_text_post_modal = true" class="flex-grow flex-nowrap">Text</AppButton>
+        <AppButton name="Post" @click="open_create_photos_post_modal = true" :icon="Square2StackIcon" class="flex-grow flex-nowrap">Photos | Videos</AppButton>
+        <AppButton name="Post" @click="open_create_documents_post_modal = true" :icon="DocumentArrowUpIcon" class="flex-grow flex-nowrap">Documents | Files</AppButton>
       </div>
     </BasicCard>
 
+    <!-- SECTION: CREATE POST -->
+    <!-- NOTE: TEXT -->
     <FormModal
-      v-model="openCreatPostModal"
-      title="Create new Post"
+      v-model="open_create_text_post_modal"
+      title="Create New Post"
       description="Create new post for this group."
       :icon="ChatBubbleOvalLeftIcon"
       size="max-w-lg"
     >
-      <!-- @vue-ignore -->
-      <QuillEditor v-model:content="form.content" theme="snow" :toolbar/>
+
+      <AppTextArea v-model:content="form.content" name="Content" noLabel lines="4"/>
 
       <div class="flex justify-end mt-4 gap-2">
-        <AppButton name="Post" @click="openCreatPostModal = false" :icon="XMarkIcon">Cancel</AppButton>
+        <AppButton name="Post" @click="open_create_text_post_modal = false" :icon="XMarkIcon">Cancel</AppButton>
+        <AppButton name="Post" @click="submitPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+      </div>
+    </FormModal>
+
+    <!-- NOTE: PHOTOS -->
+    <FormModal
+      v-model="open_create_photos_post_modal"
+      title="Post Photos/Videos"
+      description="Upload photos or videos for this post."
+      :icon="Square2StackIcon"
+      size="max-w-lg"
+    >
+
+      <AppTextArea v-model:content="form.content" name="Content" noLabel/>
+
+      <div class="flex flex-col mt-4">
+        <input
+          type="file"
+          name="files"
+          multiple
+          accept="image/png, image/gif, image/jpeg"
+          class="placeholder-gray-50 block shadow w-full text-sm text-gray-900 cursor-pointer bg-white rounded-2xl focus:outline-none p-2"
+        />
+      </div>
+
+      <div class="flex justify-end mt-4 gap-2">
+        <AppButton name="Post" @click="open_create_photos_post_modal = false" :icon="XMarkIcon">Cancel</AppButton>
+        <AppButton name="Post" @click="submitPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+      </div>
+    </FormModal>
+
+    <!-- NOTE: DOCUMENTS -->
+    <FormModal
+      v-model="open_create_documents_post_modal"
+      title="Post Documents/Files"
+      description="Upload documents or files for this post."
+      :icon="DocumentArrowUpIcon"
+      size="max-w-lg"
+    >
+
+      <AppTextArea v-model:content="form.content" name="Content" noLabel/>
+
+      <div class="flex flex-col mt-4">
+        <input
+          type="file"
+          name="files"
+          multiple
+          accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/*"
+          class="placeholder-gray-50 block shadow w-full text-sm text-gray-900 cursor-pointer bg-white rounded-2xl focus:outline-none p-2"
+        />
+      </div>
+
+      <div class="flex justify-end mt-4 gap-2">
+        <AppButton name="Post" @click="open_create_documents_post_modal = false" :icon="XMarkIcon">Cancel</AppButton>
         <AppButton name="Post" @click="submitPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
       </div>
     </FormModal>
@@ -60,18 +118,23 @@ import axios from 'axios'
 
 import PostCard from '@/components/cards/PostCard.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
-import { ArrowPathIcon, FaceSmileIcon, ChatBubbleOvalLeftIcon, XMarkIcon, PaperAirplaneIcon } from '@heroicons/vue/24/solid'
+import {
+  ArrowPathIcon,
+  FaceSmileIcon,
+  ChatBubbleOvalLeftIcon,
+  XMarkIcon,
+  PaperAirplaneIcon,
+  Square2StackIcon,
+  DocumentArrowUpIcon,
+} from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import FormModal from '@/components/modals/FormModal.vue'
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import AppButton from '@/components/form/AppButton.vue'
+import AppTextArea from '@/components/form/AppTextArea.vue'
 
 const $props = defineProps<{
   groupId: string
 }>()
-
-
 
 // NOTE: POSTS
 const posts = ref<Post[]>([])
@@ -135,7 +198,9 @@ function updatedPost(dat: { index: number; data: Post}) {
 }
 
 // SECTION: CREATE POST
-const openCreatPostModal = ref(false)
+const open_create_text_post_modal = ref(false)
+const open_create_photos_post_modal = ref(false)
+const open_create_documents_post_modal = ref(false)
 
 const toolbar = {
   container: [
@@ -170,14 +235,14 @@ async function submitPost() {
 
   editPostId.value = ''
   editPostIndex.value = 0
-  openCreatPostModal.value = false
+  open_create_documents_post_modal.value = false
+  open_create_photos_post_modal.value = false
   form.reset()
 }
 
 function editPost(value: {id: string, index: number, content: string}) {
   form.content = JSON.parse(value.content)
   editPostId.value = value.id
-  openCreatPostModal.value = true
 }
 </script>
 

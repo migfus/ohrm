@@ -28,9 +28,9 @@ export interface Props {
     message: string []
   }
   title: string
-  pageTitle: string
+  page_title?: string
   sidebar: boolean
-  system_settings: {
+  system_settings?: {
     name: string
     config: string
     description: string

@@ -7,7 +7,6 @@
     <ArrowPathIcon v-if="loading && disableLoading != true" class="h-4 w-4 animate-spin" aria-hidden="true" />
     <span v-else v-html="icon" class="h-4 w-4"></span>
     {{ display_name }}
-    {{ $page}}
   </div>
 </template>
 

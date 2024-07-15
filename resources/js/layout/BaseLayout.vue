@@ -47,8 +47,14 @@ watch(page_title, () => {
 
 // NOTE: NOTIWIND BASE NOTIFICATIONS (Actively listening to flash messages)
 const flash = computed<{
-  success?: string
-  error?: string
+  success?: {
+    title: string
+    content: string
+  }
+  error?: {
+    title: string
+    content: string
+  }
 }>(() => {
   return {
     success: $page.props.flash?.success,
@@ -60,15 +66,15 @@ watch(flash, () => {
   if(flash.value.success){
     notify({
       group: "success",
-      title: "Success",
-      text: flash.value.success
+      title: flash.value.success.title,
+      content: flash.value.success.content
     }, 4000)
   }
   else if(flash.value.error){
     notify({
       group: "error",
-      title: "Error",
-      text: flash.value.error
+      title: flash.value.error.title,
+      content: flash.value.error.content
     }, 5 * 1000)
   }
 })
