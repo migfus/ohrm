@@ -207,6 +207,13 @@ export interface Post {
   is_pinned: number // 0 or 1
   comments: Comment[]
   comments_count: number
+  post_type: PostType
+  post_contents: PostContent[]
+  post_contents_count: number
+}
+
+export interface PostType {
+  name: string
 }
 
 export interface Comment {
@@ -217,6 +224,7 @@ export interface Comment {
 }
 
 export interface PostContent {
-  insert: string
-  attributes?: object
+  type: string
+  file_url: string
+  thumbnail_url: string
 }

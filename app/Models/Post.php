@@ -22,4 +22,8 @@ class Post extends Model
   public function post_contents() {
     return $this->hasMany(PostContent::class);
   }
+
+  public function post_type() {
+    return $this->belongsTo(PostType::class);
+  }
 }

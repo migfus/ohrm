@@ -16,7 +16,8 @@ class ManagePostController extends Controller
       return response()->json(
         Post::query()
           ->where('group_id', $req->group_id)
-          ->with(['user', 'post_contents'])
+          ->with(['user', 'post_contents', 'post_type'])
+          ->withCount(['post_contents'])
           ->orderBy('created_at', 'DESC')
           ->paginate(10)
       );
