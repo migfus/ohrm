@@ -13,7 +13,9 @@ return new class extends Migration
       $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
       $table->uuid('group_id');
       $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
-      $table->json('content');
+      $table->uuid('post_type_id');
+      $table->foreign('post_type_id')->references('id')->on('post_types')->onDelete('cascade');
+      $table->longText('title');
       $table->boolean('is_pinned')->default(false);
       $table->timestamps();
     });

@@ -31,8 +31,8 @@ class DatabaseSeeder extends Seeder
         TaskUserAccessSeeder::class,
         TaskStatusSeeder::class,
         TaskSeeder::class,
+        PostTypeSeeder::class,
         PostSeeder::class,
-        PostCommentSeeder::class
       ]);
     }
 }

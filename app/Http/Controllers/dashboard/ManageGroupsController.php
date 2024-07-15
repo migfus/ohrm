@@ -123,7 +123,6 @@ class ManageGroupsController extends Controller
         ->where('group_id', $groupId)
         ->where('is_pinned', 1)
         ->with(['user'])
-        ->withCount('comments')
         ->orderBy('created_at', 'desc')
         ->limit(5)
         ->get();
@@ -160,8 +159,7 @@ class ManageGroupsController extends Controller
     private function editGetPosts(Request $req, $groupId) {
       return Post::query()
         ->where('group_id', $groupId)
-        ->with(['user', 'comments.user'])
-        ->withCount('comments')
+        ->with(['user'])
         ->orderBy('created_at', 'desc')
         ->paginate(10);
     }

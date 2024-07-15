@@ -8,6 +8,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Group;
+use App\Models\PostType;
 
 class PostSeeder extends Seeder
 {
@@ -15,9 +16,11 @@ class PostSeeder extends Seeder
     Post::create([
       'user_id' => User::where('name', '[Admin User]')->first()->id,
       'group_id' => Group::where('name', 'Office of Human Resources Management Office (OHRM)')->first()->id,
-      'content' => '[{"insert":"Currently TEsting for COmments."}]',
+      'post_type_id' => PostType::where('name', 'Basic')->first()->id,
+      'title' => 'Testing Post',
       'is_pinned' => false,
     ]);
-    Post::factory()->count(100)->create();
+
+    // Post::factory()->count(100)->create();
   }
 }

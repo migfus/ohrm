@@ -15,8 +15,7 @@ class ManagePostController extends Controller
       return response()->json(
         Post::query()
           ->where('group_id', $req->group_id)
-          ->with(['user', 'comments.user'])
-          ->withCount(['comments'])
+          ->with(['user'])
           ->orderBy('created_at', 'DESC')
           ->paginate(10)
       );
@@ -40,8 +39,7 @@ class ManagePostController extends Controller
     return response()->json(
       Post::query()
         ->where('id', $post->id)
-        ->with(['user', 'comments.user'])
-        ->withCount(['comments'])
+        ->with(['user'])
         ->first()
     );
   }
@@ -60,8 +58,7 @@ class ManagePostController extends Controller
 
     $updated_post = Post::query()
       ->where('id', $id)
-      ->with(['user', 'comments.user'])
-      ->withCount(['comments'])
+      ->with(['user'])
       ->first();
 
     return response()->json($updated_post);
