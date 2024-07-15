@@ -18,4 +18,8 @@ class Post extends Model
   public function comments() {
 
   }
+
+  public function post_contents() {
+    return $this->hasMany(PostContent::class);
+  }
 }

@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
         TaskSeeder::class,
         PostTypeSeeder::class,
         PostSeeder::class,
+        PostContentSeeder::class,
       ]);
     }
 }

@@ -13,11 +13,20 @@ use App\Models\PostType;
 class PostSeeder extends Seeder
 {
   public function run(): void {
+    // NOTE: Basic test
     Post::create([
       'user_id' => User::where('name', '[Admin User]')->first()->id,
       'group_id' => Group::where('name', 'Office of Human Resources Management Office (OHRM)')->first()->id,
       'post_type_id' => PostType::where('name', 'Basic')->first()->id,
-      'title' => 'Testing Post',
+      'title' => 'Basic Post',
+      'is_pinned' => false,
+    ]);
+
+    Post::create([
+      'user_id' => User::where('name', '[Admin User]')->first()->id,
+      'group_id' => Group::where('name', 'Office of Human Resources Management Office (OHRM)')->first()->id,
+      'post_type_id' => PostType::where('name', 'Multimedia')->first()->id,
+      'title' => 'Multimedia Post',
       'is_pinned' => false,
     ]);
 

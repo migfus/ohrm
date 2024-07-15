@@ -18,8 +18,8 @@
 
     <!-- NOTE: PINNED POST CARD CONTENTS -->
     <div ref="sentenceLines" class="m-1 bg-white px-4 py-2 rounded-lg ">
-      <div v-if="minimize_content" v-html="quillContentToHtml(post.content)" class="line-clamp-4" ></div>
-      <div v-else v-html="quillContentToHtml(post.content)"></div>
+      <div v-if="minimize_content" v-html="post.title" class="line-clamp-4" ></div>
+      <div v-else v-html="post.title"></div>
     </div>
 
     <button v-if="height > 95" class="mx-4 text-sm" @click="minimize_content = !minimize_content">{{ minimize_content ? 'Show More...' : 'Show Less...'}}</button>
@@ -40,8 +40,7 @@
 // ✅
 import { ref } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { Post, PostContent } from '@/globalTypes'
-import { Quill } from '@vueup/vue-quill'
+import { Post } from '@/globalTypes'
 import moment from 'moment'
 import { useElementSize } from '@vueuse/core'
 
@@ -55,18 +54,6 @@ const $props = defineProps<{
 const minimize_content = ref(true)
 const sentence_lines = ref(null)
 const { height } = useElementSize(sentence_lines)
-
-function quillContentToHtml(content: string) {
-  const content_ = JSON.parse(content) as PostContent[]
-  if(content_ && typeof content_ === 'object') {
-    const quill = new Quill(document.createElement('div'))
-    quill.setContents(
-      content_.filter(r => r.insert == null ? false : true)
-    )
-    return quill.root.innerHTML
-  }
-  return content
-}
 
 function unpinPost() {
   router.put(

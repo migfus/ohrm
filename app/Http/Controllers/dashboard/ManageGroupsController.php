@@ -146,22 +146,17 @@ class ManageGroupsController extends Controller
         ->get();
     }
     private function editGetTasks($groupId) {
-      Task::query()
+      return Task::query()
         ->where('group_id', $groupId)
         ->with([
           'user_assigned.user',
           'task_priority.hero_icon',
           'task_status.hero_icon',
-          'task_template'])
+          'task_template'
+        ])
         ->orderBy('created_at', 'desc')
-        ->limit(5);
-    }
-    private function editGetPosts(Request $req, $groupId) {
-      return Post::query()
-        ->where('group_id', $groupId)
-        ->with(['user'])
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
+        ->limit(5)
+        ->get();
     }
   // ✏️
   public function update(Request $req, $id): RedirectResponse {

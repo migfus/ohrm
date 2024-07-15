@@ -16,9 +16,9 @@
     </div>
 
     <!-- NOTE: POSTCARD CONTENTS -->
-    <div ref="sentenceLines" class="m-1 bg-white px-4 py-2 rounded-lg mx-4 shadow">
-      <div v-if="minimize_content" v-html="quillContentToHtml($props.post.content)" class="line-clamp-4" ></div>
-      <div v-else v-html="quillContentToHtml($props.post.content)"></div>
+    <div ref="sentenceLines" class="m-1 bg-white px-4 py-2 rounded-lg mx-4 shadow font-medium">
+      <div v-if="minimize_content" v-html="$props.post.title" class="line-clamp-4" ></div>
+      <div v-else v-html="$props.post.title"></div>
     </div>
 
     <button v-if="height > 95" class="mx-4 text-sm" @click="minimize_content = !minimize_content">{{ minimize_content ? 'Show More...' : 'Show Less...'}}</button>
@@ -41,10 +41,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, inject, onUnmounted } from 'vue'
+import { ref, } from 'vue'
 import { useElementSize } from '@vueuse/core'
-import { Post, PostContent } from '@/globalTypes'
-import { Quill } from '@vueup/vue-quill'
+import { Post } from '@/globalTypes'
 import axios from 'axios'
 import { contentFormatter, dateTimeFormatted } from '@/converter'
 
@@ -52,6 +51,7 @@ import { MapPinIcon } from '@heroicons/vue/24/solid'
 import PostCommentCard from './PostCommentCard.vue'
 import CommentContent from './CommentContent.vue'
 import PostDropown from './PostDropown.vue'
+import DataTransition from '../transitions/DataTransition.vue'
 
 const $props = defineProps<{
   groupId: string
@@ -65,18 +65,6 @@ const minimize_content = ref(true)
 const sentence_lines = ref(null)
 const { height } = useElementSize(sentence_lines)
 
-function quillContentToHtml(content: string) {
-  const _content: PostContent[] = JSON.parse(content)
-  if(_content && typeof _content === 'object') {
-    const quill = new Quill(document.createElement('div'))
-    quill.setContents(
-      _content.filter(r => r.insert == null ? false : true)
-    )
-    return quill.root.innerHTML
-  }
-  return _content
-}
-
 // NOTE: Emits from Dropdown
 function dropDownEmit(value: string) {
   switch(value) {
@@ -84,7 +72,7 @@ function dropDownEmit(value: string) {
       $emit('editPost', {
         id: $props.post.id,
         index: $props.index,
-        content: $props.post.content
+        title: $props.post.title
       })
       break;
     case 'delete':
@@ -95,6 +83,7 @@ function dropDownEmit(value: string) {
       break;
   }
 }
+
 // NOTE: Remove by [Auth]
 async function removePost(id: string) {
   await axios.delete(`/dashboard/manage-posts/${id}`)
@@ -106,13 +95,4 @@ async function pinPost(id: string) {
   const res = await axios.put(`/dashboard/manage-posts/${id}`, {type: 'pin'})
   $emit('updatedPost', {index: $props.index, data: res.data})
 }
-
-// NOTE: WS EVENTS
-import Echo from 'laravel-echo'
-import DataTransition from '../transitions/DataTransition.vue'
-const echo = inject<Echo>('echo')
-
-onUnmounted(() => {
-  echo?.leaveChannel(`post.${$props.post.id}`)
-})
 </script>

@@ -19,11 +19,11 @@
       size="max-w-lg"
     >
 
-      <AppTextArea v-model:content="form.content" name="Content" noLabel lines="4"/>
+      <AppTextArea v-model="form.title" name="Title" noLabel lines="4"/>
 
       <div class="flex justify-end mt-4 gap-2">
-        <AppButton name="Post" @click="open_create_text_post_modal = false" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="submitPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+        <AppButton name="Post" @click="resetAll()" :icon="XMarkIcon">Cancel</AppButton>
+        <AppButton name="Post" @click="submitBasicPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
       </div>
     </FormModal>
 
@@ -36,7 +36,7 @@
       size="max-w-lg"
     >
 
-      <AppTextArea v-model:content="form.content" name="Content" noLabel/>
+      <AppTextArea v-model="form.title" name="Title" noLabel/>
 
       <div class="flex flex-col mt-4">
         <input
@@ -49,8 +49,8 @@
       </div>
 
       <div class="flex justify-end mt-4 gap-2">
-        <AppButton name="Post" @click="open_create_photos_post_modal = false" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="submitPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+        <AppButton name="Post" @click="resetAll()" :icon="XMarkIcon">Cancel</AppButton>
+        <AppButton name="Post" @click="submitBasicPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
       </div>
     </FormModal>
 
@@ -63,7 +63,7 @@
       size="max-w-lg"
     >
 
-      <AppTextArea v-model:content="form.content" name="Content" noLabel/>
+      <AppTextArea v-model="form.title" name="Title" noLabel/>
 
       <div class="flex flex-col mt-4">
         <input
@@ -76,8 +76,8 @@
       </div>
 
       <div class="flex justify-end mt-4 gap-2">
-        <AppButton name="Post" @click="open_create_documents_post_modal = false" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="submitPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+        <AppButton name="Post" @click="resetAll()" :icon="XMarkIcon">Cancel</AppButton>
+        <AppButton name="Post" @click="submitBasicPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
       </div>
     </FormModal>
 
@@ -136,22 +136,21 @@ const $props = defineProps<{
   groupId: string
 }>()
 
-// NOTE: POSTS
+const loading = ref(false)
+const echo = inject<Echo>('echo')
+
+// NOTE: GET
 const posts = ref<Post[]>([])
 const page = ref(0)
 const lastPage = ref<number>(2)
 const infiniteScroll = ref<HTMLElement | null>(null)
-const loading = ref(false)
-const echo = inject<Echo>('echo')
-const editPostId = ref<string>('')
-const editPostIndex = ref<number>(0)
 
 async function getMorePosts() {
   page.value++
   loading.value = true
 
   if(page.value <= lastPage.value) {
-    const res = await axios.get(`/dashboard/manage-posts?page=${page.value}&groupId=${$props.groupId}`)
+    const res = await axios.get(`/dashboard/manage-posts?page=${page.value}&group_id=${$props.groupId}`)
     posts.value = [...posts.value,...res.data.data]
     lastPage.value = res.data.last_page
     loading.value = false
@@ -190,9 +189,15 @@ async function loadMore() {
   await getMorePosts()
 }
 
+// NOTE: REMOVE
 function removePost(index: number) {
   posts.value.splice(index, 1)
 }
+
+// NOTE: UPDATE
+const editPostId = ref<string>('')
+const editPostIndex = ref<number>(0)
+
 function updatedPost(dat: { index: number; data: Post}) {
   posts.value[dat.index] = dat.data
 }
@@ -202,47 +207,36 @@ const open_create_text_post_modal = ref(false)
 const open_create_photos_post_modal = ref(false)
 const open_create_documents_post_modal = ref(false)
 
-const toolbar = {
-  container: [
-    ['bold', 'italic', 'underline','strike', 'blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-    ['link', 'image', 'video'],
-    ['clean']
-  ]
-}
-
-const form = router.form<{content: {ops: string}}>({
-  content: { ops: '' }
+const form = router.form<{title: string}>({
+  title: ''
 })
 
-async function submitPost() {
+async function submitBasicPost() {
   // NOTE: Create Post
-  if(editPostId.value == '') {
-    const res = await axios.post(`/dashboard/manage-posts`, {
-      content: form.content.ops,
-      groupId: $props.groupId
-    })
-    posts.value = [res.data, ...posts.value, ]
-  }
-  // NOTE: Update Post
-  else {
-    const res = await axios.put(`/dashboard/manage-posts/${editPostId.value}`, {
-      content: form.content,
-      type: 'update-content'
-    })
-    posts.value[editPostIndex.value] = res.data
-  }
+  const res = await axios.post(`/dashboard/manage-posts`, {
+    title: form.title,
+    group_id: $props.groupId,
+    type: 'basic',
+  })
+  posts.value = [res.data, ...posts.value, ]
+
+  resetAll()
+}
+
+function editPost(value: {id: string, index: number, title: string}) {
+  form.title = JSON.parse(value.title)
+  editPostId.value = value.id
+}
+
+function resetAll() {
+  form.reset()
 
   editPostId.value = ''
   editPostIndex.value = 0
+
+  open_create_text_post_modal.value = false
   open_create_documents_post_modal.value = false
   open_create_photos_post_modal.value = false
-  form.reset()
-}
-
-function editPost(value: {id: string, index: number, content: string}) {
-  form.content = JSON.parse(value.content)
-  editPostId.value = value.id
 }
 </script>
 

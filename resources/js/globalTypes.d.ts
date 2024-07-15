@@ -200,7 +200,7 @@ export interface Select {
 }
 
 export interface Post {
-  content: string
+  title: string
   user: User
   created_at: Date
   id: string
