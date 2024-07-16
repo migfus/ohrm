@@ -6,7 +6,7 @@
       :href
       targe="_blank"
       :type
-      :disabled="loading || disabled"
+      :disabled="loading || disabled || forceLoading"
       :class="[
         buttonColor,
         textAlignment,
@@ -15,7 +15,7 @@
       ]"
       @click="clicked = true"
     >
-      <ArrowPathIcon v-if="loading && !noLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+      <ArrowPathIcon v-if="(loading && !noLoading) || forceLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
       <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
       <slot></slot>
     </a>
@@ -24,7 +24,7 @@
       v-else-if="href"
       :href
       :type
-      :disabled="loading || disabled"
+      :disabled="loading || disabled || forceLoading"
       :class="[
         buttonColor,
         textAlignment,
@@ -33,7 +33,7 @@
       ]"
       @click="clicked = true"
     >
-      <ArrowPathIcon v-if="loading && !noLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+      <ArrowPathIcon v-if="(loading && !noLoading) || forceLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
       <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
       <slot></slot>
     </Link>
@@ -42,7 +42,7 @@
     <button
       v-else
       :type
-      :disabled="loading || disabled"
+      :disabled="loading || disabled || forceLoading"
       :class="[
         buttonColor,
         textAlignment,
@@ -51,7 +51,7 @@
       ]"
       @click="clicked = true"
     >
-      <ArrowPathIcon v-if="loading && !noLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
+      <ArrowPathIcon v-if="(loading && !noLoading) || forceLoading" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5 animate-spin', iconColor]" aria-hidden="true" />
       <component v-else-if="icon" :is="icon" :class="[$props.size == 'sm' && 'h-[15px] w-[15px] mt-[1px]', '-ml-1 mr-2 h-5 w-5', iconColor]" aria-hidden="true" />
       <slot></slot>
     </button>
@@ -75,6 +75,7 @@ const $props = defineProps<{
   externalLink?: boolean
   noLoading?: boolean
   disabled?: boolean
+  forceLoading?: boolean
 }>()
 const loading = ref(false)
 const clicked = ref(false)

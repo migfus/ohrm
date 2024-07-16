@@ -35,14 +35,17 @@
         <PostSection :groupId="group.id"/>
       </div>
 
-      <div class="col-span-4 lg:col-span-1 space-y-4">
-        <UpdateMembersCard
-          v-for="groupRole in group_roles"
-          :key="groupRole.id"
-          :groupRole
-          :groupId="group.id"
-          :groupMembers="group_members"
-        />
+      <div class="col-span-4 lg:col-span-1">
+        <div class="sticky top-[80px] flex flex-col gap-4 overflow-y-auto">
+          <UpdateMembersCard
+            v-for="groupRole in group_roles"
+            :key="groupRole.id"
+            :groupRole
+            :groupId="group.id"
+            :groupMembers="group_members"
+          />
+        </div>
+
       </div>
     </div>
   </div>

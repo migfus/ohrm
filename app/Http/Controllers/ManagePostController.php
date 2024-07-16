@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use App\Events\PostsEvent;
+use App\Models\PostContent;
 use App\Models\PostType;
+
 
 class ManagePostController extends Controller
 {
@@ -62,7 +66,36 @@ class ManagePostController extends Controller
     }
 
     private function storeMultimedia($req) {
-      dd($req->files);
+      $req->validate([
+        'group_id' => ['required', 'uuid'],
+        'title' => ['required','string'],
+        'files.*' => ['required', File::types(['jpg', 'png', 'jpeg', 'gif'])]
+      ]);
+
+      $files = $req->file('files');
+
+      $post = Post::create([
+        'user_id'  => $req->user()->id,
+        'group_id' => $req->group_id,
+        'post_type_id' => PostType::where('name', 'Multimedia')->first()->id,
+        'title'  => $req->title,
+      ]);
+
+
+      if($req->hasFile('files')) {
+        foreach($files as $file) {
+          $link = Storage::disk('public')->putFile("groups/$req->group_id/uploads", $file);
+          PostContent::create([
+            'post_id' => $post->id,
+            'data_type' => $file->getClientOriginalExtension(),
+            'file_url' => Storage::url($link),
+            'thumbnail_url' => Storage::url($link),
+            'name' => $file->getClientOriginalName(),
+          ]);
+        }
+      }
+
+      return response()->json(['message' => 'Files uploaded successfully'], 200);
     }
 
   public function update(Request $req, string $id) : JsonResponse {

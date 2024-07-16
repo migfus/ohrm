@@ -22,7 +22,7 @@
 
       <div class="flex justify-end mt-4 gap-2">
         <AppButton name="Post" @click="resetAll()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="submitBasicPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+        <AppButton name="Post" @click="submitBasicPost()" color="brand" :icon="PaperAirplaneIcon" :forceLoading="uploadLoading">Post</AppButton>
       </div>
     </FormModal>
 
@@ -39,9 +39,9 @@
 
       <div class="flex flex-col mt-4">
         <input
-          ref="selected_files_ref"
+          @change="setFiles"
           type="file"
-          name="files"
+          name="file[]"
           multiple
           accept="image/png, image/gif, image/jpeg"
           class="placeholder-gray-50 block shadow w-full text-sm text-gray-900 cursor-pointer bg-white rounded-2xl focus:outline-none p-2"
@@ -50,7 +50,7 @@
 
       <div class="flex justify-end mt-4 gap-2">
         <AppButton name="Post" @click="resetAll()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="submitMultimediaPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+        <AppButton name="Post" @click="submitMultimediaPost()" color="brand" :icon="PaperAirplaneIcon" :forceLoading="uploadLoading">Post</AppButton>
       </div>
     </FormModal>
 
@@ -137,6 +137,7 @@ const $props = defineProps<{
 }>()
 
 const loading = ref(false)
+const uploadLoading = ref(false)
 const echo = inject<Echo>('echo')
 
 // NOTE: GET
@@ -144,7 +145,7 @@ const posts = ref<Post[]>([])
 const page = ref(0)
 const lastPage = ref<number>(2)
 const infiniteScroll = ref<HTMLElement | null>(null)
-const selected_files_ref = ref<HTMLElement | null>(null)
+const set_files = ref([])
 
 async function getMorePosts() {
   page.value++
@@ -213,6 +214,7 @@ const form = router.form<{title: string}>({
 })
 
 async function submitBasicPost() {
+  uploadLoading.value = true
   // NOTE: Create Post
   const res = await axios.post(`/dashboard/manage-posts`, {
     title: form.title,
@@ -222,24 +224,41 @@ async function submitBasicPost() {
   posts.value = [res.data, ...posts.value, ]
 
   resetAll()
+  uploadLoading.value = false
+}
+
+function setFiles(event: Event) {
+  // @ts-ignore
+  set_files.value = event.target.files
+
 }
 
 async function submitMultimediaPost() {
+  uploadLoading.value = true
   const formData = new FormData()
   // @ts-ignore
-  formData.append('files', selected_files_ref.value.files)
+  for(let i = 0; i < set_files.value.length; i++) {
+    formData.append(`files[${i}]`, set_files.value[i])
+  }
   formData.append('title', form.title)
   formData.append('group_id', $props.groupId)
   formData.append('type', 'multimedia')
 
-  const res = await axios.post(`/dashboard/manage-posts`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    }
-  })
-  posts.value = [res.data, ...posts.value, ]
+  try {
+    const res = await axios.post(`/dashboard/manage-posts`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }
+    })
+    posts.value = [res.data, ...posts.value, ]
+    uploadLoading.value = false
+    resetAll()
+  }
+  catch(err) {
+    console.log(err.response.data.errors)
 
-  resetAll()
+    uploadLoading.value = false
+  }
 }
 
 function editPost(value: {id: string, index: number, title: string}) {

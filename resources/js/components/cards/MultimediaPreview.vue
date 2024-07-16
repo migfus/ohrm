@@ -2,8 +2,8 @@
   <!-- SECTION: POST PREVIEW -->
   <!-- NOTE: 4 & below PREVIEW -->
   <DataTransition v-if="counts < 4" class="flex my-4 gap-2">
-    <div v-for="block in contents">
-      <img :src="block.thumbnail_url" alt="post image"  class="aspect-square object-cover rounded-2xl"/>
+    <div v-for="block, idx in contents" @click="openPreview(block, idx)">
+      <img :src="block.thumbnail_url" alt="post image"  class="aspect-square object-cover rounded-2xl shadow"/>
     </div>
   </DataTransition>
 
@@ -12,10 +12,10 @@
     <div v-for="block, idx in contents.slice(0,4)" class="relative cursor-pointer" @click="openPreview(block, idx)">
       <div v-if="idx > 2 && counts > 4" class="overflow-hidden w-full rounded-lg flex bg-gray-600/75 shadow h-full" >
         <div class="m-auto text-2xl text-white">+ {{ counts - 4 }}</div>
-        <img :src="block.thumbnail_url" class="blur-lg absolute aspect-square opacity-25">
+        <img :src="block.thumbnail_url" class="blur-xs absolute aspect-square opacity-25 shadow object-cover">
       </div>
       <div v-else >
-        <img :src="block.thumbnail_url" alt="post image" class="aspect-square object-cover rounded-lg" />
+        <img :src="block.thumbnail_url" alt="post image" class="aspect-square object-cover rounded-lg shadow" />
       </div>
     </div>
   </DataTransition>
@@ -63,7 +63,6 @@ import MultimediaViewModal from '../modals/MultimediaViewModal.vue'
 import { ArrowLeftIcon, ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/24/solid'
 import AppButton from '../form/AppButton.vue'
 import { UseFullscreen } from '@vueuse/components'
-import BasicTransition from '../transitions/BasicTransition.vue'
 
 const $props = defineProps<{
   counts: number

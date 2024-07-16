@@ -10,5 +10,5 @@ class PostContent extends Model
 {
   use HasFactory, HasUuids;
 
-
+  protected $fillable = ['post_id', 'data_type', 'file_url', 'thumbnail_url', 'name'];
 }
