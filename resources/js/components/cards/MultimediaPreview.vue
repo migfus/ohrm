@@ -19,14 +19,14 @@
       </div>
     </div>
   </DataTransition>
-  <div class="flex justify-end">
+  <!-- <div class="flex justify-end">
     <AppButton :icon="ArrowDownIcon" name="Download All" color="brand" size="sm">Download All</AppButton>
-  </div>
+  </div> -->
 
 
   <!-- SECTION: MODAL VIEW -->
   <MultimediaViewModal v-model="open_preview_modal" :user :createdAt >
-    <div class="bg-white p-4 rounded-2xl shadow">
+    <div class="bg-white p-4 rounded-2xl shadow" @keyup.left="navLeft()" @keyup.right="navRight()">
       <div class="font-medium mb-4">{{ title }}</div>
       <UseFullscreen v-slot="{ toggle }" class="bg-brand-800 flex flex-col justify-center rounded-lg">
         <button class="outline-none flex justify-center" @keyup.left="navLeft()" @keyup.right="navRight()">
@@ -106,9 +106,5 @@ function navRight() {
 
 function download(link: string) {
   window.open(link, '_blank')?.focus();
-}
-
-function testKeyUp() {
-  alert('key up')
 }
 </script>

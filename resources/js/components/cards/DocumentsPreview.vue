@@ -7,7 +7,7 @@
           <span class="mt-2">{{ block.name }}.{{ block.data_type }}</span>
         </div>
 
-        <AppButton name="download" size="sm" class="m-1" :icon="ArrowDownIcon">Download</AppButton>
+        <AppButton name="download" size="sm" class="m-1" :icon="ArrowDownIcon" @click="download(block.file_url)">Download</AppButton>
       </div>
     </div>
   </DataTransition>
@@ -24,11 +24,15 @@ import DataTransition from '../transitions/DataTransition.vue'
 import AppButton from '../form/AppButton.vue'
 import { ArrowDownIcon } from '@heroicons/vue/24/solid'
 
- defineProps<{
+defineProps<{
   counts: number
   contents: PostContent[]
   name: string
   title: string
   createdAt: Date
 }>()
+
+function download(link: string) {
+  window.open(link, '_blank')?.focus();
+}
 </script>

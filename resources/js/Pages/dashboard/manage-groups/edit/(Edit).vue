@@ -25,7 +25,7 @@
           v-model:description="form.description"
           :id="group.id"
         />
-        <PinnedPostsCard :posts="pinned_posts" :groupId="group.id" />
+        <PinnedPostsCard :posts="pinned_posts" :groupId="group.id"/>
       </div>
 
       <div class="col-span-4 lg:col-span-2 space-y-4">
