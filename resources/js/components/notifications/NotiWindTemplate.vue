@@ -22,7 +22,7 @@
               <div class="p-4">
                 <div class="flex items-start">
                   <div class="flex-shrink-0">
-                    <CheckCircleIcon v-if="groupName == 'success'" class="h-6 w-6 text-green-400" aria-hidden="true" />
+                    <CheckCircleIcon v-if="groupName == 'success'" class="h-6 w-6 text-brand-400" aria-hidden="true" />
                     <XCircleIcon v-else class="h-6 w-6 text-red-400" aria-hidden="true" />
                   </div>
                   <div class="ml-3 w-0 flex-1 pt-0.5">

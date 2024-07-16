@@ -18,7 +18,6 @@
       :icon="ChatBubbleOvalLeftIcon"
       size="max-w-lg"
     >
-
       <AppTextArea v-model="form.title" name="Title" noLabel lines="4"/>
 
       <div class="flex justify-end mt-4 gap-2">
@@ -27,7 +26,7 @@
       </div>
     </FormModal>
 
-    <!-- NOTE: PHOTOS -->
+    <!-- NOTE: MULTIMEDIA -->
     <FormModal
       v-model="open_create_photos_post_modal"
       title="Post Photos/Videos"
@@ -40,6 +39,7 @@
 
       <div class="flex flex-col mt-4">
         <input
+          ref="selected_files_ref"
           type="file"
           name="files"
           multiple
@@ -50,7 +50,7 @@
 
       <div class="flex justify-end mt-4 gap-2">
         <AppButton name="Post" @click="resetAll()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="submitBasicPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+        <AppButton name="Post" @click="submitMultimediaPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
       </div>
     </FormModal>
 
@@ -81,7 +81,7 @@
       </div>
     </FormModal>
 
-    <!-- NOTE: POSTS DATA -->
+    <!-- SECTION: POSTS DATA -->
     <div ref="infiniteScroll" class="mt-4">
       <DataTransition class="flex flex-col gap-4">
         <div v-for="post, index in posts" :key="post.id">
@@ -144,6 +144,7 @@ const posts = ref<Post[]>([])
 const page = ref(0)
 const lastPage = ref<number>(2)
 const infiniteScroll = ref<HTMLElement | null>(null)
+const selected_files_ref = ref<HTMLElement | null>(null)
 
 async function getMorePosts() {
   page.value++
@@ -217,6 +218,24 @@ async function submitBasicPost() {
     title: form.title,
     group_id: $props.groupId,
     type: 'basic',
+  })
+  posts.value = [res.data, ...posts.value, ]
+
+  resetAll()
+}
+
+async function submitMultimediaPost() {
+  const formData = new FormData()
+  // @ts-ignore
+  formData.append('files', selected_files_ref.value.files)
+  formData.append('title', form.title)
+  formData.append('group_id', $props.groupId)
+  formData.append('type', 'multimedia')
+
+  const res = await axios.post(`/dashboard/manage-posts`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    }
   })
   posts.value = [res.data, ...posts.value, ]
 

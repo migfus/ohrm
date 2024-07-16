@@ -30,6 +30,14 @@ class PostSeeder extends Seeder
       'is_pinned' => false,
     ]);
 
+    Post::create([
+      'user_id' => User::where('name', '[Admin User]')->first()->id,
+      'group_id' => Group::where('name', 'Office of Human Resources Management Office (OHRM)')->first()->id,
+      'post_type_id' => PostType::where('name', 'Documents')->first()->id,
+      'title' => 'Documents Post',
+      'is_pinned' => false,
+    ]);
+
     // Post::factory()->count(100)->create();
   }
 }

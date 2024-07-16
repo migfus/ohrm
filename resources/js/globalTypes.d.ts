@@ -224,7 +224,9 @@ export interface Comment {
 }
 
 export interface PostContent {
-  type: string
+  id: string
+  name: string
+  data_type: string
   file_url: string
   thumbnail_url: string
 }

@@ -15,6 +15,7 @@ return new class extends Migration
       $table->string("data_type");  // pdf, jpg, png, etc.
       $table->text("file_url"); // original file URL
       $table->text("thumbnail_url"); // miniature file URL
+      $table->string('name');
       $table->timestamps();
     });
   }

@@ -6,7 +6,7 @@
       :href
       targe="_blank"
       :type
-      :disabled="loading"
+      :disabled="loading || disabled"
       :class="[
         buttonColor,
         textAlignment,
@@ -24,7 +24,7 @@
       v-else-if="href"
       :href
       :type
-      :disabled="loading"
+      :disabled="loading || disabled"
       :class="[
         buttonColor,
         textAlignment,
@@ -42,7 +42,7 @@
     <button
       v-else
       :type
-      :disabled="loading"
+      :disabled="loading || disabled"
       :class="[
         buttonColor,
         textAlignment,
@@ -74,11 +74,15 @@ const $props = defineProps<{
   href?: string
   externalLink?: boolean
   noLoading?: boolean
+  disabled?: boolean
 }>()
 const loading = ref(false)
 const clicked = ref(false)
 
 const buttonColor = computed(() => {
+  if($props.disabled) {
+    return 'bg-gray-200 text-gray-400 cursor-not-allowed'
+  }
   switch($props.color) {
     case 'brand-dark':
       return 'bg-brand-50 hover:bg-brand-100 text-brand-700 focus:ring-brand-500'
@@ -86,12 +90,17 @@ const buttonColor = computed(() => {
       return 'bg-brand-600 hover:bg-brand-700 text-brand-50 focus:ring-brand-500'
     case 'danger':
       return 'bg-red-50 text-red-700 hover:bg-red-100 focus:ring-red-500'
+    case 'transparent':
+      return 'bg-inherit shadow-none hover:shadow-none focus:ring-none'
     default:
       return 'bg-white hover:bg-gray-50 text-brand-700 hover:bg-gray-100 focus:ring-brand-500'
   }
 })
 
 const iconColor = computed(() => {
+  if($props.disabled) {
+    return 'text-gray-400'
+  }
   switch($props.color) {
     case 'danger':
       return 'text-red-700'

@@ -32,6 +32,8 @@ class ManagePostController extends Controller
     switch($req->type) {
       case 'basic':
         return $this->storeBasic($req);
+      case 'multimedia':
+        return $this->storeMultimedia($req);
       default:
         return response()->json(['error' => 'Invalid post type'], 400);
     }
@@ -57,6 +59,10 @@ class ManagePostController extends Controller
           ->with(['user'])
           ->first()
       );
+    }
+
+    private function storeMultimedia($req) {
+      dd($req->files);
     }
 
   public function update(Request $req, string $id) : JsonResponse {

@@ -20,8 +20,20 @@
       <div v-if="minimize_content" v-html="$props.post.title" class="line-clamp-4" ></div>
       <div v-else v-html="$props.post.title"></div>
 
-      <MultimediaPostFormatter
+      <MultimediaPreview
         v-if="$props.post.post_type.name == 'Multimedia'"
+        :user="$props.post.user"
+        :title="$props.post.title"
+        :createdAt="$props.post.created_at"
+        :contents="$props.post.post_contents"
+        :counts="$props.post.post_contents_count"
+      />
+
+      <DocumentsPreview
+        v-if="$props.post.post_type.name == 'Documents'"
+        :name="$props.post.user.name"
+        :title="$props.post.title"
+        :createdAt="$props.post.created_at"
         :contents="$props.post.post_contents"
         :counts="$props.post.post_contents_count"
       />
@@ -62,7 +74,8 @@ import PostCommentCard from './PostCommentCard.vue'
 import CommentContent from './CommentContent.vue'
 import PostDropown from './PostDropown.vue'
 import DataTransition from '../transitions/DataTransition.vue'
-import MultimediaPostFormatter from './MultimediaPostFormatter.vue'
+import MultimediaPreview from './MultimediaPreview.vue'
+import DocumentsPreview from './DocumentsPreview.vue'
 
 const $props = defineProps<{
   groupId: string
