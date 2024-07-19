@@ -58,7 +58,7 @@
 
     <div class="flex flex-col md:pl-64">
       <!-- NOTE: TOP NAVIGATION -->
-      <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-brand-50 shadow">
+      <div class="sticky top-0 z-20 flex h-16 flex-shrink-0 bg-brand-50 shadow">
         <button type="button" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500 md:hidden" @click="sidebar_open = true">
           <span class="sr-only">Open sidebar</span>
           <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />

@@ -57,7 +57,7 @@
       </div>
 
       <div v-if="progress > 0" class="w-full bg-white rounded-full h-1.5 mt-4">
-        <div class="bg-brand-500 h-1.5 rounded-full" :style="`width: ${progress*10}%`"></div>
+        <div class="bg-brand-500 h-1.5 rounded-full transition-all" :style="`width: ${progress*10}%`"></div>
       </div>
 
     </FormModal>
@@ -275,7 +275,8 @@ async function submitMultimediaPost() {
     posts.value = [res.data, ...posts.value, ]
     uploadLoading.value = false
     resetAll()
-    page.value = 1
+    page.value = 0
+    posts.value = []
     getMorePosts()
   }
   catch(err) {
@@ -292,6 +293,8 @@ function editPost(value: {id: string, index: number, title: string}) {
 }
 
 function resetAll() {
+  progress.value = 0
+
   form.reset()
 
   editPostId.value = ''

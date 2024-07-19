@@ -24,3 +24,9 @@ NodeJS 20.11.0 (installer)
   Reverb:start
   SSR
 FFMPEG (by choco)
+
+
+// PHP Config
+post_max_size=4084M         (just to be safe, just for local server anyway)
+upload_max_filesize=4084M   (just to be safe, just for local server anyway)
+memory_limit=4084M          (more ram cuz why not?)

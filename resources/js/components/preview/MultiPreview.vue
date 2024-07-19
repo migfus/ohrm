@@ -1,7 +1,7 @@
 <template>
   <BasicTransition>
     <div>
-      <div v-if="counts > 0" class="absolute flex flex-col justify-center bg-brand-400/75 h-full w-full rounded-2xl items-center">
+      <div v-if="counts > 0" class="absolute flex flex-col justify-center bg-brand-400/75 h-full w-full rounded-2xl items-center z-10">
         <label class="text-2xl text-white">+{{ counts }}</label>
       </div>
 
