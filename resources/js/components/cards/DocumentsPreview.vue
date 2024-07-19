@@ -11,10 +11,6 @@
       </div>
     </div>
   </DataTransition>
-
-  <div class="flex justify-end">
-    <AppButton :icon="ArrowDownIcon" name="Download All" color="brand" size="sm">Download All</AppButton>
-  </div>
 </template>
 
 <script setup lang="ts">
@@ -29,7 +25,7 @@ defineProps<{
   contents: PostContent[]
   name: string
   title: string
-  createdAt: Date
+  createdAt: string
 }>()
 
 function download(link: string) {

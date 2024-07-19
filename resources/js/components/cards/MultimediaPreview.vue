@@ -3,7 +3,7 @@
   <!-- NOTE: 4 & below PREVIEW -->
   <DataTransition v-if="counts < 4" class="flex my-4 gap-2">
     <div v-for="block, idx in contents" @click="openPreview(block, idx)">
-      <img :src="block.thumbnail_url" alt="post image"  class="aspect-square object-cover rounded-2xl shadow"/>
+      <MultiPreview :preview="block" :counts="0"/>
     </div>
   </DataTransition>
 
@@ -11,17 +11,13 @@
   <DataTransition v-else class="grid grid-cols-2 my-4 gap-1">
     <div v-for="block, idx in contents.slice(0,4)" class="relative cursor-pointer" @click="openPreview(block, idx)">
       <div v-if="idx > 2 && counts > 4" class="overflow-hidden w-full rounded-lg flex bg-gray-600/75 shadow h-full" >
-        <div class="m-auto text-2xl text-white">+ {{ counts - 4 }}</div>
-        <img :src="block.thumbnail_url" class="blur-xs absolute aspect-square opacity-25 shadow object-cover">
+        <MultiPreview :preview="block" :counts="counts - 3"/>
       </div>
       <div v-else >
-        <img :src="block.thumbnail_url" alt="post image" class="aspect-square object-cover rounded-lg shadow" />
+        <MultiPreview :preview="block" :counts="0"/>
       </div>
     </div>
   </DataTransition>
-  <!-- <div class="flex justify-end">
-    <AppButton :icon="ArrowDownIcon" name="Download All" color="brand" size="sm">Download All</AppButton>
-  </div> -->
 
 
   <!-- SECTION: MODAL VIEW -->
@@ -30,7 +26,15 @@
       <div class="font-medium mb-4">{{ title }}</div>
       <UseFullscreen v-slot="{ toggle }" class="bg-brand-800 flex flex-col justify-center rounded-lg">
         <button class="outline-none flex justify-center" @keyup.left="navLeft()" @keyup.right="navRight()">
+          <!-- NOTE: VIDEO -->
+          <div v-if="isVideo(thumbnail_preview.file_url)" class="flex justify-center">
+            <video controls class="object-cover shadow">
+              <source :src="thumbnail_preview.file_url" type="video/mp4">
+            </video>
+          </div>
+          <!-- NOTE: IMAGE -->
           <img
+            v-else
             :src="thumbnail_preview.file_url"
             alt="post image"
             class="relative block object-contain h-[calc(100vh-200px)]"
@@ -57,18 +61,20 @@
 <script setup lang="ts">
 import { PostContent, User } from '@/globalTypes'
 import { ref, reactive } from 'vue'
+import { isVideo } from '@/converter'
 
 import DataTransition from '../transitions/DataTransition.vue'
 import MultimediaViewModal from '../modals/MultimediaViewModal.vue'
-import { ArrowLeftIcon, ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/24/solid'
+import { ArrowLeftIcon, ArrowRightIcon, ArrowDownIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
 import AppButton from '../form/AppButton.vue'
 import { UseFullscreen } from '@vueuse/components'
+import MultiPreview from '../preview/MultiPreview.vue'
 
 const $props = defineProps<{
   counts: number
   contents: PostContent[]
   title: string
-  createdAt: Date
+  createdAt: string
   user: User
 }>()
 

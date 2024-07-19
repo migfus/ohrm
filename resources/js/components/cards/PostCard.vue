@@ -17,6 +17,7 @@
 
     <!-- NOTE: POSTCARD CONTENTS -->
     <div ref="sentenceLines" class="m-1 bg-white px-4 py-2 rounded-lg mx-4 shadow font-medium">
+
       <div v-if="minimize_content" v-html="$props.post.title" class="line-clamp-4" ></div>
       <div v-else v-html="$props.post.title"></div>
 
@@ -40,8 +41,6 @@
 
       <div v-else-if="$props.post.post_type.name == 'Documents'">[Post Type Documents]</div>
     </div>
-
-
 
     <button v-if="height > 95" class="mx-4 text-sm" @click="minimize_content = !minimize_content">{{ minimize_content ? 'Show More...' : 'Show Less...'}}</button>
 

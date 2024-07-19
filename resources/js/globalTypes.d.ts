@@ -202,7 +202,7 @@ export interface Select {
 export interface Post {
   title: string
   user: User
-  created_at: Date
+  created_at: string
   id: string
   is_pinned: number // 0 or 1
   comments: Comment[]

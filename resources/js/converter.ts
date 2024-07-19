@@ -32,7 +32,7 @@ export const passwordGenerator = (prefix = '', length = 8) => {
 }
 
 
-export const dateTimeFormatted = (dateTime: Date) => {
+export const dateTimeFormatted = (dateTime: Date | string) => {
   if(moment().format('YYYYMMDD') === moment(dateTime).format('YYYYMMDD')) {
     return moment(dateTime).format('hh:mm A')
   }
@@ -58,4 +58,15 @@ export const defaultRouterState = (only?: string[]) => {
     preserveScroll: true,
     preserveState: true,
   }
+}
+
+export const isVideo = (link: string) => {
+  const links = link.split('.').pop()
+
+  if(links) {
+    if(links == 'mp4') {
+      return true
+    }
+  }
+  return false
 }

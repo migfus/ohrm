@@ -24,6 +24,8 @@
       </div>
     </div>
   </BasicTransition>
+
+
 </template>
 
 <script setup lang="ts">

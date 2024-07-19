@@ -18,6 +18,8 @@
       :icon="ChatBubbleOvalLeftIcon"
       size="max-w-lg"
     >
+      <FlashErrors :errors/>
+
       <AppTextArea v-model="form.title" name="Title" noLabel lines="4"/>
 
       <div class="flex justify-end mt-4 gap-2">
@@ -34,6 +36,7 @@
       :icon="Square2StackIcon"
       size="max-w-lg"
     >
+      <FlashErrors :errors/>
 
       <AppTextArea v-model="form.title" name="Title" noLabel/>
 
@@ -43,7 +46,7 @@
           type="file"
           name="file[]"
           multiple
-          accept="image/png, image/gif, image/jpeg"
+          accept="image/png, image/gif, image/jpeg, video/mp4"
           class="placeholder-gray-50 block shadow w-full text-sm text-gray-900 cursor-pointer bg-white rounded-2xl focus:outline-none p-2"
         />
       </div>
@@ -52,6 +55,11 @@
         <AppButton name="Post" @click="resetAll()" :icon="XMarkIcon">Cancel</AppButton>
         <AppButton name="Post" @click="submitMultimediaPost()" color="brand" :icon="PaperAirplaneIcon" :forceLoading="uploadLoading">Post</AppButton>
       </div>
+
+      <div v-if="progress > 0" class="w-full bg-white rounded-full h-1.5 mt-4">
+        <div class="bg-brand-500 h-1.5 rounded-full" :style="`width: ${progress*10}%`"></div>
+      </div>
+
     </FormModal>
 
     <!-- NOTE: DOCUMENTS -->
@@ -62,6 +70,7 @@
       :icon="DocumentArrowUpIcon"
       size="max-w-lg"
     >
+      <FlashErrors :errors/>
 
       <AppTextArea v-model="form.title" name="Title" noLabel/>
 
@@ -131,6 +140,8 @@ import DataTransition from '@/components/transitions/DataTransition.vue'
 import FormModal from '@/components/modals/FormModal.vue'
 import AppButton from '@/components/form/AppButton.vue'
 import AppTextArea from '@/components/form/AppTextArea.vue'
+import FlashErrors from '@/components/header/FlashErrors.vue'
+
 
 const $props = defineProps<{
   groupId: string
@@ -139,13 +150,13 @@ const $props = defineProps<{
 const loading = ref(false)
 const uploadLoading = ref(false)
 const echo = inject<Echo>('echo')
-
-// NOTE: GET
 const posts = ref<Post[]>([])
 const page = ref(0)
 const lastPage = ref<number>(2)
 const infiniteScroll = ref<HTMLElement | null>(null)
 const set_files = ref([])
+const errors = ref<object>({})
+const progress = ref<number>(0)
 
 async function getMorePosts() {
   page.value++
@@ -213,24 +224,32 @@ const form = router.form<{title: string}>({
   title: ''
 })
 
-async function submitBasicPost() {
-  uploadLoading.value = true
-  // NOTE: Create Post
-  const res = await axios.post(`/dashboard/manage-posts`, {
-    title: form.title,
-    group_id: $props.groupId,
-    type: 'basic',
-  })
-  posts.value = [res.data, ...posts.value, ]
-
-  resetAll()
-  uploadLoading.value = false
-}
-
 function setFiles(event: Event) {
   // @ts-ignore
   set_files.value = event.target.files
+}
 
+async function submitBasicPost() {
+  uploadLoading.value = true
+  // NOTE: Create Post
+  try {
+    const res = await axios.post(`/dashboard/manage-posts`, {
+      title: form.title,
+      group_id: $props.groupId,
+      type: 'basic',
+    })
+    posts.value = [res.data, ...posts.value, ]
+    resetAll()
+    uploadLoading.value = false
+    page.value = 1
+    getMorePosts()
+  }
+  catch(err) {
+    // @ts-ignore
+    errors.value = err.response.data.errors
+
+    uploadLoading.value = false
+  }
 }
 
 async function submitMultimediaPost() {
@@ -248,14 +267,20 @@ async function submitMultimediaPost() {
     const res = await axios.post(`/dashboard/manage-posts`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: (progress_event: any) => {
+        progress.value = Math.round((progress_event.loaded / progress_event.total) * 10)
       }
     })
     posts.value = [res.data, ...posts.value, ]
     uploadLoading.value = false
     resetAll()
+    page.value = 1
+    getMorePosts()
   }
   catch(err) {
-    console.log(err.response.data.errors)
+    // @ts-ignore
+    errors.value = err.response.data.errors
 
     uploadLoading.value = false
   }
@@ -277,28 +302,3 @@ function resetAll() {
   open_create_photos_post_modal.value = false
 }
 </script>
-
-<style>
-.ql-toolbar{
-  background-color: #fff !important;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  box-shadow: #000;
-}
-.ql-container {
-  background-color: #fff !important;
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-.ql-container.ql-snow {
-  border: 0px solid #fff !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
-.ql-toolbar.ql-snow  {
-  border: 0px 0px 1px 0px solid #818181 !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-}
-.ql-editor {
-  min-height: 100px !important;
-}
-</style>

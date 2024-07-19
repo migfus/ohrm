@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Events\PostsEvent;
 use App\Models\PostContent;
 use App\Models\PostType;
-
+use Pawlox\VideoThumbnail\Facade\VideoThumbnail;
 
 class ManagePostController extends Controller
 {
@@ -69,7 +69,8 @@ class ManagePostController extends Controller
       $req->validate([
         'group_id' => ['required', 'uuid'],
         'title' => ['required','string'],
-        'files.*' => ['required', File::types(['jpg', 'png', 'jpeg', 'gif'])]
+        'files' => ['required', 'array'],
+        'files.*' => ['required', File::types(['jpg', 'png', 'jpeg', 'gif', 'mp4'])]
       ]);
 
       $files = $req->file('files');
