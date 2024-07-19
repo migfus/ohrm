@@ -76,17 +76,22 @@
 
       <div class="flex flex-col mt-4">
         <input
+          @change="setFiles"
           type="file"
-          name="files"
+          name="file[]"
           multiple
-          accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/*"
+          accept=".jpg, .png, .jpeg, .gif, .mp4, .doc, .docx, .pdf, .txt, .xlsx, .xls, .csv, .pptx, .ppt, .zip, .rar, application/msword"
           class="placeholder-gray-50 block shadow w-full text-sm text-gray-900 cursor-pointer bg-white rounded-2xl focus:outline-none p-2"
         />
       </div>
 
       <div class="flex justify-end mt-4 gap-2">
         <AppButton name="Post" @click="resetAll()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="submitBasicPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+        <AppButton name="Post" @click="submitDocumentPost()" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+      </div>
+
+      <div v-if="progress > 0" class="w-full bg-white rounded-full h-1.5 mt-4">
+        <div class="bg-brand-500 h-1.5 rounded-full transition-all" :style="`width: ${progress*10}%`"></div>
       </div>
     </FormModal>
 
@@ -262,6 +267,41 @@ async function submitMultimediaPost() {
   formData.append('title', form.title)
   formData.append('group_id', $props.groupId)
   formData.append('type', 'multimedia')
+
+  try {
+    const res = await axios.post(`/dashboard/manage-posts`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      onUploadProgress: (progress_event: any) => {
+        progress.value = Math.round((progress_event.loaded / progress_event.total) * 10)
+      }
+    })
+    posts.value = [res.data, ...posts.value, ]
+    uploadLoading.value = false
+    resetAll()
+    page.value = 0
+    posts.value = []
+    getMorePosts()
+  }
+  catch(err) {
+    // @ts-ignore
+    errors.value = err.response.data.errors
+
+    uploadLoading.value = false
+  }
+}
+
+async function submitDocumentPost() {
+  uploadLoading.value = true
+  const formData = new FormData()
+  // @ts-ignore
+  for(let i = 0; i < set_files.value.length; i++) {
+    formData.append(`files[${i}]`, set_files.value[i])
+  }
+  formData.append('title', form.title)
+  formData.append('group_id', $props.groupId)
+  formData.append('type', 'documents')
 
   try {
     const res = await axios.post(`/dashboard/manage-posts`, formData, {

@@ -1,22 +1,21 @@
 <template>
-  <DataTransition class="flex flex-col my-4 gap-2">
-    <div v-for="block in contents" class="flex-grow bg-brand-50 rounded-2xl shadow">
+  <div class="grid grid-cols-2 my-4 gap-2">
+    <div v-for="block in contents" class="flex-grow bg-brand-50 rounded-2xl shadow col-span-2 sm:col-span-1">
       <div class="flex justify-between">
         <div class="flex justify-start truncate">
-          <img :src="block.thumbnail_url" :alt="block.name" class="h-8 w-8 inline mr-2 object-cover p-2 bg-white rounded-full shadow m-1" />
+          <img :src="`/assets/document_icons/${block.data_type}.png`" class="h-8 w-8 inline mr-2 object-cover p-1 bg-white rounded-full shadow m-1" />
           <span class="mt-2">{{ block.name }}.{{ block.data_type }}</span>
         </div>
 
-        <AppButton name="download" size="sm" class="m-1" :icon="ArrowDownIcon" @click="download(block.file_url)">Download</AppButton>
+        <AppButton name="download" size="sm" class="m-1" :icon="ArrowDownIcon" :href="block.file_url" externalLink>Download</AppButton>
       </div>
     </div>
-  </DataTransition>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { PostContent } from '@/globalTypes'
 
-import DataTransition from '../transitions/DataTransition.vue'
 import AppButton from '../form/AppButton.vue'
 import { ArrowDownIcon } from '@heroicons/vue/24/solid'
 
@@ -27,8 +26,4 @@ defineProps<{
   title: string
   createdAt: string
 }>()
-
-function download(link: string) {
-  window.open(link, '_blank')?.focus();
-}
 </script>

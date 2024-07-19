@@ -47,7 +47,7 @@
 
     <div class="flex justify-between">
       <div class="flex mt-4 gap-2 justify-end">
-        <AppButton :icon="ArrowDownIcon" name="Left" @click="download(thumbnail_preview.file_url)">Download</AppButton>
+        <AppButton :icon="ArrowDownIcon" name="Left" :href="thumbnail_preview.file_url" externalLink>Download</AppButton>
       </div>
 
       <div class="flex mt-4 gap-2 justify-end">
@@ -65,7 +65,7 @@ import { isVideo } from '@/converter'
 
 import DataTransition from '../transitions/DataTransition.vue'
 import MultimediaViewModal from '../modals/MultimediaViewModal.vue'
-import { ArrowLeftIcon, ArrowRightIcon, ArrowDownIcon, PlayCircleIcon } from '@heroicons/vue/24/solid'
+import { ArrowLeftIcon, ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/24/solid'
 import AppButton from '../form/AppButton.vue'
 import { UseFullscreen } from '@vueuse/components'
 import MultiPreview from '../preview/MultiPreview.vue'
@@ -107,9 +107,5 @@ function navRight() {
     preview_index.value++
   }
   Object.assign(thumbnail_preview, $props.contents[preview_index.value])
-}
-
-function download(link: string) {
-  window.open(link, '_blank')?.focus();
 }
 </script>

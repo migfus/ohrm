@@ -38,6 +38,8 @@ class ManagePostController extends Controller
         return $this->storeBasic($req);
       case 'multimedia':
         return $this->storeMultimedia($req);
+      case 'documents':
+        return $this->storeDocuments($req);
       default:
         return response()->json(['error' => 'Invalid post type'], 400);
     }
@@ -92,6 +94,71 @@ class ManagePostController extends Controller
             'file_url' => Storage::url($link),
             'thumbnail_url' => Storage::url($link),
             'name' => $file->getClientOriginalName(),
+          ]);
+        }
+      }
+
+      return response()->json(['message' => 'Files uploaded successfully'], 200);
+    }
+
+    private function storeDocuments($req) {
+      $req->validate([
+        'group_id' => ['required', 'uuid'],
+        'title' => ['required','string'],
+        'files' => ['required', 'array'],
+        'files.*' => ['required', File::types([
+          // IMAGES
+          'jpg',
+          'png',
+          'jpeg',
+          'gif',
+
+          // VIDEOS
+          'mp4',
+
+          // WORDS
+          'doc',
+          'docx',
+          'pdf',
+          'txt',
+
+          // EXCEL
+          'xlsx',
+          'xls',
+          'csv',
+
+          // POWER POINT
+          'ppt',
+          'pptx',
+
+          // ARCHIVES
+          'zip',
+          'rar',
+        ])]
+      ]);
+
+      $files = $req->file('files');
+      $root_path = "groups/$req->group_id/uploads";
+
+      $post = Post::create([
+        'user_id'  => $req->user()->id,
+        'group_id' => $req->group_id,
+        'post_type_id' => PostType::where('name', 'Documents')->first()->id,
+        'title'  => $req->title,
+      ]);
+
+
+      if($req->hasFile('files')) {
+        foreach($files as $file) {
+          $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)."-".time().".".$file->getClientOriginalExtension();
+          $link = Storage::disk('public')->putFileAs($root_path, $file, $file_name);
+
+          PostContent::create([
+            'post_id' => $post->id,
+            'data_type' => $file->getClientOriginalExtension(),
+            'file_url' => Storage::url($link),
+            'thumbnail_url' => Storage::url($link),
+            'name' => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME),
           ]);
         }
       }
