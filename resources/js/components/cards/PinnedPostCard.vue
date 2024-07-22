@@ -57,7 +57,7 @@ const { height } = useElementSize(sentence_lines)
 
 function unpinPost() {
   router.put(
-    route('dashboard.manage-posts.update', {
+    route('dashboard.posts.update', {
       manage_post: $props.post.id,
       redirect: `/dashboard/manage-groups/${$props.groupId}/edit`,
     }),

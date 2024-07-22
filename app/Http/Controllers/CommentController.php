@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 use App\Events\PostEvent;
 use Illuminate\Http\Request;
 
-use App\Models\PostComment;
+use App\Models\Comment;
 use App\Events\UpdateGroupPostsEvent;
 
-class ManagePostComment extends Controller
+class CommentController extends Controller
 {
   public function store(Request $req) {
     $req->validate([
@@ -15,7 +15,7 @@ class ManagePostComment extends Controller
       'content' => ['required'],
     ]);
 
-    PostComment::create([
+    Comment::create([
       'user_id' => $req->user()->id,
       'post_id' => $req->postId,
       'content' => $req->content,
@@ -29,7 +29,7 @@ class ManagePostComment extends Controller
       'post_id' => ['required', 'uuid'],
     ]);
 
-    PostComment::find($id)->delete();
+    Comment::find($id)->delete();
 
     return response()->json(['success' => true]);
   }

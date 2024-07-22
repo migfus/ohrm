@@ -174,7 +174,7 @@ async function getMorePosts() {
   loading.value = true
 
   if(page.value <= lastPage.value) {
-    const res = await axios.get(`/dashboard/manage-posts?page=${page.value}&group_id=${$props.groupId}`)
+    const res = await axios.get(`/dashboard/posts?page=${page.value}&group_id=${$props.groupId}`)
     posts.value = [...posts.value, ...res.data.data]
     lastPage.value = res.data.last_page
     loading.value = false
@@ -246,7 +246,7 @@ async function submitBasicPost() {
   uploadLoading.value = true
   // NOTE: Create Post
   try {
-    const res = await axios.post(`/dashboard/manage-posts`, {
+    const res = await axios.post(`/dashboard/posts`, {
       title: form.title,
       group_id: $props.groupId,
       type: 'basic',
@@ -277,7 +277,7 @@ async function submitMultimediaPost() {
   formData.append('type', 'multimedia')
 
   try {
-    const res = await axios.post(`/dashboard/manage-posts`, formData, {
+    const res = await axios.post(`/dashboard/posts`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -312,7 +312,7 @@ async function submitDocumentPost() {
   formData.append('type', 'documents')
 
   try {
-    const res = await axios.post(`/dashboard/manage-posts`, formData, {
+    const res = await axios.post(`/dashboard/posts`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

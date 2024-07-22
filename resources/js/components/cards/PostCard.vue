@@ -117,13 +117,13 @@ function dropDownEmit(value: string) {
 
 // NOTE: Remove by [Auth]
 async function removePost(id: string) {
-  await axios.delete(`/dashboard/manage-posts/${id}`)
+  await axios.delete(`/dashboard/posts/${id}`)
   $emit('removePost', $props.index)
 }
 
 // NOTE: Pin/Unpin By [admin/Mod]
 async function pinPost(id: string) {
-  const res = await axios.put(`/dashboard/manage-posts/${id}`, {type: 'pin'})
+  const res = await axios.put(`/dashboard/posts/${id}`, {type: 'pin'})
   $emit('updatedPost', {index: $props.index, data: res.data})
 }
 </script>

@@ -160,28 +160,29 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
-    "dashboard.manage-posts.index": [],
-    "dashboard.manage-posts.store": [],
-    "dashboard.manage-posts.update": [
+    "dashboard.posts.index": [],
+    "dashboard.posts.store": [],
+    "dashboard.posts.update": [
         {
-            "name": "manage_post",
+            "name": "post",
             "required": true
         }
     ],
-    "dashboard.manage-posts.destroy": [
+    "dashboard.posts.destroy": [
         {
-            "name": "manage_post",
+            "name": "post",
             "required": true
         }
     ],
-    "dashboard.manage-comments.store": [],
-    "dashboard.manage-comments.destroy": [
+    "dashboard.comments.store": [],
+    "dashboard.comments.destroy": [
         {
-            "name": "manage_comment",
+            "name": "comment",
             "required": true
         }
     ],
-    "dashboard.reactions.index": []
+    "dashboard.reactions.index": [],
+    "dashboard.reactions.store": []
 }
 }
 export {};

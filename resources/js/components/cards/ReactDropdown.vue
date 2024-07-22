@@ -2,21 +2,23 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <!-- SECTION: USERS REACTIONS -->
-      <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-brand-50 pl-2 text-sm font-semibold text-brand-900 hover:bg-brand-50 ">
+      <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-brand-50 text-sm font-semibold text-brand-900 hover:bg-brand-50 ">
         <DataTransition v-if="reaction_users.length > 0" class="flex">
-          <div v-for="reaction in sorted_reactions" :key="reaction.id" class="mr-2 cursor-pointer">
+          <div
+            v-for="user_reaction in sorted_reactions"
+            :key="user_reaction.id"
+            :class="[auth_reaction === user_reaction.reaction_id && 'bg-white shadow', 'cursor-pointer rounded-2xl pl-2 pr-1']"
+          >
             <!-- NOTE: COUNT -->
             <label>
-              {{ reaction.total }}
+              {{ user_reaction.total }}
             </label>
             <!-- NOTE: REACTION EMOJI -->
-            <label v-if="auth_reaction == reaction.reaction_id" class="text-lg inline cursor-pointer">
-              {{ reaction.reaction.content }}
-              <img :src="page.props.auth?.avatar" class="h-3 w-3 rounded-full absolute right-2 bottom-0"/>
+            <label class="text-lg inline cursor-pointer">
+              {{ user_reaction.reaction.content }}
             </label>
-            <label v-else class="text-lg inline cursor-pointer">
-              {{ reaction.reaction.content }}
-            </label>
+
+            <!-- ReactionID: [{{ user_reaction.reaction_id }} = {{ auth_reaction }}] -->
           </div>
         </DataTransition>
 

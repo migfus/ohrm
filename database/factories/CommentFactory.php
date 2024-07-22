@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Post;
 use App\Models\User;
 
-class PostCommentFactory extends Factory
+class CommentFactory extends Factory
 {
   public function definition(): array
   {
