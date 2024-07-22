@@ -13,7 +13,7 @@ use App\Models\PostContent;
 use App\Models\PostType;
 use Illuminate\Support\Facades\DB;
 
-class ManagePostController extends Controller
+class PostController extends Controller
 {
   public function index(Request $req) {
     if($req->group_id) {
