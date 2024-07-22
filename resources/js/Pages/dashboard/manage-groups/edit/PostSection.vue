@@ -103,6 +103,7 @@
             :post
             :index
             :groupId
+            :reactions
             @removePost="removePost"
             @updatedPost="updatedPost"
             @editPost="editPost"
@@ -125,7 +126,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, inject } from 'vue'
-import { Post } from '@/globalTypes'
+import { Post, Reaction } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import Echo from 'laravel-echo'
 import axios from 'axios'
@@ -147,7 +148,6 @@ import AppButton from '@/components/form/AppButton.vue'
 import AppTextArea from '@/components/form/AppTextArea.vue'
 import FlashErrors from '@/components/header/FlashErrors.vue'
 
-
 const $props = defineProps<{
   groupId: string
 }>()
@@ -156,6 +156,7 @@ const loading = ref(false)
 const uploadLoading = ref(false)
 const echo = inject<Echo>('echo')
 const posts = ref<Post[]>([])
+const reactions = ref<Reaction[]>([])
 const page = ref(0)
 const lastPage = ref<number>(2)
 const infiniteScroll = ref<HTMLElement | null>(null)
@@ -163,13 +164,18 @@ const set_files = ref([])
 const errors = ref<object>({})
 const progress = ref<number>(0)
 
+async function getReactions() {
+  const res = await axios.get(route('dashboard.reactions.index'))
+  reactions.value = res.data
+}
+
 async function getMorePosts() {
   page.value++
   loading.value = true
 
   if(page.value <= lastPage.value) {
     const res = await axios.get(`/dashboard/manage-posts?page=${page.value}&group_id=${$props.groupId}`)
-    posts.value = [...posts.value,...res.data.data]
+    posts.value = [...posts.value, ...res.data.data]
     lastPage.value = res.data.last_page
     loading.value = false
   }
@@ -186,6 +192,8 @@ onMounted(async () => {
   .listen('PostsEvent', () => {
     // alert('event new posts added')
   })
+
+  getReactions()
 })
 
 onUnmounted(() => {

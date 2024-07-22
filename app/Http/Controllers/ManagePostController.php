@@ -11,7 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Events\PostsEvent;
 use App\Models\PostContent;
 use App\Models\PostType;
-use Pawlox\VideoThumbnail\Facade\VideoThumbnail;
+use Illuminate\Support\Facades\DB;
 
 class ManagePostController extends Controller
 {
@@ -20,7 +20,16 @@ class ManagePostController extends Controller
       return response()->json(
         Post::query()
           ->where('group_id', $req->group_id)
-          ->with(['user', 'post_contents', 'post_type'])
+          ->with([
+            'user',
+            'post_contents',
+            'post_type',
+            'reaction_users' => function($q) {
+              $q->select('reaction_id', DB::raw('count(*) as total'), 'reactable_type', 'reactable_id')
+                ->groupBy(['reaction_id', 'reactable_type', 'reactable_id'])
+                ->with('reaction');
+            },
+          ])
           ->withCount(['post_contents'])
           ->orderBy('created_at', 'DESC')
           ->paginate(10)

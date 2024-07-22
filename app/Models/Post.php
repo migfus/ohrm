@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
-    use HasFactory, HasUuids;
+  use HasFactory, HasUuids;
   protected $fillable = ['post_id', 'user_id', 'group_id', 'post_type_id', 'title', 'is_pinned'];
 
   public function user() {
@@ -25,5 +25,9 @@ class Post extends Model
 
   public function post_type() {
     return $this->belongsTo(PostType::class);
+  }
+
+  public function reaction_users() {
+    return $this->morphMany(ReactionUser::class, 'reactable');
   }
 }

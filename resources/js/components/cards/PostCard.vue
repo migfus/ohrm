@@ -47,7 +47,7 @@
     <!-- NOTE: POSTCARD FOOTER -->
     <div class="flex justify-between mx-4 py-2 text-sm gap-4">
       <span class="">
-        <ReactDropdown />
+        <ReactDropdown :reactions="reactions" :reactionUsers="post.reaction_users" :postId="post.id"/>
       </span>
       <span class="cursor-pointer">{{ contentFormatter('Comment', $props.post.comments_count) }}</span>
     </div>
@@ -59,14 +59,13 @@
 
     <!-- NOTE: AUTH COMMENT -->
     <PostCommentCard :postId="$props.post.id" :groupId/>
-
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, } from 'vue'
 import { useElementSize } from '@vueuse/core'
-import { Post } from '@/globalTypes'
+import { Post, Reaction } from '@/globalTypes'
 import axios from 'axios'
 import { contentFormatter, dateTimeFormatted } from '@/converter'
 
@@ -84,6 +83,7 @@ const $props = defineProps<{
   groupId: string
   post: Post
   index: number
+  reactions: Reaction[]
 }>()
 
 const $emit = defineEmits(['removePost', 'updatedPost', 'editPost'])

@@ -6,6 +6,7 @@ declare global {
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    route: typeof routeFn;
+    route: typeof routeFn
   }
 }
+

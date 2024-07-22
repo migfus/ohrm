@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReactionUser extends Model
 {
-    use HasFactory, HasUuids;
+  use HasFactory, HasUuids;
+
+  protected $fillable = ['reaction_id', 'user_id', 'reactable_type', 'reactable_id'];
+
+  public function reaction() {
+    return $this->belongsTo(Reaction::class);
+  }
 }

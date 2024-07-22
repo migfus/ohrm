@@ -210,6 +210,15 @@ export interface Post {
   post_type: PostType
   post_contents: PostContent[]
   post_contents_count: number
+  reaction_users: ReactionUser[]
+}
+
+export interface ReactionUser {
+  id: string
+  reaction_id: string
+  user_id: string
+  reaction: Reaction
+  total: number
 }
 
 export interface PostType {
@@ -229,4 +238,10 @@ export interface PostContent {
   data_type: string
   file_url: string
   thumbnail_url: string
+}
+
+export interface Reaction {
+  id: string
+  name: string
+  content: string
 }

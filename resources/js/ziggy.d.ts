@@ -180,7 +180,8 @@ declare module 'ziggy-js' {
             "name": "manage_comment",
             "required": true
         }
-    ]
+    ],
+    "dashboard.reactions.index": []
 }
 }
 export {};

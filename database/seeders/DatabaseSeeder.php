@@ -2,10 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\SystemSettings;
-use App\Models\TaskStatus;
-use App\Models\TaskTemplate;
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
