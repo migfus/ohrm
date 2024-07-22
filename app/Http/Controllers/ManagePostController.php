@@ -29,6 +29,9 @@ class ManagePostController extends Controller
                 ->groupBy(['reaction_id', 'reactable_type', 'reactable_id'])
                 ->with('reaction');
             },
+            'auth_reaction' => function($q) use ($req) {
+              $q->where('user_id', $req->user()->id);
+            }
           ])
           ->withCount(['post_contents'])
           ->orderBy('created_at', 'DESC')

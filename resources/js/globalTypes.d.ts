@@ -211,11 +211,12 @@ export interface Post {
   post_contents: PostContent[]
   post_contents_count: number
   reaction_users: ReactionUser[]
+  auth_reaction?: ReactionUser
 }
 
 export interface ReactionUser {
   id: string
-  reaction_id: string
+  reaction_id: number
   user_id: string
   reaction: Reaction
   total: number
@@ -241,7 +242,7 @@ export interface PostContent {
 }
 
 export interface Reaction {
-  id: string
+  id: number
   name: string
   content: string
 }

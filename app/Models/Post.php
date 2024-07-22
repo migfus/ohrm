@@ -30,4 +30,8 @@ class Post extends Model
   public function reaction_users() {
     return $this->morphMany(ReactionUser::class, 'reactable');
   }
+
+  public function auth_reaction() {
+    return $this->morphOne(ReactionUser::class, 'reactable');
+  }
 }

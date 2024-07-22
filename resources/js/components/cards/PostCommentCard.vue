@@ -1,5 +1,5 @@
 <template>
-  <div class="py-4 px-4">
+  <div class="pb-4 px-4">
     <div class="flex">
       <img :src="$auth.avatar" class="h-7 w-7 rounded-full mt-[11px] mr-2"/>
       <AppTextArea v-model="form.content" name="Comment" noLabel :lines="String(lines)" placeholder="Write a comment" class="flex-grow transition-all" @click="lines = 2"/>

@@ -47,7 +47,12 @@
     <!-- NOTE: POSTCARD FOOTER -->
     <div class="flex justify-between mx-4 py-2 text-sm gap-4">
       <span class="">
-        <ReactDropdown :reactions="reactions" :reactionUsers="post.reaction_users" :postId="post.id"/>
+        <ReactDropdown
+          :reactions="reactions"
+          :reactionUsers="post.reaction_users"
+          :postId="post.id"
+          :authReactionId="post.auth_reaction?.reaction_id"
+        />
       </span>
       <span class="cursor-pointer">{{ contentFormatter('Comment', $props.post.comments_count) }}</span>
     </div>
@@ -76,7 +81,6 @@ import PostDropown from './PostDropown.vue'
 import DataTransition from '../transitions/DataTransition.vue'
 import MultimediaPreview from './MultimediaPreview.vue'
 import DocumentsPreview from './DocumentsPreview.vue'
-import { FaceSmileIcon } from '@heroicons/vue/24/outline'
 import ReactDropdown from './ReactDropdown.vue'
 
 const $props = defineProps<{
