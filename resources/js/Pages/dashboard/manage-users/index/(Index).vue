@@ -39,8 +39,8 @@ import PaginationCard from '@/components/data/PaginationCard.vue'
 import { Filters, Pagination, User, Tab, Role } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import DataTransition from '@/components/transitions/DataTransition.vue'
-import HeaderContent from '@/components/header/HeaderContent.vue'
-import TabSection from '@/components/header/TabSection.vue'
+import HeaderContent from '@/components/headers/HeaderContent.vue'
+import TabSection from '@/components/headers/TabSection.vue'
 import Create from './Create.vue'
 
 const $props = defineProps<{

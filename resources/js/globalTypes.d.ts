@@ -228,6 +228,7 @@ export interface PostType {
 
 export interface Comment {
   content: string
+  user_id: string
   user: User
   created_at: Date
   id: string

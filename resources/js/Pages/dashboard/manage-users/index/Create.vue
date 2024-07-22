@@ -16,7 +16,7 @@
         <AppInput name="Password" v-model="form.password" :error="form.errors.name"/>
         <AppSelect name="System Role"
           v-model="form.role"
-          :suggestions="roles.map(role => {
+          :suggestions="roles.map((role: any) => {
             return {id: role.id, display_name: role.display_name}
           })"
         />
@@ -36,7 +36,7 @@ import { PlusIcon, XMarkIcon, SquaresPlusIcon } from '@heroicons/vue/24/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import AppInput from '@/components/form/AppInput.vue'
 import { router } from '@inertiajs/vue3'
-import FlashErrors from '@/components/header/FlashErrors.vue'
+import FlashErrors from '@/components/headers/FlashErrors.vue'
 import AppSelect from '@/components/form/AppSelect.vue'
 import { Select, Role } from '@/globalTypes'
 

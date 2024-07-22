@@ -39,7 +39,7 @@ import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import { User } from '@/globalTypes'
-import DropdownContent from '@/components/dropdown/DropdownContent.vue'
+import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
 
 defineProps<{
   taskUserAccessId: string

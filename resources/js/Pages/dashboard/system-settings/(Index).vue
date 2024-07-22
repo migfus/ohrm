@@ -155,7 +155,7 @@ import AppInput from '@/components/form/AppInput.vue'
 import { PencilIcon, XCircleIcon } from '@heroicons/vue/24/outline'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
-import HeaderContent from '@/components/header/HeaderContent.vue'
+import HeaderContent from '@/components/headers/HeaderContent.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
 interface SystemSettings {

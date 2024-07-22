@@ -4,7 +4,7 @@
       name="Role"
       :defaultValue="userRole"
       v-model="form.role"
-      :suggestions="roles.map(role => {
+      :suggestions="roles.map((role: any) => {
         return {
           display_name: role.display_name,
           id: role.id

@@ -131,7 +131,7 @@ import { router } from '@inertiajs/vue3'
 import Echo from 'laravel-echo'
 import axios from 'axios'
 
-import PostCard from '@/components/cards/PostCard.vue'
+import PostCard from '@/components/cards/posts/PostCard.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
 import {
   ArrowPathIcon,
@@ -146,7 +146,7 @@ import DataTransition from '@/components/transitions/DataTransition.vue'
 import FormModal from '@/components/modals/FormModal.vue'
 import AppButton from '@/components/form/AppButton.vue'
 import AppTextArea from '@/components/form/AppTextArea.vue'
-import FlashErrors from '@/components/header/FlashErrors.vue'
+import FlashErrors from '@/components/headers/FlashErrors.vue'
 
 const $props = defineProps<{
   groupId: string

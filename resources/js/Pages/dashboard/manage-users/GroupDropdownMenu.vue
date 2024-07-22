@@ -44,7 +44,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ArrowRightCircleIcon, XMarkIcon } from '@heroicons/vue/20/solid'
-import DropdownContent from '@/components/dropdown/DropdownContent.vue'
+import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
 
 defineProps<{
   id: string

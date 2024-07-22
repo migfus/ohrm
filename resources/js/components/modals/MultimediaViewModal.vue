@@ -55,7 +55,7 @@ import { User } from '@/globalTypes'
 
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/solid'
-import AppButton from '../form/AppButton.vue'
+import AppButton from '@/components/form/AppButton.vue'
 
 defineProps<{
   user: User

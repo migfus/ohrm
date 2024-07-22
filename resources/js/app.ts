@@ -2,7 +2,7 @@ import './bootstrap'
 
 import { createApp, h, DefineComponent } from 'vue'
 import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
-import Layout from '@/layout/BaseLayout.vue'
+import Layout from '@/layout/Layout.vue'
 import Notifications from 'notiwind'
 import Echo from 'laravel-echo'
 

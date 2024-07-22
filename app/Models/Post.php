@@ -15,10 +15,6 @@ class Post extends Model
     return $this->belongsTo(User::class);
   }
 
-  public function comments() {
-
-  }
-
   public function post_contents() {
     return $this->hasMany(PostContent::class);
   }
@@ -33,5 +29,9 @@ class Post extends Model
 
   public function auth_reaction() {
     return $this->morphOne(ReactionUser::class, 'reactable');
+  }
+
+  public function comments() {
+    return $this->morphMany(Comment::class, 'commentable');
   }
 }

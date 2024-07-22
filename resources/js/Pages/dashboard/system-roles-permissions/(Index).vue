@@ -22,10 +22,10 @@
 import { Permission, Role, Tab } from '@/globalTypes'
 import { ref, reactive } from 'vue'
 
-import HeaderContent from '@/components/header/HeaderContent.vue'
-import TabSection from '@/components/header/TabSection.vue'
+import HeaderContent from '@/components/headers/HeaderContent.vue'
+import TabSection from '@/components/headers/TabSection.vue'
 import RolesContent from './RolesContent.vue'
-import AlertSection from '@/components/header/AlertSection.vue'
+import AlertSection from '@/components/headers/AlertSection.vue'
 
 defineProps<{
   roles: Role[]

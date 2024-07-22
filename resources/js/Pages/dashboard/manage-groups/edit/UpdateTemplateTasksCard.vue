@@ -30,7 +30,7 @@
         <ComboBox
           v-model="form.priority"
           name="Default Priority"
-          :data="taskPriorities.map(row => {
+          :data="taskPriorities.map((row: any) => {
             return {
               name: row.name,
               display_name: row.name,
@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { TaskPriority, TaskTemplate } from '@/globalTypes'
+import { Tab, TaskPriority, TaskTemplate } from '@/globalTypes'
 import { defaultRouterState } from '@/converter'
 import { router } from '@inertiajs/vue3'
 

@@ -34,7 +34,7 @@
       <AppSelect
         name="Task Priority"
         v-model="form.task_priority"
-        :suggestions="task_priorities.map(row => {
+        :suggestions="task_priorities.map((row: any) => {
           return {
             id: row.id,
             display_name: row.name,

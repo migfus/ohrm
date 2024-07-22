@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import { isVideo } from '@/converter'
 
-import BasicTransition from '../transitions/BasicTransition.vue'
+import BasicTransition from '@/components/transitions/BasicTransition.vue'
 
 defineProps<{
   preview: {

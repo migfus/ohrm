@@ -63,7 +63,7 @@
     </DataTransition>
 
     <!-- NOTE: AUTH COMMENT -->
-    <PostCommentCard :postId="$props.post.id" :groupId/>
+    <CommentCard :postId="$props.post.id" :groupId/>
   </div>
 </template>
 
@@ -75,13 +75,13 @@ import axios from 'axios'
 import { contentFormatter, dateTimeFormatted } from '@/converter'
 
 import { MapPinIcon } from '@heroicons/vue/24/solid'
-import PostCommentCard from './PostCommentCard.vue'
-import CommentContent from './CommentContent.vue'
-import PostDropown from './PostDropown.vue'
-import DataTransition from '../transitions/DataTransition.vue'
+import CommentCard from '@/components/cards/comments/CommentCard.vue'
+import CommentContent from '@/components/cards/comments/CommentContent.vue'
+import PostDropown from '@/components/dropdowns/PostDropown.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
 import MultimediaPreview from './MultimediaPreview.vue'
 import DocumentsPreview from './DocumentsPreview.vue'
-import ReactDropdown from './ReactDropdown.vue'
+import ReactDropdown from '@/components/dropdowns/ReactDropdown.vue'
 
 const $props = defineProps<{
   groupId: string

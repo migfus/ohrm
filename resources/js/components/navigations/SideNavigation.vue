@@ -101,8 +101,8 @@ import {
 import { Bars3BottomLeftIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 import TopNavigationProfileDropdown from './TopNavigationProfileDropdown.vue'
 import TopNavigationLogo from './TopNavigationLogo.vue'
-import SideNavigationContent from '@/components/navigation/SideNavigationContent.vue'
-import AppInput from '../form/AppInput.vue'
+import SideNavigationContent from '@/components/navigations/SideNavigationContent.vue'
+import AppInput from '@/components/form/AppInput.vue'
 
 const sidebar_open = ref(false)
 

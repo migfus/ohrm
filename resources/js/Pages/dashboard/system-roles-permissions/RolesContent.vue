@@ -51,7 +51,7 @@ import { Permission, Role, User } from '@/globalTypes'
 
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import RoleRow from './RoleRow.vue'
-import FlashErrors from '@/components/header/FlashErrors.vue'
+import FlashErrors from '@/components/headers/FlashErrors.vue'
 
 defineProps<{
   roles: Role []

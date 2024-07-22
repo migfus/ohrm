@@ -54,7 +54,7 @@ import { router, useForm } from '@inertiajs/vue3'
 
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
-import FlashErrors from '@/components/header/FlashErrors.vue'
+import FlashErrors from '@/components/headers/FlashErrors.vue'
 
 const form = useForm({
   email: 'admin@gmail.com',

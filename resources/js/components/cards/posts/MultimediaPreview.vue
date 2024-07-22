@@ -63,12 +63,12 @@ import { PostContent, User } from '@/globalTypes'
 import { ref, reactive } from 'vue'
 import { isVideo } from '@/converter'
 
-import DataTransition from '../transitions/DataTransition.vue'
-import MultimediaViewModal from '../modals/MultimediaViewModal.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
+import MultimediaViewModal from '@/components/modals/MultimediaViewModal.vue'
 import { ArrowLeftIcon, ArrowRightIcon, ArrowDownIcon } from '@heroicons/vue/24/solid'
-import AppButton from '../form/AppButton.vue'
+import AppButton from '@/components/form/AppButton.vue'
 import { UseFullscreen } from '@vueuse/components'
-import MultiPreview from '../preview/MultiPreview.vue'
+import MultiPreview from '@/components/preview/MultiPreview.vue'
 
 const $props = defineProps<{
   counts: number
@@ -79,7 +79,6 @@ const $props = defineProps<{
 }>()
 
 const open_preview_modal = ref(false)
-
 const thumbnail_preview = reactive<PostContent>({
   id: '',
   name: '',

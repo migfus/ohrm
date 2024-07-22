@@ -6,14 +6,14 @@
     </div>
     <div v-if="lines > 1" class="flex justify-end mt-2 gap-2">
       <AppButton :icon="XMarkIcon" name="Comment" size="sm" @click="form.reset(); lines = 1">Cancel</AppButton>
-      <AppButton :icon="ChatBubbleLeftIcon" name="Comment" size="sm" color="brand" @click="submitComment()">Comment</AppButton>
+      <AppButton :icon="ChatBubbleLeftIcon" name="Comment" size="sm" color="brand" @click="submitCommentApi()">Comment</AppButton>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { User } from '@/globalTypes'
-import { ref } from 'vue'
+import { ref }  from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 import axios from 'axios'
 
@@ -33,7 +33,7 @@ const form = router.form({
   content: ''
 })
 
-async function submitComment() {
+async function submitCommentApi() {
   await axios.post(route('dashboard.manage-comments.store'), {
     postId: $props.postId,
     content: form.content

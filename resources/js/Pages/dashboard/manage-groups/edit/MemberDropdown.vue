@@ -40,7 +40,7 @@
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { PencilIcon, XMarkIcon, CheckCircleIcon } from '@heroicons/vue/24/outline'
-import DropdownContent from '@/components/dropdown/DropdownContent.vue'
+import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
 
 defineProps<{
   id: string

@@ -44,7 +44,7 @@ import { ref } from 'vue'
 import { XMarkIcon, ArrowPathIcon } from '@heroicons/vue/20/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
-import UploadAvatarModal from '../modals/UploadAvatarModal.vue'
+import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
 import { router } from '@inertiajs/vue3'
 
 const $props = defineProps<{

@@ -49,7 +49,7 @@ import BasicTransition from '@/components/transitions/BasicTransition.vue'
 import { Reaction, ReactionUser } from '@/globalTypes'
 import axios from 'axios'
 import { ref, computed } from 'vue'
-import DataTransition from '../transitions/DataTransition.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
 import { usePage } from '@inertiajs/vue3'
 import SharedProps from '@/SharedProps'
 

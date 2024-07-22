@@ -4,8 +4,8 @@
       v-model:avatar="form.avatar"
       v-model:cover="form.cover"
       v-model:name="form.name"
-      :admins="group_members.filter(member =>
-        member.group_role_id == group_roles.filter(role => role.display_name == 'Administrator')[0].id
+      :admins="group_members.filter((member: GroupMember) =>
+        member.group_role_id == group_roles.filter((role: GroupRole) => role.display_name == 'Administrator')[0].id
       )"
       :confirmButton="{
         text: 'Delete',
@@ -57,7 +57,7 @@ import GroupHeader from '.././GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
 import UpateBasicCard from './UpdateBasicCard.vue'
 import UpdateMembersCard from './UpdateMembersCard.vue'
-import FlashErrors from '@/components/header/FlashErrors.vue'
+import FlashErrors from '@/components/headers/FlashErrors.vue'
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import UpdateTemplateTasksCard from './UpdateTemplateTasksCard.vue'
 import PinnedPostsCard from './PinnedPostsCard.vue'

@@ -14,8 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import AppInput from '../form/AppInput.vue'
-import AppButton from '../form/AppButton.vue'
+import AppInput from '@/components/form/AppInput.vue'
+import AppButton from '@/components/form/AppButton.vue'
 import { PlusIcon } from '@heroicons/vue/24/solid'
 
 const $model = defineModel<string>()

@@ -32,7 +32,7 @@
 import { Tab } from '@/globalTypes'
 import { watch } from 'vue'
 
-import DataTransition from '../transitions/DataTransition.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
 import TabSectionContent from './TabSectionContent.vue'
 
 const $model = defineModel<number>()

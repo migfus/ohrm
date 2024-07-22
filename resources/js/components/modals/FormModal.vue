@@ -27,7 +27,7 @@
 import { FunctionalComponent } from 'vue'
 
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import BasicCard from '../cards/BasicCard.vue'
+import BasicCard from '@/components/cards/BasicCard.vue'
 
 defineProps<{
   icon: FunctionalComponent

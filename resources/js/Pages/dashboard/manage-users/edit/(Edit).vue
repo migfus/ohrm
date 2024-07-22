@@ -22,10 +22,10 @@
 <script setup lang="ts">
 import { Role, User } from '@/globalTypes'
 
-import ProfileHeader from '@/components/header/ProfileHeader.vue'
+import ProfileHeader from '@/components/headers/ProfileHeader.vue'
 
 import UpdateBasicCard from './UpdateBasicCard.vue'
-import FlashErrors from '@/components/header/FlashErrors.vue'
+import FlashErrors from '@/components/headers/FlashErrors.vue'
 import UpdateSystemRole from './UpdateSystemRole.vue'
 import UserHeatMapCard from './UserHeatMapCard.vue'
 import JoinedGroupsCard from './JoinedGroupsCard.vue'

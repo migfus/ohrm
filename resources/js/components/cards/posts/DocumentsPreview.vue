@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { PostContent } from '@/globalTypes'
 
-import AppButton from '../form/AppButton.vue'
+import AppButton from '@/components/form/AppButton.vue'
 import { ArrowDownIcon } from '@heroicons/vue/24/solid'
 
 defineProps<{

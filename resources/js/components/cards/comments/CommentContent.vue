@@ -17,7 +17,7 @@ import { dateTimeFormatted } from '@/converter'
 import { Comment } from '@/globalTypes'
 import axios from 'axios'
 
-import PostCommentDropdown from './PostCommentDropdown.vue'
+import PostCommentDropdown from '@/components/dropdowns/CommentDropdown.vue'
 
 const $props = defineProps<{
   comment: Comment
@@ -27,12 +27,11 @@ const $props = defineProps<{
 function dropdownSelection(val: string) {
   switch(val) {
     case 'delete':
-      removeComment()
-      break;
+      removeCommentApi(); break
   }
 }
 
-async function removeComment() {
+async function removeCommentApi() {
   await axios.delete(`/dashboard/manage-comments/${$props.comment.id}?postId=${$props.postId}`)
 }
 </script>

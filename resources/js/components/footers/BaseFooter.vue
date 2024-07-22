@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { defineComponent, h } from 'vue'
 import { CTopNavigation } from '@/constants'
-import DataTransition from '../transitions/DataTransition.vue'
+import DataTransition from '@/components/transitions/DataTransition.vue'
 
 const navigation = {
   social: [
