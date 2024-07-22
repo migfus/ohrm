@@ -1,7 +1,7 @@
 <template>
   <Menu as="div" class="relative inline-block text-left">
     <div>
-      <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white pl-2 pb-1 text-sm font-semibold text-brand-900 ">
+      <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-brand-50 pl-2 pb-1 text-sm font-semibold text-brand-900 ">
         <ChevronDownIcon class="-mr-1 h-5 w-5 text-brand-400" aria-hidden="true" />
       </MenuButton>
     </div>

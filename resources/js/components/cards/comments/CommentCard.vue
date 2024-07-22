@@ -34,8 +34,8 @@ const form = router.form({
 })
 
 async function submitCommentApi() {
-  await axios.post(route('dashboard.manage-comments.store'), {
-    postId: $props.postId,
+  await axios.post(route('dashboard.comments.store'), {
+    post_id: $props.postId,
     content: form.content
   })
   form.reset()

@@ -17,7 +17,8 @@ class CommentController extends Controller
 
     Comment::create([
       'user_id' => $req->user()->id,
-      'post_id' => $req->postId,
+      'commentable_type' => 'App\Models\Post',
+      'commentable_id' => $req->post_id,
       'content' => $req->content,
     ]);
 

@@ -34,7 +34,7 @@ class PostController extends Controller
             },
             'comments.user'
           ])
-          ->withCount(['post_contents'])
+          ->withCount(['comments'])
           ->orderBy('created_at', 'DESC')
           ->paginate(10)
       );

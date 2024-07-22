@@ -58,7 +58,7 @@
     </div>
 
     <!-- NOTE: COMMENTS -->
-    <DataTransition class="mx-4 flex flex-col gap-2">
+    <DataTransition v-if="post.comments.length > 0" class="mx-4 flex flex-col gap-2 bg-white rounded-2xl p-2">
       <CommentContent v-for="comment in post.comments" :key="comment.id" :comment :postId="post.id"/>
     </DataTransition>
 

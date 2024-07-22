@@ -11,7 +11,7 @@ import { Post } from '@/globalTypes'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { MapPinIcon } from '@heroicons/vue/20/solid'
-import PinnedPostCard from '@/components/cards/PinnedPostCard.vue'
+import PinnedPostCard from '@/components/cards/posts/PinnedPostCard.vue'
 
 defineProps<{
   posts: Post[]

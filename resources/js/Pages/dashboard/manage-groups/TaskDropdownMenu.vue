@@ -81,7 +81,7 @@ import { TaskTemplate } from '@/globalTypes'
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ChevronDownIcon, PencilIcon, LockClosedIcon, GlobeAsiaAustraliaIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import DropdownContent from '@/components/dropdown/DropdownContent.vue'
+import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 

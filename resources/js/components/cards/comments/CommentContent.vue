@@ -1,13 +1,13 @@
 <template>
-  <div class="flex gap-2">
+  <div class="flex gap-2 ">
     <img :src="comment.user.avatar" class="h-4 w-4 rounded-full"/>
-    <div class="bg-white rounded-2xl px-3 py-2 text-xs flex flex-col shadow-sm flex-grow">
+    <div class="bg-brand-50 shadow rounded-2xl px-3 py-2 text-xs flex flex-col flex-grow">
       <div class="flex justify-between">
         <label class="font-medium">{{ comment.user.name }} - {{ dateTimeFormatted(comment.created_at) }}</label>
         <PostCommentDropdown @click="dropdownSelection"/>
       </div>
 
-      <label class="">{{ comment.content }}</label>
+      <label class="text-sm">{{ comment.content }}</label>
     </div>
   </div>
 </template>
