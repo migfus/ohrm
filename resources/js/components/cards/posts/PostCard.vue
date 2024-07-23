@@ -11,7 +11,7 @@
       </Link>
       <div class="text-sm font-regular py-0 my-0 cursor-pointer flex">
         <MapPinIcon v-if="$props.post.is_pinned" class="h-4 w-4 mt-[2px] text-brand-500 cursor-default"/>
-        <PostDropown @click="dropDownEmit" :isPinned="$props.post.is_pinned" :postId="post.id" :index/>
+        <PostDropown :isPinned="$props.post.is_pinned" :postId="post.id" :index/>
       </div>
     </div>
 
@@ -71,7 +71,6 @@
 import { ref, } from 'vue'
 import { useElementSize } from '@vueuse/core'
 import { Post, Reaction } from '@/globalTypes'
-import axios from 'axios'
 import { contentFormatter, dateTimeFormatted } from '@/converter'
 
 import { MapPinIcon } from '@heroicons/vue/24/solid'
@@ -95,26 +94,4 @@ const $emit = defineEmits(['removePost', 'updatedPost', 'editPost'])
 const minimize_content = ref(true)
 const sentence_lines = ref(null)
 const { height } = useElementSize(sentence_lines)
-
-// NOTE: Emits from Dropdown
-function dropDownEmit(value: string) {
-  switch(value) {
-    case 'edit':
-      $emit('editPost', {
-        id: $props.post.id,
-        index: $props.index,
-        title: $props.post.title
-      })
-      break;
-    case 'pin':
-      pinPost($props.post.id)
-      break;
-  }
-}
-
-// NOTE: Pin/Unpin By [admin/Mod]
-async function pinPost(id: string) {
-  const res = await axios.put(`/dashboard/posts/${id}`, {type: 'pin'})
-  $emit('updatedPost', {index: $props.index, data: res.data})
-}
 </script>

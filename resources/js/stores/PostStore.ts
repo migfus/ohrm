@@ -24,9 +24,14 @@ export const usePostStore = defineStore('post', () => {
     title: ''
   })
 
-  function selectPost(value: {id: string, index: number, title: string}) {
-    form.title = value.title
-    selected_post_id.value = value.id
+  function selectPost(post_id: string) {
+    post_data.value.find((post: Post) => {
+      if(post.id === post_id) {
+        form.title = post.title
+        selected_post_id.value = post.id
+        open_modal_basic.value = true
+      }
+    })
   }
 
   function updatePostData(dat: { index: number; updated_post: Post}) {
@@ -158,10 +163,30 @@ export const usePostStore = defineStore('post', () => {
 
   // SECTION: UPDATE POST
   // NOTE: Pin post
-  async function pinPostApi(post_id: string, is_pinned: number) {
-    await axios.put(`/dashboard/posts/${post_id}/pin`, { is_pinned })
-    const updated_post = post_data.value.find((post: Post) => post.id === post_id)!
-    updated_post.is_pinned = is_pinned
+  async function pinPostApi(post_id: string) {
+    await axios.put(route('dashboard.posts.update', {post: post_id}), { type: 'pin' })
+    post_data.value.find((post: Post) => {
+      if(post.id === post_id) {
+        if(post.is_pinned === 0)
+          post.is_pinned = 1
+        else
+          post.is_pinned = 0
+      }
+    })
+  }
+  // NOTE: Update Post
+  async function updatePostApi() {
+    post_data.value.find((post: Post) => {
+      if(post.id === selected_post_id.value) {
+        post.title = form.title
+      }
+    })
+
+    await axios.put(
+      route('dashboard.posts.update',
+      { post: selected_post_id.value }), { title: form.title, type: 'title' }
+    )
+    resetAllPostParameters()
   }
 
   // SECTION: REMOVE
@@ -200,6 +225,7 @@ export const usePostStore = defineStore('post', () => {
     errors,
     form,
     to_upload_files,
+    selected_post_id,
 
     open_modal_basic,
     open_modal_multimedia,
@@ -216,6 +242,7 @@ export const usePostStore = defineStore('post', () => {
     setToUploadFiles,
     updatePostData,
     attemptRemovePost,
-    pinPostApi
+    pinPostApi,
+    updatePostApi,
   }
 })

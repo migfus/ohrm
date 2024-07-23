@@ -38,8 +38,8 @@
     <!-- NOTE: TEXT -->
     <FormModal
       v-model="PostStore.open_modal_basic"
-      title="Create New Post"
-      description="Create new post for this group."
+      :title="PostStore.selected_post_id == '' ? 'Create New Post' : 'Edit Post'"
+      :description="PostStore.selected_post_id == '' ? 'Create new post for this group.' : 'Edit post for this group.'"
       :icon="ChatBubbleOvalLeftIcon"
       size="max-w-lg"
     >
@@ -49,7 +49,27 @@
 
       <div class="flex justify-end mt-4 gap-2">
         <AppButton name="Post" @click="PostStore.resetAllPostParameters()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="PostStore.submitBasicPost(groupId, handleScroll)" color="brand" :icon="PaperAirplaneIcon" :forceLoading="PostStore.progress < 100">Post</AppButton>
+        <AppButton
+          v-if="PostStore.selected_post_id == ''"
+          name="Post"
+          @click="PostStore.submitBasicPost(groupId, handleScroll)"
+          color="brand"
+          :icon="PaperAirplaneIcon"
+          :forceLoading="PostStore.progress < 100"
+        >
+          Post
+        </AppButton>
+
+        <AppButton
+          v-else
+          name="Update"
+          @click="PostStore.updatePostApi()"
+          color="brand"
+          :icon="PaperAirplaneIcon"
+          :forceLoading="PostStore.progress < 100"
+        >
+          Update
+        </AppButton>
       </div>
 
       <div v-if="PostStore.progress > 0 && PostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4">
@@ -133,9 +153,6 @@
             :index
             :groupId
             :reactions="ReactionStore.reactions"
-            @removePost="PostStore.removePostApi"
-            @updatedPost="PostStore.updatePostData"
-            @editPost="PostStore.selectPost"
           />
         </div>
       </DataTransition>

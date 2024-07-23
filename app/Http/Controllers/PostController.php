@@ -187,16 +187,11 @@ class PostController extends Controller
     switch($req->type) {
       case 'pin':
         $this->pinPost($id); break;
-      case 'update-content':
-        $this->updateContent($req, $id); break;
+      case 'title':
+        $this->updateTitle($req, $id); break;
     }
 
-    $updated_post = Post::query()
-      ->where('id', $id)
-      ->with(['user'])
-      ->first();
-
-    return response()->json($updated_post);
+    return response()->json(['success' => true]);
   }
     private function pinPost(string $id) : void {
       $pin_toggle = Post::where('id', $id)->first()->is_pinned;
@@ -204,14 +199,15 @@ class PostController extends Controller
       Post::where('id', $id)->update([
         'is_pinned' => !$pin_toggle,
       ]);
+
     }
-    private function updateContent(Request $req, string $id) : void {
+    private function updateTitle(Request $req, string $id) : void {
       $req->validate([
-        'content' => ['required'],
+        'title' => ['required'],
       ]);
 
       Post::where('id', $id)->update([
-        'content' => json_encode($req->content),
+        'title' => $req->title,
       ]);
     }
 

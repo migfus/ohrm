@@ -10,19 +10,19 @@
       <MenuItems class="absolute right-0 z-10 w-32 origin-top-right rounded-2xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
         <div class="">
           <MenuItem v-slot="{ active }">
-            <div @click="click('pin')" :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
+            <div @click="PostStore.pinPostApi(postId)" :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
               <MapPinIcon :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'h-4 w-5 text-brand-400 inline mr-2']"  />
               <span>{{ isPinned ? 'Unpin' : 'Pin'}}</span>
             </div>
           </MenuItem>
           <MenuItem v-slot="{ active }">
-            <div @click="click('edit')" :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
+            <div @click="PostStore.selectPost(postId)" :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
               <PencilIcon :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'h-4 w-5 text-brand-400 inline mr-2']"  />
               <span>Edit</span>
             </div>
           </MenuItem>
           <MenuItem v-slot="{ active }">
-            <div @click="click('report')" :class="[active ? 'bg-red-100 text-red-900' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
+            <div @click="report()" :class="[active ? 'bg-red-100 text-red-900' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
               <FlagIcon :class="[active ? 'bg-red-100 text-red-900' : 'text-brand-700', 'h-4 w-5 text-brand-400 inline mr-2']"  />
               <span>Report</span>
             </div>
@@ -55,19 +55,7 @@ defineProps<{
 
 const PostStore = usePostStore()
 
-const $emits = defineEmits(['click'])
-const open_remove_prompt = ref(false)
-
-function click(value: string) {
-  if(value == 'delete') {
-    open_remove_prompt.value = true
-  }
-  else {
-    $emits('click', value)
-  }
-}
-
-function confirmRemove() {
-  $emits('click', 'delete')
+function report() {
+  alert('[reported]')
 }
 </script>
