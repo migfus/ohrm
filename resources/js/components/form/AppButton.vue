@@ -4,7 +4,7 @@
     <a
       v-if="externalLink"
       :href
-      targe="_blank"
+      target="_blank"
       :type
       :disabled="loading || disabled || forceLoading"
       :class="[

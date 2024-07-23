@@ -5,13 +5,15 @@
         <label class="text-2xl text-white">+{{ counts }}</label>
       </div>
 
+      <!-- NOTE: VIDEO -->
       <div v-if="isVideo(preview.thumbnail_url)" class="flex justify-center">
         <video controls class="object-cover shadow rounded-lg">
           <source :src="preview.thumbnail_url" type="video/mp4">
         </video>
       </div>
 
-      <img v-else :src="preview.thumbnail_url" alt="post image" class="aspect-square object-cover rounded-lg shadow" />
+      <!-- NOTE: IMAGE -->
+      <img v-else :src="preview.thumbnail_url" alt="post image" class="aspect-square object-contain rounded-lg shadow bg-white" />
     </div>
   </BasicTransition>
 </template>

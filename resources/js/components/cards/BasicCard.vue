@@ -1,7 +1,7 @@
 <template>
   <!-- ✅ -->
   <BasicTransition>
-    <div :class="[size === 'lg' && 'p-6', 'bg-brand-50 p-4 shadow sm:rounded-2xl group transition-all']">
+    <div :class="[size === 'lg' && 'p-6', 'bg-brand-50 p-4 shadow sm:rounded-2xl group transition-all loading-card_']">
         <!-- NOTE: BASIC CARD HEADER -->
       <div>
         <div class="flex justify-between">
@@ -45,3 +45,43 @@ defineProps<{
 
 const expand = ref(true)
 </script>
+
+<style scoped>
+.loading-card {
+  position: relative;
+}
+
+@property --angle{
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.loading-card::after, .card::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: -1;
+  padding: 30px;
+  border-radius: 15px;
+  background-image: conic-gradient(from var(--angle), transparent 70%, #00ff99);
+  animation: 3s spin linear infinite;
+}
+.loading-card::before {
+  filter: blur(1.5rem);
+  opacity: 0.5;
+}
+
+@keyframes spin {
+  from {
+    --angle: 0deg
+  }
+  to {
+    --angle: 360deg
+  }
+}
+</style>

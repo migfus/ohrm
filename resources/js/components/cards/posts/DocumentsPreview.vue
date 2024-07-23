@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 my-4 gap-2">
+  <div :class="[contents.length > 1 ? 'grid-cols-2' : 'grid-cols-1', 'grid my-4 gap-2']">
     <div v-for="block in contents" class="flex-grow bg-brand-50 rounded-2xl shadow col-span-2 sm:col-span-1">
       <div class="flex justify-between">
         <div class="flex justify-start truncate">

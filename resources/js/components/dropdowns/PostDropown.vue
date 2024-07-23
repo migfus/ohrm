@@ -28,7 +28,7 @@
             </div>
           </MenuItem>
           <MenuItem v-slot="{ active }">
-            <div @click="click('delete')" :class="[active ? 'bg-red-100 text-red-900' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
+            <div @click="PostStore.attemptRemovePost(postId, index)" :class="[active ? 'bg-red-100 text-red-900' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
               <XMarkIcon :class="[active ? 'bg-red-100 text-red-900' : 'text-brand-700', 'h-5 w-5 text-brand-400 inline mr-2']"  />
               <span>Delete</span>
             </div>
@@ -36,23 +36,24 @@
         </div>
       </MenuItems>
     </BasicTransition>
-    <RemovalPrompt v-model="open_remove_prompt" title="Remove Selected Post?" confirmMessage="Remove this Post" @confirm="confirmRemove()">
-      Do you want to remove this post?
-    </RemovalPrompt>
   </Menu>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { usePostStore } from '@/stores/PostStore'
 
 import { Menu, MenuButton, MenuItem, MenuItems,  } from '@headlessui/vue'
 import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon, MapPinIcon } from '@heroicons/vue/20/solid'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
-import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 defineProps<{
-  isPinned: number // 0 or 1
+  isPinned: number // 0 or 1,
+  postId: string,
+  index: number
 }>()
+
+const PostStore = usePostStore()
 
 const $emits = defineEmits(['click'])
 const open_remove_prompt = ref(false)

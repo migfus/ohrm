@@ -2,6 +2,7 @@ import './bootstrap'
 
 import { createApp, h, DefineComponent } from 'vue'
 import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
+import { createPinia } from 'pinia'
 import Layout from '@/layout/Layout.vue'
 import Notifications from 'notiwind'
 import Echo from 'laravel-echo'
@@ -18,6 +19,8 @@ const echo = new Echo({
   enabledTransports: ['ws', 'wss'],
 })
 
+const pinia = createPinia()
+
 createInertiaApp({
   resolve: async name => {
     const pages = import.meta.glob<DefineComponent>('./Pages/**/*.vue')
@@ -30,6 +33,7 @@ createInertiaApp({
       .use(plugin)
       .use(Notifications)
       .use(ZiggyVue)
+      .use(pinia)
       .provide('echo', echo)
       .component('Link', Link)
       .component('Head', Head)

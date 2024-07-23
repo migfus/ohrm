@@ -40,6 +40,9 @@ export const dateTimeFormatted = (dateTime: Date | string) => {
 }
 
 export const contentFormatter = (content: string, value: number) => {
+  if(value < 1) {
+    return `No ${content}`
+  }
   if(value > 1) {
     return `${value} ${content}s`
   }

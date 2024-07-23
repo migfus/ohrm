@@ -11,12 +11,12 @@
       </Link>
       <div class="text-sm font-regular py-0 my-0 cursor-pointer flex">
         <MapPinIcon v-if="$props.post.is_pinned" class="h-4 w-4 mt-[2px] text-brand-500 cursor-default"/>
-        <PostDropown @click="dropDownEmit" :isPinned="$props.post.is_pinned"/>
+        <PostDropown @click="dropDownEmit" :isPinned="$props.post.is_pinned" :postId="post.id" :index/>
       </div>
     </div>
 
     <!-- NOTE: POSTCARD CONTENTS -->
-    <div ref="sentenceLines" class="m-1 bg-white px-4 py-2 rounded-lg mx-4 shadow font-medium">
+    <div ref="sentenceLines" class="m-1 bg-white px-4 py-2 rounded-lg mx-4 shadow font-medium text-md">
 
       <div v-if="minimize_content" v-html="$props.post.title" class="line-clamp-4" ></div>
       <div v-else v-html="$props.post.title"></div>
@@ -106,19 +106,10 @@ function dropDownEmit(value: string) {
         title: $props.post.title
       })
       break;
-    case 'delete':
-      removePost($props.post.id)
-      break;
     case 'pin':
       pinPost($props.post.id)
       break;
   }
-}
-
-// NOTE: Remove by [Auth]
-async function removePost(id: string) {
-  await axios.delete(`/dashboard/posts/${id}`)
-  $emit('removePost', $props.index)
 }
 
 // NOTE: Pin/Unpin By [admin/Mod]
