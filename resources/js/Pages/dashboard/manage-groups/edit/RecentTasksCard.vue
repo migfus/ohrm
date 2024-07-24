@@ -63,7 +63,15 @@
       </div>
     </DataTransition>
     <DataTransition class="flex gap-2 justify-end mt-4">
-      <AppButton v-for="temp in taskTemplates" name="" class="unwrap" noLoading>{{ temp.name }}</AppButton>
+      <AppButton
+        v-for="temp in taskTemplates"
+        :name="`${temp.name} button`"
+        class="unwrap"
+        noLoading
+        :href="route('dashboard.manage-template-tasks.edit', {manage_template_task: temp.id})"
+      >
+        {{ temp.name }}
+      </AppButton>
     </DataTransition>
 
   </BasicCard>
@@ -77,6 +85,7 @@ import BasicCard from '@/components/cards/BasicCard.vue'
 import { TicketIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import AppButton from '@/components/form/AppButton.vue'
+import { templateRef } from '@vueuse/core'
 
 defineProps<{
   tasks: Task[]

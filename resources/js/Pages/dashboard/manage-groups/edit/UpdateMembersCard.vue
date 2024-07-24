@@ -73,7 +73,7 @@ function ConfirmRemove() {
       memberId: selected_member_id.value,
       type: 'remove-member',
     },
-    defaultRouterState(['groupMembers'])
+    defaultRouterState(['group_members'])
   )
 }
 
@@ -84,7 +84,7 @@ function AddMember(user: User) {
       type: 'add-member',
       roleId: $props.groupRole.id
     },
-    defaultRouterState(['groupMembers'])
+    defaultRouterState(['group_members'])
   )
 }
 </script>
