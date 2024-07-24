@@ -32,7 +32,9 @@ class PostController extends Controller
             'auth_reaction' => function($q) use ($req) {
               $q->where('user_id', $req->user()->id);
             },
-            'comments.user'
+            'comments' => function($q) {
+              $q->with('user')->orderBy('created_at', 'DESC');
+            }
           ])
           ->withCount(['comments'])
           ->orderBy('created_at', 'DESC')

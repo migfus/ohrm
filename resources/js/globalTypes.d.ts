@@ -229,7 +229,7 @@ export interface PostType {
 export interface Comment {
   content: string
   user_id: string
-  user: User
+  user?: User
   created_at: Date
   id: string
 }
