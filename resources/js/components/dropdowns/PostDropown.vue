@@ -10,7 +10,7 @@
       <MenuItems class="absolute right-0 z-10 w-32 origin-top-right rounded-2xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
         <div class="">
           <MenuItem v-slot="{ active }">
-            <div @click="PostStore.pinPostApi(postId)" :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
+            <div @click="PostStore.pinPostApi(postId, groupId)" :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
               <MapPinIcon :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'h-4 w-5 text-brand-400 inline mr-2']"  />
               <span>{{ isPinned ? 'Unpin' : 'Pin'}}</span>
             </div>
@@ -50,7 +50,8 @@ import BasicTransition from '@/components/transitions/BasicTransition.vue'
 defineProps<{
   isPinned: number // 0 or 1,
   postId: string,
-  index: number
+  index: number,
+  groupId: string
 }>()
 
 const PostStore = usePostStore()

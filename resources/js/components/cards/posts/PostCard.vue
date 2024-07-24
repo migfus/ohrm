@@ -11,7 +11,7 @@
       </Link>
       <div class="text-sm font-regular py-0 my-0 cursor-pointer flex">
         <MapPinIcon v-if="$props.post.is_pinned" class="h-4 w-4 mt-[2px] text-brand-500 cursor-default"/>
-        <PostDropown :isPinned="$props.post.is_pinned" :postId="post.id" :index/>
+        <PostDropown :isPinned="$props.post.is_pinned" :postId="post.id" :index :groupId/>
       </div>
     </div>
 
@@ -27,7 +27,7 @@
         :title="$props.post.title"
         :createdAt="$props.post.created_at"
         :contents="$props.post.post_contents"
-        :counts="$props.post.post_contents_count"
+        :counts="$props.post.post_contents_count ?? 0"
       />
 
       <DocumentsPreview
@@ -48,7 +48,6 @@
     <div class="flex justify-between mx-4 py-2 text-sm gap-4">
       <span class="">
         <ReactDropdown
-          :reactions="reactions"
           :reactionUsers="post.reaction_users"
           :postId="post.id"
           :authReactionId="post.auth_reaction?.reaction_id"
@@ -86,7 +85,6 @@ const $props = defineProps<{
   groupId: string
   post: Post
   index: number
-  reactions: Reaction[]
 }>()
 
 const $emit = defineEmits(['removePost', 'updatedPost', 'editPost'])

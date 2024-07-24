@@ -14,6 +14,7 @@ use App\Http\Controllers\dashboard\SystemSettingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\dashboard\ManageTemplateTaskController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PinnedPostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactionController;
 
@@ -55,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('comments', CommentController::class)->only(['store', 'destroy']);
 
     Route::resource('/reactions', ReactionController::class)->only(['index', 'store']);
+    Route::resource('/pinned-posts', PinnedPostController::class)->only(['index']);
   });
 });
 

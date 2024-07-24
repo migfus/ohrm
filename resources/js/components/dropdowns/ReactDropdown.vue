@@ -31,7 +31,7 @@
       <!-- SECTION: REACTIONS -->
       <MenuItems class="absolute left-0 z-10 origin-top-left rounded-2xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
         <DataTransition class="flex text-2xl mx-2">
-          <MenuItem v-for="react in reactions" v-slot="{ active }">
+          <MenuItem v-for="react in ReactionStore.reaction_data" v-slot="{ active }">
             <div @click="doReact(postId, react.id)" :class="[active ? '-mt-1 drop-shadow-lg' : '', 'block px-1 py-2 rounded-full transition-all cursor-pointer']">
               {{ react.content }}
             </div>
@@ -43,28 +43,28 @@
 </template>
 
 <script setup lang="ts">
+import { ReactionUser } from '@/globalTypes'
+import { ref, computed } from 'vue'
+import { useReactionStore } from '@/stores/ReactionStore'
+import axios from 'axios'
+
+import DataTransition from '@/components/transitions/DataTransition.vue'
+import BasicTransition from '@/components/transitions/BasicTransition.vue'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { FaceSmileIcon } from '@heroicons/vue/24/outline'
-import BasicTransition from '@/components/transitions/BasicTransition.vue'
-import { Reaction, ReactionUser } from '@/globalTypes'
-import axios from 'axios'
-import { ref, computed } from 'vue'
-import DataTransition from '@/components/transitions/DataTransition.vue'
-import { usePage } from '@inertiajs/vue3'
-import SharedProps from '@/SharedProps'
 
 const $props = defineProps<{
-  reactions: Reaction[]
   reactionUsers: ReactionUser[]
   postId: string
   authReactionId?: number
 }>()
 const $emits = defineEmits(['click'])
-const page = usePage<SharedProps>()
 
-const reaction_users = ref($props.reactionUsers)
-const sorted_reactions = computed(() => reaction_users.value.sort((a,b) => b.total - a.total))
-const auth_reaction = ref<number>($props.authReactionId ?? 0)
+const ReactionStore = useReactionStore()
+
+const reaction_users = ref($props.reactionUsers) // list of reactions from the users & post
+const sorted_reactions = computed(() => reaction_users.value.sort((a,b) => b.total - a.total)) // sorted version of reactions
+const auth_reaction = ref<number>($props.authReactionId ?? 0) // checks if the auth has reacted to the post
 
 async function doReact(post_id: string, reaction_id: number) {
   const res = await axios.post(route('dashboard.reactions.store'), {

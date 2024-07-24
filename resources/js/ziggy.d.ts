@@ -182,7 +182,8 @@ declare module 'ziggy-js' {
         }
     ],
     "dashboard.reactions.index": [],
-    "dashboard.reactions.store": []
+    "dashboard.reactions.store": [],
+    "dashboard.pinned-posts.index": []
 }
 }
 export {};

@@ -52,7 +52,7 @@
         <AppButton
           v-if="PostStore.selected_post_id == ''"
           name="Post"
-          @click="PostStore.submitBasicPost(groupId, handleScroll)"
+          @click="PostStore.submitBasicPost(handleScroll)"
           color="brand"
           :icon="PaperAirplaneIcon"
           :forceLoading="PostStore.progress < 100"
@@ -102,7 +102,7 @@
 
       <div class="flex justify-end mt-4 gap-2">
         <AppButton name="Post" @click="PostStore.resetAllPostParameters()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="PostStore.submitMultimediaPost(groupId, handleScroll)" color="brand" :icon="PaperAirplaneIcon" :forceLoading="PostStore.progress < 100">Post</AppButton>
+        <AppButton name="Post" @click="PostStore.submitMultimediaPost(handleScroll)" color="brand" :icon="PaperAirplaneIcon" :forceLoading="PostStore.progress < 100">Post</AppButton>
       </div>
 
       <div v-if="PostStore.progress > 0 && PostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4">
@@ -136,7 +136,7 @@
 
       <div class="flex justify-end mt-4 gap-2">
         <AppButton name="Post" @click="PostStore.resetAllPostParameters()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="PostStore.submitDocumentPost(groupId, handleScroll)" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+        <AppButton name="Post" @click="PostStore.submitDocumentPost(handleScroll)" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
       </div>
 
       <div v-if="PostStore.progress > 0 && PostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4">
@@ -152,7 +152,6 @@
             :post
             :index
             :groupId
-            :reactions="ReactionStore.reactions"
           />
         </div>
       </DataTransition>
@@ -208,24 +207,27 @@ const $props = defineProps<{
 
 const PostStore = usePostStore()
 const ReactionStore = useReactionStore()
-
 const infiniteScroll = ref<HTMLElement | null>(null)
+PostStore.group_id = $props.groupId
 
-const handleScroll = () => {
-  let element = infiniteScroll.value
-  if(element) {
-    if(element?.getBoundingClientRect().bottom < window.innerHeight && !PostStore.loading) {
-      PostStore.getMorePostApi($props.groupId, handleScroll)
+function handleScroll() {
+    let element = infiniteScroll.value
+    if(element) {
+      if(element?.getBoundingClientRect().bottom < window.innerHeight && !PostStore.loading) {
+        PostStore.getMorePostApi(handleScroll)
+      }
     }
   }
-}
 
 onMounted(async () => {
   window.addEventListener('scroll', handleScroll)
+  PostStore.page = 1
   ReactionStore.getReactions()
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  ReactionStore.reaction_data = []
+  PostStore.post_data = []
 })
 </script>

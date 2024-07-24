@@ -102,7 +102,6 @@ class ManageGroupsController extends Controller
       'tasks'          => $this->editGetTasks($id),
       'group_roles'    => $this->editGetGroupRoles(),
       'task_priorities'=> TaskPriority::get(),
-      'pinned_posts'   => $this->editGetPinnedPost($id),
     ]);
   }
     private function editGetGroup($groupId) {
@@ -116,15 +115,6 @@ class ManageGroupsController extends Controller
         ->with(['hero_icon' => function ($q) {
           $q->select('content', 'name');
         }])
-        ->get();
-    }
-    private function editGetPinnedPost($groupId) {
-      return Post::query()
-        ->where('group_id', $groupId)
-        ->where('is_pinned', 1)
-        ->with(['user'])
-        ->orderBy('created_at', 'desc')
-        ->limit(5)
         ->get();
     }
     private function editGetGroupMembers($id) {

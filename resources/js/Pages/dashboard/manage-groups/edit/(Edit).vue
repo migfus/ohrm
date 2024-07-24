@@ -25,7 +25,7 @@
           v-model:description="form.description"
           :id="group.id"
         />
-        <PinnedPostsCard :posts="pinned_posts" :groupId="group.id"/>
+        <PinnedPostsCard :groupId="group.id"/>
       </div>
 
       <div class="col-span-4 lg:col-span-2 space-y-4">
@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
-import { Group, GroupRole, TaskPriority, Post, GroupMember, TaskTemplate, Task, Pagination } from '@/globalTypes'
+import { Group, GroupRole, TaskPriority, GroupMember, TaskTemplate, Task } from '@/globalTypes'
 import { defaultRouterState } from '@/converter'
 
 import GroupHeader from '.././GroupHeader.vue'
@@ -62,7 +62,7 @@ import { XMarkIcon } from '@heroicons/vue/20/solid'
 import UpdateTemplateTasksCard from './UpdateTemplateTasksCard.vue'
 import PinnedPostsCard from './PinnedPostsCard.vue'
 import RecentTasksCard from './RecentTasksCard.vue'
-import PostSection from './PostSection.vue'
+import PostSection from './posts/PostSection.vue'
 
 const $props = defineProps<{
   group: Group
@@ -71,7 +71,6 @@ const $props = defineProps<{
   task_templates: TaskTemplate[]
   tasks: Task[]
   task_priorities: TaskPriority[]
-  pinned_posts: Post[]
 }>()
 
 const form = router.form({

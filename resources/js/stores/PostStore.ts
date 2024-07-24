@@ -3,8 +3,11 @@ import { defineStore } from 'pinia'
 import { Post } from '@/globalTypes'
 import axios from 'axios'
 import { useForm } from '@inertiajs/vue3'
+import { usePinnedPostStore } from './PinnedPostStore'
 
 export const usePostStore = defineStore('post', () => {
+  const PinnedPostStore = usePinnedPostStore()
+
   const post_data = ref<Post[]>([])
   const loading = ref<boolean>(false)
   const progress = ref<number>(100)
@@ -14,6 +17,7 @@ export const usePostStore = defineStore('post', () => {
   const to_upload_files = ref([])
   const selected_post_id = ref<string>('')
   const selected_post_index = ref<number>(0)
+  const group_id = ref('')
 
   const open_modal_basic = ref<boolean>(false)
   const open_modal_multimedia = ref<boolean>(false)
@@ -51,7 +55,7 @@ export const usePostStore = defineStore('post', () => {
   }
 
   // SECTION: GET POSTS
-  async function getMorePostApi(group_id: string, handleScroll: () => void) {
+  async function getMorePostApi(handleScroll: () => void) {
     if (loading.value == true)
       return true
 
@@ -59,7 +63,7 @@ export const usePostStore = defineStore('post', () => {
 
     if(page.value <= last_page.value) {
       const res = await axios.get(
-        route('dashboard.posts.index', { page: page.value, group_id: group_id })
+        route('dashboard.posts.index', { page: page.value, group_id: group_id.value })
       )
       post_data.value = [...post_data.value, ...res.data.data]
       last_page.value = res.data.last_page
@@ -75,18 +79,18 @@ export const usePostStore = defineStore('post', () => {
 
   // SECTION: CREATE POST
   // NOTE: Basic Post
-  async function submitBasicPost(group_id: string, handleScroll: () => void) {
+  async function submitBasicPost(handleScroll: () => void) {
     progress.value = 0
     // NOTE: Create Post
     try {
       await axios.post(route('dashboard.posts.store'), {
         title: form.title,
-        group_id: group_id,
+        group_id: group_id.value,
         type: 'basic',
       })
       resetAllPostParameters()
       resetPostData()
-      getMorePostApi(group_id, handleScroll)
+      getMorePostApi(handleScroll)
     }
     catch(err) {
       // @ts-ignore
@@ -96,7 +100,7 @@ export const usePostStore = defineStore('post', () => {
   }
 
   // NOTE: Multimedia Post
-  async function submitMultimediaPost(group_id: string, handleScroll: () => void) {
+  async function submitMultimediaPost(handleScroll: () => void) {
     progress.value = 0
     const formData = new FormData()
     // @ts-ignore
@@ -104,7 +108,7 @@ export const usePostStore = defineStore('post', () => {
       formData.append(`files[${i}]`, to_upload_files.value[i])
     }
     formData.append('title', form.title)
-    formData.append('group_id', group_id)
+    formData.append('group_id', group_id.value)
     formData.append('type', 'multimedia')
 
     try {
@@ -118,7 +122,7 @@ export const usePostStore = defineStore('post', () => {
       })
       resetAllPostParameters()
       resetPostData()
-      getMorePostApi(group_id, handleScroll)
+      getMorePostApi(handleScroll)
     }
     catch(err) {
       // @ts-ignore
@@ -129,7 +133,7 @@ export const usePostStore = defineStore('post', () => {
   }
 
   // NOTE: Document Post
-  async function submitDocumentPost(group_id: string, handleScroll: () => void) {
+  async function submitDocumentPost(handleScroll: () => void) {
     progress.value = 0
     const formData = new FormData()
     // @ts-ignore
@@ -137,7 +141,7 @@ export const usePostStore = defineStore('post', () => {
       formData.append(`files[${i}]`, to_upload_files.value[i])
     }
     formData.append('title', form.title)
-    formData.append('group_id', group_id)
+    formData.append('group_id', group_id.value)
     formData.append('type', 'documents')
 
     try {
@@ -151,7 +155,7 @@ export const usePostStore = defineStore('post', () => {
       })
       resetAllPostParameters()
       resetPostData()
-      getMorePostApi(group_id, handleScroll)
+      getMorePostApi(handleScroll)
     }
     catch(err) {
       // @ts-ignore
@@ -163,7 +167,7 @@ export const usePostStore = defineStore('post', () => {
 
   // SECTION: UPDATE POST
   // NOTE: Pin post
-  async function pinPostApi(post_id: string) {
+  async function pinPostApi(post_id: string, group_id: string) {
     await axios.put(route('dashboard.posts.update', {post: post_id}), { type: 'pin' })
     post_data.value.find((post: Post) => {
       if(post.id === post_id) {
@@ -173,6 +177,8 @@ export const usePostStore = defineStore('post', () => {
           post.is_pinned = 0
       }
     })
+
+    PinnedPostStore.getPinnedPosts(group_id)
   }
   // NOTE: Update Post
   async function updatePostApi() {
@@ -226,6 +232,7 @@ export const usePostStore = defineStore('post', () => {
     form,
     to_upload_files,
     selected_post_id,
+    group_id,
 
     open_modal_basic,
     open_modal_multimedia,
