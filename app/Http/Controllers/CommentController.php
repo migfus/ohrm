@@ -7,6 +7,26 @@ use App\Models\Comment;
 
 class CommentController extends Controller
 {
+  public function index(Request $req) {
+    $req->validate([
+      'post_id'  => ['required', 'uuid'],
+      'group_id' => ['required', 'uuid'],
+    ]);
+
+    $comments = Comment::query()
+      ->where('commentable_id', $req->post_id)
+      ->where('commentable_type', 'App\Models\Post')
+      ->with([
+        'user.group_members' => function($q) use($req) {
+          $q->where('group_id', $req->group_id)->with('role');
+        },
+      ])
+      ->orderBy('created_at', 'DESC')
+      ->paginate(3);
+
+    return response()->json($comments);
+  }
+
   public function store(Request $req) {
     $req->validate([
       'post_id'  => ['required', 'uuid'],

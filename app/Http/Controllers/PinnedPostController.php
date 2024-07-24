@@ -28,7 +28,6 @@ class PinnedPostController extends Controller
         ])
         ->withCount(['comments'])
         ->orderBy('created_at', 'desc')
-        ->limit(5)
         ->get()
     );
   }

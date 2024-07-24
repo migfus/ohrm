@@ -85,7 +85,6 @@ import BasicCard from '@/components/cards/BasicCard.vue'
 import { TicketIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import AppButton from '@/components/form/AppButton.vue'
-import { templateRef } from '@vueuse/core'
 
 defineProps<{
   tasks: Task[]

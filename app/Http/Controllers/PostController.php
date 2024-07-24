@@ -21,7 +21,9 @@ class PostController extends Controller
         Post::query()
           ->where('group_id', $req->group_id)
           ->with([
-            'user',
+            'user.group_members' => function($q) use($req) {
+              $q->where('group_id', $req->group_id)->with('role');
+            },
             'post_contents',
             'post_type',
             'reaction_users' => function($q) {
@@ -32,11 +34,14 @@ class PostController extends Controller
             'auth_reaction' => function($q) use ($req) {
               $q->where('user_id', $req->user()->id);
             },
-            'comments' => function($q) {
-              $q->with('user')->orderBy('created_at', 'DESC');
+            'comments' => function($q) use($req){
+              $q->with(['user.group_members' => function($qu) use($req) {
+                $qu->where('group_id', $req->group_id)->with('role');
+              }])
+                ->orderBy('created_at', 'DESC')->limit(3);
             }
           ])
-          ->withCount(['comments'])
+          ->withCount(['comments', 'post_contents'])
           ->orderBy('created_at', 'DESC')
           ->paginate(10)
       );

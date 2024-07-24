@@ -53,5 +53,13 @@ class GroupRoleSeeder extends Seeder
       ->sync([
         GroupPermission::where('name', 'index group')->first()->id,
       ]);
+
+    GroupRole::create([
+      'name' => 'removed',
+      'display_name' => 'Removed',
+      'description' => 'Removed Member lists.',
+      'icon_name' => 'x-circle_micro'
+    ])
+      ->group_permission_role();
   }
 }

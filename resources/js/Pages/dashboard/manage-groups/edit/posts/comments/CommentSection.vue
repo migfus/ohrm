@@ -10,6 +10,22 @@
         @removeComment="removeComment"
         @updateComment="updateComment"
       />
+
+      <!-- NOTE: GET MORE COMMENTS -->
+      <div
+        v-if="loadComments"
+        class="text-right text-sm text-brand-400 my-1"
+      >
+        Loading...
+      </div>
+      <button
+        v-else-if="comments_count_model > (3 * page)"
+        class="text-right text-sm text-brand-400 my-1"
+        @click="loadMoreComments"
+      >
+        Load More Comments ({{ comments_count_model - (3 * page)}})
+      </button>
+
     </DataTransition>
 
     <!-- NOTE: AUTH COMMENT -->
@@ -28,6 +44,7 @@ import { ref } from 'vue'
 import { Comment } from '@/globalTypes'
 import { useCommentStore } from '@/stores/CommentStore'
 import { useForm } from '@inertiajs/vue3'
+import axios from 'axios'
 
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import CommentContent from './CommentContent.vue'
@@ -36,8 +53,9 @@ import AuthComment from './AuthComment.vue'
 const $props = defineProps<{
   comments: Comment[]
   post_id: string
+  group_id: string
 }>()
-const comments_count_model = defineModel<number>()
+const comments_count_model = defineModel<number>({default: 0})
 const $emit = defineEmits(['commentsCountChange'])
 const CommentStore = useCommentStore()
 
@@ -46,6 +64,8 @@ const form = useForm({
   content: '',
 })
 const lines = ref(1)
+const page = ref(1)
+const loadComments = ref<boolean>(false)
 
 async function submitComment() {
   // NOTE: NEW COMMENT
@@ -83,5 +103,15 @@ async function updateComment(index: number, comment_id: string, content: string)
   CommentStore.select_index = index
   CommentStore.select_comment_id = comment_id
   lines.value = 2
+}
+
+async function loadMoreComments() {
+  loadComments.value = true
+  page.value++
+  const res = await axios.get(route('dashboard.comments.index',
+    { page: page.value, post_id: $props.post_id, group_id: $props.group_id })
+  )
+  comments.value = [...comments.value,...res.data.data]
+  loadComments.value = false
 }
 </script>

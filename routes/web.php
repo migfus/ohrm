@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/manage-template-tasks', ManageTemplateTaskController::class)->only(['edit', 'update']);
       Route::get('/manage-template-tasks/users-suggestion/{id}', [ManageTemplateTaskController::class, 'userComboBox'])->name('manage-groups.users-suggestion');
     Route::resource('posts', PostController::class)->only(['destroy', 'update', 'index', 'store']);
-    Route::resource('comments', CommentController::class)->only(['store', 'destroy', 'update']);
+    Route::resource('comments', CommentController::class)->only(['store', 'destroy', 'update', 'index']);
 
     Route::resource('/reactions', ReactionController::class)->only(['index', 'store']);
     Route::resource('/pinned-posts', PinnedPostController::class)->only(['index']);

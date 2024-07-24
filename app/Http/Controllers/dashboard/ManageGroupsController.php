@@ -150,6 +150,8 @@ class ManageGroupsController extends Controller
     }
   // ✏️
   public function update(Request $req, $id): RedirectResponse {
+    $success_message = ['title' => 'Group Updated', 'content' => 'Group details updated successfully'];
+
     switch($req->type) {
       // ✅
       case 'basic':
@@ -162,22 +164,27 @@ class ManageGroupsController extends Controller
       // ✅
       case 'cover':
         $this->updateCover($req, $id);
+        $success_message = ['title' => "Groups cover has changed", 'content' => 'Successfully changed to new cover'];
         break;
       // ✅
       case 'add-member':
         $this->addMember($req, $id);
+        $success_message = ['title' => 'New Member Added', 'content' => 'Successfully added new member'];
         break;
       // ✅
       case 'remove-member':
         $this->removeMember($req, $id);
+        $success_message = ['title' => 'Member Removed', 'content' => 'Successfully removed member'];
         break;
       // ✅
       case 'addTask':
         $this->addTemplateTask($req, $id);
+        $success_message = ['title' => 'New Template Task Added', 'content' => 'Successfully added new task template'];
         break;
       // ✅
       case 'removeTask':
         $this->removeTemplateTask($req, $id);
+        $success_message = ['title' => 'Task Template Removed', 'content' => 'Successfully removed the task template'];
         break;
       // ✏️
       case 'updateTask':
@@ -188,7 +195,8 @@ class ManageGroupsController extends Controller
           ->withErrors(['type' => 'Type value is missing']);
     }
 
-    return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])->with('success', "Updated");
+    return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])
+      ->with('success', $success_message);
   }
     // ✅
     private function updateBasic(Request $req, $id) : void {
@@ -231,11 +239,24 @@ class ManageGroupsController extends Controller
         'roleId'  => ['required', 'uuid']
       ]);
 
-      GroupMember::create([
-        'user_id'       => $req->user_id,
-        'group_role_id' => $req->roleId,
-        'group_id'      => $id,
-      ]);
+      $removed_group_member = GroupMember::query()
+        ->where('user_id', $req->user_id)
+        ->where('group_id', $id)
+        ->where('group_role_id', GroupRole::where('name', 'removed')->first()->id)
+        ->first();
+
+      if($removed_group_member) {
+        GroupMember::find($removed_group_member->id)->update([
+          'group_role_id' => $req->roleId,
+        ]);
+      }
+      else {
+        GroupMember::create([
+          'user_id'       => $req->user_id,
+          'group_role_id' => $req->roleId,
+          'group_id'      => $id,
+        ]);
+      }
     }
     // ✅
     private function removeMember(Request $req, $id) {
@@ -245,7 +266,9 @@ class ManageGroupsController extends Controller
 
       // NOTE: Prevents no member in a group.
       if(Group::where('id', $id)->withCount('group_members')->first()->group_members_count > 1)
-        GroupMember::find($req->memberId)->delete();
+        GroupMember::find($req->memberId)->update([
+          'group_role_id' => GroupRole::where('name', 'removed')->first()->id,
+        ]);
       else
         return to_route('dashboard.manage-groups.edit', ['manage_group' => $id])
           ->withErrors(['member' => 'At least 1 member should access the group.']);
@@ -310,6 +333,7 @@ class ManageGroupsController extends Controller
   public function userComboBox(Request $req, $id) : JsonResponse {
     $members = GroupMember::query()
       ->where('group_id', $id)
+      ->whereNot('group_role_id', GroupRole::where('name', 'removed')->first()->id)
       ->with('user')
       ->get();
 

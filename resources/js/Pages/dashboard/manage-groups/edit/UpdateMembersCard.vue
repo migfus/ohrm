@@ -10,18 +10,18 @@
         :key="member.id"
         :id="member.id"
         :userId="member.user_id"
-        :disabled="filtered_members.length <= 1 && groupRole.display_name == 'Administrator'"
+        :disabled="(filtered_members.length <= 1 && groupRole.display_name == 'Administrator') || groupRole.display_name == 'Removed'"
         @selected="RemoveMember(member.id)"
       >
         <div class="flex justify-start">
           <img :src="member?.user?.avatar" class="h-4 w-4 rounded-full inline mr-2 p-0 mt-[3px]">
-          <span class="truncate">{{ member?.user?.name }}</span>
+          <span :class="[groupRole.display_name == 'Removed' && 'line-through', 'truncate']">{{ member?.user?.name }}</span>
         </div>
       </MemberDropdownMenu>
     </DataTransition>
 
 
-    <div class="flex flex-col">
+    <div v-if="groupRole.display_name != 'Removed'" class="flex flex-col">
       <UsersComboBox
         :groupId
         type="admin"

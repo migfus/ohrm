@@ -5,8 +5,12 @@
       <Link :href="route('dashboard.manage-users.edit', {manage_user: post.user.id})" class="flex">
         <img :src="$props.post.user.avatar" class="h-8 w-8 rounded-full shadow mr-2" />
         <div class="flex flex-col">
-          <span class="text-sm">{{ $props.post.user.name }}</span>
-          <span class="text-xs">{{ dateTimeFormatted($props.post.created_at) }}  - {{ $props.post.user.email }}</span>
+          <span
+            :class="[$props.post.user.group_members[0].role?.name == 'removed' && 'line-through','text-sm']"
+          >
+            {{ $props.post.user.name }}
+          </span>
+          <span class="text-xs">{{ dateTimeFormatted($props.post.created_at) }}  - {{ $props.post.user.group_members[0].role?.display_name }}</span>
         </div>
       </Link>
       <div class="text-sm font-regular py-0 my-0 cursor-pointer flex">
@@ -63,6 +67,7 @@
     <CommentSection
       :comments="post.comments"
       :post_id="$props.post.id"
+      :group_id="$props.groupId"
       v-model="comments_count"
     />
   </div>

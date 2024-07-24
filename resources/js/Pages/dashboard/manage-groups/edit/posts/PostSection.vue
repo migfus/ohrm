@@ -72,8 +72,9 @@
         </AppButton>
       </div>
 
-      <div v-if="PostStore.progress > 0 && PostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4">
+      <div v-if="PostStore.progress > 0 && PostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4 mb-1">
         <div class="bg-brand-500 h-1.5 rounded-full transition-all" :style="`width: ${PostStore.progress}%`"></div>
+        <label class="text-sm justify-end flex text-brand-800">{{ PostStore.progress }}%</label>
       </div>
     </FormModal>
 
@@ -102,11 +103,20 @@
 
       <div class="flex justify-end mt-4 gap-2">
         <AppButton name="Post" @click="PostStore.resetAllPostParameters()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="PostStore.submitMultimediaPost(handleScroll)" color="brand" :icon="PaperAirplaneIcon" :forceLoading="PostStore.progress < 100">Post</AppButton>
+        <AppButton
+          name="Post"
+          @click="PostStore.submitMultimediaPost(handleScroll)"
+          color="brand"
+          :icon="PaperAirplaneIcon"
+          :forceLoading="PostStore.progress < 100"
+        >
+          Post
+        </AppButton>
       </div>
 
-      <div v-if="PostStore.progress > 0 && PostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4">
+      <div v-if="PostStore.progress > 0 && PostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4 mb-1">
         <div class="bg-brand-500 h-1.5 rounded-full transition-all" :style="`width: ${PostStore.progress}%`"></div>
+        <label class="text-sm justify-end flex text-brand-800">{{ PostStore.progress }}%</label>
       </div>
 
     </FormModal>
@@ -136,11 +146,20 @@
 
       <div class="flex justify-end mt-4 gap-2">
         <AppButton name="Post" @click="PostStore.resetAllPostParameters()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton name="Post" @click="PostStore.submitDocumentPost(handleScroll)" color="brand" :icon="PaperAirplaneIcon">Post</AppButton>
+        <AppButton
+          name="Post"
+          @click="PostStore.submitDocumentPost(handleScroll)"
+          color="brand"
+          :icon="PaperAirplaneIcon"
+          :forceLoading="PostStore.progress < 100"
+        >
+          Post
+        </AppButton>
       </div>
 
-      <div v-if="PostStore.progress > 0 && PostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4">
+      <div v-if="PostStore.progress > 0 && PostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4 mb-1">
         <div class="bg-brand-500 h-1.5 rounded-full transition-all" :style="`width: ${PostStore.progress}%`"></div>
+        <label class="text-sm justify-end flex text-brand-800">{{ PostStore.progress }}%</label>
       </div>
     </FormModal>
 

@@ -214,6 +214,7 @@ export const usePostStore = defineStore('post', () => {
     open_modal_basic.value = false
     open_modal_multimedia.value = false
     open_modal_documents.value = false
+    errors.value = []
   }
 
   function resetPostData() {

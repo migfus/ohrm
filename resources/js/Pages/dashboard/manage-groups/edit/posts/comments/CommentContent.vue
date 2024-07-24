@@ -3,14 +3,21 @@
     <img :src="comment.user?.avatar" class="h-5 w-5 rounded-full mt-2"/>
     <div class="bg-brand-50 shadow rounded-2xl px-3 py-2 text-xs flex flex-col flex-grow">
       <div class="flex justify-between">
-        <label class="font-medium">{{ comment.user?.name }} - {{ dateTimeFormatted(comment.created_at) }}</label>
+        <label
+          :class="[comment.user?.group_members[0].role?.name == 'removed' && 'line-through', 'font-medium']"
+        >
+          {{ comment.user?.name }} - {{ dateTimeFormatted(comment.created_at) }}
+        </label>
         <CommentDropdown @click="dropdownSelection" :user_id="$props.comment.user_id"/>
       </div>
 
       <label class="text-sm">{{ comment.content }}</label>
+
+
       <label v-if="comment.created_at != comment.updated_at" class="text-xs text-brand-300 mt-1">
         {{ `Edited | ${dateTimeFormatted(comment.updated_at)}` }}
       </label>
+
     </div>
   </div>
 </template>
