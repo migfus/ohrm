@@ -61,6 +61,7 @@ import { Post } from '@/globalTypes'
 import moment from 'moment'
 import { useElementSize } from '@vueuse/core'
 import { usePostStore } from '@/stores/PostStore'
+import { usePinnedPostStore } from '@/stores/PinnedPostStore'
 
 import { XMarkIcon, ChatBubbleLeftRightIcon, MapPinIcon } from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'

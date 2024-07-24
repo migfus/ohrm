@@ -20,7 +20,7 @@ import CommentDropdown from '@/components/dropdowns/CommentDropdown.vue'
 
 const $props = defineProps<{
   comment: Comment
-  postId: string
+  post_id: string
   index: number
 }>()
 

@@ -21,8 +21,7 @@ import AppButton from '@/components/form/AppButton.vue'
 import { ChatBubbleLeftIcon, XMarkIcon } from '@heroicons/vue/24/solid'
 
 defineProps<{
-  postId: string
-  groupId: string
+  post_id: string
 }>()
 
 const $page = usePage()

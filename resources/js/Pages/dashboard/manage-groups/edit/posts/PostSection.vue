@@ -183,7 +183,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { usePostStore } from '@/stores/PostStore'
 import { useReactionStore } from '@/stores/ReactionStore'
 
-import PostCard from '@/components/cards/posts/PostCard.vue'
+import PostCard from './PostCard.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
 import {
   ArrowPathIcon,

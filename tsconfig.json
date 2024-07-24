@@ -4,7 +4,7 @@
     "module": "esnext",
     // this enables stricter inference for data properties on `this`
     "strict": true,
-    "allowJs": true,
+    // "allowJs": true,
     // "noImplicitAny": false,
     "jsx": "preserve",
     "moduleResolution": "node",

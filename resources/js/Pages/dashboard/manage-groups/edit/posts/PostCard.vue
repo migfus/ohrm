@@ -53,42 +53,31 @@
           :authReactionId="post.auth_reaction?.reaction_id"
         />
       </span>
-      <span class="cursor-pointer">{{ contentFormatter('Comment', comments_count) }}</span>
+      <span class="cursor-pointer">{{ contentFormatter('Comment', post.comments_count) }}</span>
     </div>
 
-    <!-- NOTE: COMMENTS DATA -->
-    <DataTransition v-if="comments.length > 0" class="mx-4 flex flex-col gap-2 bg-white rounded-2xl p-2">
-      <CommentContent
-        v-for="comment, index in comments"
-        :key="comment.id"
-        :comment
-        :postId="post.id"
-        :index
-        @removeComment="removeComment"
-        @updateComment="updateComment"
-      />
-    </DataTransition>
-
-    <!-- NOTE: AUTH COMMENT -->
-    <CommentCard :postId="$props.post.id" :groupId @submitNewComment="submitNewComment"/>
+    <!-- NOTE: COMMENTS SECTION -->
+    <CommentSection
+      :comments="post.comments"
+      :comments_count="post.comments_count"
+      :post_id="$props.post.id"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useElementSize } from '@vueuse/core'
-import { Post, Comment } from '@/globalTypes'
+import { Post } from '@/globalTypes'
 import { contentFormatter, dateTimeFormatted } from '@/converter'
-import { useCommentStore } from '@/stores/CommentStore'
 
 import { MapPinIcon } from '@heroicons/vue/24/solid'
-import CommentCard from '@/components/cards/comments/CommentCard.vue'
-import CommentContent from '@/components/cards/comments/CommentContent.vue'
+
 import PostDropown from '@/components/dropdowns/PostDropown.vue'
-import DataTransition from '@/components/transitions/DataTransition.vue'
 import MultimediaPreview from './MultimediaPreview.vue'
 import DocumentsPreview from './DocumentsPreview.vue'
 import ReactDropdown from '@/components/dropdowns/ReactDropdown.vue'
+import CommentSection from './comments/CommentSection.vue'
 
 const $props = defineProps<{
   groupId: string
@@ -96,28 +85,7 @@ const $props = defineProps<{
   index: number
 }>()
 
-const CommentStore = useCommentStore()
-
 const minimize_content = ref(true)
 const sentence_lines = ref(null)
 const { height } = useElementSize(sentence_lines)
-const comments = ref<Comment[]>($props.post.comments) // allows changable comments
-const comments_count = ref($props.post.comments_count)
-
-async function submitNewComment(content: string) {
-  let new_comment_data = await CommentStore.newCommentApi($props.post.id, content)
-  comments.value = [new_comment_data, ...comments.value]
-  comments_count.value++
-}
-
-async function removeComment(index: number, comment_id: string) {
-  await CommentStore.removeCommentApi(comment_id)
-  comments.value.splice(index, 1)
-  comments_count.value--
-}
-
-async function updateComment(index: number, comment_id: string, content: string) {
-  // await CommentStore.removeCommentApi(comment_id)
-  comments.value[index].content = content
-}
 </script>
