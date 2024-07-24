@@ -12,7 +12,7 @@ import { usePinnedPostStore } from '@/stores/PinnedPostStore'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { MapPinIcon } from '@heroicons/vue/20/solid'
-import PinnedPostCard from './posts/PinnedPostCard.vue'
+import PinnedPostCard from './PinnedPostCard.vue'
 
 const $props = defineProps<{
   groupId: string

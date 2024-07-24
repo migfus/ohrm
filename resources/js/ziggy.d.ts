@@ -175,6 +175,12 @@ declare module 'ziggy-js' {
         }
     ],
     "dashboard.comments.store": [],
+    "dashboard.comments.update": [
+        {
+            "name": "comment",
+            "required": true
+        }
+    ],
     "dashboard.comments.destroy": [
         {
             "name": "comment",

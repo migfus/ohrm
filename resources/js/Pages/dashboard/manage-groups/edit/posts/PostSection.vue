@@ -211,13 +211,13 @@ const infiniteScroll = ref<HTMLElement | null>(null)
 PostStore.group_id = $props.groupId
 
 function handleScroll() {
-    let element = infiniteScroll.value
-    if(element) {
-      if(element?.getBoundingClientRect().bottom < window.innerHeight && !PostStore.loading) {
-        PostStore.getMorePostApi(handleScroll)
-      }
+  let element = infiniteScroll.value
+  if(element) {
+    if(element?.getBoundingClientRect().bottom < window.innerHeight && !PostStore.loading) {
+      PostStore.getMorePostApi(handleScroll)
     }
   }
+}
 
 onMounted(async () => {
   window.addEventListener('scroll', handleScroll)

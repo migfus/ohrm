@@ -8,6 +8,9 @@
       </div>
 
       <label class="text-sm">{{ comment.content }}</label>
+      <label v-if="comment.created_at != comment.updated_at" class="text-xs text-brand-300 mt-1">
+        {{ `Edited | ${dateTimeFormatted(comment.updated_at)}` }}
+      </label>
     </div>
   </div>
 </template>
@@ -16,7 +19,7 @@
 import { dateTimeFormatted } from '@/converter'
 import { Comment } from '@/globalTypes'
 
-import CommentDropdown from '@/components/dropdowns/CommentDropdown.vue'
+import CommentDropdown from './CommentDropdown.vue'
 
 const $props = defineProps<{
   comment: Comment
@@ -31,7 +34,7 @@ function dropdownSelection(val: string) {
     case 'delete':
       $emit('removeComment', $props.index, $props.comment.id); break
     default:
-      $emit('updateComment', $props.index, $props.comment.id, ); break
+      $emit('updateComment', $props.index, $props.comment.id); break
   }
 }
 </script>

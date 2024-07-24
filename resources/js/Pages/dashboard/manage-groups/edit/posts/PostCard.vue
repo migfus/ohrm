@@ -6,7 +6,7 @@
         <img :src="$props.post.user.avatar" class="h-8 w-8 rounded-full shadow mr-2" />
         <div class="flex flex-col">
           <span class="text-sm">{{ $props.post.user.name }}</span>
-          <span class="text-xs">{{ dateTimeFormatted($props.post.created_at) }}</span>
+          <span class="text-xs">{{ dateTimeFormatted($props.post.created_at) }}  - {{ $props.post.user.email }}</span>
         </div>
       </Link>
       <div class="text-sm font-regular py-0 my-0 cursor-pointer flex">
@@ -18,8 +18,11 @@
     <!-- NOTE: POSTCARD CONTENTS -->
     <div ref="sentenceLines" class="m-1 bg-white px-4 py-2 rounded-lg mx-4 shadow font-medium text-md">
 
-      <div v-if="minimize_content" v-html="$props.post.title" class="line-clamp-4" ></div>
-      <div v-else v-html="$props.post.title"></div>
+      <div v-if="minimize_content" class="line-clamp-4" >{{ $props.post.title }}</div>
+      <div v-else>{{ $props.post.title }}</div>
+      <div v-if="$props.post.created_at != $props.post.updated_at" class="text-xs text-brand-300 mt-1">
+        Edited | {{ dateTimeFormatted($props.post.updated_at) }}
+      </div>
 
       <MultimediaPreview
         v-if="$props.post.post_type.name == 'Multimedia'"
@@ -53,14 +56,14 @@
           :authReactionId="post.auth_reaction?.reaction_id"
         />
       </span>
-      <span class="cursor-pointer">{{ contentFormatter('Comment', post.comments_count) }}</span>
+      <span class="cursor-pointer">{{ contentFormatter('Comment', comments_count) }}</span>
     </div>
 
     <!-- NOTE: COMMENTS SECTION -->
     <CommentSection
       :comments="post.comments"
-      :comments_count="post.comments_count"
       :post_id="$props.post.id"
+      v-model="comments_count"
     />
   </div>
 </template>
@@ -88,4 +91,5 @@ const $props = defineProps<{
 const minimize_content = ref(true)
 const sentence_lines = ref(null)
 const { height } = useElementSize(sentence_lines)
+const comments_count = ref($props.post.comments_count)
 </script>

@@ -24,6 +24,6 @@ defineProps<{
   contents: PostContent[]
   name: string
   title: string
-  createdAt: string
+  createdAt: Date
 }>()
 </script>

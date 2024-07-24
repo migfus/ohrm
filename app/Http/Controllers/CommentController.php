@@ -1,11 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Events\PostEvent;
 use Illuminate\Http\Request;
 
 use App\Models\Comment;
-use App\Events\UpdateGroupPostsEvent;
 
 class CommentController extends Controller
 {
@@ -29,6 +27,18 @@ class CommentController extends Controller
 
   public function destroy($id) {
     Comment::find($id)->delete();
+
+    return response()->json(['success' => true]);
+  }
+
+  public function update(Request $req, $id) {
+    $req->validate([
+      'content' => ['required']
+    ]);
+
+    Comment::find($id)->update([
+      'content' => $req->content,
+    ]);
 
     return response()->json(['success' => true]);
   }

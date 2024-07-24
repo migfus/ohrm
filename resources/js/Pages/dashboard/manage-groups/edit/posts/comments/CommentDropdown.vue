@@ -30,8 +30,8 @@
         </div>
       </MenuItems>
     </BasicTransition>
-    <RemovalPrompt v-model="open_remove_prompt" title="Remove Selected Post?" confirmMessage="Remove this Post" @confirm="confirmRemove()">
-      Do you want to remove this post?
+    <RemovalPrompt v-model="open_remove_prompt" title="Remove Selected Comment?" confirmMessage="Remove this Comment" @confirm="confirmRemove()">
+      Do you want to remove this comment?
     </RemovalPrompt>
   </Menu>
 </template>

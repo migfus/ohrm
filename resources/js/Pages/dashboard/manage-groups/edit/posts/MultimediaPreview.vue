@@ -75,7 +75,7 @@ const $props = defineProps<{
   counts: number
   contents: PostContent[]
   title: string
-  createdAt: string
+  createdAt: Date
   user: User
 }>()
 

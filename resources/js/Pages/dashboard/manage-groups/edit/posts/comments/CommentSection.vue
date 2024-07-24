@@ -13,7 +13,13 @@
     </DataTransition>
 
     <!-- NOTE: AUTH COMMENT -->
-    <AuthComment :post_id @submitNewComment="submitNewComment"/>
+    <AuthComment
+      :post_id
+      v-model="form.content"
+      v-model:lines="lines"
+      @submitComment="submitComment"
+      @resetForm="form.reset()"
+    />
   </div>
 </template>
 
@@ -21,36 +27,61 @@
 import { ref } from 'vue'
 import { Comment } from '@/globalTypes'
 import { useCommentStore } from '@/stores/CommentStore'
+import { useForm } from '@inertiajs/vue3'
 
 import DataTransition from '@/components/transitions/DataTransition.vue'
-
 import CommentContent from './CommentContent.vue'
 import AuthComment from './AuthComment.vue'
 
 const $props = defineProps<{
   comments: Comment[]
   post_id: string
-  comments_count: number
 }>()
+const comments_count_model = defineModel<number>()
+const $emit = defineEmits(['commentsCountChange'])
 const CommentStore = useCommentStore()
 
 const comments = ref<Comment[]>($props.comments) // allows changable comments
-const comments_count = ref($props.comments_count)
+const form = useForm({
+  content: '',
+})
+const lines = ref(1)
 
-async function submitNewComment(content: string) {
-  let new_comment_data = await CommentStore.newCommentApi($props.post_id, content)
-  comments.value = [new_comment_data, ...comments.value]
-  comments_count.value++
+async function submitComment() {
+  // NOTE: NEW COMMENT
+  if(CommentStore.select_comment_id == '') {
+    let new_comment_data = await CommentStore.newCommentApi($props.post_id, form.content)
+    comments.value = [new_comment_data, ...comments.value]
+    if(comments_count_model.value === undefined)
+      comments_count_model.value = 1
+    else
+      comments_count_model.value++
+  }
+  // NOTE: UPDATE COMMENT
+  else {
+    await CommentStore.updatCommentApi(CommentStore.select_comment_id, form.content)
+    comments.value[CommentStore.select_index].content = form.content
+  }
+
+  CommentStore.select_comment_id = ''
+  CommentStore.select_index = -1
+
+  form.reset()
 }
 
 async function removeComment(index: number, comment_id: string) {
   await CommentStore.removeCommentApi(comment_id)
   comments.value.splice(index, 1)
-  comments_count.value--
+  if(comments_count_model.value === undefined)
+    comments_count_model.value = 0
+  else
+    comments_count_model.value--
 }
 
 async function updateComment(index: number, comment_id: string, content: string) {
-  // await CommentStore.removeCommentApi(comment_id)
-  comments.value[index].content = content
+  form.content = comments.value[index].content
+  CommentStore.select_index = index
+  CommentStore.select_comment_id = comment_id
+  lines.value = 2
 }
 </script>

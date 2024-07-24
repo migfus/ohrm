@@ -60,7 +60,7 @@ import UpdateMembersCard from './UpdateMembersCard.vue'
 import FlashErrors from '@/components/headers/FlashErrors.vue'
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import UpdateTemplateTasksCard from './UpdateTemplateTasksCard.vue'
-import PinnedPostsCard from './PinnedPostsCard.vue'
+import PinnedPostsCard from './pinned-posts/PinnedPostsCard.vue'
 import RecentTasksCard from './RecentTasksCard.vue'
 import PostSection from './posts/PostSection.vue'
 

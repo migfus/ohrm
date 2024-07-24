@@ -45,7 +45,7 @@ import AppButton from '@/components/form/AppButton.vue'
 
 defineProps<{
   user: User
-  createdAt: string
+  createdAt: Date
 }>()
 const $open_modal_model = defineModel<boolean>()
 </script>
