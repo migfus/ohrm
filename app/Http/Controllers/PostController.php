@@ -77,6 +77,8 @@ class PostController extends Controller
         'title'  => $req->title,
       ]);
 
+      dd($post);
+
       PostsEvent::dispatch('new-post', $post->toArray());
 
       return response()->json(

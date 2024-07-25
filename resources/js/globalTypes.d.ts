@@ -16,7 +16,7 @@ export type CTopNavigation = {
 
 export type Auth = {
   avatar: string
-  created_at: Date
+  created_at: string
   email: string
   id: string
   name: string
@@ -178,9 +178,9 @@ export interface Task {
   task_user_access_id: string
   task_priority_id: string
   task_status_id: string
-  task_status_at?: Date
-  expired_at?: Date
-  created_at: Date
+  task_status_at?: string
+  expired_at?: string
+  created_at: string
   task_user_access: TaskAccessUser
   task_priority: TaskPriority
   task_status: TaskStatus
@@ -202,8 +202,8 @@ export interface Select {
 export interface Post {
   title: string
   user: User
-  created_at: Date
-  updated_at: Date
+  created_at: string
+  updated_at: string
   id: string
   is_pinned: number // 0 or 1
   comments: Comment[]
@@ -231,8 +231,8 @@ export interface Comment {
   content: string
   user_id: string
   user?: User
-  created_at: Date
-  updated_at: Date
+  created_at: string
+  updated_at: string
   id: string
 }
 

@@ -30,7 +30,8 @@ class CommentController extends Controller
   public function store(Request $req) {
     $req->validate([
       'post_id'  => ['required', 'uuid'],
-      'content' => ['required'],
+      'content'  => ['required'],
+      'group_id' => ['required', 'uuid'],
     ]);
 
     $comment_id = Comment::create([
@@ -41,7 +42,14 @@ class CommentController extends Controller
     ])->id;
 
     return response()->json(
-      Comment::where('id', $comment_id)->with('user')->first()
+      Comment::query()
+        ->where('id', $comment_id)
+        ->with([
+          'user.group_members' => function($q) use($req) {
+            $q->where('group_id', $req->group_id)->with('role');
+          },
+        ])
+        ->first()
     );
   }
 

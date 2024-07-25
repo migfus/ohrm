@@ -21,33 +21,33 @@ class TaskUserAccessSeeder extends Seeder
         'task_template_id' => TaskTemplate::where('name', 'Direct Request')->first()->id
       ],
       [
-        'user_id' => User::where('name', 'Athena Jan I. Derayunan')->first()->id,
+        'user_id' => User::where('name', 'Athens Radha')->first()->id,
         'task_template_id' => TaskTemplate::where('name', 'Direct Request')->first()->id
       ],
       [
-        'user_id' => User::where('name', 'Charlotte G. Sanchez')->first()->id,
+        'user_id' => User::where('name', 'Charlno Loukas')->first()->id,
         'task_template_id' => TaskTemplate::where('name', 'Direct Request')->first()->id
       ],
       [
-        'user_id' => User::where('name', 'Divina S. Toquib')->first()->id,
+        'user_id' => User::where('name', 'Divine S. Sionann')->first()->id,
         'task_template_id' => TaskTemplate::where('name', 'Direct Request')->first()->id
       ],
       [
-        'user_id' => User::where('name', 'Jernafernagen J. Delada')->first()->id,
+        'user_id' => User::where('name', 'Jerna Bernardina')->first()->id,
         'task_template_id' => TaskTemplate::where('name', 'Direct Request')->first()->id
       ],
 
       // NOTE: RSP
       [
-        'user_id' => User::where('name', 'Charlotte G. Sanchez')->first()->id,
+        'user_id' => User::where('name', 'Charlno Loukas')->first()->id,
         'task_template_id' => TaskTemplate::where('name', 'Applications')->first()->id
       ],
       [
-        'user_id' => User::where('name', 'Eunice Jane O. Sarausa')->first()->id,
+        'user_id' => User::where('name', 'Eunight Lachtnae')->first()->id,
         'task_template_id' => TaskTemplate::where('name', 'Applications')->first()->id
       ],
       [
-        'user_id' => User::where('name', 'Eunice Jane O. Sarausa')->first()->id,
+        'user_id' => User::where('name', 'Eunight Lachtnae')->first()->id,
         'task_template_id' => TaskTemplate::where('name', 'Job Order Contract/s')->first()->id
       ],
     ];

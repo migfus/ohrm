@@ -165,8 +165,8 @@
 
     <!-- SECTION: POSTS DATA -->
     <div ref="infiniteScroll">
-      <DataTransition class="flex flex-col gap-4">
-        <div v-for="post, index in PostStore.post_data" :key="post.id">
+      <DataTransition class="flex flex-col">
+        <div v-for="post, index in PostStore.post_data" :key="post.id" class="mt-4">
           <PostCard
             :post
             :index

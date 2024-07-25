@@ -7,10 +7,11 @@ export const useCommentStore = defineStore('commentStore', () => {
   const select_comment_id = ref<string>('')
   const select_index = ref<number>(-1)
 
-  async function newCommentApi(post_id: string, content: string) {
+  async function newCommentApi(post_id: string, content: string, group_id: string) {
     const res = await axios.post(route('dashboard.comments.store'), {
       post_id,
       content,
+      group_id
     })
     return res.data as Comment
   }
@@ -19,9 +20,12 @@ export const useCommentStore = defineStore('commentStore', () => {
     await axios.delete(route('dashboard.comments.destroy', { comment: comment_id }))
   }
 
-  async function updatCommentApi(comment_id: string, content: string) {
-    await axios.put(route('dashboard.comments.update', { comment: comment_id}),
-      { content}
+  async function updatCommentApi(comment_id: string, content: string, group_id: string) {
+    await axios.put(route('dashboard.comments.update', { comment: comment_id }),
+      {
+        content,
+        group_id
+      }
     )
   }
 
