@@ -2,7 +2,7 @@
   <div>
     <!-- NOTE: Create Post Card -->
     <BasicCard title="Create Post" :icon="ChatBubbleOvalLeftIcon" description="Creat Post to this group.">
-      <div class="flex mt-4 gap-2">
+      <div class="flex flex-wrap mt-4 gap-2">
 
         <AppButton
           name="Post Text"
@@ -164,7 +164,7 @@
     </FormModal>
 
     <!-- SECTION: POSTS DATA -->
-    <div ref="infiniteScroll" class="mt-4">
+    <div ref="infiniteScroll">
       <DataTransition class="flex flex-col gap-4">
         <div v-for="post, index in PostStore.post_data" :key="post.id">
           <PostCard

@@ -64,7 +64,7 @@
           <Bars3BottomLeftIcon class="h-6 w-6" aria-hidden="true" />
         </button>
         <div class="flex flex-1 justify-between px-4 max-w-7xl mx-auto">
-          <div class="flex-grow">
+          <div class="flex-grow max-w-xs">
             <form class="mt-4" action="#" method="GET">
               <AppInput name="Search" :error="undefined" noLabel placeholder="Search Settings" size="sm"/>
             </form>

@@ -62,11 +62,11 @@
         </Link>
       </div>
     </DataTransition>
-    <DataTransition class="flex gap-2 justify-end mt-4">
+    <DataTransition class="flex flex-wrap gap-2 justify-start mt-4">
       <AppButton
         v-for="temp in taskTemplates"
         :name="`${temp.name} button`"
-        class="unwrap"
+        class=""
         noLoading
         :href="route('dashboard.manage-template-tasks.edit', {manage_template_task: temp.id})"
       >

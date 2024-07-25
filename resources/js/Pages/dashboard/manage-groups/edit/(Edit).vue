@@ -18,24 +18,14 @@
     />
     <FlashErrors :errors="$page.props.errors"/>
 
-    <div class="grid grid-cols-4 gap-4 mt-4">
+    <div class="grid grid-cols-3 gap-4 mt-4">
       <div class="col-span-4 lg:col-span-1 space-y-4">
         <UpateBasicCard
           v-model:name="form.name"
           v-model:description="form.description"
           :id="group.id"
         />
-        <PinnedPostsCard :groupId="group.id"/>
-      </div>
 
-      <div class="col-span-4 lg:col-span-2 space-y-4">
-        <GroupHeatMapCard />
-        <UpdateTemplateTasksCard :taskTemplates="task_templates" :groupId="group.id" :taskPriorities="task_priorities"/>
-        <RecentTasksCard :tasks="tasks" :taskTemplates="task_templates"/>
-        <PostSection :groupId="group.id"/>
-      </div>
-
-      <div class="col-span-4 lg:col-span-1 space-y-4">
         <UpdateMembersCard
           v-for="groupRole in group_roles"
           :key="groupRole.id"
@@ -43,6 +33,18 @@
           :groupId="group.id"
           :groupMembers="group_members"
         />
+      </div>
+
+      <div class="col-span-4 lg:col-span-2 space-y-4">
+        <GroupHeatMapCard />
+        <UpdateTemplateTasksCard :taskTemplates="task_templates" :groupId="group.id" :taskPriorities="task_priorities"/>
+        <RecentTasksCard :tasks="tasks" :taskTemplates="task_templates"/>
+        <PinnedPostsCard :groupId="group.id"/>
+        <PostSection :groupId="group.id"/>
+      </div>
+
+      <div class="col-span-4 lg:col-span-1 space-y-4">
+
       </div>
     </div>
   </div>
