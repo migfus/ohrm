@@ -68,8 +68,8 @@ class UserSeeder extends Seeder
 
     // NOTE: OHRM
     $user = User::create([
-      'name' => 'Athena Jan I. Derayunan',
-      'email' => 'f.athenajanderayunan@cmu.edu.ph',
+      'name' => 'Athens Radha',
+      'email' => 'athens@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf116db47a55f815653ed1757103f59baeb035ea.jpg',
       'cover' => 'https://t4.ftcdn.net/jpg/05/31/79/83/360_F_531798391_XFz7gyPmDRTAfiEE5sRjFu5NpKrJt4rC.jpg',
       'password' => bcrypt('12345678')
@@ -80,8 +80,8 @@ class UserSeeder extends Seeder
 
   private function RSPUsers($group_id, $roles, $group_roles): void {
     $user = User::create([
-      'name' => 'Marcelino F. Duay III.',
-      'email' => 's.duaymarcelino@cmu.edu.ph',
+      'name' => 'Mars Felicitas',
+      'email' => 'mars@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf05c67567f40d3493d1134e4c400d00381056ba.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -90,8 +90,8 @@ class UserSeeder extends Seeder
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
 
     $user = User::create([
-      'name' => 'Eunice Jane O. Sarausa',
-      'email' => 's.eunicejanesarausa@cmu.edu.ph',
+      'name' => 'Eunight Lachtnae',
+      'email' => 'eunight@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf05d95934570f7efd1daca927d3355e72c7271e.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -101,8 +101,8 @@ class UserSeeder extends Seeder
 
 
     User::create([
-      'name' => 'Charlotte G. Sanchez',
-      'email' => 's.charlottesanchez@cmu.edu.ph',
+      'name' => 'Charlno Loukas',
+      'email' => 'charlno@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf074a7e1776a77c24c1286631dc9013359c4a09.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -113,8 +113,8 @@ class UserSeeder extends Seeder
 
   private function LADUsers($group_id, $roles, $group_roles): void {
     $user = User::create([
-      'name' => 'Nolan Earl E. Guzman',
-      'email' => 's.nolan@cmu.edu.ph',
+      'name' => 'Nol Mahesha',
+      'email' => 'nol@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf0349e812e2be0892dcb763e5c559cf7ed9dbea.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -123,8 +123,8 @@ class UserSeeder extends Seeder
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
 
     $user = User::create([
-      'name' => 'Vashti Jael I. Naduma',
-      'email' => 's.vashti@cmu.edu.ph',
+      'name' => 'Vashy Travis',
+      'email' => 'vashy@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf03661c9c4af861017c502d5b168336b038eb7e.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -133,8 +133,8 @@ class UserSeeder extends Seeder
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
 
     $user = User::create([
-      'name' => 'Rhizza Mae T. Sungahid',
-      'email' => 's.rhizza@cmu.edu.ph',
+      'name' => 'Rhizz Grozdan',
+      'email' => 'grozdan@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf040f7a4a4daa967dcaa266a5fc70c7acf38f65.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -145,8 +145,8 @@ class UserSeeder extends Seeder
 
   private function PERMAUsers($group_id, $roles, $group_roles): void {
     $user = User::create([
-      'name' => 'Jernafernagen J. Delada',
-      'email' => 's.jerna@cmu.edu.ph',
+      'name' => 'Jerna Bernardina',
+      'email' => 'jerna@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf05c3cfe01518f955962968e2aacc5fc7db6de2.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -167,8 +167,8 @@ class UserSeeder extends Seeder
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
 
     $user = User::create([
-      'name' => 'Ruel G. Tutas III.',
-      'email' => 's.ruel@cmu.edu.ph',
+      'name' => 'Ruela Þrymr',
+      'email' => 'ruela@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf025bb301673194b22ea58c007de403edbd19e0.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -179,8 +179,8 @@ class UserSeeder extends Seeder
 
   private function COBERUUsers($group_id, $roles, $group_roles): void {
     $user = User::create([
-      'name' => 'Paul Calvin B. Rubio',
-      'email' => 's.paulcalvin@cmu.edu.ph',
+      'name' => 'Paulo Þeudōmēraz',
+      'email' => 'paulo@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf0142020f4ba0c72722cfcd3988f0106a90dac8.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -189,8 +189,8 @@ class UserSeeder extends Seeder
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
 
     $user = User::create([
-      'name' => 'Lucena R. Catane',
-      'email' => 's.catane@cmu.edu.ph',
+      'name' => 'Lucern S Tomek',
+      'email' => 'lucern@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf02159758091682c25f6c09c6d0fe68206723ed.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')
@@ -199,8 +199,8 @@ class UserSeeder extends Seeder
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
 
     $user = User::create([
-      'name' => 'Divina S. Toquib',
-      'email' => 's.divina@cmu.edu.ph',
+      'name' => 'Divine S. Sionann',
+      'email' => 'divine@cmu.edu.ph',
       'avatar' => 'https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/cf/cf025513ba6a5edeeefff9f69ad1eadce006fa4f.jpg',
       'cover' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgTK5rMT1U1VzAVpuhz6z2krX_hYLUwik0VTTEmFPEPw&s',
       'password' => bcrypt('12345678')

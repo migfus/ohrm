@@ -12,7 +12,7 @@
       <div class="col-span-4 md:col-span-2">
         <UserHeatMapCard />
       </div>
-      <div class="col-span-1 md:col-span-2 lg:col-span-1">
+      <div class="col-span-4 sm:col-span-1 md:col-span-2 lg:col-span-1">
         <JoinedGroupsCard :groupMembers="user.group_members" :userId="user.id"/>
       </div>
     </div>
