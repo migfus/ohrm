@@ -50,34 +50,44 @@ class ManageTemplateTaskController extends Controller
     $req->validate([
       'type' => ['required']
     ]);
+    $msg = ['title' => 'Updated', 'content' => 'Successfuly Updated'];
 
     switch($req->type) {
       // ✅
       case 'basic':
-        $this->updateBasic($req, $id); break;
+        $this->updateBasic($req, $id);
+        $msg = ['title' => 'Information Changed', 'content' => 'Successfuly Updated'];
+        break;
       // ✅
       case 'assign-user':
-        $this->assignUser($req, $id); break;
+        $this->assignUser($req, $id);
+        $msg = ['title' => 'Member Assigned', 'content' => 'Successfuly Assigned New User'];
+        break;
       // ✅
       case 'unassign-user':
-        $this->unassignUser($req, $id); break;
+        $this->unassignUser($req, $id);
+        $msg = ['title' => 'Member Removed', 'content' => 'Successfuly Removed User'];
+        break;
       default:
         return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id])
           ->withErrors(['type' => 'Invalid Type!']);
     }
 
-    return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id])->with('success', "Updated");
+    return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id])
+      ->with('success', $msg);
   }
     // ✅
     private function updateBasic(Request $req, string $id) : void {
       $req->validate([
-        'name'        => ['required'],
-        'description' => ['required']
+        'name'    => ['required'],
+        'message' => ['required'],
+        'show'    => ['required', 'boolean'],
       ]);
 
       TaskTemplate::find($id)->update([
-        'name'        => $req->name,
-        'description' => $req->description,
+        'name'    => $req->name,
+        'message' => $req->message,
+        'is_show' => $req->show ? true : false,
       ]);
     }
     // ✅

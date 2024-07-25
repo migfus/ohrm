@@ -101,7 +101,7 @@ class ManageGroupsController extends Controller
       'task_templates' => $this->editGetTaskTemplates($id),
       'tasks'          => $this->editGetTasks($id),
       'group_roles'    => $this->editGetGroupRoles(),
-      'task_priorities'=> TaskPriority::get(),
+      'task_priorities'=> TaskPriority::with('hero_icon')->get(),
     ]);
   }
     private function editGetGroup($groupId) {
@@ -300,13 +300,13 @@ class ManageGroupsController extends Controller
       $req->validate([
         'name'        => ['required'],
         'priority_id' => ['required', 'uuid'],
-        'description' => [''],
+        'message' => [''],
         'is_show'     => ['required', 'boolean'],
       ]);
 
       TaskTemplate::create([
         'name'        => $req->name,
-        'description' => $req->description,
+        'message'     => $req->message,
         'group_id'    => $id,
         'default_task_priority_id' => $req->priority_id,
         'is_show'     => $req->is_show ? true : false,

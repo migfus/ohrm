@@ -20,9 +20,9 @@
               :class="[taskTemplate.task_priority.name == 'Urgent' && 'animate-bounce', 'h-4 w-4 mr-2 mt-[2px] align-middle']"
               :style="`color: #${taskTemplate.task_priority.color}`">
             </div>
-            <div class="flex justify-center flex-grow">
+            <div class="flex flex-grow">
               <span :class="[taskTemplate.task_priority.name == 'Urgent' && 'animate-bounce delay-100']">
-                default: {{ taskTemplate.task_priority.name }}
+                {{ taskTemplate.task_priority.name }}
               </span>
             </div>
             <ChevronDownIcon
@@ -33,20 +33,25 @@
           <div class="flex text-brand-700 font-semibold">
             <span>{{ taskTemplate.name }}</span>
           </div>
-          <div class="flex text-brand-400 font-normal line-clamp-2 justify-start">
-            <span>{{ taskTemplate.description }}</span>
+          <div class="flex text-brand-400 font-normal line-clamp-2 justify-start mb-2">
+            <span>{{ taskTemplate.message }}</span>
           </div>
 
-          <div v-if="taskTemplate.task_user_access.length > 0" class="flex -space-x-1 overflow-hidden justify-end">
-            <img v-for="row in taskTemplate.task_user_access" class="inline-block h-6 w-6 rounded-full ring-2 ring-white" :src="row.user.avatar" alt="" />
-            <div v-if="0 < taskTemplate.task_user_access_count" class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-brand-100 pt-[3px] text-xs text-brand-600" >
-              +{{ taskTemplate.task_user_access_count }}
+          <div class="flex justify-between">
+            <!-- NOTE: VISIBILITY -->
+            <GlobeAsiaAustraliaIcon v-if="taskTemplate.is_show" class="h-4 w-4 mt-[4px] text-brand-500"/>
+            <LockClosedIcon v-else class="h-4 w-4 mt-[4px] text-brand-500"/>
+
+            <!-- NOTE: MEMBERS -->
+            <div v-if="taskTemplate.task_user_access.length > 0" class="flex -space-x-1 overflow-hidden justify-end">
+              <img v-for="row in taskTemplate.task_user_access" class="inline-block h-6 w-6 rounded-full ring-2 ring-white" :src="row.user.avatar" alt="" />
+              <div v-if="0 < taskTemplate.task_user_access_count" class="inline-block h-6 w-6 rounded-full ring-2 ring-white bg-brand-100 pt-[3px] text-xs text-brand-600" >
+                +{{ taskTemplate.task_user_access_count }}
+              </div>
             </div>
-          </div>
-          <div v-else class="flex justify-between text-brand-500 mt-[3px]">
-            <GlobeAsiaAustraliaIcon v-if="taskTemplate.is_show" class="h-4 w-4 mt-[4px]"/>
-            <LockClosedIcon v-else class="h-4 w-4 mt-[4px]"/>
-            <div>No member assigned.</div>
+            <div v-else class="flex justify-between text-brand-500 mt-[3px]">
+              <div>No member assigned.</div>
+            </div>
           </div>
 
         </MenuButton>

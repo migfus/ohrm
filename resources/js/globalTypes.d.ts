@@ -88,7 +88,7 @@ export interface TaskTemplate {
   group: Group
   task_priority: TaskPriority
   name: string
-  description?: string
+  message?: string
   is_show: boolean
   task_user_access: TaskAccessUser []
   task_user_access_count: number
@@ -184,9 +184,11 @@ export interface Task {
   task_user_access: TaskAccessUser
   task_priority: TaskPriority
   task_status: TaskStatus
-  task_template: TaskTemplate
-  message: string
-  user_assigned: User
+  task_template_id?: string
+  task_template?: TaskTemplate
+  name: string
+  message?: string
+  user_assigned?: User
 }
 
 export interface TaskStatus {

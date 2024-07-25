@@ -39,9 +39,9 @@ function assignMember(user: User) {
   })
 }
 
-function unassignUser(value: { type: string, task_user_access_ID: string}) {
+function unassignUser(type: string, task_user_access_id: string) {
   router.put(route('dashboard.manage-template-tasks.update', { manage_template_task: $props.taskTemplateId }), {
-    task_user_access_ID: value.task_user_access_ID,
+    task_user_access_id: task_user_access_id,
     type: 'unassign-user'
   }, {
     preserveScroll: true,

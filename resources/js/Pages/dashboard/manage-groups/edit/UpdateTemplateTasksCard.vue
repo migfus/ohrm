@@ -25,24 +25,34 @@
 
     <FormModal v-model="show_add_task" title="Add New Template Request" description="Add New Template Request" :icon="PlusIcon" size="max-w-md">
       <form @submit.prevent="addTask">
-        <AppInput v-model="form.name" name="Name" :error="undefined"/>
-        <AppTextArea v-model="form.description" name="Description" :error="undefined"/>
-        <ComboBox
-          v-model="form.priority"
-          name="Default Priority"
-          :data="taskPriorities.map((row: any) => {
-            return {
-              name: row.name,
-              display_name: row.name,
-              id: row.id,
-            }
-          })"
-          class="mt-4"
-        />
+        <AppInput v-model="form.name" name="Name" :error="undefined" class="mb-3"/>
+        <AppTextArea v-model="form.message" name="Default Message" :error="undefined" class="mb-3"/>
+
+        <label class="text-sm font-medium leading-6 text-brand-700">Select Priority</label>
+        <div class="flex gap-2 mt-3 flex-wrap">
+          <button
+            v-for="row in taskPriorities"
+            :key="row.id"
+            type="button"
+            :class="[
+              row.id == form.priority_id ? 'bg-brand-600 text-brand-50 shadow-lg outline-4 outline-brand-50' : 'bg-white text-brand-800',
+              'shadow p-2 rounded-2xl px-4 align-middle transition-all text-sm'
+            ]"
+            @click="form.priority_id = row.id"
+          >
+            <div
+              v-html="row.hero_icon.content"
+              class="h-2 w-2 inline _select-icon"
+              :style="`color: #${form.priority_id == row.id ? 'eff2ef' : row.color}`"
+            >
+            </div>
+            {{ row.name }}
+          </button>
+        </div>
         <AppToggle v-model="form.isShow" name="Show to public"/>
 
         <div class="flex justify-end mt-4 gap-2">
-          <AppButton @click="show_add_task = false; form.reset()" :icon="XMarkIcon" color="danger" type="button">Cancel</AppButton>
+          <AppButton @click="show_add_task = false; form.reset()" :icon="XMarkIcon" type="button">Cancel</AppButton>
           <AppButton @click="show_add_task = false" :icon="PlusIcon" color="brand" type="submit">Add</AppButton>
         </div>
       </form>
@@ -52,11 +62,11 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Tab, TaskPriority, TaskTemplate } from '@/globalTypes'
+import { TaskPriority, TaskTemplate } from '@/globalTypes'
 import { defaultRouterState } from '@/converter'
 import { router } from '@inertiajs/vue3'
 
-import { TicketIcon, PlusIcon, XMarkIcon } from '@heroicons/vue/24/solid'
+import { TicketIcon, PlusIcon, XMarkIcon} from '@heroicons/vue/24/solid'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
 import TaskDropdownMenu from '../TaskDropdownMenu.vue'
@@ -65,7 +75,6 @@ import AppButton from '@/components/form/AppButton.vue'
 import AppInput from '@/components/form/AppInput.vue'
 import AppTextArea from '@/components/form/AppTextArea.vue'
 import AppToggle from '@/components/form/AppToggle.vue'
-import ComboBox from '@/components/form/ComboBox.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
 const $props = defineProps<{
@@ -80,12 +89,8 @@ const show_add_task = ref<boolean>(false)
 
 const form = router.form({
   name: '',
-  description: '',
-  priority: {
-    name: $props.taskPriorities[2].name,
-    display_name: $props.taskPriorities[2].name,
-    id: $props.taskPriorities[2].id,
-  },
+  message: '',
+  priority_id: $props.taskPriorities[2].id,
   isShow: true,
 })
 
@@ -109,8 +114,8 @@ function ConfirmRemove() {
 function addTask() {
   router.put(route('dashboard.manage-groups.update', { manage_group: $props.groupId }), {
     name: form.name,
-    description: form.description,
-    priority_id: form.priority.id,
+    message: form.message,
+    priority_id: form.priority_id,
     is_show: form.isShow,
     type: 'addTask',
   }, {
@@ -134,3 +139,13 @@ function removeTask() {
   }
 }
 </script>
+
+<style>
+._select-icon > svg {
+  height: 1.2rem !important;
+  width: 1.2rem !important;
+  display: inline;
+  color: var(--brand-600);
+  margin-top: -0.1rem !important;
+}
+</style>

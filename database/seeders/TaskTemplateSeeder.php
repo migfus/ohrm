@@ -39,35 +39,35 @@ class TaskTemplateSeeder extends Seeder
         'default_task_priority_id' => $this->task_priority['urgent'],
         'is_show' => true,
         'name' => 'Direct Request',
-        'description' => 'This template is to work lol',
+        'message' => 'This template is to work lol',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['high'],
         'is_show' => true,
         'name' => 'High Task',
-        'description' => 'Work for your life!!',
+        'message' => 'Work for your life!!',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'Mid task',
-        'description' => 'Work for your life!!',
+        'message' => 'Work for your life!!',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['low'],
         'is_show' => true,
         'name' => 'Low Task',
-        'description' => 'Work for your life!!',
+        'message' => 'Work for your life!!',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['set aside'],
         'is_show' => true,
         'name' => 'Aside task',
-        'description' => 'Work for your life!!',
+        'message' => 'Work for your life!!',
       ],
     ];
 
@@ -83,14 +83,14 @@ class TaskTemplateSeeder extends Seeder
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'Applications',
-        'description' => 'Applicant application',
+        'message' => 'Applicant application',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'Job Order Contract/s',
-        'description' => 'Follow up job order contract/s',
+        'message' => 'Follow up job order contract/s',
       ],
     ];
 
@@ -106,7 +106,7 @@ class TaskTemplateSeeder extends Seeder
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'Seminar Request',
-        'description' => 'Seminar Request',
+        'message' => 'Seminar Request',
       ],
     ];
 
@@ -122,28 +122,28 @@ class TaskTemplateSeeder extends Seeder
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'Retirement Request',
-        'description' => 'Retirement Request',
+        'message' => 'Retirement Request',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'Leave Request',
-        'description' => 'Leave Request',
+        'message' => 'Leave Request',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'Outstanding Employee',
-        'description' => 'Outstanding Employee',
+        'message' => 'Outstanding Employee',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'Landbank Request',
-        'description' => 'Landbank Request',
+        'message' => 'Landbank Request',
       ],
     ];
 
@@ -159,21 +159,21 @@ class TaskTemplateSeeder extends Seeder
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'Biometrics Request',
-        'description' => 'Biometrics Request',
+        'message' => 'Biometrics Request',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'CSC ID Request',
-        'description' => 'CSC ID Request',
+        'message' => 'CSC ID Request',
       ],
       [
         'group_id' => $group_id,
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => '201 File Request',
-        'description' => '201 File Request',
+        'message' => '201 File Request',
       ],
     ];
 
@@ -189,7 +189,7 @@ class TaskTemplateSeeder extends Seeder
         'default_task_priority_id' => $this->task_priority['mid'],
         'is_show' => true,
         'name' => 'PeMIRES Request',
-        'description' => 'PeMIRES Request',
+        'message' => 'PeMIRES Request',
       ],
     ];
 

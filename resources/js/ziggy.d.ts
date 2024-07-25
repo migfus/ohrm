@@ -114,6 +114,7 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
+    "dashboard.tasks.index": [],
     "dashboard.manage-users.index": [],
     "dashboard.manage-users.store": [],
     "dashboard.manage-users.edit": [

@@ -14,7 +14,7 @@ return new class extends Migration
       $table->uuid('default_task_priority_id');
       $table->foreign('default_task_priority_id')->references('id')->on('task_priorities')->onDelete('cascade');
       $table->string('name');
-      $table->text('description')->nullable();
+      $table->text('message')->nullable();
       $table->boolean('is_show');
       $table->timestamps();
     });

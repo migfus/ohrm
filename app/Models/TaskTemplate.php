@@ -10,7 +10,7 @@ class TaskTemplate extends Model
 {
   use HasFactory, HasUuids;
 
-  protected $fillable = ['name', 'description', 'group_id', 'default_task_priority_id', 'is_show' ];
+  protected $fillable = ['name', 'message', 'group_id', 'default_task_priority_id', 'is_show' ];
 
   // NOTE: GET TASK PRIORITY
   public function task_priority() {

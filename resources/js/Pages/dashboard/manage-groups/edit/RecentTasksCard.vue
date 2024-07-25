@@ -1,8 +1,12 @@
 <template>
   <BasicCard :icon="TicketIcon" title="Recent Tasks" description="Task">
-    <DataTransition>
-      <div v-for="row in tasks" :key="row.id" class="bg-white mb-2 shadow rounded-2xl px-4 py-2">
-        <Link class="grid grid-cols-1 sm:grid-cols-3 gap-4" :href="`/dashboard/manage-template-tasks/${row.task_template.id}/edit`">
+    <DataTransition class="flex flex-col">
+      <div v-for="row in tasks" :key="row.id" class="mb-2">
+        <AppButton
+          :href="row.task_template_id ? `/dashboard/manage-template-tasks/${row.task_template!.id}/edit` : undefined"
+          :class="['grid grid-cols-1 sm:grid-cols-3 gap-4 w-full', row.task_template_id ? 'cursor-pointer' : 'cursor-not-allowed']"
+          noLoading
+        >
           <div class="flex justify-between font-medium">
             <div class="">
               <div class="text-brand-700">
@@ -27,7 +31,7 @@
 
           <div class="font-medium text-sm">
             <div class="text-brand-700 flex justify-start">
-              <span class="truncate">{{ row.task_template.name }}</span>
+              <span class="truncate">{{ row.name }}</span>
             </div>
             <div class="text-sm text-brand-400  flex justify-start mt-1">
               <div v-html="row.task_priority.hero_icon.content" class="w-4 h-4 inline mr-1 mt-[2px] rounded-full text-brand-600"></div>
@@ -59,10 +63,19 @@
           <div v-if="row.message" class="flex bg-brand-50 px-4 py-2 rounded-2xl col-span-3 text-sm">
             {{ row.message }}
           </div>
-        </Link>
+        </AppButton>
       </div>
     </DataTransition>
     <DataTransition class="flex flex-wrap gap-2 justify-start mt-4">
+      <AppButton
+        name="All Tasks"
+        noLoading
+        :href="`/all/tasks`"
+        color="brand"
+      >
+        <CheckCircleIcon class="h-4 w-4 mt-0.5 mr-2"/>
+        All Tasks
+      </AppButton>
       <AppButton
         v-for="temp in taskTemplates"
         :name="`${temp.name} button`"
@@ -82,11 +95,11 @@ import moment from 'moment'
 import { Task, TaskTemplate } from '@/globalTypes'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
-import { TicketIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
+import { TicketIcon, QuestionMarkCircleIcon, CheckCircleIcon } from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import AppButton from '@/components/form/AppButton.vue'
 
-defineProps<{
+const $props = defineProps<{
   tasks: Task[]
   taskTemplates: TaskTemplate[]
 }>()

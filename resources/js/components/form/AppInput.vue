@@ -1,7 +1,7 @@
 <template>
   <BasicTransition>
     <div>
-      <label v-if="!$props.noLabel" class="block text-sm font-medium leading-6 text-brand-700 mb-1">{{ $props.name }}</label>
+      <label v-if="!$props.noLabel" class="block text-sm font-medium leading-6 text-brand-700">{{ $props.name }}</label>
       <input
         v-model="$model"
         :id="name"

@@ -1,7 +1,7 @@
 <template>
   <div class="col-span-full">
     <label v-if="!noLabel" :for="name" class="block text-sm font-medium leading-6 text-brand-700">{{ name }}</label>
-    <BasicTransition class="mt-2">
+    <BasicTransition class="mt-1">
       <textarea
         v-model="$model"
         :id="name"

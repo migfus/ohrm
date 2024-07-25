@@ -24,7 +24,18 @@ class TaskSeeder extends Seeder
         'task_priority_id' => TaskPriority::where('name', 'Mid')->first()->id,
         'task_status_id' => TaskStatus::where('name', 'Queuing')->first()->id,
         'task_status_at' => Carbon::now(),
-      ]
+        'name' => TaskTemplate::where('name', 'High Task')->first()->name,
+        'message' => TaskTemplate::where('name', 'High Task')->first()->message,
+      ],
+      [
+        'id' => 2406270002,
+        'group_id' => TaskTemplate::where('name', 'High Task')->first()->group_id,
+        'task_priority_id' => TaskPriority::where('name', 'Mid')->first()->id,
+        'task_status_id' => TaskStatus::where('name', 'Queuing')->first()->id,
+        'task_status_at' => Carbon::now(),
+        'name' => 'Custom name',
+        'message' => 'Custom Message',
+      ],
     ];
 
     foreach($data as $item) {

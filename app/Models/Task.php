@@ -19,6 +19,7 @@ class Task extends Model
       'task_status_id',
       'task_status_at',
       'expired_at',
+      'name',
       'message',
       'group_id' // NOTE: to bypass the task_templates 🙏
     ];

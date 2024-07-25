@@ -17,7 +17,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PinnedPostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactionController;
-
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 // NOTE: PAGES
@@ -47,6 +47,7 @@ Route::middleware(['auth'])->group(function () {
     // NOTE: ADMIN
     Route::resource('/manage-groups', ManageGroupsController::class)->except(['show', 'create']);
       Route::get('/manage-groups/users-suggestion/{id}', [ManageGroupsController::class, 'UserComboBox'])->name('manage-groups.users-suggestion');
+      Route::resource('/manage-groups/tasks', TaskController::class)->only(['index']);
     Route::resource('/manage-users', ManageUsersController::class)->except(['show', 'create']);
     Route::resource('/system-roles-permissions', SystemRolesPermissionsController::class)->only(['index', 'update']);
     Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);

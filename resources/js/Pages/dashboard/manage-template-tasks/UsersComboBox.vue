@@ -70,7 +70,7 @@ function AddMember(value: User) {
 async function userSearch() {
   loading.value = true
   users_from_DB.value = await axios.get(`/dashboard/manage-template-tasks/users-suggestion/${$props.groupId}`, {
-    params: { search: search_input.value, taskTemplateId: $props.taskTemplateId }
+    params: { search: search_input.value, task_template_id: $props.taskTemplateId }
   })
   loading.value = false
 }
