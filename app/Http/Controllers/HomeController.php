@@ -62,6 +62,7 @@ class HomeController extends Controller
       'task_status_id'   => TaskStatus::where('name', 'Queuing')->first()->id,
       'task_status_at'   => Carbon::now(),
       'message' => $req->message,
+      'name' => $task_template->name,
     ]);
 
     UpdateStatusPageEvent::dispatch(['message' => 'new data']);

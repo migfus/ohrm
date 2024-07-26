@@ -16,7 +16,7 @@ class TaskUserAccess extends Model
     return $this->belongsTo(User::class);
   }
 
-  public function tasks() {
-    return $this->hasMany(Task::class, 'task_user_access_id');
+  public function task_template() {
+    return $this->belongsTo(TaskTemplate::class);
   }
 }

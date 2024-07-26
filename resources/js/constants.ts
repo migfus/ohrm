@@ -1,4 +1,4 @@
-import { TCTopNavigation } from "./globalTypes"
+import { TopNavigation } from "./globalTypes"
 import {
   HomeIcon,
   RssIcon,
@@ -11,7 +11,7 @@ import {
   AtSymbolIcon
 } from "@heroicons/vue/24/solid"
 
-export const CTopNavigation: TCTopNavigation[] = [
+export const CTopNavigation: TopNavigation[] = [
   {
     name: 'Home',
     icon: HomeIcon,
@@ -32,7 +32,7 @@ export const CTopNavigation: TCTopNavigation[] = [
   },
 ]
 
-export const CSidebarNavigation: TCTopNavigation[] = [
+export const CSidebarNavigation: TopNavigation[] = [
   {
     name: 'Dashboard',
     icon: SquaresPlusIcon,
@@ -46,12 +46,6 @@ export const CSidebarNavigation: TCTopNavigation[] = [
     components: ['dashboard/MyGroups']
   },
   {
-    name: 'Joined Groups',
-    icon: FolderIcon,
-    href: '/dashboard/joined-groups',
-    components: ['dashboard/JoinedGroups']
-  },
-  {
     name: 'Account Settings',
     icon: Cog6ToothIcon,
     href: '/dashboard/account',
@@ -59,7 +53,7 @@ export const CSidebarNavigation: TCTopNavigation[] = [
   }
 ]
 
-export const CAdminNavigation: TCTopNavigation[] = [
+export const CAdminNavigation: TopNavigation[] = [
   {
     name: 'Manage Groups',
     icon: SquaresPlusIcon,

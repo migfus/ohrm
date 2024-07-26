@@ -39,5 +39,4 @@ class Task extends Model
   public function task_status() {
     return $this->belongsTo(TaskStatus::class);
   }
-
 }

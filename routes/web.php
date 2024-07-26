@@ -18,6 +18,7 @@ use App\Http\Controllers\PinnedPostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactionController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 // NOTE: PAGES
@@ -41,7 +42,6 @@ Route::middleware(['auth'])->group(function () {
     // NOTE: Dashboard
     Route::resource('/', DashboardController::class)->only(['index']);
     Route::resource('/my-groups', MyGroupsController::class)->only(['index']);
-    Route::resource('/joined-groups', JoinedGroupsController::class)->only(['index']);
     Route::resource('/account', AccountController::class)->only(['index']);
 
     // NOTE: ADMIN
@@ -60,4 +60,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/pinned-posts', PinnedPostController::class)->only(['index']);
   });
 });
+
+Route::resource('/test', TestController::class);
 

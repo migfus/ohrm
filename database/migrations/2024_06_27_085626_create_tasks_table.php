@@ -27,8 +27,8 @@ return new class extends Migration
       $table->uuid('task_status_id');
       $table->foreign('task_status_id')->references('id')->on('task_statuses')->onDelete('cascade');
 
-      $table->text('message')->nullable();
       $table->string('name');
+      $table->text('message')->nullable();
 
       $table->dateTimeTz('task_status_at');
       $table->dateTimeTz('expired_at')->nullable();

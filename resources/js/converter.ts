@@ -36,7 +36,7 @@ export const dateTimeFormatted = (dateTime: Date | string) => {
   if(moment().format('YYYYMMDD') === moment(dateTime).format('YYYYMMDD')) {
     return moment(dateTime).format('hh:mm A')
   }
-  return moment(dateTime).format('YYYY-MM-DD hh:mm A')
+  return moment(dateTime).format('MM/DD/YYYY hh:mm A')
 }
 
 export const contentFormatter = (content: string, value: number) => {

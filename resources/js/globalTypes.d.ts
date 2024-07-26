@@ -6,7 +6,7 @@ export interface HeroIcon {
   content: string
 }
 
-export type CTopNavigation = {
+export type TopNavigation = {
   name: string
   icon?: FunctionalComponent
   href: string
@@ -189,6 +189,7 @@ export interface Task {
   name: string
   message?: string
   user_assigned?: User
+  group_id: string
 }
 
 export interface TaskStatus {
