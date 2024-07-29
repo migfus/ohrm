@@ -216,6 +216,7 @@ export interface Post {
   post_contents_count: number
   reaction_users: ReactionUser[]
   auth_reaction?: ReactionUser
+  group: Group
 }
 
 export interface ReactionUser {

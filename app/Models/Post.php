@@ -34,4 +34,8 @@ class Post extends Model
   public function comments() {
     return $this->morphMany(Comment::class, 'commentable');
   }
+
+  public function group() {
+    return $this->belongsTo(Group::class);
+  }
 }

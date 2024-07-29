@@ -2,11 +2,15 @@
   <div>
     <BasicCard
       :icon="Square2StackIcon"
-      title="Groups"
+      title="My Groups"
     >
       <AppInput name="Search" v-model="search_throttle" placeholder="Search" noLabel/>
 
-      <DataTransition class="flex flex-col gap-2 mt-4">
+      <div v-if="groups.length <= 0">
+        No group found.
+      </div>
+
+      <DataTransition v-else class="flex flex-col gap-2 mt-4">
         <Link
           v-for="group in groups"
           :key="group.id"
@@ -51,7 +55,7 @@ defineProps<{
 
 const search_throttle = ref('')
 const form = reactive({
-  search: useThrottle(search_throttle, 2000),
+  search: useThrottle(search_throttle, 1000),
 })
 
 watch(form, () => {

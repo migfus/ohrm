@@ -33,7 +33,7 @@ class MyGroupsController extends Controller
 
       return Post::query()
         ->whereIn('group_id', $group_ids)
-        ->with(['user'])
+        ->with(['user', 'group'])
         ->orderBy('created_at', 'desc')
         ->get();
     }
