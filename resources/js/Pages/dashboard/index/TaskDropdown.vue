@@ -4,11 +4,12 @@
       <div>
         <MenuButton
           as="button"
-          :class="[`w-full rounded-2xl text-sm font-medium  text-brand-700 focus:ring-2 focus:ring-brand-500 bg-white`]"
+          :class="[`w-full rounded-2xl text-sm font-medium  text-brand-700 focus:ring-2 focus:ring-brand-500 bg-brand-50`]"
         >
-          <div class="flex justify-between flex-grow">
+          <div class="flex justify-between flex-grow cursor-pointer shadow rounded-2xl p-1">
+            <label class="text-brand-600 ml-2 cursor-pointer">Queuing</label>
             <EllipsisHorizontalCircleIcon
-              class="h-5 w-5 ml-4"
+              class="h-5 w-5 ml-1"
               aria-hidden="true"
             />
           </div>

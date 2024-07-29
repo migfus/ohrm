@@ -5,7 +5,7 @@
       <PendingTasks :pending_tasks />
     </div>
     <div class="col-span-2 lg:col-span-1">
-      <ProcessedTasks :task_processed />
+      <MarkedTasks :marked_tasks />
     </div>
   </div>
 
@@ -15,13 +15,13 @@
 import { Task } from '@/globalTypes'
 
 import PendingTasks from './PendingTasks.vue'
-import ProcessedTasks from './ProcessedTasks.vue'
+import MarkedTasks from './MarkedTasks.vue'
 import MyActivities from './MyActivities.vue'
 import moment from 'moment'
 
 const $props = defineProps<{
   pending_tasks: Task[]
-  task_processed: Task[]
+  marked_tasks: Task[]
   user_activities: {
     date: string
     count: number
@@ -31,7 +31,7 @@ const $props = defineProps<{
 const user_activities = [
   {
     date: moment().format('YYYY-MM-DD'),
-    count: $props.task_processed.length
+    count: $props.marked_tasks.length
   },
   ...$props.user_activities
 ]

@@ -1,8 +1,10 @@
 <template>
   <div>
-    <BasicCard :icon="TicketIcon" title="Processed Tasks" description="Task Assigned">
+    <BasicCard :icon="TicketIcon" title="Processed Tasks">
       <div class="flex flex-col gap-2">
-        <div v-for="task, index in task_processed" :key="task.id" class="bg-white p-4 shadow rounded-2xl font-medium">
+        <AppInput name="Search" v-model="throttle_search" class="mb-2" noLabel placeholder="Search Task" />
+
+        <div v-for="task, index in marked_tasks" :key="task.id" class="bg-white p-4 shadow rounded-2xl font-medium">
           <div class="flex justify-between">
             <div class="flex">
               <div class="text-xs text-brand-600 mt-1 mr-1">{{ taskIdSplitter(task.id, 'date_time')}}</div>
@@ -46,14 +48,26 @@
 
 <script setup lang="ts">
 import { Task } from '@/globalTypes'
-import { dateTimeFormatted, taskIdSplitter } from '@/converter'
+import { dateTimeFormatted, taskIdSplitter, defaultRouterState } from '@/converter'
+import{ ref, reactive, watch } from 'vue'
+import { useThrottle } from '@vueuse/core'
+import { router } from '@inertiajs/vue3'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { TicketIcon } from '@heroicons/vue/24/solid'
-
+import AppInput from '@/components/form/AppInput.vue'
 import TaskDropdown from './TaskDropdown.vue'
 
 defineProps<{
-  task_processed: Task[]
+  marked_tasks: Task[]
 }>()
+
+const throttle_search = ref('')
+const form = reactive({
+  search: useThrottle(throttle_search, 2000)
+})
+
+watch(form, () => {
+  router.get(route('dashboard.index'), { search: form.search }, defaultRouterState(['marked_tasks']))
+})
 </script>

@@ -29,7 +29,7 @@ import { computed } from 'vue'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 
 type TProps = {
-  error: string | undefined
+  error?: string | undefined
   name: string
   type?: 'text' | 'email' | 'password'
   placeholder?: string

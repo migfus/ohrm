@@ -17,12 +17,16 @@ class DashboardController extends Controller
     return Inertia::render('dashboard/index/(Index)', [
       'page_title' => 'Dashboard',
       'pending_tasks' => $this->getPendingTasks($req),
-      'task_processed' => $this->getTaskProcessed($req),
+      'marked_tasks' => $this->getMarkedTasks($req),
       'user_activities' => $this->getUserLogs($req->user()->id),
     ]);
   }
 
     private function getPendingTasks($req) {
+      $req->validate([
+        'search' => []
+      ]);
+
       $task_user_assigned = TaskUserAccess::query()
         ->where('user_id', $req->user()->id)
         ->with(['task_template'])
@@ -32,7 +36,12 @@ class DashboardController extends Controller
 
       return Task::query()
         ->whereNull('user_assigned_id')
-        // ->orWhere('user_assigned_id', $req->user()->id)
+        ->when($req->search, function($q) use($req) {
+          $q->where(function($q_) use($req) {
+            $q_->where('name', 'LIKE', '%'.$req->search.'%')
+              ->orWhere('message', 'LIKE', '%'.$req->search.'%');
+          });
+        })
         ->with(['user_assigned', 'task_priority.hero_icon', 'task_template.group'])
         ->whereHas('task_template', function ($q) use($task_template_ids) {
           $q->whereIn('id', $task_template_ids);
@@ -41,9 +50,19 @@ class DashboardController extends Controller
         ->get();
     }
 
-    private function getTaskProcessed($req) {
+    private function getMarkedTasks($req) {
+      $req->validate([
+        'search' => []
+      ]);
+
       return Task::query()
-        ->orWhere('user_assigned_id', $req->user()->id) // only assigned tasks
+        ->where('user_assigned_id', $req->user()->id) // only assigned tasks
+        ->when($req->search, function($q) use($req) {
+          $q->where(function($q_) use($req) {
+            $q_->where('name', 'LIKE', '%'.$req->search.'%')
+              ->orWhere('message', 'LIKE', '%'.$req->search.'%');
+          });
+        })
         ->with(['user_assigned', 'task_priority.hero_icon', 'task_template.group'])
         ->orderBy('created_at', 'desc')
         ->get();
