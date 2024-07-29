@@ -10,7 +10,7 @@
       <MenuItems class="absolute right-0 z-10 w-32 origin-top-right rounded-2xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
         <div class="">
           <MenuItem v-slot="{ active }">
-            <div @click="PostStore.pinPostApi(postId, groupId)" :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
+            <div @click="PostStore.pinPostApi(postId)" :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
               <MapPinIcon :class="[active ? 'bg-brand-100 text-brand-600' : 'text-brand-700', 'h-4 w-5 text-brand-400 inline mr-2']"  />
               <span>{{ isPinned ? 'Unpin' : 'Pin'}}</span>
             </div>
@@ -40,8 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useGroupPostStore } from '@/stores/GroupPostStore'
+import { useAuthPostStore } from '@/stores/AuthPostStore'
 
 import { Menu, MenuButton, MenuItem, MenuItems,  } from '@headlessui/vue'
 import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon, MapPinIcon } from '@heroicons/vue/20/solid'
@@ -51,10 +50,9 @@ defineProps<{
   isPinned: number // 0 or 1,
   postId: string,
   index: number,
-  groupId: string
 }>()
 
-const PostStore = useGroupPostStore()
+const PostStore = useAuthPostStore()
 
 function report() {
   alert('[reported]')

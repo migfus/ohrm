@@ -4,7 +4,7 @@
       :icon="Square2StackIcon"
       title="My Groups"
     >
-      <AppInput name="Search" v-model="search_throttle" placeholder="Search" noLabel/>
+      <AppInput name="Search" v-model="search_throttle" placeholder="Search" noLabel size="sm"/>
 
       <div v-if="groups.length <= 0">
         No group found.
@@ -27,7 +27,7 @@
           <div class="flex justify-between">
             <div class="text-brand-400 text-sm ml-8 truncate">{{ group.description }}</div>
             <div v-if="group.group_members && group.group_members[0] ">
-              <div class="text-brand-400 text-sm ml-8">as {{ upperCaseFirstChar(group.group_members[0].role?.name ?? '') }}</div>
+              <div class="text-brand-400 text-sm ml-8">{{ upperCaseFirstChar(group.group_members[0].role?.name ?? '') }}</div>
             </div>
           </div>
         </Link>

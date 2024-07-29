@@ -15,7 +15,7 @@
       </Link>
       <div class="text-sm font-regular py-0 my-0 cursor-pointer flex">
         <MapPinIcon v-if="$props.post.is_pinned" class="h-4 w-4 mt-[2px] text-brand-500 cursor-default"/>
-        <PostDropown :isPinned="$props.post.is_pinned" :postId="post.id" :index :groupId/>
+        <PostDropown :isPinned="$props.post.is_pinned" :postId="post.id" :index/>
       </div>
     </div>
 
@@ -64,12 +64,11 @@
     </div>
 
     <!-- NOTE: COMMENTS SECTION -->
-    <CommentSection
+    <!-- <CommentSection
       :comments="post.comments"
       :post_id="$props.post.id"
-      :group_id="$props.groupId"
       v-model="comments_count"
-    />
+    /> -->
   </div>
 </template>
 
@@ -81,14 +80,13 @@ import { contentFormatter, dateTimeFormatted } from '@/converter'
 
 import { MapPinIcon } from '@heroicons/vue/24/solid'
 
-import PostDropown from '@/components/dropdowns/PostDropown.vue'
+import PostDropown from './PostDropown.vue'
 import MultimediaPreview from './MultimediaPreview.vue'
 import DocumentsPreview from './DocumentsPreview.vue'
 import ReactDropdown from '@/components/dropdowns/ReactDropdown.vue'
-import CommentSection from './comments/CommentSection.vue'
+// import CommentSection from './comments/CommentSection.vue'
 
 const $props = defineProps<{
-  groupId: string
   post: Post
   index: number
 }>()

@@ -199,7 +199,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { usePostStore } from '@/stores/PostStore'
+import { useGroupPostStore } from '@/stores/GroupPostStore'
 import { useReactionStore } from '@/stores/ReactionStore'
 
 import PostCard from './PostCard.vue'
@@ -224,7 +224,7 @@ const $props = defineProps<{
   groupId: string
 }>()
 
-const PostStore = usePostStore()
+const PostStore = useGroupPostStore()
 const ReactionStore = useReactionStore()
 const infiniteScroll = ref<HTMLElement | null>(null)
 PostStore.group_id = $props.groupId

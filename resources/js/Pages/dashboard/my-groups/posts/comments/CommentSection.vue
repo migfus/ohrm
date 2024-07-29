@@ -53,7 +53,6 @@ import AuthComment from './AuthComment.vue'
 const $props = defineProps<{
   comments: Comment[]
   post_id: string
-  group_id: string
 }>()
 const comments_count_model = defineModel<number>({default: 0})
 const $emit = defineEmits(['commentsCountChange'])
@@ -70,7 +69,7 @@ const loadComments = ref<boolean>(false)
 async function submitComment() {
   // NOTE: NEW COMMENT
   if(CommentStore.select_comment_id == '') {
-    let new_comment_data = await CommentStore.newCommentApi($props.post_id, form.content, $props.group_id)
+    let new_comment_data = await CommentStore.newCommentApi($props.post_id, form.content)
     console.log(new_comment_data)
     comments.value = [new_comment_data, ...comments.value]
     if(comments_count_model.value === undefined)
@@ -80,7 +79,7 @@ async function submitComment() {
   }
   // NOTE: UPDATE COMMENT
   else {
-    await CommentStore.updatCommentApi(CommentStore.select_comment_id, form.content, $props.group_id)
+    await CommentStore.updatCommentApi(CommentStore.select_comment_id, form.content)
     comments.value[CommentStore.select_index].content = form.content
   }
 
@@ -110,7 +109,7 @@ async function loadMoreComments() {
   loadComments.value = true
   page.value++
   const res = await axios.get(route('dashboard.comments.index',
-    { page: page.value, post_id: $props.post_id, group_id: $props.group_id })
+    { page: page.value, post_id: $props.post_id})
   )
   comments.value = [...comments.value,...res.data.data]
   loadComments.value = false

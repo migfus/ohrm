@@ -60,7 +60,7 @@ import { ref, computed } from 'vue'
 import { Post } from '@/globalTypes'
 import moment from 'moment'
 import { useElementSize } from '@vueuse/core'
-import { usePostStore } from '@/stores/PostStore'
+import { useGroupPostStore } from '@/stores/GroupPostStore'
 import { usePinnedPostStore } from '@/stores/PinnedPostStore'
 
 import { XMarkIcon, ChatBubbleLeftRightIcon, MapPinIcon } from '@heroicons/vue/24/solid'
@@ -71,7 +71,7 @@ const $props = defineProps<{
   groupId: string
 }>()
 
-const PostStore = usePostStore()
+const PostStore = useGroupPostStore()
 
 const minimize_content = ref(true)
 const sentence_lines = ref(null)

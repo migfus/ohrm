@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useForm } from '@inertiajs/vue3'
 import { usePinnedPostStore } from './PinnedPostStore'
 
-export const usePostStore = defineStore('post', () => {
+export const useGroupPostStore = defineStore('group-post', () => {
   const PinnedPostStore = usePinnedPostStore()
 
   const post_data = ref<Post[]>([])

@@ -174,6 +174,20 @@ declare module 'ziggy-js' {
             "required": true
         }
     ],
+    "dashboard.auth-posts.index": [],
+    "dashboard.auth-posts.store": [],
+    "dashboard.auth-posts.update": [
+        {
+            "name": "auth_post",
+            "required": true
+        }
+    ],
+    "dashboard.auth-posts.destroy": [
+        {
+            "name": "auth_post",
+            "required": true
+        }
+    ],
     "dashboard.comments.index": [],
     "dashboard.comments.store": [],
     "dashboard.comments.update": [

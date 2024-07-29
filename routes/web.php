@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\dashboard\AccountController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthPostController;
 use App\Http\Controllers\dashboard\DashboardController;
 use App\Http\Controllers\dashboard\JoinedGroupsController;
 use App\Http\Controllers\dashboard\ManageGroupsController;
@@ -53,7 +54,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/system-settings', SystemSettingsController::class)->only(['index', 'update']);
     Route::resource('/manage-template-tasks', ManageTemplateTaskController::class)->only(['edit', 'update']);
       Route::get('/manage-template-tasks/users-suggestion/{id}', [ManageTemplateTaskController::class, 'userComboBox'])->name('manage-groups.users-suggestion');
+
     Route::resource('posts', PostController::class)->only(['destroy', 'update', 'index', 'store']);
+    Route::resource('auth-posts', AuthPostController::class)->only(['destroy', 'update', 'index', 'store']);
+
     Route::resource('comments', CommentController::class)->only(['store', 'destroy', 'update', 'index']);
 
     Route::resource('/reactions', ReactionController::class)->only(['index', 'store']);
