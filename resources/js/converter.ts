@@ -80,3 +80,10 @@ export const taskIdSplitter = (value: number, mode: 'date_time' | 'incremental')
   }
   return value.toString().substring(6, 9)
 }
+
+export const upperCaseFirstChar = (value: string) => {
+  if(value) {
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }
+  return 'N/A'
+}

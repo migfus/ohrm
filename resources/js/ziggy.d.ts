@@ -86,7 +86,6 @@ declare module 'ziggy-js' {
     "dashboard.index": [],
     "my-groups.index": [],
     "dashboard.my-groups.index": [],
-    "dashboard.joined-groups.index": [],
     "dashboard.account.index": [],
     "dashboard.manage-groups.index": [],
     "dashboard.manage-groups.store": [],
@@ -191,7 +190,34 @@ declare module 'ziggy-js' {
     ],
     "dashboard.reactions.index": [],
     "dashboard.reactions.store": [],
-    "dashboard.pinned-posts.index": []
+    "dashboard.pinned-posts.index": [],
+    "test.index": [],
+    "test.create": [],
+    "test.store": [],
+    "test.show": [
+        {
+            "name": "test",
+            "required": true
+        }
+    ],
+    "test.edit": [
+        {
+            "name": "test",
+            "required": true
+        }
+    ],
+    "test.update": [
+        {
+            "name": "test",
+            "required": true
+        }
+    ],
+    "test.destroy": [
+        {
+            "name": "test",
+            "required": true
+        }
+    ]
 }
 }
 export {};

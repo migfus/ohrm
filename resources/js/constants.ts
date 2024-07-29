@@ -43,7 +43,7 @@ export const CSidebarNavigation: TopNavigation[] = [
     name: 'My Groups',
     icon: FolderPlusIcon,
     href: '/dashboard/my-groups',
-    components: ['dashboard/MyGroups']
+    components: ['dashboard/my-groups/(Index)'],
   },
   {
     name: 'Account Settings',
