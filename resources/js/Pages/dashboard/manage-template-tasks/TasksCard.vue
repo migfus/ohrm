@@ -31,7 +31,7 @@
 
           <div class="font-medium text-sm">
             <div class="text-brand-700 flex justify-start">
-              <span class="truncate">{{ row.task_template.name }}</span>
+              <span class="truncate">{{ row.task_template?.name }}</span>
             </div>
             <div class="text-sm text-brand-400  flex justify-start mt-1">
               <div v-html="row.task_priority.hero_icon.content" class="w-4 h-4 inline mr-1 mt-[2px] rounded-full text-brand-600"></div>

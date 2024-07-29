@@ -37,7 +37,7 @@ export const CSidebarNavigation: TopNavigation[] = [
     name: 'Dashboard',
     icon: SquaresPlusIcon,
     href: '/dashboard',
-    components: ['dashboard/(Index)']
+    components: ['dashboard/index/(Index)']
   },
   {
     name: 'My Groups',

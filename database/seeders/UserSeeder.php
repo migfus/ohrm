@@ -3,12 +3,14 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 use App\Models\User;
 use App\Models\Role;
 use App\Models\GroupMember;
 use App\Models\Group;
 use App\Models\GroupRole;
+use App\MOdels\UserTaskActivity;
 
 class UserSeeder extends Seeder
 {
@@ -55,6 +57,7 @@ class UserSeeder extends Seeder
     ])
       ->addRole($roles['admin']);
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
+    $this->initializeUserActivity($user->id);
 
     $user = User::create([
       'name' => '[Staff User]',
@@ -65,6 +68,7 @@ class UserSeeder extends Seeder
     ])
       ->addRole($roles['staff']);
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
+    $this->initializeUserActivity($user->id);
 
     // NOTE: OHRM
     $user = User::create([
@@ -75,7 +79,8 @@ class UserSeeder extends Seeder
       'password' => bcrypt('12345678')
     ])
       ->addRole($roles['head']);
-      $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
+    $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
+    $this->initializeUserActivity($user->id);
   }
 
   private function RSPUsers($group_id, $roles, $group_roles): void {
@@ -88,6 +93,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
+    $this->initializeUserActivity($user->id);
 
     $user = User::create([
       'name' => 'Eunight Lachtnae',
@@ -98,6 +104,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
+    $this->initializeUserActivity($user->id);
 
 
     User::create([
@@ -109,6 +116,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
+    $this->initializeUserActivity($user->id);
   }
 
   private function LADUsers($group_id, $roles, $group_roles): void {
@@ -121,6 +129,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
+    $this->initializeUserActivity($user->id);
 
     $user = User::create([
       'name' => 'Vashy Travis',
@@ -131,6 +140,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
+    $this->initializeUserActivity($user->id);
 
     $user = User::create([
       'name' => 'Rhizz Grozdan',
@@ -141,6 +151,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
+    $this->initializeUserActivity($user->id);
   }
 
   private function PERMAUsers($group_id, $roles, $group_roles): void {
@@ -153,6 +164,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
+    $this->initializeUserActivity($user->id);
   }
 
   private function HRISUsers($group_id, $roles, $group_roles): void {
@@ -165,6 +177,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
+    $this->initializeUserActivity($user->id);
 
     $user = User::create([
       'name' => 'Ruela Þrymr',
@@ -175,6 +188,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
+    $this->initializeUserActivity($user->id);
   }
 
   private function COBERUUsers($group_id, $roles, $group_roles): void {
@@ -187,6 +201,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['admin']);
+    $this->initializeUserActivity($user->id);
 
     $user = User::create([
       'name' => 'Lucern S Tomek',
@@ -197,6 +212,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
+    $this->initializeUserActivity($user->id);
 
     $user = User::create([
       'name' => 'Divine S. Sionann',
@@ -207,6 +223,7 @@ class UserSeeder extends Seeder
     ])->addRole($roles['staff']);
     $this->AssignToOHRMAsMember($user->id);
     $this->AssignGroup($user->id, $group_id, $group_roles['member']);
+    $this->initializeUserActivity($user->id);
   }
 
 
@@ -222,6 +239,14 @@ class UserSeeder extends Seeder
       'user_id' => $user_id,
       'group_id' => Group::where('name', 'Office of Human Resources Management Office (OHRM)')->first()->id,
       'group_role_id' => GroupRole::where('name', 'member')->first()->id,
+    ]);
+  }
+
+  private function initializeUserActivity($user_id) : void {
+    UserTaskActivity::create([
+      'user_id' => $user_id,
+      'count' => 0,
+      'log_at' => Carbon::now()->subDays(1)
     ]);
   }
 }

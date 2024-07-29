@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+
 abstract class Controller
 {
   public function gUploadAvatar($avatar, $path) {
@@ -72,5 +74,9 @@ abstract class Controller
 
     if($dst_img) imagedestroy($dst_img);
     if($src_img) imagedestroy($src_img);
+  }
+
+  function userActivityUpdate($user_id) {
+
   }
 }

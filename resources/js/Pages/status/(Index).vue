@@ -110,7 +110,7 @@
                 </div>
 
                 <p :class="['text-gray-500', 'truncate text-md font-semibold flex justify-between']">
-                   <div>{{ task.task_template.name }}</div>
+                   <div>{{ task.task_template?.name }}</div>
                    <div v-if="task.user_assigned" class="text-xs mt-1">
                     <img :src="task.user_assigned.avatar" class="rounded-full h-4 w-4 inline" />
                    </div>

@@ -73,3 +73,10 @@ export const isVideo = (link: string) => {
   }
   return false
 }
+
+export const taskIdSplitter = (value: number, mode: 'date_time' | 'incremental') => {
+  if(mode === 'date_time') {
+    return value.toString().substring(0, 6)
+  }
+  return value.toString().substring(6, 9)
+}
