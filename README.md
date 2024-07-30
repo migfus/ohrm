@@ -20,9 +20,69 @@ https://queuing.migfus.net/
 
 ## Target Functionalities
 
-- [ ] Group
-  - [x] - Basic CRUD
-  - [x] - Members 
+- [ ] Guest
+  - [ ] Home
+    - [x] Task Templates
+    - [x] Create Tasks
+    - [ ] Refactor & Redesign
+  - [ ] Status
+    - [x] Queuing (to present in TV or huge display monitor) 
+    - [ ] Youtube to play
+    - [ ] Basic Information
+    - [ ] Instructions
+    - [ ] Ads/Promotional Video
+  - [ ] About (Company Information) 
+
+- [x] Staff/Admin
+  - [x] Dashboard
+    - [x] Task Heatmap
+    - [x] Tasks
+  - [x] My Groups
+    - [x] Group Lists
+    - [x] View Posts (related to the group that they've following)
+  - [ ] Account Settings
+    - [ ] Change Password
+    - [ ] Update Avatar/Cover
+    - [ ] Update Account Information
+    - [ ] Account Configuration (Notification, SMS)
+  - [ ] Forgot Password
+    - [ ] Email Integration
+    - [ ] SMS Integration 
+
+- [ ] Admin
+  - [ ] Group
+    - [x] Create Group
+    - [x] Update Info
+    - [x] Delete Group
+    - [x] Assign/Reassign a member
+    - [ ] Task Heatmap
+    - [x] Task Template
+      - [x] Create Template
+      - [x] Update Template
+      - [x] View Tasks in the template
+      - [x] Assign/Reassign Member 
+    - [x] Group's Posts
+      - [x] Create Post (Post Content: Text, Multimedia, Documents) 
+      - [x] Update Post
+      - [ ] Update Post Content
+      - [x] Remove Post
+      - [x] Pin Post
+      - [x] Infinite Scroll (Auto load posts when scrolling)
+  - [ ] User Management
+    - [x] Create User
+    - [x] Delete User
+    - [x] Update User (Info, Role)
+    - [ ] Task Heatmap
+
+- [ ] System
+  - [ ] SMS API Integration
+  - [ ] Email Updates
+  - [ ] Printer
+    - [x] Queuing Number Design (Figma) 
+    - [ ] Buy Thermal Printer
+  - [ ] Terminal/Tablet - Home Page
+    - [ ] Native App for printing
+    - [ ] Buy tablet
 
 ## License
 
