@@ -7,12 +7,14 @@ use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 use App\Models\HeroIcon;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\GroupMember;
 use App\Models\Group;
+use App\Models\UserTaskActivity;
 
 class ManageUsersController extends Controller
 {
@@ -90,6 +92,11 @@ class ManageUsersController extends Controller
       ]);
 
     $user->addRole(Role::where('id', $req->roleId)->first(), 'system');
+    UserTaskActivity::create([
+      'user_id' => $user->id,
+      'count' => 0,
+      'log_at' => Carbon::now()->subDays(1)
+    ]);
 
     return to_route('dashboard.manage-users.index')
       ->with('success', ['title' => 'Created', 'content' => 'User created successfully.']);

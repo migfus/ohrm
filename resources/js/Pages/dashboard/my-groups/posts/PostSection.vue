@@ -165,9 +165,9 @@
 
     <!-- SECTION: POSTS DATA -->
     <div ref="infiniteScroll">
+
       <DataTransition class="flex flex-col">
         <div v-for="post, index in AuthPostStore.post_data" :key="post.id" class="mt-4">
-          data
           <PostCard
             :post
             :index
@@ -227,7 +227,6 @@ const infiniteScroll = ref<HTMLElement | null>(null)
 function handleScroll() {
   let element = infiniteScroll.value
   if(element) {
-    alert('scrolled')
     if(element?.getBoundingClientRect().bottom < window.innerHeight && !AuthPostStore.loading) {
       AuthPostStore.getMorePostApi(handleScroll)
     }

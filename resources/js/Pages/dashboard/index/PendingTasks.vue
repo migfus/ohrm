@@ -4,7 +4,7 @@
       <div class="flex flex-col gap-2">
 
 
-        <AppInput name="Search" v-model="throttle_search" class="mb-2" noLabel placeholder="Search Task" />
+        <AppInput name="Search" v-model="throttle_search" class="mb-2" noLabel placeholder="Search Task" size="sm"/>
 
 
         <div v-if="pending_tasks.length <= 0" class="bg-white p-4 font-medium rounded-2xl shadow text-sm text-brand-500">

@@ -217,6 +217,7 @@ export interface Post {
   reaction_users: ReactionUser[]
   auth_reaction?: ReactionUser
   group: Group
+  group_id: string
 }
 
 export interface ReactionUser {

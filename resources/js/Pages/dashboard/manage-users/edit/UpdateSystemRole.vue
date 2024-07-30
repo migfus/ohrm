@@ -35,7 +35,7 @@ const form = router.form({
 
 function submit() {
   router.put(route('dashboard.manage-users.update', {manage_user: $props.userId}), {
-    user_role_ID: form.role.id,
+    user_role_id: form.role.id,
     type: 'update-role'
   }, {
     preserveScroll: true,

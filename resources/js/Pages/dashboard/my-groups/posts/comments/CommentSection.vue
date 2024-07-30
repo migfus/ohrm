@@ -53,6 +53,7 @@ import AuthComment from './AuthComment.vue'
 const $props = defineProps<{
   comments: Comment[]
   post_id: string
+  group_id: string
 }>()
 const comments_count_model = defineModel<number>({default: 0})
 const $emit = defineEmits(['commentsCountChange'])
@@ -69,7 +70,7 @@ const loadComments = ref<boolean>(false)
 async function submitComment() {
   // NOTE: NEW COMMENT
   if(CommentStore.select_comment_id == '') {
-    let new_comment_data = await CommentStore.newCommentApi($props.post_id, form.content)
+    let new_comment_data = await CommentStore.newCommentApi($props.post_id, form.content, $props.group_id)
     console.log(new_comment_data)
     comments.value = [new_comment_data, ...comments.value]
     if(comments_count_model.value === undefined)
@@ -79,7 +80,7 @@ async function submitComment() {
   }
   // NOTE: UPDATE COMMENT
   else {
-    await CommentStore.updatCommentApi(CommentStore.select_comment_id, form.content)
+    await CommentStore.updatCommentApi(CommentStore.select_comment_id, form.content, $props.group_id)
     comments.value[CommentStore.select_index].content = form.content
   }
 

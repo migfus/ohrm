@@ -5,12 +5,13 @@
       <Link :href="route('dashboard.manage-users.edit', {manage_user: post.user.id})" class="flex">
         <img :src="$props.post.user.avatar" class="h-8 w-8 rounded-full shadow mr-2" />
         <div class="flex flex-col">
-          <span
-            :class="[$props.post.user.group_members[0].role?.name == 'removed' && 'line-through','text-sm']"
-          >
-            {{ $props.post.user.name }}
+          <span class="text-xs">
+            <label>{{ $props.post.user.name }} - </label>
+            <label>{{ dateTimeFormatted($props.post.created_at) }}</label>
           </span>
-          <span class="text-xs">{{ dateTimeFormatted($props.post.created_at) }}  - {{ $props.post.user.group_members[0].role?.display_name }}</span>
+          <span class="text-xs">
+            <label>{{ $props.post.group.name }}</label>
+          </span>
         </div>
       </Link>
       <div class="text-sm font-regular py-0 my-0 cursor-pointer flex">
@@ -64,11 +65,12 @@
     </div>
 
     <!-- NOTE: COMMENTS SECTION -->
-    <!-- <CommentSection
+    <CommentSection
       :comments="post.comments"
       :post_id="$props.post.id"
+      :group_id="$props.post.group_id"
       v-model="comments_count"
-    /> -->
+    />
   </div>
 </template>
 
@@ -84,7 +86,7 @@ import PostDropown from './PostDropown.vue'
 import MultimediaPreview from './MultimediaPreview.vue'
 import DocumentsPreview from './DocumentsPreview.vue'
 import ReactDropdown from '@/components/dropdowns/ReactDropdown.vue'
-// import CommentSection from './comments/CommentSection.vue'
+import CommentSection from './comments/CommentSection.vue'
 
 const $props = defineProps<{
   post: Post

@@ -43,7 +43,7 @@ class AuthPostController extends Controller
           },
           'comments' => function($q) use($req){
             $q->with(['user.group_members' => function($qu) use($req) {
-              $qu->where('group_id', $req->group_id)->with('role');
+              $qu->whereIn('group_id', $req->group_ids)->with('role');
             }])
               ->orderBy('created_at', 'DESC')->limit(3);
           }

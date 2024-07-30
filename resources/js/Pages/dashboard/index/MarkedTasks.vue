@@ -1,8 +1,8 @@
 <template>
   <div>
-    <BasicCard :icon="TicketIcon" title="Processed Tasks">
+    <BasicCard :icon="TicketIcon" title="Marked Tasks">
       <div class="flex flex-col gap-2">
-        <AppInput name="Search" v-model="throttle_search" class="mb-2" noLabel placeholder="Search Task" />
+        <AppInput name="Search" v-model="throttle_search" class="mb-2" noLabel placeholder="Search Task" size="sm"/>
 
         <div v-for="task, index in marked_tasks" :key="task.id" class="bg-white p-4 shadow rounded-2xl font-medium">
           <div class="flex justify-between">

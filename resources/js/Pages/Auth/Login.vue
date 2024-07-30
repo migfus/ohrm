@@ -46,6 +46,25 @@
 
       </div>
     </div>
+
+    <BasicCard :icon="HeartIcon" title="Select Account" description="Click the account to login" class="mt-4 max-w-md w-full mx-auto">
+      <div class="flex flex-col gap-4">
+        <AppButton
+          name="admin"
+          @click="changeAccount('admin@gmail.com', '#Admin.123')"
+          :color="form.email == 'admin@gmail.com' ? 'brand' : ''"
+        >
+          admin@gmail.com
+        </AppButton>
+        <AppButton
+          name="staff"
+          @click="changeAccount('staff@gmail.com', '#Staff.123')"
+          :color="form.email == 'staff@gmail.com' ? 'brand' : ''"
+        >
+          staff@gmail.com
+        </AppButton>
+      </div>
+    </BasicCard>
   </div>
 </template>
 
@@ -55,10 +74,12 @@ import { router, useForm } from '@inertiajs/vue3'
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 import FlashErrors from '@/components/headers/FlashErrors.vue'
+import BasicCard from '@/components/cards/BasicCard.vue'
+import { HeartIcon, CheckCircleIcon } from '@heroicons/vue/24/solid'
 
 const form = useForm({
-  email: 'admin@gmail.com',
-  password: '#Admin.123',
+  email: '',
+  password: '',
   remember: false,
 })
 
@@ -68,5 +89,10 @@ function submit() {
     password: form.password,
     remember: form.remember,
   });
+}
+
+function changeAccount(email: string, password: string ) {
+  form.email = email
+  form.password = password
 }
 </script>

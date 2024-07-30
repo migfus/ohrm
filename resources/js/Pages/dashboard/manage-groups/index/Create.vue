@@ -29,7 +29,8 @@ import AppButton from '@/components/form/AppButton.vue'
 import AppInput from '@/components/form/AppInput.vue'
 import AppTextArea from '@/components/form/AppTextArea.vue'
 import { router } from '@inertiajs/vue3'
-import FlashErrors from '@/components/headers/HeaderContent.vue'
+
+import FlashErrors from '@/components/headers/FlashErrors.vue'
 
 const $show_create_modal_model = defineModel<boolean>()
 
