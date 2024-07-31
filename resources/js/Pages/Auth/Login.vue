@@ -75,7 +75,7 @@ import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
 import FlashErrors from '@/components/headers/FlashErrors.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
-import { HeartIcon, CheckCircleIcon } from '@heroicons/vue/24/solid'
+import { HeartIcon } from '@heroicons/vue/24/solid'
 
 const form = useForm({
   email: '',

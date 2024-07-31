@@ -19,7 +19,6 @@ use App\Models\UserTaskActivity;
 
 class ManageUsersController extends Controller
 {
-  // ✅
   // NOTE: ALL
   public function index(Request $req) : Response {
     $roles = Role::query()
@@ -30,20 +29,15 @@ class ManageUsersController extends Controller
       ->orderBy('created_at', 'ASC')
       ->get();
 
-    // dd($roles);
-
-    $roles_processed = [
-      [
+    $roles_processed = [[
         'name' => 'all',
         'display_name' => 'All',
         'hero_icon' => [
           'content' => HeroIcon::where('name', 'at-symbol_micro')->first()->content
         ]
-      ],
-      ...$roles
+      ], ...$roles
     ];
 
-    $users = null;
     $type = $req->type ?? 'all';
 
     $users = User::query()
@@ -103,7 +97,6 @@ class ManageUsersController extends Controller
       ->with('success', ['title' => 'Created', 'content' => 'User created successfully.']);
   }
 
-  // ✅
   // NOTE: UPDATE
   public function edit($id) : Response {
     $roles = Role::query()
@@ -140,7 +133,7 @@ class ManageUsersController extends Controller
       'task_count_now' => $task_count_now,
     ]);
   }
-  // ✅
+
   public function update(Request $req, $id) : RedirectResponse {
     $req->validate([
       'type' => ['required']
@@ -164,7 +157,6 @@ class ManageUsersController extends Controller
 
     return to_route('dashboard.manage-users.edit', ['manage_user' => $id])->with('success', "Updated");
   }
-    // ✅
     private function updateBasic($req, $id): void {
       $req->validate([
         '_name' => ['required'],
@@ -185,7 +177,6 @@ class ManageUsersController extends Controller
           $q->update(['password' => Hash::make($req->password)]);
         });
     }
-    // ✅
     private function updateAvatar(Request $req, $id) : RedirectResponse {
       $req->validate([
         'avatar' => ['required']
@@ -201,7 +192,6 @@ class ManageUsersController extends Controller
           'avatar' => $this->GUploadAvatar($req->avatar, 'avatars/'.$id)
         ]);
     }
-    // ✅
     private function updateCover(Request $req, $id) : RedirectResponse  {
       $req->validate([
         'cover' => ['required'],
@@ -217,7 +207,6 @@ class ManageUsersController extends Controller
           'cover' => $this->GUploadAvatar($req->cover, 'covers/'.$id)
         ]);
     }
-    // ✅
     private function updateRole(Request $req, $id) : void {
       $req->validate([
         'user_role_id' => ['required', 'uuid']
@@ -232,7 +221,6 @@ class ManageUsersController extends Controller
             ->first()
         ]);
     }
-    // ✏️
     private function removeJoinedGroup($req, $id) : RedirectResponse {
       $req->validate([
         'group_member_id' => ['required', 'uuid']

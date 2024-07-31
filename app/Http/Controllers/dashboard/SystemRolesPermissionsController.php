@@ -31,7 +31,7 @@ class SystemRolesPermissionsController extends Controller
   }
 
   public function update(Request $req, $permissionId) : RedirectResponse {
-    $val = $req->validate([
+    $req->validate([
       'type' => ['required'],
       'role_id' => ['required'],
       'value' => ['required']

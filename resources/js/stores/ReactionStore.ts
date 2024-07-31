@@ -11,5 +11,9 @@ export const useReactionStore = defineStore('reaction', () => {
     reaction_data.value = res.data
   }
 
-  return { reaction_data, getReactions }
+  return {
+    reaction_data,
+
+    getReactions
+  }
 })

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -94,7 +93,6 @@ class AuthPostController extends Controller
           ->first()
       );
     }
-
     private function storeMultimedia($req) : JsonResponse {
       $req->validate([
         'group_id' => ['required', 'uuid'],
@@ -128,7 +126,6 @@ class AuthPostController extends Controller
 
       return response()->json(['message' => 'Files uploaded successfully'], 200);
     }
-
     private function storeDocuments($req) : JsonResponse {
       $req->validate([
         'group_id' => ['required', 'uuid'],
@@ -214,7 +211,6 @@ class AuthPostController extends Controller
       Post::where('id', $id)->update([
         'is_pinned' => !$pin_toggle,
       ]);
-
     }
     private function updateTitle(Request $req, string $id) : void {
       $req->validate([
@@ -229,7 +225,6 @@ class AuthPostController extends Controller
 
   public function destroy(string $id) : JsonResponse {
     Post::where('id', $id)->delete();
-
     return response()->json(['success' => true]);
   }
 }

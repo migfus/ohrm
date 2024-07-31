@@ -22,10 +22,7 @@ export const useCommentStore = defineStore('commentStore', () => {
 
   async function updatCommentApi(comment_id: string, content: string, group_id: string) {
     await axios.put(route('dashboard.comments.update', { comment: comment_id }),
-      {
-        content,
-        group_id
-      }
+      { content, group_id }
     )
   }
 

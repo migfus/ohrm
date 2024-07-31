@@ -87,7 +87,6 @@ class PostController extends Controller
           ->first()
       );
     }
-
     private function storeMultimedia($req) {
       $req->validate([
         'group_id' => ['required', 'uuid'],
@@ -121,7 +120,6 @@ class PostController extends Controller
 
       return response()->json(['message' => 'Files uploaded successfully'], 200);
     }
-
     private function storeDocuments($req) {
       $req->validate([
         'group_id' => ['required', 'uuid'],
@@ -194,14 +192,14 @@ class PostController extends Controller
 
     switch($req->type) {
       case 'pin':
-        $this->pinPost($id); break;
+        $this->updatePinPost($id); break;
       case 'title':
         $this->updateTitle($req, $id); break;
     }
 
     return response()->json(['success' => true]);
   }
-    private function pinPost(string $id) : void {
+    private function updatePinPost(string $id) : void {
       $pin_toggle = Post::where('id', $id)->first()->is_pinned;
 
       Post::where('id', $id)->update([

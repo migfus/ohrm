@@ -34,15 +34,13 @@ defineProps<{
 
 const loading = ref(false)
 
-function changePermission(role: Role, permission_id: string, event: Event) {
+function changePermission(role: Role, permission_id: string, event: any ) {
   router.put(route('dashboard.system-roles-permissions.update', {system_roles_permission: permission_id}),
     {
       role_id: role.id,
       type: 'permission',
-      // @ts-ignore
       value: event.target.checked
     },
-    // {preserveState: true}
   )
   loading.value = true
 }

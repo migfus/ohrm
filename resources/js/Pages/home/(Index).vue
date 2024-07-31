@@ -24,7 +24,7 @@
     title="New Request"
     :description="`Requesting for...`"
     size="max-w-md"
-    v-model="openRequestModal"
+    v-model="open_request_modal"
   >
     <div class="flex mb-4">
       <h2 class="font-medium bg-white px-4 py-2 shadow rounded-2xl">{{ form.task_template_name }}</h2>
@@ -70,7 +70,7 @@ defineProps<{
   task_priorities: TaskPriority[]
 }>()
 
-const openRequestModal = ref(false)
+const open_request_modal = ref(false)
 const form = router.form({
   task_template_id: '',
   task_priority: {
@@ -88,12 +88,12 @@ function createRequest(task_template: TaskTemplate) {
     display_name: task_template.task_priority.name,
     id: task_template.task_priority.id,
   }
-  openRequestModal.value = true
+  open_request_modal.value = true
 }
 
 function resetRequest() {
   form.reset()
-  openRequestModal.value = false
+  open_request_modal.value = false
 }
 
 async function submitRequest() {

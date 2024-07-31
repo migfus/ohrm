@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\RedirectResponse;
@@ -18,7 +17,7 @@ class AuthController extends Controller
     $val = $req->validate([
       'email'    => ['required', 'email'],
       'password' => ['required', 'min:6'],
-      // 'remember' => []
+      'remember' => ['boolean']
     ]);
 
     if(Auth::attempt($val)) {
@@ -37,6 +36,7 @@ class AuthController extends Controller
   public function forgot() : Response {
     return Inertia::render('auth/Forgot' , ['page_title' => 'Forgot']);
   }
+
   public function forgotSubmit(Request $req) : RedirectResponse {
     $req->validate([
       'email' => ['required', 'email']

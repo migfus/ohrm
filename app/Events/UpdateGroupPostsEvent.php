@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -11,17 +9,17 @@ use Illuminate\Queue\SerializesModels;
 
 class UpdateGroupPostsEvent implements ShouldBroadcast
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+  use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $data = [];
+  public $data = [];
 
-    public function __construct(array $data) {
-      $this->data = $data;
-    }
+  public function __construct(array $data) {
+    $this->data = $data;
+  }
 
-    public function broadcastOn(): array {
-        return [
-          new Channel('group-posts-update.'.$this->data['groupId']),
-        ];
-    }
+  public function broadcastOn(): array {
+    return [
+      new Channel('group-posts-update.'.$this->data['groupId']),
+    ];
+  }
 }

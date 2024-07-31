@@ -7,7 +7,6 @@ import {
   SquaresPlusIcon,
   ShieldCheckIcon,
   FolderPlusIcon,
-  FolderIcon,
   AtSymbolIcon
 } from "@heroicons/vue/24/solid"
 

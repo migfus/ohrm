@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\dashboard;
 
 use Illuminate\Http\Request;
@@ -18,13 +17,12 @@ class MyGroupsController extends Controller
     return Inertia::render('dashboard/my-groups/(Index)' ,
       [
         'page_title' => 'My Groups',
-        'groups' => $this->getGroups($req, $auth_id),
+        'groups' => $this->getGroups($auth_id),
         'posts'  => $this->getPosts($req, $auth_id),
       ]
     );
   }
-
-    private function getPosts(Request $req, $auth_id) : Collection {
+    private function getPosts($auth_id) : Collection {
       $group_ids = Group::query()
         ->whereHas('group_members', function($q) use($auth_id) {
           $q->where('user_id', $auth_id)->with('role');

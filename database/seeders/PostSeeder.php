@@ -1,8 +1,6 @@
 <?php
-
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 use App\Models\Post;
@@ -37,7 +35,5 @@ class PostSeeder extends Seeder
       'title' => 'Documents Post',
       'is_pinned' => false,
     ]);
-
-    // Post::factory()->count(100)->create();
   }
 }

@@ -82,6 +82,7 @@
       <!-- NOTE: QUEUING -->
       <div class="flex flex-col sm:rounded-xl mb-4">
         <BasicCard :icon="TicketIcon" title="Queuing" description="Please wait for the queue.">
+          <!-- NOTE: SMALLER VERSION OF QUEUE -->
           <div v-if="tasks.length > 7" class="flex gap-1 justify-end">
             <div v-if="tasks.length > 11" class="relative overflow-hidden bg-yellow-200 mb-2 py-4 px-2 rounded-xl shadow">
               ###
@@ -91,6 +92,7 @@
             </div>
           </div>
 
+          <!-- NOTE: LARGER VERSION OF QUEUE -->
           <DataTransition>
             <div
             v-for="task in tasks.slice(0, 6).reverse()"
@@ -127,6 +129,7 @@
           </DataTransition>
         </BasicCard>
       </div>
+
     </div>
   </UseFullscreen>
 </template>
@@ -134,32 +137,17 @@
 <script setup lang="ts">
 import { UseFullscreen } from '@vueuse/components'
 import moment from 'moment'
-import { inject, onMounted, onUnmounted } from 'vue'
-import Echo from 'laravel-echo'
 import { router } from '@inertiajs/vue3'
+import { Task } from '@/globalTypes'
 
 import { TicketIcon, ArrowsPointingOutIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
 import BasicCard from '@/components/cards/BasicCard.vue'
-import { Task } from '@/globalTypes'
 import AppButton from '@/components/form/AppButton.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
 defineProps<{
   tasks: Task[]
 }>()
-
-const echo = inject<Echo>('echo')
-
-onMounted(() => {
-  echo?.channel('update-status-page-channel')
-  .listen('UpdateStatusPageEvent', () => {
-    refreshPage()
-    console.log('update-status-page-channel connected')
-  })
-})
-onUnmounted(() => {
-  echo?.leaveChannel('UpdateStatusPageEvent')
-})
 
 function refreshPage() {
   router.get(route('status'), {}, { preserveScroll: true, preserveState: true })

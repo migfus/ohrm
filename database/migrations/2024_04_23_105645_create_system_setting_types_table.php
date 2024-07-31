@@ -6,23 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
-    {
-        Schema::create('system_setting_types', function (Blueprint $table) {
-          $table->id();
-          $table->string('name');
-          $table->timestamps();
-        });
-    }
+  public function up(): void {
+    Schema::create('system_setting_types', function (Blueprint $table) {
+      $table->id();
+      $table->string('name');
+      $table->timestamps();
+    });
+  }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('system_setting_types');
-    }
+  public function down(): void {
+    Schema::dropIfExists('system_setting_types');
+  }
 };

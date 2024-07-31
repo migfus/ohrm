@@ -17,7 +17,6 @@ use App\Events\UpdateStatusPageEvent;
 
 class HomeController extends Controller
 {
-  // ✅
   public function index() : Response {
     $groups = Group::query()
       ->with('task_templates.task_priority.hero_icon')
@@ -33,7 +32,6 @@ class HomeController extends Controller
     ]);
   }
 
-  // ✏️
   function store(Request $req) : RedirectResponse {
     $req->validate([
       'task_template_id' => ['required', 'uuid'],

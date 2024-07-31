@@ -42,12 +42,12 @@ import { Group } from '@/globalTypes'
 import { ref, reactive, watch } from 'vue'
 import { dateTimeFormatted, defaultRouterState, upperCaseFirstChar } from '@/converter'
 import { router } from '@inertiajs/vue3'
+import { useThrottle } from '@vueuse/core'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { Square2StackIcon } from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import AppInput from '@/components/form/AppInput.vue'
-import { useThrottle } from '@vueuse/core'
 
 defineProps<{
   groups: Group[]

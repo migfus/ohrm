@@ -21,18 +21,15 @@ class DashboardController extends Controller
       'user_activities' => $this->getUserLogs($req->user()->id),
     ]);
   }
-
     private function getPendingTasks($req) : Collection {
-      $req->validate([
-        'search' => []
-      ]);
+      $req->validate(['search' => []]);
 
-      $task_user_assigned = TaskUserAccess::query()
+      $task_template_ids = TaskUserAccess::query()
         ->where('user_id', $req->user()->id)
         ->with(['task_template'])
-        ->get();
-
-      $task_template_ids = $task_user_assigned->pluck('task_template_id')->toArray();
+        ->get()
+        ->pluck('task_template_id')
+        ->toArray();
 
       return Task::query()
         ->whereNull('user_assigned_id')
@@ -49,11 +46,8 @@ class DashboardController extends Controller
         ->orderBy('created_at', 'desc')
         ->get();
     }
-
     private function getMarkedTasks($req) : Collection {
-      $req->validate([
-        'search' => []
-      ]);
+      $req->validate(['search' => []]);
 
       return Task::query()
         ->where('user_assigned_id', $req->user()->id) // only assigned tasks
@@ -63,11 +57,14 @@ class DashboardController extends Controller
               ->orWhere('message', 'LIKE', '%'.$req->search.'%');
           });
         })
-        ->with(['user_assigned', 'task_priority.hero_icon', 'task_template.group'])
+        ->with([
+          'user_assigned',
+          'task_priority.hero_icon',
+          'task_template.group'
+        ])
         ->orderBy('created_at', 'desc')
         ->get();
     }
-
     private function getUserLogs($user_id) : Object {
       // NOTE: Loop until record exists (backward date)
       // NOTE: THis will cause loop, upon user created, create also a user-activity in previous day as 0
@@ -85,9 +82,7 @@ class DashboardController extends Controller
           ]);
           $date = Carbon::parse($date)->subDays(1)->format('Y-m-d');
         }
-
       }
-
 
       // NOTE: Returns all relative whole year logs from start(the beginning but limit to last year).
       return UserTaskActivity::query()

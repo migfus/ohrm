@@ -14,5 +14,10 @@ export const usePinnedPostStore = defineStore('pinnedPost', () => {
     loading.value = false
   }
 
-  return { pinned_post_data, loading, getPinnedPosts }
+  return {
+    pinned_post_data,
+    loading,
+
+    getPinnedPosts
+  }
 })

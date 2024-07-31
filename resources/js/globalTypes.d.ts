@@ -6,7 +6,7 @@ export interface HeroIcon {
   content: string
 }
 
-export type TopNavigation = {
+export interface TopNavigation {
   name: string
   icon?: FunctionalComponent
   href: string
@@ -14,7 +14,7 @@ export type TopNavigation = {
   components: string []
 }
 
-export type Auth = {
+export interface Auth {
   avatar: string
   created_at: string
   email: string
@@ -74,11 +74,11 @@ export interface Group {
   cover: string
   description: string
   created_at: string
-  group_members_admin_only: GroupMember []
-  group_members_not_admin_only: GroupMember []
+  group_members_admin_only: GroupMember[]
+  group_members_not_admin_only: GroupMember[]
   group_members_not_admin_only_count: number
-  group_members: GroupMember []
-  task_templates: TaskTemplate []
+  group_members: GroupMember[]
+  task_templates: TaskTemplate[]
   tasks: Task[]
 }
 
@@ -90,14 +90,14 @@ export interface TaskTemplate {
   name: string
   message?: string
   is_show: boolean
-  task_user_access: TaskAccessUser []
+  task_user_access: TaskAccessUser[]
   task_user_access_count: number
 }
 
 export interface TaskAccessUser {
   id: string
   user: User
-  tasks: Task []
+  tasks: Task[]
 }
 
 export interface TaskPriority {
@@ -132,8 +132,8 @@ export interface Role {
   display_name: string
   description: string
   created_at: string
-  permissions: Permission []
-  users: User []
+  permissions: Permission[]
+  users: User[]
 }
 
 export interface Permission {

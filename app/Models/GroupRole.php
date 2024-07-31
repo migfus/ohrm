@@ -14,7 +14,6 @@ class GroupRole extends Model
 
   protected $fillable  = ['name', 'display_name', 'description', 'icon_name'];
 
-
   public function group_permission_role() : BelongsToMany {
     return $this->belongsToMany(GroupPermission::class)->withTimestamps();
   }

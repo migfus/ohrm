@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GroupMember extends Model
 {
-    use HasFactory, HasUuids;
+  use HasFactory, HasUuids;
 
   protected $fillable = ['user_id', 'group_id', 'group_role_id'];
 

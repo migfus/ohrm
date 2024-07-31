@@ -14,7 +14,7 @@ export const useGroupPostStore = defineStore('group-post', () => {
   const page = ref<number>(1)
   const last_page = ref<number>(2)
   const errors = ref<string[]>([])
-  const to_upload_files = ref([])
+  const to_upload_files = ref<FileList | null>(null)
   const selected_post_id = ref<string>('')
   const selected_post_index = ref<number>(0)
   const group_id = ref('')
@@ -48,10 +48,10 @@ export const useGroupPostStore = defineStore('group-post', () => {
     open_prompt_delete_post.value = true
   }
 
-
   function setToUploadFiles(event: Event) {
-    // @ts-ignore
-    to_upload_files.value = event.target.files
+    const event_ = event.target as HTMLInputElement
+    if(event_?.files)
+      to_upload_files.value = event_?.files
   }
 
   // SECTION: GET POSTS
@@ -92,8 +92,7 @@ export const useGroupPostStore = defineStore('group-post', () => {
       resetPostData()
       getMorePostApi(handleScroll)
     }
-    catch(err) {
-      // @ts-ignore
+    catch(err: any) {
       errors.value = err.response.data.errors
       progress.value = 100
     }
@@ -103,9 +102,10 @@ export const useGroupPostStore = defineStore('group-post', () => {
   async function submitMultimediaPost(handleScroll: () => void) {
     progress.value = 0
     const formData = new FormData()
-    // @ts-ignore
-    for(let i = 0; i < to_upload_files.value.length; i++) {
-      formData.append(`files[${i}]`, to_upload_files.value[i])
+    if(to_upload_files.value) {
+      for(let i = 0; i < to_upload_files.value.length; i++) {
+        formData.append(`files[${i}]`, to_upload_files.value[i] ?? null)
+      }
     }
     formData.append('title', form.title)
     formData.append('group_id', group_id.value)
@@ -136,9 +136,10 @@ export const useGroupPostStore = defineStore('group-post', () => {
   async function submitDocumentPost(handleScroll: () => void) {
     progress.value = 0
     const formData = new FormData()
-    // @ts-ignore
-    for(let i = 0; i < to_upload_files.value.length; i++) {
-      formData.append(`files[${i}]`, to_upload_files.value[i])
+    if(to_upload_files.value) {
+      for(let i = 0; i < to_upload_files.value.length; i++) {
+        formData.append(`files[${i}]`, to_upload_files.value[i])
+      }
     }
     formData.append('title', form.title)
     formData.append('group_id', group_id.value)
@@ -221,7 +222,6 @@ export const useGroupPostStore = defineStore('group-post', () => {
     page.value = 1
     post_data.value = []
   }
-
 
   return {
     post_data,

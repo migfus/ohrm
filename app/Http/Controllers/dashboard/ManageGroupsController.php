@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use App\Models\Group;
@@ -18,49 +19,18 @@ use App\Models\Task;
 use App\Models\TaskPriority;
 use App\Models\TaskTemplate;
 
-Class IndexRequest {
-  public ?string $search;
-  public ?object $user;
-  public function __construct($req) {
-    $this->search = $req->search;
-    $this->user = $req->user();
-  }
-
-  public function user() : ?object {
-    return $this->user;
-  }
-}
-
-Class StoreRequest {
-  public string $name;
-  public string $description;
-  public ?object $user;
-
-  public function __construct(Request $req) {
-    $this->name = $req->name;
-    $this->description = $req->description;
-  }
-
-  public function user() : ?object {
-    return $this->user;
-  }
-}
-
 
 class ManageGroupsController extends Controller
 {
   // FIXME: There's some group_member without users
   // REASON: During seeeder or mismatch ID.
   public function index(Request $req): Response {
-    $req->validate([
-      'search' => [],
-    ]);
-    $IndexRequest = new IndexRequest($req);
+    $req->validate(['search' => []]);
 
     $groups = Group::query()
       ->select('description', 'name', 'id', 'avatar')
-      ->when($IndexRequest->search != '', function ($q) use($IndexRequest) {
-        $q->where("name", 'LIKE', "%$IndexRequest->search%");
+      ->when($req->search != '', function ($q) use($req) {
+        $q->where("name", 'LIKE', "%$req->search%");
       })
       ->with([
         'group_members_admin_only.user'     => fn($q) => $q->limit(5),
@@ -81,7 +51,7 @@ class ManageGroupsController extends Controller
           ['name' => 'All'],
         ],
         'filters' => [
-          'search' => $IndexRequest->search
+          'search' => $req->search
         ],
     ]);
   }
@@ -92,15 +62,13 @@ class ManageGroupsController extends Controller
       'name'        => ['required', 'unique:groups,name'],
       'description' => ['required'],
     ]);
-    $StoreRequest = new StoreRequest($req);
 
-    // DB::beginTransaction();
-
-    // try {
+    DB::beginTransaction();
+    try {
       $group = Group::create([
-        'name' => $StoreRequest->name,
-        'display_name' => $StoreRequest->name,
-        'description' => $StoreRequest->description,
+        'name' => $req->name,
+        'display_name' => $req->name,
+        'description' => $req->description,
       ]);
 
       GroupTaskActivity::create([
@@ -113,24 +81,23 @@ class ManageGroupsController extends Controller
         ->where('id', $group->id)
         ->update([
           'avatar' => $this->gUploadAvatar('/assets/avatar_cover_default.jpg', "groups/$group->id/avatar/"),
-          'cover' => $this->gUploadAvatar('/assets/cover_group_default.jpg', "groups/$group->id/cover/")
+          'cover'  => $this->gUploadAvatar('/assets/cover_group_default.jpg', "groups/$group->id/cover/")
         ]);
 
       GroupMember::create([
-        'user_id'       => $StoreRequest->user()->id,
+        'user_id'       => $req->user()->id,
         'group_id'      => $group->id,
         'group_role_id' => GroupRole::where('name', 'admin')->first()->id,
       ]);
 
       return to_route('dashboard.manage-groups.edit', ['manage_group' => $group->id])->with('flash', ['success' => 'Successfuly Added']);
-    // }
-    // catch(\Exception $e) {
-      // DB::rollBack();
-      // return to_route('dashboard.manage-groups.create')->withErrors(['Unknown' => 'Something went wrong 😅']);
-    // }
+    }
+    catch(\Exception $e) {
+      DB::rollBack();
+      return to_route('dashboard.manage-groups.create')->withErrors(['Unknown' => 'Something went wrong 😅']);
+    }
   }
 
-  // ✅
   // NOTE: UPDATE
   public function edit($id): Response {
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
@@ -144,9 +111,7 @@ class ManageGroupsController extends Controller
     ]);
   }
     private function editGetGroup($groupId) : Collection {
-      return Group::query()
-        ->where('id', $groupId)
-        ->first();
+      return Group::where('id', $groupId)->first();
     }
     private function editGetGroupRoles() : Collection {
       return GroupRole::query()
@@ -187,7 +152,7 @@ class ManageGroupsController extends Controller
         ->limit(5)
         ->get();
     }
-  // ✏️
+
   public function update(Request $req, $id): RedirectResponse {
     $success_message = ['title' => 'Group Updated', 'content' => 'Group details updated successfully'];
 

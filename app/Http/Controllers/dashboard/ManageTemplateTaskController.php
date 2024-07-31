@@ -53,17 +53,14 @@ class ManageTemplateTaskController extends Controller
     $msg = ['title' => 'Updated', 'content' => 'Successfuly Updated'];
 
     switch($req->type) {
-      // ✅
       case 'basic':
         $this->updateBasic($req, $id);
         $msg = ['title' => 'Information Changed', 'content' => 'Successfuly Updated'];
         break;
-      // ✅
       case 'assign-user':
         $this->assignUser($req, $id);
         $msg = ['title' => 'Member Assigned', 'content' => 'Successfuly Assigned New User'];
         break;
-      // ✅
       case 'unassign-user':
         $this->unassignUser($req, $id);
         $msg = ['title' => 'Member Removed', 'content' => 'Successfuly Removed User'];
@@ -76,7 +73,6 @@ class ManageTemplateTaskController extends Controller
     return to_route('dashboard.manage-template-tasks.edit', ['manage_template_task' => $id])
       ->with('success', $msg);
   }
-    // ✅
     private function updateBasic(Request $req, string $id) : void {
       $req->validate([
         'name'    => ['required'],
@@ -90,7 +86,6 @@ class ManageTemplateTaskController extends Controller
         'is_show' => $req->show ? true : false,
       ]);
     }
-    // ✅
     private function assignUser(Request $req, string $id) : void {
       $req->validate([
         'user_id' => ['required', 'uuid'],
@@ -101,7 +96,6 @@ class ManageTemplateTaskController extends Controller
         'user_id' => $req->user_id,
       ]);
     }
-    // ✅
     private function unassignUser(Request $req, string $id) : void {
       $req->validate([
         'task_user_access_id' => ['required', 'uuid'],
@@ -110,7 +104,6 @@ class ManageTemplateTaskController extends Controller
       TaskUserAccess::where('id', $req->task_user_access_id)->delete();
     }
 
-  // ✅
   public function userComboBox(Request $req, $groupId) : JsonResponse {
     $req->validate([
       'task_template_id' => ['required', 'uuid'],

@@ -1,5 +1,4 @@
 <?php
-
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
@@ -9,13 +8,10 @@ use App\Models\Task;
 use App\Models\TaskPriority;
 use App\Models\TaskStatus;
 use App\Models\TaskTemplate;
-use App\Models\TaskUserAccess;
-use App\Models\User;
 
 class TaskSeeder extends Seeder
 {
-  public function run(): void
-  {
+  public function run(): void {
     $data = [
       [
         'id' => 2406270001,

@@ -1,9 +1,9 @@
 <?php
-
 namespace Database\Seeders;
 
-use App\Models\TaskStatus;
 use Illuminate\Database\Seeder;
+
+use App\Models\TaskStatus;
 
 class TaskStatusSeeder extends Seeder
 {

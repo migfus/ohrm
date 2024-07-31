@@ -1,10 +1,8 @@
 <?php
-
 use App\Http\Controllers\dashboard\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthPostController;
 use App\Http\Controllers\dashboard\DashboardController;
-use App\Http\Controllers\dashboard\JoinedGroupsController;
 use App\Http\Controllers\dashboard\ManageGroupsController;
 use App\Http\Controllers\dashboard\SystemRolesPermissionsController;
 use App\Http\Controllers\dashboard\ManageUsersController;
@@ -66,4 +64,3 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::resource('/test', TestController::class);
-

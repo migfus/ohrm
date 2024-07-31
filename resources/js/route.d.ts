@@ -1,7 +1,7 @@
-import { route as routeFn } from 'ziggy-js';
+import { route as routeFn } from 'ziggy-js'
 
 declare global {
-    var route: typeof routeFn;
+  var route: typeof routeFn;
 }
 
 declare module 'vue' {
