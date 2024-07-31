@@ -4,9 +4,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserTaskActivity extends Model
+class GroupTaskActivity extends Model
 {
-  use HasFactory;
-
-  protected $fillable = ['user_id', 'count', 'log_at'];
+    use HasFactory;
 }

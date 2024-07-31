@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 use App\Models\Group;
+use App\Models\GroupTaskActivity;
 
 class GroupSeeder extends Seeder
 {
@@ -50,7 +51,13 @@ class GroupSeeder extends Seeder
     ];
 
     foreach($data as $row) {
-      Group::create($row);
+      $group = Group::create($row);
+
+      GroupTaskActivity::create([
+        'group_id' => $group->id,
+        'log_at' => Carbon::now()->subDays(1),
+        'count' => 0,
+      ]);
     }
   }
 }

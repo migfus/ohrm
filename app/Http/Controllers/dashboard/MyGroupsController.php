@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\dashboard;
 
-use App\Models\Group;
-use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Database\Eloquent\Collection;
+
+use App\Models\Group;
+use App\Models\Post;
 
 class MyGroupsController extends Controller
 {
@@ -22,7 +24,7 @@ class MyGroupsController extends Controller
     );
   }
 
-    private function getPosts(Request $req, $auth_id) {
+    private function getPosts(Request $req, $auth_id) : Collection {
       $group_ids = Group::query()
         ->whereHas('group_members', function($q) use($auth_id) {
           $q->where('user_id', $auth_id)->with('role');
@@ -37,7 +39,7 @@ class MyGroupsController extends Controller
         ->orderBy('created_at', 'desc')
         ->get();
     }
-    private function getGroups(Request $req) {
+    private function getGroups(Request $req) : Collection {
       $req->validate([
         'search' => []
       ]);

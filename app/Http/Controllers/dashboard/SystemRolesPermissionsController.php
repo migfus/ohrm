@@ -1,11 +1,13 @@
 <?php
 namespace App\Http\Controllers\dashboard;
 
-use App\Models\Permission;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+
 use App\Models\Role;
+use App\Models\Permission;
+use Illuminate\Http\RedirectResponse;
 
 class SystemRolesPermissionsController extends Controller
 {
@@ -28,7 +30,7 @@ class SystemRolesPermissionsController extends Controller
     );
   }
 
-  public function update(Request $req, $permissionId) {
+  public function update(Request $req, $permissionId) : RedirectResponse {
     $val = $req->validate([
       'type' => ['required'],
       'role_id' => ['required'],

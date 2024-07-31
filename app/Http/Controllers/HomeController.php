@@ -1,8 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Group;
-use App\Models\TaskPriority;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -12,6 +10,8 @@ use Carbon\Carbon;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\TaskTemplate;
+use App\Models\Group;
+use App\Models\TaskPriority;
 
 use App\Events\UpdateStatusPageEvent;
 

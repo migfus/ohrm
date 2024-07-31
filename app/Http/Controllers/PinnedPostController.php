@@ -1,15 +1,15 @@
 <?php
-
 namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Post;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
 class PinnedPostController extends Controller
 {
-  public function index(Request $req) {
+  public function index(Request $req) : JsonResponse {
     $req->validate([
       'group_id' => ['required', 'uuid'],
     ]);

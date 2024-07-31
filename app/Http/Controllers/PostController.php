@@ -1,21 +1,20 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Storage;
-
-use App\Models\Post;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use App\Events\PostsEvent;
+
 use App\Models\PostContent;
 use App\Models\PostType;
-use Illuminate\Support\Facades\DB;
+use App\Models\Post;
 
 class PostController extends Controller
 {
-  public function index(Request $req) {
+  public function index(Request $req) : JsonResponse {
     if($req->group_id) {
       return response()->json(
         Post::query()

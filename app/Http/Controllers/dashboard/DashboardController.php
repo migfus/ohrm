@@ -2,14 +2,14 @@
 namespace App\Http\Controllers\dashboard;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
+use Carbon\Carbon;
 
 use App\Models\TaskUserAccess;
 use App\Models\Task;
 use App\Models\UserTaskActivity;
-
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -22,7 +22,7 @@ class DashboardController extends Controller
     ]);
   }
 
-    private function getPendingTasks($req) {
+    private function getPendingTasks($req) : Collection {
       $req->validate([
         'search' => []
       ]);
@@ -50,7 +50,7 @@ class DashboardController extends Controller
         ->get();
     }
 
-    private function getMarkedTasks($req) {
+    private function getMarkedTasks($req) : Collection {
       $req->validate([
         'search' => []
       ]);
@@ -68,7 +68,7 @@ class DashboardController extends Controller
         ->get();
     }
 
-    private function getUserLogs($user_id) {
+    private function getUserLogs($user_id) : Object {
       // NOTE: Loop until record exists (backward date)
       // NOTE: THis will cause loop, upon user created, create also a user-activity in previous day as 0
       $date = Carbon::now()->subDays(1)->format('Y-m-d'); // check previous day activity
@@ -97,7 +97,6 @@ class DashboardController extends Controller
         ->get()
         ->map(function($irem) {
           return ['date' => $irem['log_at'], 'count' => $irem['count']];
-        })
-        ;
+        });
     }
 }

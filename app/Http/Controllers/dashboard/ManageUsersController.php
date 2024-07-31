@@ -4,9 +4,9 @@ namespace App\Http\Controllers\dashboard;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 use App\Models\HeroIcon;
@@ -14,6 +14,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\GroupMember;
 use App\Models\Group;
+use App\Models\Task;
 use App\Models\UserTaskActivity;
 
 class ManageUsersController extends Controller
@@ -71,7 +72,7 @@ class ManageUsersController extends Controller
   }
 
   // NOTE: CREATE
-  public function store(Request $req) {
+  public function store(Request $req) : RedirectResponse {
     $req->validate([
       'name'     => ['required',],
       'email'    => ['required', 'email', 'unique:users'],
@@ -109,14 +110,34 @@ class ManageUsersController extends Controller
       ->select('id', 'display_name')
       ->get();
     $user = User::query()
-      ->with(['roles', 'group_members.group', 'group_members.role.hero_icon'])
+      ->with([
+        'roles',
+        'group_members.group',
+        'group_members.role.hero_icon'
+      ])
       ->where('id', $id)
       ->first();
+
+    $task_activity = UserTaskActivity::query()
+      ->where('user_id', $user->id)
+      ->where('created_at', '>=', Carbon::now()->subYears(1))
+      ->orderBy('created_at', 'DESC')
+      ->get()
+      ->map(fn($r) => [
+        'date' => $r->log_at,
+        'count' => $r->count
+      ]);
+    $task_count_now = Task::query()
+      ->where('user_assigned_id', $user->id)
+      ->where('created_at', Carbon::now())
+      ->count();
 
     return Inertia::render('dashboard/manage-users/edit/(Edit)', [
       'page_title' => $user->name,
       'user' => $user,
-      'roles' => $roles
+      'roles' => $roles,
+      'task_activity' => $task_activity,
+      'task_count_now' => $task_count_now,
     ]);
   }
   // ✅
@@ -165,7 +186,7 @@ class ManageUsersController extends Controller
         });
     }
     // ✅
-    private function updateAvatar(Request $req, $id){
+    private function updateAvatar(Request $req, $id) : RedirectResponse {
       $req->validate([
         'avatar' => ['required']
       ]);
@@ -181,7 +202,7 @@ class ManageUsersController extends Controller
         ]);
     }
     // ✅
-    private function updateCover(Request $req, $id){
+    private function updateCover(Request $req, $id) : RedirectResponse  {
       $req->validate([
         'cover' => ['required'],
       ]);
@@ -212,7 +233,7 @@ class ManageUsersController extends Controller
         ]);
     }
     // ✏️
-    private function removeJoinedGroup($req, $id){
+    private function removeJoinedGroup($req, $id) : RedirectResponse {
       $req->validate([
         'group_member_id' => ['required', 'uuid']
       ]);

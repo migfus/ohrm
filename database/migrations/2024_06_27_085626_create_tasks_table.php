@@ -20,6 +20,7 @@ return new class extends Migration
 
       $table->uuid('user_assigned_id')->nullable();
       $table->foreign('user_assigned_id')->references('id')->on('users')->onDelete('cascade');
+      $table->dateTimeTz('user_assigned_at')->nullable();
 
       $table->uuid('task_priority_id');
       $table->foreign('task_priority_id')->references('id')->on('task_priorities')->onDelete('cascade');

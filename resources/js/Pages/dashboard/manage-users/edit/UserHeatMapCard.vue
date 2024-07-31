@@ -1,12 +1,8 @@
 <template>
   <BasicCard :icon="ChartBarIcon" title="Tasks' Heatmap" description="Group's heatmap activities.">
     <CalendarHeatmap
-      :values="[
-        { date: '2024-05-9', count: 6 },
-        { date: '2024-05-10', count: 6 },
-        { date: '2024-05-11', count: 6 },
-      ]"
-      end-date="2024-12-31"
+      :values="task_activity_all"
+      :end-date="moment().format('YYYY-MM-DD')"
       :round="5"
       tooltip-unit="activity"
       class="bg-white py-3 px-4 rounded-xl shadow"
@@ -15,9 +11,26 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
+
 import { CalendarHeatmap } from 'vue3-calendar-heatmap'
 import { ChartBarIcon } from '@heroicons/vue/24/solid'
 import BasicCard from '@/components/cards/BasicCard.vue'
+
+const $props = defineProps<{
+  task_activity: {
+    date: string
+    count: number
+  }[]
+  task_count_now: number
+}>()
+
+const task_activity_all = [{
+    date: moment().format('YYYY-MM-DD'),
+    count: $props.task_count_now
+  },
+  ...$props.task_activity
+]
 </script>
 
 <style>

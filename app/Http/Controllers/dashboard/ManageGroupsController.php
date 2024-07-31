@@ -1,21 +1,51 @@
 <?php
 namespace App\Http\Controllers\dashboard;
 
-use App\Events\UpdateGroupPostsEvent;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
 
 use App\Models\User;
 use App\Models\Group;
 use App\Models\GroupMember;
 use App\Models\GroupRole;
+use App\Models\GroupTaskActivity;
 use App\Models\Task;
 use App\Models\TaskPriority;
 use App\Models\TaskTemplate;
-use App\Models\Post;
+
+Class IndexRequest {
+  public ?string $search;
+  public ?object $user;
+  public function __construct($req) {
+    $this->search = $req->search;
+    $this->user = $req->user();
+  }
+
+  public function user() : ?object {
+    return $this->user;
+  }
+}
+
+Class StoreRequest {
+  public string $name;
+  public string $description;
+  public ?object $user;
+
+  public function __construct(Request $req) {
+    $this->name = $req->name;
+    $this->description = $req->description;
+  }
+
+  public function user() : ?object {
+    return $this->user;
+  }
+}
+
 
 class ManageGroupsController extends Controller
 {
@@ -25,11 +55,12 @@ class ManageGroupsController extends Controller
     $req->validate([
       'search' => [],
     ]);
+    $IndexRequest = new IndexRequest($req);
 
     $groups = Group::query()
       ->select('description', 'name', 'id', 'avatar')
-      ->when($req->search != '', function ($q) use($req) {
-        $q->where("name", 'LIKE', "%$req->search%");
+      ->when($IndexRequest->search != '', function ($q) use($IndexRequest) {
+        $q->where("name", 'LIKE', "%$IndexRequest->search%");
       })
       ->with([
         'group_members_admin_only.user'     => fn($q) => $q->limit(5),
@@ -39,6 +70,7 @@ class ManageGroupsController extends Controller
         'group_members_admin_only',
         'group_members_not_admin_only'
       ])
+      ->orderBy('created_at', 'desc')
       ->paginate(10);
 
     return Inertia::render(
@@ -49,7 +81,7 @@ class ManageGroupsController extends Controller
           ['name' => 'All'],
         ],
         'filters' => [
-          'search' => $req->search
+          'search' => $IndexRequest->search
         ],
     ]);
   }
@@ -60,14 +92,21 @@ class ManageGroupsController extends Controller
       'name'        => ['required', 'unique:groups,name'],
       'description' => ['required'],
     ]);
+    $StoreRequest = new StoreRequest($req);
 
     // DB::beginTransaction();
 
     // try {
       $group = Group::create([
-        'name' => $req->name,
-        'display_name' => $req->name,
-        'description' => $req->description,
+        'name' => $StoreRequest->name,
+        'display_name' => $StoreRequest->name,
+        'description' => $StoreRequest->description,
+      ]);
+
+      GroupTaskActivity::create([
+        'group_id' => $group->id,
+        'log_at' => Carbon::now()->subDays(1),
+        'count' => 0,
       ]);
 
       Group::query()
@@ -78,7 +117,7 @@ class ManageGroupsController extends Controller
         ]);
 
       GroupMember::create([
-        'user_id'       => $req->user()->id,
+        'user_id'       => $StoreRequest->user()->id,
         'group_id'      => $group->id,
         'group_role_id' => GroupRole::where('name', 'admin')->first()->id,
       ]);
@@ -104,12 +143,12 @@ class ManageGroupsController extends Controller
       'task_priorities'=> TaskPriority::with('hero_icon')->get(),
     ]);
   }
-    private function editGetGroup($groupId) {
+    private function editGetGroup($groupId) : Collection {
       return Group::query()
         ->where('id', $groupId)
         ->first();
     }
-    private function editGetGroupRoles() {
+    private function editGetGroupRoles() : Collection {
       return GroupRole::query()
         ->select('display_name', 'id', 'description', 'icon_name')
         ->with(['hero_icon' => function ($q) {
@@ -117,13 +156,13 @@ class ManageGroupsController extends Controller
         }])
         ->get();
     }
-    private function editGetGroupMembers($id) {
+    private function editGetGroupMembers($id) : Collection {
       return GroupMember::query()
         ->where('group_id', $id)
         ->with(['user'])
         ->get();
     }
-    private function editGetTaskTemplates($groupId) {
+    private function editGetTaskTemplates($groupId) : Collection {
       return TaskTemplate::query()
         ->where('group_id', $groupId)
         ->with([
@@ -135,7 +174,7 @@ class ManageGroupsController extends Controller
         ->withCount('task_user_access')
         ->get();
     }
-    private function editGetTasks($groupId) {
+    private function editGetTasks($groupId) : Collection {
       return Task::query()
         ->where('group_id', $groupId)
         ->with([
@@ -234,7 +273,7 @@ class ManageGroupsController extends Controller
     }
     // ✅
     private function addMember(Request $req, $id) : void {
-      $val = $req->validate([
+      $req->validate([
         'user_id' => ['required', 'uuid'],
         'roleId'  => ['required', 'uuid']
       ]);
@@ -259,7 +298,7 @@ class ManageGroupsController extends Controller
       }
     }
     // ✅
-    private function removeMember(Request $req, $id) {
+    private function removeMember(Request $req, $id) : RedirectResponse {
       $req->validate([
         'memberId' => ['required', 'uuid'],
       ]);

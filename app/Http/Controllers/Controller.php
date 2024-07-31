@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
-
 
 abstract class Controller
 {
-  public function gUploadAvatar($avatar, $path) {
+  public function gUploadAvatar($avatar, $path) : String {
     if (strpos($avatar, 'default')) {
       return $avatar;
     }
@@ -25,7 +22,7 @@ abstract class Controller
     return $location.'/'.$imageName;
   }
 
-  function resiseImage($max_width, $max_height, $source_file, $dst_dir, $quality = 80) {
+  function resiseImage($max_width, $max_height, $source_file, $dst_dir, $quality = 80) : Bool {
     $imgsize = getimagesize($source_file);
     $width   = $imgsize[0]; // x
     $height  = $imgsize[1]; // y

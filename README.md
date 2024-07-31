@@ -1,4 +1,8 @@
-<p align="center"><a href="https://queuing.migfus.net" target="_blank"><img src="https://queuing.migfus.net/assets/logo-sm.png" width="400" alt="OHRM Logo"></a></p>
+<p align="center">
+  <a href="https://queuing.migfus.net" target="_blank">
+    <img src="https://queuing.migfus.net/assets/logo-sm.png" width="400" alt="OHRM Logo">
+  </a>
+</p>
 
 ## About OHRM Queuing System
 
@@ -72,7 +76,9 @@ https://queuing.migfus.net/
     - [x] Create User
     - [x] Delete User
     - [x] Update User (Info, Role)
-    - [ ] Task Heatmap
+    - [x] Task Heatmap
+    - [ ] User's Posts [Design Phase]
+    - [ ] User's Assined Tasks [Design Phase]
 
 - [ ] System
   - [ ] SMS API Integration
@@ -83,6 +89,12 @@ https://queuing.migfus.net/
   - [ ] Terminal/Tablet - Home Page
     - [ ] Native App for printing
     - [ ] Buy tablet
+
+## Database Structure
+
+<a href="https://ibb.co/wNqQ3vk">
+  <img src="https://i.ibb.co/wNqQ3vk/Diagram-1.png" alt="OHRM Diagram" target="_blank">
+</a>
 
 ## License
 

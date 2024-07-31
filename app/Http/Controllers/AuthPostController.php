@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\File;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rules\File;
 
 use App\Models\Post;
-use Illuminate\Http\JsonResponse;
 use App\Events\PostsEvent;
 use App\Models\PostContent;
 use App\Models\PostType;
-use Illuminate\Support\Facades\DB;
 use App\Models\Group;
 
 class AuthPostController extends Controller
 {
-  public function index(Request $req) {
+  public function index(Request $req) : JsonResponse {
     $group_ids = Group::query()
       ->whereHas('group_members', function($q) {
         $q->where('user_id', auth()->user()->id);
@@ -70,7 +70,7 @@ class AuthPostController extends Controller
         return response()->json(['error' => 'Invalid post type'], 400);
     }
   }
-    private function storeBasic($req) {
+    private function storeBasic($req) : JsonResponse {
       $req->validate([
         'group_id' => ['required', 'uuid'],
         'title' => ['required','string'],
@@ -95,7 +95,7 @@ class AuthPostController extends Controller
       );
     }
 
-    private function storeMultimedia($req) {
+    private function storeMultimedia($req) : JsonResponse {
       $req->validate([
         'group_id' => ['required', 'uuid'],
         'title' => ['required','string'],
@@ -129,7 +129,7 @@ class AuthPostController extends Controller
       return response()->json(['message' => 'Files uploaded successfully'], 200);
     }
 
-    private function storeDocuments($req) {
+    private function storeDocuments($req) : JsonResponse {
       $req->validate([
         'group_id' => ['required', 'uuid'],
         'title' => ['required','string'],

@@ -1,20 +1,20 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\JsonResponse;
+
 use App\Models\Reaction;
 use App\Models\ReactionUser;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
 class ReactionController extends Controller
 {
-
-  public function index() {
+  public function index() : JsonResponse {
     return response()->json(Reaction::orderBy('id', 'ASC')->get());
   }
 
-  public function store(Request $req) {
+  public function store(Request $req) : JsonResponse {
     $req->validate([
       'post_id'  => ['required', 'uuid'],
       'reaction_id' => ['required'],
@@ -59,5 +59,4 @@ class ReactionController extends Controller
         ->get()
     );
   }
-
 }

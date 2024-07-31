@@ -2,12 +2,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 use App\Models\Comment;
 
 class CommentController extends Controller
 {
-  public function index(Request $req) {
+  public function index(Request $req) : JsonResponse {
     $req->validate([
       'post_id'  => ['required', 'uuid'],
       'group_id' => ['required', 'uuid'],
@@ -27,7 +28,7 @@ class CommentController extends Controller
     return response()->json($comments);
   }
 
-  public function store(Request $req) {
+  public function store(Request $req) : JsonResponse {
     $req->validate([
       'post_id'  => ['required', 'uuid'],
       'content'  => ['required'],
@@ -53,13 +54,13 @@ class CommentController extends Controller
     );
   }
 
-  public function destroy($id) {
+  public function destroy($id) : JsonResponse {
     Comment::find($id)->delete();
 
     return response()->json(['success' => true]);
   }
 
-  public function update(Request $req, $id) {
+  public function update(Request $req, $id) : JsonResponse {
     $req->validate([
       'content' => ['required']
     ]);
