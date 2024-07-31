@@ -2,14 +2,14 @@
   <div class="bg-brand-50 shadow sm:rounded-2xl text-brand-800">
     <!-- NOTE: POSTCARD HEADER -->
     <div class="flex font-medium justify-between px-4 pt-4 pb-2">
-      <Link :href="route('dashboard.manage-users.edit', {manage_user: post.user.id})" class="flex">
+      <Link :href="route('dashboard.manage-users.edit', {manage_user: post.user.id})" class="flex cursor-pointer">
         <img :src="$props.post.user.avatar" class="h-8 w-8 rounded-full shadow mr-2" />
-        <div class="flex flex-col">
+        <div class="flex flex-col ">
           <span class="text-xs">
-            <label>{{ $props.post.user.name }} - </label>
+            <label class="cursor-pointer">{{ $props.post.user.name }} - </label>
             <label>{{ dateTimeFormatted($props.post.created_at) }}</label>
           </span>
-          <span class="text-xs">
+          <span class="text-xs cursor-pointer">
             <label>{{ $props.post.group.name }}</label>
           </span>
         </div>

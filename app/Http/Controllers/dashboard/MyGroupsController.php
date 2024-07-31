@@ -17,7 +17,7 @@ class MyGroupsController extends Controller
     return Inertia::render('dashboard/my-groups/(Index)' ,
       [
         'page_title' => 'My Groups',
-        'groups' => $this->getGroups($auth_id),
+        'groups' => $this->getGroups($req),
         'posts'  => $this->getPosts($req, $auth_id),
       ]
     );

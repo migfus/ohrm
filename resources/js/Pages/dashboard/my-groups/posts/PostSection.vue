@@ -1,173 +1,10 @@
 <template>
   <div>
-    <!-- NOTE: Create Post Card -->
-    <BasicCard title="Create Post" :icon="ChatBubbleOvalLeftIcon" description="Creat Post to this group.">
-      <div class="flex flex-wrap mt-4 gap-2">
-
-        <AppButton
-          name="Post Text"
-          @click="AuthPostStore.open_modal_basic = true"
-          :icon="ChatBubbleOvalLeftIcon"
-          class="flex-grow flex-nowrap"
-        >
-          Text
-        </AppButton>
-
-        <AppButton
-          name="Post Multimedia"
-          @click="AuthPostStore.open_modal_multimedia = true"
-          :icon="Square2StackIcon"
-          class="flex-grow flex-nowrap"
-        >
-          Photos | Videos
-        </AppButton>
-
-        <AppButton
-          name="Post Documents"
-          @click="AuthPostStore.open_modal_documents = true"
-          :icon="DocumentArrowUpIcon"
-          class="flex-grow flex-nowrap"
-        >
-          Documents | Files
-        </AppButton>
-
-      </div>
-    </BasicCard>
-
-    <!-- SECTION: CREATE POST -->
-    <!-- NOTE: TEXT -->
-    <FormModal
-      v-model="AuthPostStore.open_modal_basic"
-      :title="AuthPostStore.selected_post_id == '' ? 'Create New Post' : 'Edit Post'"
-      :description="AuthPostStore.selected_post_id == '' ? 'Create new post for this group.' : 'Edit post for this group.'"
-      :icon="ChatBubbleOvalLeftIcon"
-      size="max-w-lg"
-    >
-      <FlashErrors :errors="AuthPostStore.errors"/>
-
-      <AppTextArea v-model="AuthPostStore.form.title" name="Title" noLabel lines="4"/>
-
-      <div class="flex justify-end mt-4 gap-2">
-        <AppButton name="Post" @click="AuthPostStore.resetAllPostParameters()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton
-          v-if="AuthPostStore.selected_post_id == ''"
-          name="Post"
-          @click="AuthPostStore.submitBasicPost(handleScroll)"
-          color="brand"
-          :icon="PaperAirplaneIcon"
-          :forceLoading="AuthPostStore.progress < 100"
-        >
-          Post
-        </AppButton>
-
-        <AppButton
-          v-else
-          name="Update"
-          @click="AuthPostStore.updatePostApi()"
-          color="brand"
-          :icon="PaperAirplaneIcon"
-          :forceLoading="AuthPostStore.progress < 100"
-        >
-          Update
-        </AppButton>
-      </div>
-
-      <div v-if="AuthPostStore.progress > 0 && AuthPostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4 mb-1">
-        <div class="bg-brand-500 h-1.5 rounded-full transition-all" :style="`width: ${AuthPostStore.progress}%`"></div>
-        <label class="text-sm justify-end flex text-brand-800">{{ AuthPostStore.progress }}%</label>
-      </div>
-    </FormModal>
-
-    <!-- NOTE: MULTIMEDIA -->
-    <FormModal
-      v-model="AuthPostStore.open_modal_multimedia"
-      title="Post Photos/Videos"
-      description="Upload photos or videos for this post."
-      :icon="Square2StackIcon"
-      size="max-w-lg"
-    >
-      <FlashErrors :errors="AuthPostStore.errors"/>
-
-      <AppTextArea v-model="AuthPostStore.form.title" name="Title" noLabel/>
-
-      <div class="flex flex-col mt-4">
-        <input
-          @change="AuthPostStore.setToUploadFiles"
-          type="file"
-          name="file[]"
-          multiple
-          accept="image/png, image/gif, image/jpeg, video/mp4"
-          class="placeholder-gray-50 block shadow w-full text-sm text-gray-900 cursor-pointer bg-white rounded-2xl focus:outline-none p-2"
-        />
-      </div>
-
-      <div class="flex justify-end mt-4 gap-2">
-        <AppButton name="Post" @click="AuthPostStore.resetAllPostParameters()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton
-          name="Post"
-          @click="AuthPostStore.submitMultimediaPost(handleScroll)"
-          color="brand"
-          :icon="PaperAirplaneIcon"
-          :forceLoading="AuthPostStore.progress < 100"
-        >
-          Post
-        </AppButton>
-      </div>
-
-      <div v-if="AuthPostStore.progress > 0 && AuthPostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4 mb-1">
-        <div class="bg-brand-500 h-1.5 rounded-full transition-all" :style="`width: ${AuthPostStore.progress}%`"></div>
-        <label class="text-sm justify-end flex text-brand-800">{{ AuthPostStore.progress }}%</label>
-      </div>
-
-    </FormModal>
-
-    <!-- NOTE: DOCUMENTS -->
-    <FormModal
-      v-model="AuthPostStore.open_modal_documents"
-      title="Post Documents/Files"
-      description="Upload documents or files for this post."
-      :icon="DocumentArrowUpIcon"
-      size="max-w-lg"
-    >
-      <FlashErrors :errors="AuthPostStore.errors"/>
-
-      <AppTextArea v-model="AuthPostStore.form.title" name="Title" noLabel/>
-
-      <div class="flex flex-col mt-4">
-        <input
-          @change="AuthPostStore.setToUploadFiles"
-          type="file"
-          name="file[]"
-          multiple
-          accept=".jpg, .png, .jpeg, .gif, .mp4, .doc, .docx, .pdf, .txt, .xlsx, .xls, .csv, .pptx, .ppt, .zip, .rar, application/msword"
-          class="placeholder-gray-50 block shadow w-full text-sm text-gray-900 cursor-pointer bg-white rounded-2xl focus:outline-none p-2"
-        />
-      </div>
-
-      <div class="flex justify-end mt-4 gap-2">
-        <AppButton name="Post" @click="AuthPostStore.resetAllPostParameters()" :icon="XMarkIcon">Cancel</AppButton>
-        <AppButton
-          name="Post"
-          @click="AuthPostStore.submitDocumentPost(handleScroll)"
-          color="brand"
-          :icon="PaperAirplaneIcon"
-          :forceLoading="AuthPostStore.progress < 100"
-        >
-          Post
-        </AppButton>
-      </div>
-
-      <div v-if="AuthPostStore.progress > 0 && AuthPostStore.progress < 100" class="w-full bg-white rounded-full h-1.5 mt-4 mb-1">
-        <div class="bg-brand-500 h-1.5 rounded-full transition-all" :style="`width: ${AuthPostStore.progress}%`"></div>
-        <label class="text-sm justify-end flex text-brand-800">{{ AuthPostStore.progress }}%</label>
-      </div>
-    </FormModal>
-
     <!-- SECTION: POSTS DATA -->
     <div ref="infiniteScroll">
 
-      <DataTransition class="flex flex-col">
-        <div v-for="post, index in AuthPostStore.post_data" :key="post.id" class="mt-4">
+      <DataTransition class="flex flex-col gap-4">
+        <div v-for="post, index in AuthPostStore.post_data" :key="post.id">
           <PostCard
             :post
             :index
@@ -203,21 +40,11 @@ import { useAuthPostStore } from '@/stores/AuthPostStore'
 import { useReactionStore } from '@/stores/ReactionStore'
 
 import PostCard from './PostCard.vue'
-import BasicCard from '@/components/cards/BasicCard.vue'
 import {
   ArrowPathIcon,
   FaceSmileIcon,
-  ChatBubbleOvalLeftIcon,
-  XMarkIcon,
-  PaperAirplaneIcon,
-  Square2StackIcon,
-  DocumentArrowUpIcon,
 } from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'
-import FormModal from '@/components/modals/FormModal.vue'
-import AppButton from '@/components/form/AppButton.vue'
-import AppTextArea from '@/components/form/AppTextArea.vue'
-import FlashErrors from '@/components/headers/FlashErrors.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 const AuthPostStore = useAuthPostStore()

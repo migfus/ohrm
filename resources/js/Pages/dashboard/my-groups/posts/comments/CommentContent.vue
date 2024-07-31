@@ -3,11 +3,9 @@
     <img :src="comment.user?.avatar" class="h-5 w-5 rounded-full mt-2"/>
     <div class="bg-brand-50 shadow rounded-2xl px-3 py-2 text-xs flex flex-col flex-grow">
       <div class="flex justify-between">
-        <!-- <label
+        <label
           :class="[comment.user?.group_members[0].role?.name == 'removed' && 'line-through', 'font-medium']"
-        > -->
-        <label>
-          {{ comment.user?.group_members }}
+        >
           {{ comment.user?.name }} - {{ dateTimeFormatted(comment.created_at) }}
         </label>
         <CommentDropdown @click="dropdownSelection" :user_id="$props.comment.user_id"/>

@@ -100,17 +100,19 @@ class ManageGroupsController extends Controller
 
   // NOTE: UPDATE
   public function edit($id): Response {
+    $group = $this->editGetGroup($id);
     return Inertia::render('dashboard/manage-groups/edit/(Edit)', [
-      'page_title'     => $this->editGetGroup($id)->name,
-      'group'          => $this->editGetGroup($id),
+      'page_title'     => $group->name,
+      'group'          => $group,
       'group_members'  => $this->editGetGroupMembers($id),
       'task_templates' => $this->editGetTaskTemplates($id),
       'tasks'          => $this->editGetTasks($id),
       'group_roles'    => $this->editGetGroupRoles(),
       'task_priorities'=> TaskPriority::with('hero_icon')->get(),
+      'group_task_activities' => $this->editGetGroupTaskActivities($id),
     ]);
   }
-    private function editGetGroup($groupId) : Collection {
+    private function editGetGroup($groupId) : Group {
       return Group::where('id', $groupId)->first();
     }
     private function editGetGroupRoles() : Collection {
@@ -151,6 +153,14 @@ class ManageGroupsController extends Controller
         ->orderBy('created_at', 'desc')
         ->limit(5)
         ->get();
+    }
+    private function editGetGroupTaskActivities($group_id) : Object {
+      return GroupTaskActivity::query()
+        ->where('group_id', $group_id)
+        ->where('log_at', '>=', Carbon::now()->subYears(1))
+        ->orderBy('log_at', 'desc')
+        ->get()
+        ->map(fn($r) => ['date' => $r->log_at, 'count' => $r->count]);
     }
 
   public function update(Request $req, $id): RedirectResponse {

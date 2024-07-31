@@ -59,7 +59,7 @@ https://queuing.migfus.net/
     - [x] Update Info
     - [x] Delete Group
     - [x] Assign/Reassign a member
-    - [ ] Task Heatmap
+    - [x] Task Heatmap
     - [x] Task Template
       - [x] Create Template
       - [x] Update Template
@@ -72,6 +72,8 @@ https://queuing.migfus.net/
       - [x] Remove Post
       - [x] Pin Post
       - [x] Infinite Scroll (Auto load posts when scrolling)
+    - [ ] All Tasks
+      - [ ] Redesign
   - [ ] User Management
     - [x] Create User
     - [x] Delete User

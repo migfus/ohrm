@@ -40,9 +40,9 @@ class AuthPostController extends Controller
           'auth_reaction' => function($q) use ($req) {
             $q->where('user_id', $req->user()->id);
           },
-          'comments' => function($q) use($req){
-            $q->with(['user.group_members' => function($qu) use($req) {
-              $qu->whereIn('group_id', $req->group_ids)->with('role');
+          'comments' => function($q) use($group_ids){
+            $q->with(['user.group_members' => function($qu) use($group_ids) {
+              $qu->whereIn('group_id', $group_ids)->with('role');
             }])
               ->orderBy('created_at', 'DESC')->limit(3);
           }

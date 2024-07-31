@@ -17,7 +17,6 @@ class AuthController extends Controller
     $val = $req->validate([
       'email'    => ['required', 'email'],
       'password' => ['required', 'min:6'],
-      'remember' => ['boolean']
     ]);
 
     if(Auth::attempt($val)) {

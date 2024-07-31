@@ -31,7 +31,7 @@
       </div>
 
       <div class="col-span-4 lg:col-span-2 space-y-4">
-        <GroupHeatMapCard />
+        <GroupHeatMapCard :group_task_activities :now_task_activities="tasks.length"/>
         <UpdateTemplateTasksCard :taskTemplates="task_templates" :groupId="group.id" :taskPriorities="task_priorities"/>
         <RecentTasksCard :tasks="tasks" :taskTemplates="task_templates"/>
         <PostSection :groupId="group.id"/>
@@ -73,6 +73,10 @@ const $props = defineProps<{
   task_templates: TaskTemplate[]
   tasks: Task[]
   task_priorities: TaskPriority[]
+  group_task_activities: {
+    date: string
+    count: number
+  }[]
 }>()
 
 const form = router.form({
