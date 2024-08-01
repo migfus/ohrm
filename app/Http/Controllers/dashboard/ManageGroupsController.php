@@ -32,16 +32,8 @@ class ManageGroupsController extends Controller
       ->when($req->search != '', function ($q) use($req) {
         $q->where("name", 'LIKE', "%$req->search%");
       })
-      ->with([
-        'group_members_admin_only.user'     => fn($q) => $q->limit(5),
-        'group_members_not_admin_only.user' => fn($q) => $q->limit(5)
-      ])
-      ->withCount([
-        'group_members_admin_only',
-        'group_members_not_admin_only'
-      ])
       ->orderBy('created_at', 'desc')
-      ->paginate(10);
+      ->paginate(20);
 
     return Inertia::render(
       'dashboard/manage-groups/index/(Index)', [
@@ -151,7 +143,7 @@ class ManageGroupsController extends Controller
           'task_template'
         ])
         ->orderBy('created_at', 'desc')
-        ->limit(5)
+        ->limit(20)
         ->get();
     }
     private function editGetGroupTaskActivities($group_id) : Object {

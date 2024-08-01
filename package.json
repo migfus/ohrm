@@ -33,6 +33,7 @@
     "notiwind": "^2.0.2",
     "pinia": "^2.1.7",
     "quill-delta-to-html": "^0.12.1",
+    "swiper": "^11.1.9",
     "vue-picture-cropper": "^0.7.0",
     "vue3-calendar-heatmap": "^2.0.5",
     "ziggy-js": "^2.2.1"

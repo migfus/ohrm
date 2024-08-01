@@ -14,6 +14,11 @@ export default {
       fontFamily: {
         sans: ['Nunito', ...defaultTheme.fontFamily.sans],
       },
+      boxShadow: {
+        right: 'inset -36px -6px 51px -57px rgba(0,0,0,0.3)',
+        left: ' inset 45px -6px 51px -57px rgba(0,0,0,0.3)',
+        // swipeRight: 'inset -10px 0px 38px -11px rgba(0,0,0,0.52)'
+      },
       colors: {
         // brand: {
         //   '50': '#f5f8f7',

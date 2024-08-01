@@ -11,10 +11,11 @@
 
     <TabSection v-model="selected" :data="tabs"/>
 
-    <div class="overflow-hidden bg-white shadow sm:rounded-xl mt-2">
-      <DataTransition v-if="$props.data.data.length > 0" role="list" class="divide-y divide-gray-200">
+    <div class="bg-white mt-2">
+      <DataTransition v-if="$props.data.data.length > 0" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">
         <GroupCard v-for="row in $props.data.data" :data="row" :key="row.id"/>
       </DataTransition>
+
       <DataTransition v-else>
         <div class="bg-brand-50 p-4 text-brand-600 flex justify-center">
           <p class="mx-auto text-[60px]">
@@ -34,7 +35,7 @@
 
 <script setup lang="ts">
 import { ref, watch, reactive } from 'vue'
-import { Filters, Group, Tab } from '@/globalTypes'
+import { Filters, Group, Pagination, Tab } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import { useThrottle } from '@vueuse/core'
 
@@ -48,9 +49,7 @@ import Create from './Create.vue'
 
 const $props = defineProps<{
   filters: Filters,
-  data: {
-    data: Group []
-  }
+  data: Pagination<Group>
 }>()
 
 const showCreateGroupModal = ref<boolean>(false)

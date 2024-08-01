@@ -1,5 +1,5 @@
 <template>
-  <div class="flex mt-4 bg-brand-50 rounded-xl shadow p-4 justify-end">
+  <div v-if="data.last_page > 1" class="flex mt-4 bg-brand-50 rounded-xl shadow p-4 justify-end">
     <TailwindPagination
       :data
       @pagination-change-page="changePage"
@@ -10,10 +10,11 @@
 </template>
 
 <script setup lang="ts">
+import { Pagination } from '@/globalTypes'
 import { TailwindPagination } from 'laravel-vue-pagination'
 
 defineProps<{
-  data: Object
+  data: Pagination<Object>
 }>()
 
 const $emit = defineEmits(['changePage'])

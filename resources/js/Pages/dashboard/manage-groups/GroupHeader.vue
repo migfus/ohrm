@@ -25,11 +25,7 @@
             </div>
 
           </div>
-          <div class="mt-6 flex flex-col justify-stretch space-y-3 sm:flex-row sm:space-x-4 sm:space-y-0">
-            <AppButton :href="route('dashboard.manage-groups.index')" :icon="XMarkIcon" :color="confirmButton.color == 'danger' ? '' : ''">Cancel</AppButton>
 
-            <AppButton :icon="confirmButton.icon" @click="removeGroupPrompt" :color="confirmButton.color">{{ confirmButton.text }}</AppButton>
-          </div>
         </div>
       </div>
       <div class="mt-6 hidden min-w-0 flex-1 sm:block md:hidden">
