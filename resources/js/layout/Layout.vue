@@ -3,8 +3,6 @@
     <link rel="icon" type="image/png" :href="$page.props.logo.sm" />
   </Head>
 
-  <!-- <TopBanner /> -->
-
   <NotiWind />
 
   <SideNavigation v-if="$page.props.sidebar" :title="$page.props.title" :logo="$page.props.logo.lg">

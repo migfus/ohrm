@@ -58,7 +58,7 @@ class HomeController extends Controller
       'group_id' => $task_template->group_id,
       'task_template_id' => $req->task_template_id,
       'task_priority_id' => $req->task_priority_id,
-      'task_status_id'   => TaskStatus::where('name', 'Queuing')->first()->id,
+      'task_status_id'   => TaskStatus::where('past_name', 'Queuing')->first()->id,
       'task_status_at'   => Carbon::now(),
       'message' => $req->message,
       'name' => $task_template->name,

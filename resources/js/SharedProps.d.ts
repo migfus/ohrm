@@ -19,6 +19,7 @@ interface SharedProps{
     }
   }
   auth?: User
+  pending_task_count: number
 
   [key: string]: any
 }

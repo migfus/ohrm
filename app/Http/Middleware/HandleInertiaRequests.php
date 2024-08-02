@@ -6,6 +6,7 @@ use Inertia\Middleware;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SystemSettings;
 use App\Models\Task;
+use App\Models\TaskUserAccess;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -33,7 +34,24 @@ class HandleInertiaRequests extends Middleware
         return Auth::check() ? $req->user()->only('id', 'name', 'email', 'avatar') : null;
       },
 
-      'pendind_task_count' => 0
+      'pending_task_count' => $this->getPendingTaskCount()
     ]);
   }
+
+    private function getPendingTaskCount() : int {
+      $task_template_ids = TaskUserAccess::query()
+        ->where('user_id', auth()->user()->id)
+        ->with(['task_template'])
+        ->get()
+        ->pluck('task_template_id')
+        ->toArray();
+
+      return Task::query()
+        ->whereNull('user_assigned_id')
+        // ->with(['task_template'])
+        ->whereHas('task_template', function ($q) use($task_template_ids) {
+          $q->whereIn('id', $task_template_ids);
+        })
+        ->count();
+    }
 }

@@ -80,6 +80,7 @@ export interface Group {
   group_members: GroupMember[]
   task_templates: TaskTemplate[]
   tasks: Task[]
+  is_visible: boolean
 }
 
 export interface TaskTemplate {
@@ -164,6 +165,7 @@ export interface Page extends PageProps {
 
   // NOTE: Independent
   pageTitle: string
+  pendind_task_count: number
 }
 
 

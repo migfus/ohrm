@@ -47,6 +47,7 @@
           v-model:name="form.name"
           v-model:description="form.description"
           :id="group.id"
+          :is_visible="group.is_visible ? true : false "
         />
 
         <PinnedPostsCard :groupId="group.id"/>

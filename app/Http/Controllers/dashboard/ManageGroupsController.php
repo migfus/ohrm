@@ -209,6 +209,7 @@ class ManageGroupsController extends Controller
       $req->validate([
         'name'        => ['required'],
         'description' => ['required'],
+        'is_visible'  => ['required', 'boolean'],
       ]);
 
       Group::query()
@@ -216,6 +217,7 @@ class ManageGroupsController extends Controller
         ->update([
           'name'        => $req->name,
           'description' => $req->description,
+          'is_visible'  => $req->is_visible
         ]);
     }
     // ✅
