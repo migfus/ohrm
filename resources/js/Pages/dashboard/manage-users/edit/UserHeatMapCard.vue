@@ -1,5 +1,10 @@
 <template>
-  <BasicCard :icon="ChartBarIcon" title="Tasks' Heatmap" description="Group's heatmap activities.">
+  <BasicCard
+    :icon="ChartBarIcon"
+    title="Tasks' Heatmap"
+    description="Group's heatmap activities."
+    :count="task_count_now"
+  >
     <CalendarHeatmap
       :values="task_activity_all"
       :end-date="moment().format('YYYY-MM-DD')"

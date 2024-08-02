@@ -20,17 +20,17 @@
       </SwiperSlide>
 
       <div class="absolute shadow-right bg-red z-10 top-0 right-0 h-full pt-[18px] cursor-pointer">
-        <ChevronRightIcon @click="swiper.slideNext()" class="h-4 w-4 mr-2 ml-4"/>
+        <ChevronRightIcon class="h-4 w-4 mr-2 ml-4"/>
       </div>
       <div class="absolute shadow-left bg-red z-10 top-0 left-0 h-full pt-[18px] cursor-pointer">
-        <ChevronLeftIcon @click="swiper.slidePrev()" class="h-4 w-4 mr-4 ml-2"/>
+        <ChevronLeftIcon class="h-4 w-4 mr-4 ml-2"/>
       </div>
     </Swiper>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css'
 import AppButton from '../form/AppButton.vue'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/vue/24/solid'
@@ -42,7 +42,6 @@ defineProps<{
   }[]
 }>()
 
-const swiper = useSwiper()
 </script>
 
 

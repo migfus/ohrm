@@ -28,8 +28,12 @@
           class="z-10 rounded-2xl absolute right-0 mt-1 w-36 origin-top-right divide-y divide-gray-100 bg-white shadow-xl"
         >
           <div class="px-1 py-1">
-            <DropdownContent :icon="CheckCircleIcon">Mark Done</DropdownContent>
-            <DropdownContent :icon="XCircleIcon" danger>Reject</DropdownContent>
+            <DropdownContent
+              v-for="status in task_status"
+              :key="status.name"
+              :icon_html="status.hero_icon.content"
+              :danger="true"
+            >{{ status.name }}</DropdownContent>
           </div>
         </MenuItems>
       </transition>
@@ -40,6 +44,7 @@
 <script setup lang="ts">
 import { onErrorCaptured } from 'vue'
 import { errorAlert } from '@/converter'
+import { TaskStatus } from '@/globalTypes'
 
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { EllipsisHorizontalCircleIcon } from '@heroicons/vue/24/outline'
@@ -49,6 +54,7 @@ import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
 defineProps<{
   index: number
   task_id: number
+  task_status: TaskStatus[]
 }>()
 
 onErrorCaptured((e) => errorAlert('/dashboard/index/PendingTasks', e))

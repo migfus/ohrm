@@ -3,15 +3,8 @@
     :icon="TicketIcon"
     title="Basic Info"
     description="Update basic info of the template task"
+    :count="3"
   >
-    <Link :href="route('dashboard.manage-groups.edit', {manage_group: group.id})"  class="flex justify-between bg-white px-4 py-3 rounded-2xl shadow hover:shadow-md mb-4 transition-all">
-      <div class="flex-grow truncate">
-        <img :src="group.avatar" class="h-4 w-4 inline mr-2 rounded mb-[2px]"/>
-        <span class="font-medium">{{ group.name }}</span>
-      </div>
-      <ArrowLeftIcon class="w-5 h-5 mt-[2px]"/>
-    </Link>
-
     <AppToggleInput v-model="form.name" name="Name" :defaultValue="taskTemplate.name" @submit="update()"/>
     <AppToggleTextArea v-model="form.message" name="Message" :defaultValue="taskTemplate.message ?? ''" @submit="update()" noLabel/>
     <AppToggle v-model="form.show" :name="isShowToggleName" @changed="update()"/>

@@ -242,7 +242,7 @@ class ManageUsersController extends Controller
               'You cannot remove this member, this user is the only admin to this group. You need to assign a new admin in order to remove this user from the group.'
           ]);
       }
-      GroupMember::where('id', $req->groupMemberId)->delete();
+      GroupMember::where('id', $req->group_member_id)->delete();
     }
 
   // NOTE: DELETE

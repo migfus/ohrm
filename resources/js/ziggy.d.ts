@@ -84,6 +84,12 @@ declare module 'ziggy-js' {
     "forgot.submit": [],
     "logout": [],
     "dashboard.index": [],
+    "dashboard.update": [
+        {
+            "name": "dashboard",
+            "required": true
+        }
+    ],
     "my-groups.index": [],
     "dashboard.my-groups.index": [],
     "dashboard.account.index": [],

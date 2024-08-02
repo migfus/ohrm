@@ -193,7 +193,8 @@ export interface Task {
 }
 
 export interface TaskStatus {
-  name: string
+  present_name: string
+  past_name: string
   hero_icon: HeroIcon
 }
 

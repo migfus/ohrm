@@ -1,5 +1,10 @@
 <template>
-  <BasicCard :icon="UsersIcon" title="Member's Access" description="Gives access to the members">
+  <BasicCard
+    :icon="UsersIcon"
+    title="Member's Access"
+    description="Gives access to the members"
+    :count="taskUserAccess.length"
+  >
     <DataTransition>
       <AssignedUserDropdownMenu
         v-for="access in taskUserAccess"

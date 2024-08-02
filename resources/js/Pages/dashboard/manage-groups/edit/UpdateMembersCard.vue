@@ -3,6 +3,7 @@
     :iconHtml="groupRole.hero_icon.content"
     :title="groupRole.display_name"
     :description="groupRole.description"
+    :count="filtered_members.length"
   >
     <DataTransition>
       <MemberDropdownMenu
@@ -70,7 +71,7 @@ function RemoveMember(id: string) {
 function ConfirmRemove() {
   router.put(
     route('dashboard.manage-groups.update', { manage_group: $props.groupId }), {
-      memberId: selected_member_id.value,
+      member_id: selected_member_id.value,
       type: 'remove-member',
     },
     defaultRouterState(['group_members'])

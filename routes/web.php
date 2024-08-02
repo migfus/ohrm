@@ -34,7 +34,7 @@ Route::post('/forgot', [AuthController::class, 'forgotSubmit'])->name('forgot.su
 Route::middleware(['auth'])->group(function () {
   Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-  Route::resource('/dashboard', DashboardController::class)->only(['index']);
+  Route::resource('/dashboard', DashboardController::class)->only(['index', 'update']);
   Route::resource('/my-groups', MyGroupsController::class)->only(['index']);
 
   Route::group(['prefix' => '/dashboard', 'as' => 'dashboard.'], function () {

@@ -3,6 +3,7 @@
     :icon="TicketIcon"
     title="Customer's Request Template"
     description="Manage request templates and assignments."
+    :count="taskTemplates.length"
   >
     <DataTransition class="grid grid-cols-2 gap-2">
       <TaskDropdownMenu

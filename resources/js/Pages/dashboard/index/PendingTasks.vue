@@ -15,13 +15,13 @@
 
         <DataTransition v-else>
           <div v-for="task, index in pending_tasks" :key="task.id" class="bg-white p-4 shadow rounded-2xl font-medium">
-            <div class="flex justify-between">
+            <div class="flex justify-between mb-1">
               <div class="flex">
-                <div class="text-xs text-brand-600 mt-1 mr-1">{{ taskIdSplitter(task.id, 'date_time')}}</div>
-                <div class="text-bran-900"> - #{{ taskIdSplitter(task.id, 'incremental')}}</div>
+                <div class="text-sm text-brand-600 mt-1 mr-1">{{ taskIdSplitter(task.id, 'date_time')}}</div>
+                <div class="text-brand-900 text-lg"> - #{{ taskIdSplitter(task.id, 'incremental')}}</div>
               </div>
-              <div class="text-sm text-brand-400">
-                <TaskDropdown :task_id="task.id" :index/>
+              <div class="text-md text-brand-400">
+                <TaskDropdown :task_id="task.id" :index :task_status/>
               </div>
             </div>
 
@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { Task } from '@/globalTypes'
+import { Task, TaskStatus } from '@/globalTypes'
 import { dateTimeFormatted, taskIdSplitter, defaultRouterState, errorAlert } from '@/converter'
 import { router } from '@inertiajs/vue3'
 import { useThrottle } from '@vueuse/core'
@@ -73,6 +73,7 @@ import DataTransition from '@/components/transitions/DataTransition.vue'
 
 defineProps<{
   pending_tasks: Task[]
+  task_status: TaskStatus[]
 }>()
 
 const throttle_search = ref('')

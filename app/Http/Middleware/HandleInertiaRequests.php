@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SystemSettings;
+use App\Models\Task;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -31,6 +32,8 @@ class HandleInertiaRequests extends Middleware
       'auth' => function() use($req) {
         return Auth::check() ? $req->user()->only('id', 'name', 'email', 'avatar') : null;
       },
+
+      'pendind_task_count' => 0
     ]);
   }
 }

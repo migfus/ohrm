@@ -265,14 +265,14 @@ class ManageGroupsController extends Controller
       }
     }
     // ✅
-    private function removeMember(Request $req, $id) : RedirectResponse {
+    private function removeMember(Request $req, $id) : ?RedirectResponse {
       $req->validate([
-        'memberId' => ['required', 'uuid'],
+        'member_id' => ['required', 'uuid'],
       ]);
 
       // NOTE: Prevents no member in a group.
       if(Group::where('id', $id)->withCount('group_members')->first()->group_members_count > 1)
-        GroupMember::find($req->memberId)->update([
+        GroupMember::find($req->member_id)->update([
           'group_role_id' => GroupRole::where('name', 'removed')->first()->id,
         ]);
       else

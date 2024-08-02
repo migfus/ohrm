@@ -1,5 +1,10 @@
 <template>
-  <BasicCard :icon="SquaresPlusIcon" title="Joined Groups" description="User's joined groups">
+  <BasicCard
+    :icon="SquaresPlusIcon"
+    title="Joined Groups"
+    description="User's joined groups"
+    :count="groupMembers?.length ?? 0"
+  >
     <GroupDropdownMenu v-for="member in groupMembers" :id="member.id" :groupId="member.group_id" @selected="selected(member.id)">
       <div class="flex justify-between">
         <img :src="member.group?.avatar ?? ''" class="h-3 w-3 mt-1 rounded mr-2" />

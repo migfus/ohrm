@@ -1,5 +1,9 @@
 <template>
-  <BasicCard :icon="TicketIcon" title="Recent Tasks">
+  <BasicCard
+    :icon="TicketIcon"
+    title="Recent Tasks"
+    :count="tasks.length"
+  >
     <OverflowNavigation :slides="all_task_templates"/>
 
     <DataTransition class="flex flex-col gap-2">

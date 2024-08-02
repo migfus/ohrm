@@ -36,10 +36,15 @@
       ]"
       @click="$emit('selected')"
     >
-      <component :is="icon"
+      <component v-if="icon" :is="icon"
         :class="[active ? 'text-white' : 'text-gray-500', 'mr-2 h-4 w-4']"
         aria-hidden="true"
       />
+      <div v-if="icon_html" v-html="icon_html"
+        :class="[active ? 'text-white' : 'text-gray-500', 'mr-2 h-4 w-4']"
+        aria-hidden="true"
+        >
+      </div>
       <slot></slot>
     </button>
   </MenuItem>
@@ -50,7 +55,8 @@ import { MenuItem } from '@headlessui/vue'
 import { FunctionalComponent } from 'vue'
 
 defineProps<{
-  icon: FunctionalComponent
+  icon?: FunctionalComponent
+  icon_html?: string
   danger?: boolean
   href?: string
 }>()

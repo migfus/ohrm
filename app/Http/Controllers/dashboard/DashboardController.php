@@ -10,6 +10,8 @@ use Carbon\Carbon;
 use App\Models\TaskUserAccess;
 use App\Models\Task;
 use App\Models\UserTaskActivity;
+use App\Models\TaskStatus ;
+use Illuminate\Http\RedirectResponse;
 
 class DashboardController extends Controller
 {
@@ -19,6 +21,7 @@ class DashboardController extends Controller
       'pending_tasks' => $this->getPendingTasks($req),
       'marked_tasks' => $this->getMarkedTasks($req),
       'user_activities' => $this->getUserLogs($req->user()->id),
+      'task_status' => $this->getTaskStatus()
     ]);
   }
     private function getPendingTasks($req) : Collection {
@@ -94,4 +97,25 @@ class DashboardController extends Controller
           return ['date' => $irem['log_at'], 'count' => $irem['count']];
         });
     }
+    private function getTaskStatus() : Collection {
+      return TaskStatus::with('hero_icon')->get();
+    }
+
+  public function update(Request $req, $task_id) : RedirectResponse {
+    $req->validate([
+      'task_status_id' => ['required', 'uuid']
+    ]);
+
+    $task = Task::query()
+      ->where('id', $task_id)
+      ->update([
+        'user_assigned_id' => auth()->user()->id,
+        'user_assigned_at' => Carbon::now(),
+        'task_status_id'   => $req->task_status_id,
+        'task_status_at'   => Carbon::now(),
+      ]);
+
+    return to_route('dashboard.index')
+      ->with('success', ['title' => 'Task Marked', 'content' => $task_id]);
+  }
 }

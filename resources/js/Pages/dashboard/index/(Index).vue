@@ -2,7 +2,7 @@
   <div class="grid grid-cols-2 gap-4">
     <div class="flex flex-col gap-4 col-span-2 lg:col-span-1">
       <MyActivities :user_activities :current_count="marked_tasks.length"/>
-      <PendingTasks :pending_tasks />
+      <PendingTasks :pending_tasks :task_status/>
     </div>
     <div class="col-span-2 lg:col-span-1">
       <MarkedTasks :marked_tasks />
@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { Task } from '@/globalTypes'
+import { Task, TaskStatus } from '@/globalTypes'
 import moment from 'moment'
 import { onErrorCaptured } from 'vue'
 import { errorAlert } from '@/converter'
@@ -28,6 +28,7 @@ const $props = defineProps<{
     date: string
     count: number
   }[]
+  task_status: TaskStatus[]
 }>()
 
 const user_activities = [

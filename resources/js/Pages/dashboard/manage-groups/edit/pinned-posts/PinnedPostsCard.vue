@@ -1,7 +1,10 @@
 <template>
   <BasicCard
     :icon="MapPinIcon"
-    title="Pinned Posts" description="Pinned Post (as announcement)" :count="PinnedPostStore.pinned_post_data.length">
+    title="Pinned Posts"
+    description="Pinned Post (as announcement)"
+    :count="PinnedPostStore.pinned_post_data.length"
+  >
     <div class="flex flex-col gap-2">
       <PinnedPostCard v-for="post in PinnedPostStore.pinned_post_data" :key="post.id" :post :groupId/>
     </div>

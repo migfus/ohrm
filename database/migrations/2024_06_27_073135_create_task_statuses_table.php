@@ -9,7 +9,8 @@ return new class extends Migration
   public function up(): void {
     Schema::create('task_statuses', function (Blueprint $table) {
       $table->uuid('id')->primary();
-      $table->string('name');
+      $table->string('present_name');
+      $table->string('past_name');
       $table->string('hero_icon');
       $table->foreign('hero_icon')->references('name')->on('hero_icons')->onDelete('cascade');
       $table->timestamps();
