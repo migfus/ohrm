@@ -37,8 +37,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
 import { usePage } from '@inertiajs/vue3'
+import { errorAlert } from '@/converter'
 
 import { Menu, MenuButton, MenuItem, MenuItems,  } from '@headlessui/vue'
 import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon, } from '@heroicons/vue/20/solid'
@@ -70,4 +71,6 @@ function confirmRemove() {
 function reported() {
   alert('reported')
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/posts/comments/CommentDropdown', e))
 </script>

@@ -36,8 +36,12 @@
 </template>
 
 <script setup lang="ts">
-import AppButton from '@/components/form/AppButton.vue'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 
+import AppButton from '@/components/form/AppButton.vue'
 import { ArrowRightIcon  } from '@heroicons/vue/24/solid'
+
+onErrorCaptured((e) => errorAlert('/about/(Index)', e))
 </script>
 

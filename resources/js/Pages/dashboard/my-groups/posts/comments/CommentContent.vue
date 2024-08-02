@@ -23,8 +23,9 @@
 </template>
 
 <script setup lang="ts">
-import { dateTimeFormatted } from '@/converter'
+import { dateTimeFormatted, errorAlert } from '@/converter'
 import { Comment } from '@/globalTypes'
+import { onErrorCaptured } from 'vue'
 
 import CommentDropdown from './CommentDropdown.vue'
 
@@ -44,4 +45,6 @@ function dropdownSelection(val: string) {
       $emit('updateComment', $props.index, $props.comment.id); break
   }
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/my-groups/posts/comments/CommentContent', e))
 </script>

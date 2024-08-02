@@ -1,10 +1,12 @@
 <template>
   <div>
     <BasicCard
+      v-model="search_throttle"
+      enableSearch
+      :count="groups.length"
       :icon="Square2StackIcon"
       title="My Groups"
     >
-      <AppInput name="Search" v-model="search_throttle" placeholder="Search" noLabel size="sm"/>
 
       <div v-if="groups.length <= 0">
         No group found.
@@ -39,15 +41,14 @@
 
 <script setup lang="ts">
 import { Group } from '@/globalTypes'
-import { ref, reactive, watch } from 'vue'
-import { dateTimeFormatted, defaultRouterState, upperCaseFirstChar } from '@/converter'
+import { ref, reactive, watch, onErrorCaptured } from 'vue'
+import { dateTimeFormatted, defaultRouterState, upperCaseFirstChar, errorAlert } from '@/converter'
 import { router } from '@inertiajs/vue3'
 import { useThrottle } from '@vueuse/core'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { Square2StackIcon } from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'
-import AppInput from '@/components/form/AppInput.vue'
 
 defineProps<{
   groups: Group[]
@@ -61,4 +62,6 @@ const form = reactive({
 watch(form, () => {
   router.get(route('dashboard.my-groups.index'), { search: form.search }, defaultRouterState(['groups']))
 })
+
+onErrorCaptured((e) => errorAlert('/dashboard/my-groups/MyGroupsCard', e))
 </script>

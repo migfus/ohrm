@@ -78,3 +78,7 @@ export const upperCaseFirstChar = (value: string) => {
 
   return 'N/A'
 }
+
+export const errorAlert = (link = '/*', error: Error) => {
+  alert(`Error occured on ${link} \n\n Error: ${error}`)
+}

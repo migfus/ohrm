@@ -1,11 +1,13 @@
 <template>
   <div>
-    <BasicCard :icon="TicketIcon" title="Pending Tasks">
+    <BasicCard
+      v-model="throttle_search"
+      enableSearch
+      :icon="TicketIcon"
+      title="Pending Tasks"
+      :count="pending_tasks.length"
+    >
       <div class="flex flex-col gap-2">
-
-
-        <AppInput name="Search" v-model="throttle_search" class="mb-2" noLabel placeholder="Search Task" size="sm"/>
-
 
         <div v-if="pending_tasks.length <= 0" class="bg-white p-4 font-medium rounded-2xl shadow text-sm text-brand-500">
           {{ form.search ? 'No task' : 'No task available today 😄' }}
@@ -59,14 +61,13 @@
 
 <script setup lang="ts">
 import { Task } from '@/globalTypes'
-import { dateTimeFormatted, taskIdSplitter, defaultRouterState } from '@/converter'
+import { dateTimeFormatted, taskIdSplitter, defaultRouterState, errorAlert } from '@/converter'
 import { router } from '@inertiajs/vue3'
 import { useThrottle } from '@vueuse/core'
-import { ref, watch, reactive } from 'vue'
+import { ref, watch, reactive, onErrorCaptured } from 'vue'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { TicketIcon } from '@heroicons/vue/24/solid'
-import AppInput from '@/components/form/AppInput.vue'
 import TaskDropdown from './TaskDropdown.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 
@@ -83,7 +84,5 @@ watch(form, () => {
   router.get(route('dashboard.index'), { search: form.search }, defaultRouterState(['pending_tasks']))
 })
 
-function markTask() {
-  router.get(route('dashboard.update'), { search: form.search }, defaultRouterState(['pending_tasks']))
-}
+onErrorCaptured((e) => errorAlert('/dashboard/index/PendingTasks', e))
 </script>

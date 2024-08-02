@@ -18,20 +18,20 @@ class UserSeeder extends Seeder
     $roles = [
       'admin' => Role::where('name', 'admin')->first(),
       'staff' => Role::where('name', 'staff')->first(),
-      'head' => Role::where('name', 'head')->first(),
+      'head'  => Role::where('name', 'head')->first(),
     ];
 
     // NOTE: GROUP CONFIG
     $groups = [
-      'ohrm' => Group::where('name', 'Office of Human Resources Management Office (OHRM)')->first()->id,
-      'rsp' => Group::where('name', 'Recruitment, Selection and Placement')->first()->id,
-      'lad' => Group::where('name', 'Learning and Development')->first()->id,
-      'coberu' => Group::where('name', 'Compensation, Benefits and Employee Relations Unit')->first()->id,
-      'hris' => Group::where('name', 'Human Resource Information System Unit Process')->first()->id,
+      'ohrm'  => Group::where('name', 'Office of Human Resources Management Office (OHRM)')->first()->id,
+      'rsp'   => Group::where('name', 'Recruitment, Selection and Placement')->first()->id,
+      'lad'   => Group::where('name', 'Learning and Development')->first()->id,
+      'coberu'=> Group::where('name', 'Compensation, Benefits and Employee Relations Unit')->first()->id,
+      'hris'  => Group::where('name', 'Human Resource Information System Unit Process')->first()->id,
       'perma' => Group::where('name', 'Performance Management')->first()->id,
     ];
     $group_roles = [
-      'admin' => GroupRole::where('name', 'admin')->first()->id,
+      'admin'  => GroupRole::where('name', 'admin')->first()->id,
       'member' => GroupRole::where('name', 'member')->first()->id
     ];
 

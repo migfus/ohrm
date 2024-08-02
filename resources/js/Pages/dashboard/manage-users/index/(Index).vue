@@ -31,8 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import { watch, reactive, ref } from 'vue'
+import { watch, reactive, ref, onErrorCaptured } from 'vue'
 import { useThrottle } from '@vueuse/core'
+import { errorAlert } from '@/converter'
 
 import UserCard from '@/components/data/UserCard.vue'
 import PaginationCard from '@/components/data/PaginationCard.vue'
@@ -75,4 +76,6 @@ function changeTab(data: { name: string }) {
 function search() {
   router.get(route('dashboard.manage-users.index'), form, { preserveState: true })
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-users/index/(Index)', e))
 </script>

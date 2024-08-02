@@ -19,6 +19,7 @@ class HomeController extends Controller
 {
   public function index() : Response {
     $groups = Group::query()
+      ->where('is_visible', true)
       ->with('task_templates.task_priority.hero_icon')
       ->orderBy('created_at', 'ASC')
       ->get();

@@ -80,8 +80,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
 import { TaskTemplate } from '@/globalTypes'
+import { errorAlert } from '@/converter'
 
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ChevronDownIcon, PencilIcon, LockClosedIcon, GlobeAsiaAustraliaIcon } from '@heroicons/vue/20/solid'
@@ -104,4 +105,6 @@ function updateEdit() {
   selected_edit.value = false
   $emit('updated', input_value.value)
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/TaskDropdownMenu', e))
 </script>

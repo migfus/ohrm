@@ -22,12 +22,15 @@
 </template>
 
 <script setup lang="ts">
+import { errorAlert } from '@/converter'
+import { router } from '@inertiajs/vue3'
+import { GroupMember } from '@/globalTypes'
+import { onErrorCaptured } from 'vue'
+
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { SquaresPlusIcon } from '@heroicons/vue/24/outline'
 import GroupDropdownMenu from '../GroupDropdownMenu.vue'
-import { GroupMember } from '@/globalTypes'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
-import { router } from '@inertiajs/vue3'
 
 const $props = defineProps<{
   groupMembers?: GroupMember []
@@ -40,4 +43,6 @@ function selected(id: string) {
     group_member_id: id
   })
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-users/edit/JoinedGroupsCard', e))
 </script>

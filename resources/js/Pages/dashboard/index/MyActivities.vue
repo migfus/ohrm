@@ -1,6 +1,11 @@
 <template>
   <div>
-    <BasicCard :icon="PresentationChartLineIcon" title="My Activities" description="Whole year tasks activities">
+    <BasicCard
+      :icon="PresentationChartLineIcon"
+      title="My Activities"
+      description="Whole year tasks activities"
+      :count="user_activities[0].count"
+    >
       <CalendarHeatmap
         :values="user_activities"
         :end-date="moment().format('YYYY-MM-DD')"
@@ -13,11 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import BasicCard from '@/components/cards/BasicCard.vue'
 import moment from 'moment'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 
 import { PresentationChartLineIcon } from '@heroicons/vue/20/solid'
 import { CalendarHeatmap } from 'vue3-calendar-heatmap'
+import BasicCard from '@/components/cards/BasicCard.vue'
 
 defineProps<{
   user_activities: {
@@ -25,6 +32,8 @@ defineProps<{
     count: number
   }[]
 }>()
+
+onErrorCaptured((e) => errorAlert('/dashboard/index/MyActivities', e))
 </script>
 
 <style>

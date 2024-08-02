@@ -11,20 +11,25 @@
             <div v-else class="inline-block h-4 w-4 pt-[2px] text-brand-700 mr-2" v-html="iconHtml"></div>
             <span>{{ title }} </span>
           </h3>
-          <div class="pt-1.5 px-1 rounded cursor-pointer hover:bg-white" @click="expand = !expand">
+          <div class="pt-1.5 px-1 cursor-pointer hover:bg-white rounded-2xl group/expand" @click="expand = !expand">
             <MinusIcon v-if="expand" class="h-4 w-4 text-brand-800" />
-            <StopIcon v-else class="h-4 w-4 text-brand-800" />
+            <div v-else class="flex">
+              <div v-if="count" class="bg-white group-hover/expand:bg-gray-100 rounded-full mr-2 text-brand-500 -mt-1 px-2 shadow">{{ count }}</div>
+              <StopIcon class="h-4 w-4 text-brand-800" />
+            </div>
           </div>
         </div>
-        <p v-if="description && expand" class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{{ description }}</p>
+        <p v-if="description && expand" class="mt-1 mb-1 max-w-2xl text-sm leading-6 text-gray-500">{{ description }}</p>
       </div>
       <!-- NOTE: BASIC CARD CONTENTS -->
-      <div v-if="expand" class="mt-4 transition-all">
+      <div v-if="expand" class="mt-2 transition-all">
+        <div v-if="enableSearch" class="flex flex-col sm:flex-row justify-end mb-4">
+          <AppInput v-model="$model" name="Search" size="sm" placeholder="Search" noLabel class="sm:w-1/2"/>
+        </div>
         <slot></slot>
       </div>
     </div>
   </BasicTransition>
-
 
 </template>
 
@@ -33,6 +38,7 @@ import { FunctionalComponent, ref } from 'vue'
 
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 import { StopIcon, MinusIcon } from '@heroicons/vue/24/outline'
+import AppInput from '../form/AppInput.vue'
 
 defineProps<{
   icon?: FunctionalComponent
@@ -41,9 +47,12 @@ defineProps<{
   title: string
   description?: string
   size?: 'lg'
+  enableSearch?: boolean
+  count?: number
 }>()
 
 const expand = ref(true)
+const $model = defineModel<string>()
 </script>
 
 <style scoped>

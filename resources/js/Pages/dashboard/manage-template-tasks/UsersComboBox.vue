@@ -37,10 +37,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onErrorCaptured } from 'vue'
 import { User } from '@/globalTypes'
 import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core'
+import { errorAlert } from '@/converter'
 
 import { ChevronUpDownIcon, ArrowPathIcon } from '@heroicons/vue/20/solid'
 import {
@@ -80,4 +81,6 @@ watch(search_input,
     await userSearch()
   }, 500)
 )
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-template-tasks/UserComboBox', e))
 </script>

@@ -15,6 +15,8 @@
 
 <script setup lang="ts">
 import { PostContent } from '@/globalTypes'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 
 import AppButton from '@/components/form/AppButton.vue'
 import { ArrowDownIcon } from '@heroicons/vue/24/solid'
@@ -26,4 +28,6 @@ defineProps<{
   title: string
   createdAt: string
 }>()
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/posts/DocumentsPreview', e))
 </script>

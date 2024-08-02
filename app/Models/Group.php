@@ -10,7 +10,7 @@ class Group extends Model
 {
   use HasFactory, HasUuids;
 
-  protected $fillable = ['name', 'description', 'cover', 'avatar'];
+  protected $fillable = ['name', 'description', 'cover', 'avatar', 'is_visible'];
 
   // SECTION: GROUPS
   public function group_members() : HasMany {

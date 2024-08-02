@@ -40,15 +40,15 @@
 
 <script setup lang="ts">
 import { GroupMember, GroupRole, User } from '@/globalTypes'
-import { ref, computed } from 'vue'
+import { ref, computed, onErrorCaptured } from 'vue'
 import { router } from '@inertiajs/vue3'
+import { defaultRouterState, errorAlert } from '@/converter'
 
 import MemberDropdownMenu from '.././MemberDropdownMenu.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import UsersComboBox from '.././UsersComboBox.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
-import { defaultRouterState } from '@/converter'
 
 const $props = defineProps<{
   groupId: string
@@ -87,4 +87,6 @@ function AddMember(user: User) {
     defaultRouterState(['group_members'])
   )
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/UpdateMembersCard', e))
 </script>

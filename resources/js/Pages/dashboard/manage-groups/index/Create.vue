@@ -23,12 +23,16 @@
 </template>
 
 <script setup lang="ts">
+import { router } from '@inertiajs/vue3'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
+
 import FormModal from '@/components/modals/FormModal.vue'
 import { PlusIcon, XMarkIcon, SquaresPlusIcon } from '@heroicons/vue/24/solid'
 import AppButton from '@/components/form/AppButton.vue'
 import AppInput from '@/components/form/AppInput.vue'
 import AppTextArea from '@/components/form/AppTextArea.vue'
-import { router } from '@inertiajs/vue3'
+
 
 import FlashErrors from '@/components/headers/FlashErrors.vue'
 
@@ -45,4 +49,6 @@ function submit() {
     description: form.description
   })
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/index/Create', e))
 </script>

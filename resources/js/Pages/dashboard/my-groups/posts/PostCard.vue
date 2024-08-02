@@ -2,16 +2,16 @@
   <div class="bg-brand-50 shadow sm:rounded-2xl text-brand-800">
     <!-- NOTE: POSTCARD HEADER -->
     <div class="flex font-medium justify-between px-4 pt-4 pb-2">
-      <Link :href="route('dashboard.manage-users.edit', {manage_user: post.user.id})" class="flex cursor-pointer">
+      <Link :href="route('dashboard.manage-users.edit', {manage_user: post.user.id})" class="flex cursor-pointer truncate">
         <img :src="$props.post.user.avatar" class="h-8 w-8 rounded-full shadow mr-2" />
-        <div class="flex flex-col ">
-          <span class="text-xs">
+        <div class="flex flex-col truncate">
+          <div class="text-xs">
             <label class="cursor-pointer">{{ $props.post.user.name }} - </label>
             <label>{{ dateTimeFormatted($props.post.created_at) }}</label>
-          </span>
-          <span class="text-xs cursor-pointer">
-            <label>{{ $props.post.group.name }}</label>
-          </span>
+          </div>
+          <div class="text-xs cursor-pointer truncate">
+            <label class="">{{ $props.post.group.name }}</label>
+          </div>
         </div>
       </Link>
       <div class="text-sm font-regular py-0 my-0 cursor-pointer flex">
@@ -75,10 +75,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
 import { useElementSize } from '@vueuse/core'
 import { Post } from '@/globalTypes'
-import { contentFormatter, dateTimeFormatted } from '@/converter'
+import { contentFormatter, dateTimeFormatted, errorAlert } from '@/converter'
 
 import { MapPinIcon } from '@heroicons/vue/24/solid'
 
@@ -97,4 +97,6 @@ const minimize_content = ref(true)
 const sentence_lines = ref(null)
 const { height } = useElementSize(sentence_lines)
 const comments_count = ref($props.post.comments_count)
+
+onErrorCaptured((e) => errorAlert('/dashboard/my-groups/posts/PostCard', e))
 </script>

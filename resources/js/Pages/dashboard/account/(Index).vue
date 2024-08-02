@@ -232,7 +232,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 
 import { Dialog, DialogPanel, Switch, SwitchGroup, SwitchLabel, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import {
@@ -274,4 +275,6 @@ const tabs = [
 const sidebar_open = ref(false)
 const automatic_timezone_enabled = ref(true)
 const auto_update_applicant_data_enabled = ref(false)
+
+onErrorCaptured((e) => errorAlert('/dashboard/account/(Index)', e))
 </script>

@@ -61,8 +61,8 @@
 
 <script setup lang="ts">
 import { PostContent, User } from '@/globalTypes'
-import { ref, reactive } from 'vue'
-import { isVideo } from '@/converter'
+import { ref, reactive, onErrorCaptured } from 'vue'
+import { isVideo, errorAlert } from '@/converter'
 
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import MultimediaViewModal from '@/components/modals/MultimediaViewModal.vue'
@@ -108,4 +108,6 @@ function navRight() {
   }
   Object.assign(thumbnail_preview, $props.contents[preview_index.value])
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/posts/MultimediaPreview', e))
 </script>

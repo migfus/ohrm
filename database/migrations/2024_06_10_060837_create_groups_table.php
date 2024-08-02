@@ -14,6 +14,7 @@ return new class extends Migration
       $table->text('description')->nullable();
       $table->string('cover')->nullable();
       $table->string('avatar')->nullable();
+      $table->boolean('is_visible')->default(false);
       $table->timestamps();
     });
   }

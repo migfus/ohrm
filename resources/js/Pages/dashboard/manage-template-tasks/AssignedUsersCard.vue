@@ -15,9 +15,12 @@
 </template>
 
 <script setup lang="ts">
-import BasicCard from '@/components/cards/BasicCard.vue'
+import { errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
 import { TaskAccessUser, User } from '@/globalTypes'
-import { UsersIcon } from '@heroicons/vue/24/solid'
+
+import BasicCard from '@/components/cards/BasicCard.vue'
+import { UsersIcon } from '@heroicons/vue/20/solid'
 import AssignedUserDropdownMenu from './AssignedUserDropdownMenu.vue'
 import UsersComboBox from './UsersComboBox.vue'
 import { router } from '@inertiajs/vue3'
@@ -48,4 +51,6 @@ function unassignUser(type: string, task_user_access_id: string) {
     preserveState: true,
   })
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-template-tasks/AssignedUsersCard', e))
 </script>

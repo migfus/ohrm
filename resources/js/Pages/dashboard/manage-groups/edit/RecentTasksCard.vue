@@ -10,6 +10,8 @@
 
 <script setup lang="ts">
 import { Task, TaskTemplate } from '@/globalTypes'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { TicketIcon } from '@heroicons/vue/24/solid'
@@ -34,4 +36,6 @@ const all_task_templates = [
     }
   })
 ]
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/RecentTasksCard', e))
 </script>

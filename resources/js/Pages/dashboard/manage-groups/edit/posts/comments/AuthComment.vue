@@ -13,8 +13,9 @@
 
 <script setup lang="ts">
 import { User } from '@/globalTypes'
-import { ref }  from 'vue'
+import { onErrorCaptured }  from 'vue'
 import { usePage } from '@inertiajs/vue3'
+import { errorAlert } from '@/converter'
 
 import AppTextArea from '@/components/form/AppTextArea.vue'
 import AppButton from '@/components/form/AppButton.vue'
@@ -40,4 +41,6 @@ function resetForm() {
   $emit('resetForm')
   lines_model.value = 1
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/posts/comments/AuthComment', e))
 </script>

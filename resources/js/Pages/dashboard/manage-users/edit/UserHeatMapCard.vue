@@ -12,6 +12,8 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import { errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
 
 import { CalendarHeatmap } from 'vue3-calendar-heatmap'
 import { ChartBarIcon } from '@heroicons/vue/24/solid'
@@ -31,6 +33,8 @@ const task_activity_all = [{
   },
   ...$props.task_activity
 ]
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-users/edit/UserHeatMapCard', e))
 </script>
 
 <style>

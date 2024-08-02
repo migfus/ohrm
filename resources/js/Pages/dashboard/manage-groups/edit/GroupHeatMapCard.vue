@@ -11,10 +11,13 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
+
 import { CalendarHeatmap } from 'vue3-calendar-heatmap'
 import { ChartBarIcon } from '@heroicons/vue/24/solid'
 import BasicCard from '@/components/cards/BasicCard.vue'
-import moment from 'moment';
 
 const $props = defineProps<{
   group_task_activities: {
@@ -31,6 +34,8 @@ const group_task_activities_all = [
     count: $props.now_task_activities
   }
 ]
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/GroupHeatMapCard', e))
 </script>
 
 <style>

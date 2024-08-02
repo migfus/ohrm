@@ -18,6 +18,8 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 import { Role } from '@/globalTypes'
+import { errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
 
 import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/solid'
 import BasicCard from '@/components/cards/BasicCard.vue'
@@ -43,4 +45,5 @@ function submit() {
   })
 }
 
+onErrorCaptured((e) => errorAlert('/dashboard/manage-users/edit/UpdateSystemRole', e))
 </script>

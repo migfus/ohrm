@@ -37,7 +37,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 import { User } from '@/globalTypes'
 import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core'
@@ -80,4 +81,6 @@ watch(search_input,
     await userSearch()
   }, 500)
 )
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/UsersComboBox', e))
 </script>

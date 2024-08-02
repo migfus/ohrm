@@ -49,7 +49,8 @@
 
 <script setup lang="ts">
 import { Task } from '@/globalTypes'
-import { dateTimeFormatted } from '@/converter'
+import { dateTimeFormatted, errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
 
 import AppButton from '@/components/form/AppButton.vue'
 import { ChevronDownIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
@@ -57,4 +58,6 @@ import { ChevronDownIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid
 defineProps<{
   task: Task
 }>()
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-template-tasks/TaskCard', e))
 </script>

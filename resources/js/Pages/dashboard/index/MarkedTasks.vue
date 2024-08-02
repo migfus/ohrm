@@ -1,8 +1,13 @@
 <template>
   <div>
-    <BasicCard :icon="TicketIcon" title="Marked Tasks">
+    <BasicCard
+      v-model="throttle_search"
+      :icon="TicketIcon"
+      title="Marked Tasks"
+      enableSearch
+      :count="marked_tasks.length"
+    >
       <div class="flex flex-col gap-2">
-        <AppInput name="Search" v-model="throttle_search" class="mb-2" noLabel placeholder="Search Task" size="sm"/>
 
         <div v-for="task, index in marked_tasks" :key="task.id" class="bg-white p-4 shadow rounded-2xl font-medium">
           <div class="flex justify-between">
@@ -48,14 +53,13 @@
 
 <script setup lang="ts">
 import { Task } from '@/globalTypes'
-import { dateTimeFormatted, taskIdSplitter, defaultRouterState } from '@/converter'
-import{ ref, reactive, watch } from 'vue'
+import { dateTimeFormatted, taskIdSplitter, defaultRouterState, errorAlert } from '@/converter'
+import { ref, reactive, watch, onErrorCaptured } from 'vue'
 import { useThrottle } from '@vueuse/core'
 import { router } from '@inertiajs/vue3'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { TicketIcon } from '@heroicons/vue/24/solid'
-import AppInput from '@/components/form/AppInput.vue'
 import TaskDropdown from './TaskDropdown.vue'
 
 defineProps<{
@@ -70,4 +74,6 @@ const form = reactive({
 watch(form, () => {
   router.get(route('dashboard.index'), { search: form.search }, defaultRouterState(['marked_tasks']))
 })
+
+onErrorCaptured((e) => errorAlert('/dashboard/index/MarkedTasks', e))
 </script>

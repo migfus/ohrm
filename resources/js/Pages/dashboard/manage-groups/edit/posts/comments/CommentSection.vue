@@ -40,11 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
 import { Comment } from '@/globalTypes'
 import { useCommentStore } from '@/stores/CommentStore'
 import { useForm } from '@inertiajs/vue3'
 import axios from 'axios'
+import { errorAlert } from '@/converter'
 
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import CommentContent from './CommentContent.vue'
@@ -115,4 +116,6 @@ async function loadMoreComments() {
   comments.value = [...comments.value,...res.data.data]
   loadComments.value = false
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/posts/comments/CommentSection', e))
 </script>

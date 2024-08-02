@@ -20,7 +20,8 @@
 
 <script setup lang="ts">
 import { Permission, Role, Tab } from '@/globalTypes'
-import { ref, reactive } from 'vue'
+import { ref, reactive, onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 
 import HeaderContent from '@/components/headers/HeaderContent.vue'
 import TabSection from '@/components/headers/TabSection.vue'
@@ -49,6 +50,8 @@ const tabs: Tab[] = [
     }
   },
 ]
+
+onErrorCaptured((e) => errorAlert('/dashboard/system-roles-permissions/(Index)', e))
 </script>
 
 

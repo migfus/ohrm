@@ -23,8 +23,10 @@
 
 <script setup lang="ts">
 import { Permission, Role } from '@/globalTypes'
-import { ref } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
 import { router } from '@inertiajs/vue3'
+import { errorAlert } from '@/converter'
+
 import { ArrowPathIcon } from '@heroicons/vue/20/solid'
 
 defineProps<{
@@ -48,4 +50,6 @@ function changePermission(role: Role, permission_id: string, event: any ) {
 router.on('finish',() => {
   loading.value = false
 })
+
+onErrorCaptured((e) => errorAlert('/dashboard/system-roles-permissions/RoleRow', e))
 </script>

@@ -23,9 +23,7 @@
                 {{ head.user?.name }}
               </h1>
             </div>
-
           </div>
-
         </div>
       </div>
       <div class="mt-6 hidden min-w-0 flex-1 sm:block md:hidden">
@@ -49,31 +47,21 @@
       :size="[1278*4, 190*4]"
       @upload="image => $emit('uploadCover', image)"
     />
-
-    <RemovalPrompt v-model="open_prompt" title="Deletion Group" confirmMessage="Yes, Delete Group!" @confirm="$emit('removeGroup')">
-      Do you want to remove this group? This action cannot be undone.
-    </RemovalPrompt>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, FunctionalComponent } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
 import { GroupMember } from '@/globalTypes'
+import { errorAlert } from '@/converter'
 
-import { XMarkIcon, ArrowPathIcon } from '@heroicons/vue/20/solid'
-import AppButton from '@/components/form/AppButton.vue'
+import { ArrowPathIcon } from '@heroicons/vue/20/solid'
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal.vue'
-import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 defineProps<{
   admins: GroupMember []
-  confirmButton: {
-    text: string
-    icon: FunctionalComponent
-    color: string
-  }
 }>()
-const $emit = defineEmits(['removeGroup', 'uploadAvatar', 'uploadCover'])
+const $emit = defineEmits(['uploadAvatar', 'uploadCover'])
 
 const $avatar = defineModel<string>('avatar')
 const $cover = defineModel<string>('cover')
@@ -81,9 +69,6 @@ const $name = defineModel<string>('name')
 
 const open_avatar = ref(false)
 const open_cover = ref(false)
-const open_prompt = ref(false)
 
-function removeGroupPrompt() {
-  open_prompt.value = true
-}
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/GroupHeader', e))
 </script>

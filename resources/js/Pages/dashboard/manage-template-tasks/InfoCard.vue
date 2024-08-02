@@ -22,6 +22,8 @@
 import { router } from '@inertiajs/vue3'
 import { Group, TaskTemplate } from '@/globalTypes'
 import { computed } from 'vue'
+import { errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
 
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { TicketIcon, ArrowLeftIcon } from '@heroicons/vue/24/solid'
@@ -53,4 +55,6 @@ function update() {
     preserveState: true
   })
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-template-tasks/InfoCard', e))
 </script>

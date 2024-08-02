@@ -35,10 +35,13 @@
 </template>
 
 <script setup lang="ts">
+import { errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
+import { User } from '@/globalTypes'
+
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
-import { User } from '@/globalTypes'
 import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
 
 defineProps<{
@@ -47,4 +50,6 @@ defineProps<{
 }>()
 
 const $emit = defineEmits(['selected'])
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-template-tasks/AssignedUserDropdownMenu', e))
 </script>

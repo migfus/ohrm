@@ -198,9 +198,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, onErrorCaptured } from 'vue'
 import { useGroupPostStore } from '@/stores/GroupPostStore'
 import { useReactionStore } from '@/stores/ReactionStore'
+import { errorAlert } from '@/converter'
 
 import PostCard from './PostCard.vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
@@ -249,4 +250,6 @@ onUnmounted(() => {
   ReactionStore.reaction_data = []
   PostStore.post_data = []
 })
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/posts/PostSection', e))
 </script>

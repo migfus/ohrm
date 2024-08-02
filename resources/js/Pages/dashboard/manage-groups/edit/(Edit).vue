@@ -7,11 +7,6 @@
       :admins="group_members.filter((member: GroupMember) =>
         member.group_role_id == group_roles.filter((role: GroupRole) => role.display_name == 'Administrator')[0].id
       )"
-      :confirmButton="{
-        text: 'Delete',
-        icon: XMarkIcon,
-        color: 'danger'
-      }"
       @uploadAvatar="uploadAvatarAPI"
       @uploadCover="uploadCoverAPI"
     />
@@ -19,8 +14,8 @@
 
     <div class="flex gap-2 mt-4 justify-center sm:justify-between flex-wrap w-full">
       <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto sm:order-2 mx-4 sm:mx-0">
-        <AppButton :icon="ArrowsRightLeftIcon" :href="route('dashboard.manage-groups.index')">Group Lists</AppButton>
-        <AppButton :icon="XMarkIcon" color="danger" @click="removeGroupAPI()">Remove</AppButton>
+        <AppButton :icon="ArrowLeftIcon" :href="route('dashboard.manage-groups.index')">Back to Group Lists</AppButton>
+        <AppButton :icon="XMarkIcon" color="danger" @click="open_remove_prompt = true">Remove</AppButton>
       </div>
 
       <div class="flex justify-end">
@@ -87,27 +82,37 @@
         />
       </div>
     </div>
+
+    <RemovalPrompt
+      v-model="open_remove_prompt"
+      title="Remove this group?"
+      confirmMessage="Confirm, and remove"
+      @confirm="removeGroupAPI()"
+    >
+      You cannot undone this action. Please confirm in order to remove.
+    </RemovalPrompt>
   </div>
 </template>
 
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 import { Group, GroupRole, TaskPriority, GroupMember, TaskTemplate, Task } from '@/globalTypes'
-import { defaultRouterState } from '@/converter'
-import { ref } from 'vue'
+import { defaultRouterState, errorAlert } from '@/converter'
+import { ref, onErrorCaptured } from 'vue'
+import { useStorage } from '@vueuse/core'
 
 import GroupHeader from '.././GroupHeader.vue'
 import GroupHeatMapCard from './GroupHeatMapCard.vue'
 import UpateBasicCard from './UpdateBasicCard.vue'
 import UpdateMembersCard from './UpdateMembersCard.vue'
 import FlashErrors from '@/components/headers/FlashErrors.vue'
-import { ArrowsRightLeftIcon, XMarkIcon } from '@heroicons/vue/20/solid'
+import { ArrowLeftIcon, XMarkIcon, PaperAirplaneIcon, TicketIcon } from '@heroicons/vue/20/solid'
 import UpdateTemplateTasksCard from './UpdateTemplateTasksCard.vue'
 import PinnedPostsCard from './pinned-posts/PinnedPostsCard.vue'
 import RecentTasksCard from './RecentTasksCard.vue'
 import PostSection from './posts/PostSection.vue'
 import AppButton from '@/components/form/AppButton.vue'
-import { PaperAirplaneIcon, TicketIcon } from '@heroicons/vue/24/solid'
+import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 
 const $props = defineProps<{
   group: Group
@@ -128,7 +133,8 @@ const form = router.form({
   avatar: $props.group.avatar,
   cover: $props.group.cover,
 })
-const is_community = ref<boolean>(false)
+const is_community = useStorage('dashboard/manage-groups/is_community', false)
+const open_remove_prompt = ref<boolean>(false)
 
 // ✅
 function removeGroupAPI() {
@@ -155,4 +161,6 @@ function uploadCoverAPI(value: string) {
     defaultRouterState(['group'])
   )
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/(Edit)', e))
 </script>

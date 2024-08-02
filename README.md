@@ -55,7 +55,6 @@ https://queuing.migfus.net/
 
 - [ ] Admin
   - [ ] Group
-    - [x] Redesign Group 
     - [x] Create Group
     - [x] Update Info
     - [x] Delete Group
@@ -81,7 +80,7 @@ https://queuing.migfus.net/
     - [x] Update User (Info, Role)
     - [x] Task Heatmap
     - [ ] User's Posts [Design Phase]
-    - [ ] User's Assined Tasks [Design Phase]
+    - [ ] User's Assigned Tasks [Design Phase]
 
 - [ ] System
   - [ ] SMS API Integration

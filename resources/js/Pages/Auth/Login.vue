@@ -70,6 +70,8 @@
 
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
@@ -95,4 +97,6 @@ function changeAccount(email: string, password: string ) {
   form.email = email
   form.password = password
 }
+
+onErrorCaptured((e) => errorAlert('/login/Login', e))
 </script>

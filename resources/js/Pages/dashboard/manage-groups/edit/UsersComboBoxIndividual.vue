@@ -27,10 +27,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, onErrorCaptured } from 'vue'
 import { User } from '@/globalTypes'
+import { errorAlert } from '@/converter'
 
-import { CheckIcon, ChevronUpDownIcon, XMarkIcon } from '@heroicons/vue/20/solid'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import {
   Combobox,
   ComboboxButton,
@@ -54,4 +55,6 @@ const filteredUser = computed(() =>
         return user.name.toLowerCase().includes(query.value.toLowerCase())
       })
 )
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/UsersComboBoxIndividual', e))
 </script>

@@ -31,6 +31,10 @@
 </template>
 
 <script setup lang="ts">
+import { errorAlert } from '@/converter'
+import { Select, Role } from '@/globalTypes'
+import { onErrorCaptured } from 'vue'
+
 import FormModal from '@/components/modals/FormModal.vue'
 import { PlusIcon, XMarkIcon, SquaresPlusIcon } from '@heroicons/vue/24/solid'
 import AppButton from '@/components/form/AppButton.vue'
@@ -38,7 +42,6 @@ import AppInput from '@/components/form/AppInput.vue'
 import { router } from '@inertiajs/vue3'
 import FlashErrors from '@/components/headers/FlashErrors.vue'
 import AppSelect from '@/components/form/AppSelect.vue'
-import { Select, Role } from '@/globalTypes'
 
 const $showCreateModalModel = defineModel<boolean>()
 
@@ -72,4 +75,6 @@ function submit() {
     preserveState: false
   })
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-users/index/Create', e))
 </script>

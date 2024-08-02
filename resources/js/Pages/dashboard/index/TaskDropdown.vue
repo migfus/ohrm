@@ -38,6 +38,9 @@
 </template>
 
 <script setup lang="ts">
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
+
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { EllipsisHorizontalCircleIcon } from '@heroicons/vue/24/outline'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/vue/20/solid'
@@ -48,4 +51,5 @@ defineProps<{
   task_id: number
 }>()
 
+onErrorCaptured((e) => errorAlert('/dashboard/index/PendingTasks', e))
 </script>

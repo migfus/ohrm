@@ -3,6 +3,7 @@
     :icon="AdjustmentsHorizontalIcon"
     title="Update Basic Information"
     description="Modify basic information of the group."
+    :count="2"
   >
     <AppToggleInput
       name="Name"
@@ -23,7 +24,8 @@
 
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
-import { defaultRouterState } from '@/converter'
+import { defaultRouterState, errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
 
 import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/solid'
 import BasicCard from '@/components/cards/BasicCard.vue'
@@ -50,4 +52,6 @@ function putBasicAPI() {
     defaultRouterState(['group'])
   )
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/UpdateBasicCard', e))
 </script>

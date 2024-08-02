@@ -7,6 +7,8 @@
 
 <script setup lang="ts">
 import { Group, Post } from '@/globalTypes'
+import { errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
 
 import MyGroupsCard from './MyGroupsCard.vue'
 import PostSection from './posts/PostSection.vue'
@@ -15,4 +17,6 @@ defineProps<{
   groups: Group[]
   posts: Post[]
 }>()
+
+onErrorCaptured((e) => errorAlert('/dashboard/my-groups/(Index)', e))
 </script>

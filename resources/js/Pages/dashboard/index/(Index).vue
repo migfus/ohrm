@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-2 gap-4">
     <div class="flex flex-col gap-4 col-span-2 lg:col-span-1">
-      <MyActivities :user_activities />
+      <MyActivities :user_activities :current_count="marked_tasks.length"/>
       <PendingTasks :pending_tasks />
     </div>
     <div class="col-span-2 lg:col-span-1">
@@ -13,11 +13,13 @@
 
 <script setup lang="ts">
 import { Task } from '@/globalTypes'
+import moment from 'moment'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 
 import PendingTasks from './PendingTasks.vue'
 import MarkedTasks from './MarkedTasks.vue'
 import MyActivities from './MyActivities.vue'
-import moment from 'moment'
 
 const $props = defineProps<{
   pending_tasks: Task[]
@@ -35,4 +37,6 @@ const user_activities = [
   },
   ...$props.user_activities
 ]
+
+onErrorCaptured((e) => errorAlert('/dashboard/index/(Index)', e))
 </script>

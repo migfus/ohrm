@@ -39,6 +39,8 @@
 <script setup lang="ts">
 import { router, useForm } from '@inertiajs/vue3'
 import { Props } from '@/globalTypes'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 
 import AppInput from '@/components/form/AppInput.vue'
 import AppButton from '@/components/form/AppButton.vue'
@@ -60,4 +62,6 @@ function submit() {
     email: form.email
   });
 }
+
+onErrorCaptured((e) => errorAlert('/forgot/Forgot', e))
 </script>

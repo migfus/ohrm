@@ -11,7 +11,7 @@
 
     <TabSection v-model="selected" :data="tabs"/>
 
-    <div class="bg-white mt-2">
+    <div class="bg-brand-50 mt-2 py-4 shadow rounded-2xl px-4">
       <DataTransition v-if="$props.data.data.length > 0" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">
         <GroupCard v-for="row in $props.data.data" :data="row" :key="row.id"/>
       </DataTransition>
@@ -34,10 +34,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive } from 'vue'
+import { ref, watch, reactive, onErrorCaptured } from 'vue'
 import { Filters, Group, Pagination, Tab } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
 import { useThrottle } from '@vueuse/core'
+import { errorAlert } from '@/converter'
 
 import HeaderContent from '@/components/headers/HeaderContent.vue'
 import TabSection from '@/components/headers/TabSection.vue'
@@ -45,7 +46,6 @@ import PaginationCard from '@/components/data/PaginationCard.vue'
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import GroupCard from '@/components/data/GroupCard.vue'
 import Create from './Create.vue'
-
 
 const $props = defineProps<{
   filters: Filters,
@@ -84,4 +84,6 @@ const tabs: Tab[] = [
   }
 ]
 const selected = ref(0)
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/index/(Index)', e))
 </script>

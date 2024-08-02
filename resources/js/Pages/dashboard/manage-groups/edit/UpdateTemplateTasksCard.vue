@@ -16,7 +16,7 @@
     </DataTransition>
 
     <div class="flex justify-end mt-4">
-      <AppButton @click="show_add_task = true" :icon="PlusIcon" color="brand" size="sm" type="submit">Add Request</AppButton>
+      <AppButton @click="show_add_task = true" :icon="PlusIcon" size="sm" type="submit">Add Request</AppButton>
     </div>
 
     <RemovalPrompt v-model="remove_open" @confirm="ConfirmRemove" confirmMessage="Yes, Remove The Member" title="Removing a Member">
@@ -53,7 +53,7 @@
 
         <div class="flex justify-end mt-4 gap-2">
           <AppButton @click="show_add_task = false; form.reset()" :icon="XMarkIcon" type="button">Cancel</AppButton>
-          <AppButton @click="show_add_task = false" :icon="PlusIcon" color="brand" type="submit">Add</AppButton>
+          <AppButton @click="show_add_task = false" :icon="PlusIcon" type="submit">Add</AppButton>
         </div>
       </form>
     </FormModal>
@@ -61,9 +61,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
 import { TaskPriority, TaskTemplate } from '@/globalTypes'
-import { defaultRouterState } from '@/converter'
+import { defaultRouterState, errorAlert } from '@/converter'
 import { router } from '@inertiajs/vue3'
 
 import { TicketIcon, PlusIcon, XMarkIcon} from '@heroicons/vue/24/solid'
@@ -138,6 +138,8 @@ function removeTask() {
     )
   }
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/UpdateTemplateTaskCard', e))
 </script>
 
 <style>

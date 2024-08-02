@@ -56,12 +56,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onErrorCaptured } from 'vue'
 import { Post } from '@/globalTypes'
 import moment from 'moment'
 import { useElementSize } from '@vueuse/core'
 import { useGroupPostStore } from '@/stores/GroupPostStore'
-import { usePinnedPostStore } from '@/stores/PinnedPostStore'
+import { errorAlert } from '@/converter'
 
 import { XMarkIcon, ChatBubbleLeftRightIcon, MapPinIcon } from '@heroicons/vue/24/solid'
 import DataTransition from '@/components/transitions/DataTransition.vue'
@@ -78,4 +78,6 @@ const sentence_lines = ref(null)
 const { height } = useElementSize(sentence_lines)
 
 const sorted_reactions = computed(() => $props.post.reaction_users.sort((a,b) => b.total - a.total)) // sorted version of reactions
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/pinned-posts/PinnedPostCard', e))
 </script>

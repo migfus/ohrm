@@ -26,9 +26,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, onErrorCaptured } from 'vue'
 import { User } from '@/globalTypes'
 import { router } from '@inertiajs/vue3'
+import { errorAlert } from '@/converter'
 
 import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/solid'
 import BasicCard from '@/components/cards/BasicCard.vue'
@@ -55,4 +56,6 @@ function submit() {
     ...form
   })
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-users/edit/UpdateBasicCard', e))
 </script>

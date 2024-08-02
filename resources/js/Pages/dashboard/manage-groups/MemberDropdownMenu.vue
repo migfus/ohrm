@@ -49,6 +49,9 @@
 </template>
 
 <script setup lang="ts">
+import { errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
+
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
 import { ChevronDownIcon, StarIcon, ArrowRightCircleIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
@@ -61,4 +64,6 @@ defineProps<{
 }>()
 
 const $emit = defineEmits(['selected'])
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/MemberDropdownMenu', e))
 </script>

@@ -46,6 +46,8 @@
 
 <script setup lang="ts">
 import { Permission, Role, User } from '@/globalTypes'
+import { errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
 
 import DataTransition from '@/components/transitions/DataTransition.vue'
 import RoleRow from './RoleRow.vue'
@@ -60,4 +62,6 @@ defineProps<{
 const usersCount = (users: User []) => users.length > 3 ? users.length - 3 : false
 
 const limitUsers = (users: User []) => users.slice(0, 3)
+
+onErrorCaptured((e) => errorAlert('/dashboard/system-roles-permissions/RolesContent', e))
 </script>

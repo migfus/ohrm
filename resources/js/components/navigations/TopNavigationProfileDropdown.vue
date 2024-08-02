@@ -144,17 +144,6 @@
             </Link>
           </MenuItem>
 
-          <MenuItem v-slot="{ active, close }">
-            <Link
-              @click="close" :href="route('dashboard.my-groups.index')"
-              :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']"
-            >
-              <FolderOpenIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
-              Joined Groups
-            </Link>
-          </MenuItem>
-
-
           <MenuItem v-slot="{ active, close }" class="align-middle">
             <Link
               @click="close" :href="route('dashboard.account.index')"
@@ -201,10 +190,12 @@ import {
   Cog6ToothIcon,
   SquaresPlusIcon,
   TableCellsIcon,
-  BellIcon,
-  ChatBubbleOvalLeftIcon,
   FolderOpenIcon,
   FolderPlusIcon
+} from '@heroicons/vue/20/solid'
+import {
+  BellIcon,
+  ChatBubbleOvalLeftIcon,
 } from '@heroicons/vue/24/outline'
 import AppButton from '@/components/form/AppButton.vue'
 

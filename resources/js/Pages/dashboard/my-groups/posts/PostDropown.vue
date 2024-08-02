@@ -35,9 +35,11 @@
 
 <script setup lang="ts">
 import { useAuthPostStore } from '@/stores/AuthPostStore'
+import { errorAlert } from '@/converter'
+import { onErrorCaptured } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems,  } from '@headlessui/vue'
-import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon, MapPinIcon } from '@heroicons/vue/20/solid'
+import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon } from '@heroicons/vue/20/solid'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 
 defineProps<{
@@ -51,4 +53,6 @@ const PostStore = useAuthPostStore()
 function report() {
   alert('[reported]')
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/my-groups/posts/PostDropdown', e))
 </script>

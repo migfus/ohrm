@@ -147,7 +147,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
 import { router } from '@inertiajs/vue3'
 
 import AppButton from '@/components/form/AppButton.vue'
@@ -192,4 +193,6 @@ function submit(row: SystemSettings) {
   })
   selectedData.value = null
 }
+
+onErrorCaptured((e) => errorAlert('/dashboard/system-settings/(Index)', e))
 </script>

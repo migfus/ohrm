@@ -23,9 +23,11 @@
 
 <script setup lang="ts">
 import { Role, User } from '@/globalTypes'
+import { onErrorCaptured } from 'vue'
+import { errorAlert } from '@/converter'
+
 
 import ProfileHeader from '@/components/headers/ProfileHeader.vue'
-
 import UpdateBasicCard from './UpdateBasicCard.vue'
 import FlashErrors from '@/components/headers/FlashErrors.vue'
 import UpdateSystemRole from './UpdateSystemRole.vue'
@@ -45,4 +47,6 @@ defineProps<{
   }[]
   task_count_now: number
 }>()
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-users/edit/(Edit)', e))
 </script>

@@ -49,5 +49,6 @@ const swiper = useSwiper()
 <style>
 .swiper-slide {
   flex-shrink: unset !important;
+  width: auto !important;
 }
 </style>

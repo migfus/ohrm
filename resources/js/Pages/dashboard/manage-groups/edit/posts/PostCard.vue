@@ -74,10 +74,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onErrorCaptured } from 'vue'
 import { useElementSize } from '@vueuse/core'
 import { Post } from '@/globalTypes'
-import { contentFormatter, dateTimeFormatted } from '@/converter'
+import { contentFormatter, dateTimeFormatted, errorAlert } from '@/converter'
 
 import { MapPinIcon } from '@heroicons/vue/24/solid'
 
@@ -97,4 +97,6 @@ const minimize_content = ref(true)
 const sentence_lines = ref(null)
 const { height } = useElementSize(sentence_lines)
 const comments_count = ref($props.post.comments_count)
+
+onErrorCaptured((e) => errorAlert('/dashboard/manage-groups/edit/posts/PostCard', e))
 </script>
