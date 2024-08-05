@@ -18,13 +18,14 @@ class DashboardController extends Controller
   public function index(Request $req) : Response {
     return Inertia::render('dashboard/index/(Index)', [
       'page_title' => 'Dashboard',
-      'pending_tasks' => $this->getPendingTasks($req),
-      'marked_tasks' => $this->getMarkedTasks($req),
+      'queuing_tasks' => $this->getQueuingTasks($req),
+      'processing_tasks' => $this->getProcessing($req),
+      'completed_tasks' => $this->getCompleted($req),
       'user_activities' => $this->getUserLogs($req->user()->id),
       'task_status' => $this->getTaskStatus()
     ]);
   }
-    private function getPendingTasks($req) : Collection {
+    private function getQueuingTasks($req) : Collection {
       $req->validate(['search' => []]);
 
       $task_template_ids = TaskUserAccess::query()
@@ -42,19 +43,20 @@ class DashboardController extends Controller
               ->orWhere('message', 'LIKE', '%'.$req->search.'%');
           });
         })
-        ->with(['user_assigned', 'task_priority.hero_icon', 'task_template.group'])
+        ->with(['user_assigned', 'task_priority.hero_icon', 'task_template.group', 'task_status.hero_icon'])
         ->whereHas('task_template', function ($q) use($task_template_ids) {
           $q->whereIn('id', $task_template_ids);
         })
         ->orderBy('created_at', 'desc')
         ->get();
     }
-    private function getMarkedTasks($req) : Collection {
+    private function getProcessing($req) : Collection {
       $req->validate(['search' => []]);
 
       return Task::query()
         ->where('user_assigned_id', $req->user()->id) // only assigned tasks
-        ->when($req->search, function($q) use($req) {
+        ->where('task_status_id', TaskStatus::where('past_name', 'Processing')->first()->id)
+        ->when($req->search != '', function($q) use($req) {
           $q->where(function($q_) use($req) {
             $q_->where('name', 'LIKE', '%'.$req->search.'%')
               ->orWhere('message', 'LIKE', '%'.$req->search.'%');
@@ -63,9 +65,34 @@ class DashboardController extends Controller
         ->with([
           'user_assigned',
           'task_priority.hero_icon',
-          'task_template.group'
+          'task_template.group',
+          'task_status.hero_icon'
         ])
-        ->orderBy('created_at', 'desc')
+        ->orderBy('task_status_at', 'desc')
+        ->get();
+    }
+    private function getCompleted($req) : Collection {
+      $req->validate(['search' => []]);
+
+      return Task::query()
+        ->where('user_assigned_id', $req->user()->id) // only assigned tasks
+        ->where(function($q) {
+          $q->where('task_status_id', TaskStatus::where('past_name', 'Completed')->first()->id)
+            ->orWhere('task_status_id', TaskStatus::where('past_name', 'Rejected')->first()->id);
+        })
+        ->when($req->search != "", function($q) use($req) {
+          $q->where(function($q_) use($req) {
+            $q_->where('name', 'LIKE', '%'.$req->search.'%')
+              ->orWhere('message', 'LIKE', '%'.$req->search.'%');
+          });
+        })
+        ->with([
+          'user_assigned',
+          'task_priority.hero_icon',
+          'task_template.group',
+          'task_status.hero_icon'
+        ])
+        ->orderBy('task_status_at', 'desc')
         ->get();
     }
     private function getUserLogs($user_id) : Object {
@@ -98,7 +125,7 @@ class DashboardController extends Controller
         });
     }
     private function getTaskStatus() : Collection {
-      return TaskStatus::with('hero_icon')->get();
+      return TaskStatus::whereNot('past_name', 'Queuing')->with('hero_icon')->get();
     }
 
   public function update(Request $req, $task_id) : RedirectResponse {
@@ -116,6 +143,6 @@ class DashboardController extends Controller
       ]);
 
     return to_route('dashboard.index')
-      ->with('success', ['title' => 'Task Marked', 'content' => $task_id]);
+      ->with('success', ['title' => 'Task Marked', 'content' => 'Updated']);
   }
 }

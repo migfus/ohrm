@@ -13,6 +13,8 @@ return new class extends Migration
       $table->string('past_name');
       $table->string('hero_icon');
       $table->foreign('hero_icon')->references('name')->on('hero_icons')->onDelete('cascade');
+      $table->string('text_color');
+      $table->string('bg_color');
       $table->timestamps();
     });
   }

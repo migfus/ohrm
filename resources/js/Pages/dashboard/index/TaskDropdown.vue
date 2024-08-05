@@ -7,11 +7,13 @@
           :class="[`w-full rounded-2xl text-sm font-medium  text-brand-700 focus:ring-2 focus:ring-brand-500 bg-brand-50`]"
         >
           <div class="flex justify-between flex-grow cursor-pointer shadow rounded-2xl p-1">
-            <label class="text-brand-600 ml-2 cursor-pointer">Queuing</label>
-            <EllipsisHorizontalCircleIcon
-              class="h-5 w-5 ml-1"
-              aria-hidden="true"
-            />
+            <label
+              class="ml-2 cursor-pointer"
+            >
+              {{ current_task_status.past_name }}
+            </label>
+            <EllipsisVerticalIcon class="h-4 w-4 mx-1 mt-0.5"/>
+
           </div>
         </MenuButton>
       </div>
@@ -27,13 +29,17 @@
         <MenuItems
           class="z-10 rounded-2xl absolute right-0 mt-1 w-36 origin-top-right divide-y divide-gray-100 bg-white shadow-xl"
         >
-          <div class="px-1 py-1">
-            <DropdownContent
-              v-for="status in task_status"
-              :key="status.name"
+          <div class="px-1 py-1 gap-1 flex flex-col">
+            <TaskDropdownContent
+              v-for="status in task_status.filter(row => row.id != current_task_status.id)"
+              :key="status.present_name"
               :icon_html="status.hero_icon.content"
-              :danger="true"
-            >{{ status.name }}</DropdownContent>
+              :bg_color="status.bg_color"
+              :text_color="status.text_color"
+              @selected="$emit('selectedStatus', status.id, task_id)"
+            >
+              {{ status.present_name }}
+            </TaskDropdownContent>
           </div>
         </MenuItems>
       </transition>
@@ -47,15 +53,17 @@ import { errorAlert } from '@/converter'
 import { TaskStatus } from '@/globalTypes'
 
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
-import { EllipsisHorizontalCircleIcon } from '@heroicons/vue/24/outline'
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/vue/20/solid'
-import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
+import TaskDropdownContent from './TaskDropdownContent.vue'
+import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 
 defineProps<{
   index: number
   task_id: number
   task_status: TaskStatus[]
+  current_task_status: TaskStatus
 }>()
+
+const $emit = defineEmits(['selectedStatus'])
 
 onErrorCaptured((e) => errorAlert('/dashboard/index/PendingTasks', e))
 </script>

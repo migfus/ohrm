@@ -24,7 +24,7 @@
           <MenuItem v-slot="{ active }">
             <div @click="PostStore.attemptRemovePost(postId, index)" :class="[active ? 'bg-red-100 text-red-900' : 'text-brand-700', 'block pl-3 py-2 text-sm rounded-2xl']">
               <XMarkIcon :class="[active ? 'bg-red-100 text-red-900' : 'text-brand-700', 'h-5 w-5 text-brand-400 inline mr-2']"  />
-              <span>Delete (Optional)</span>
+              <span>Delete</span>
             </div>
           </MenuItem>
         </div>

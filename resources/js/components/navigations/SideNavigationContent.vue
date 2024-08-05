@@ -27,7 +27,7 @@
         </div>
         <div
           v-if="item.name == 'Dashboard' && page.props.pending_task_count > 0"
-          class="bg-brand-50 rounded-full text-brand-800 px-2"
+          class="bg-brand-50 rounded-full text-brand-800 px-2 group-hover:bg-brand-700 group-hover:text-brand-50 transition-all"
         >
           {{ page.props.pending_task_count }}
         </div>

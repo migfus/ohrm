@@ -28,7 +28,7 @@ class ManageTemplateTaskController extends Controller
     $tasks = Task::query()
       ->where('task_template_id', $id)
       ->with([
-        'user_assigned.user',
+        'user_assigned',
         'task_priority.hero_icon',
         'task_status.hero_icon',
         'task_template'

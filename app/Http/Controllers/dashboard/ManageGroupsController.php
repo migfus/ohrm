@@ -28,7 +28,7 @@ class ManageGroupsController extends Controller
     $req->validate(['search' => []]);
 
     $groups = Group::query()
-      ->select('description', 'name', 'id', 'avatar')
+      ->select('description', 'name', 'id', 'avatar', 'is_visible')
       ->when($req->search != '', function ($q) use($req) {
         $q->where("name", 'LIKE', "%$req->search%");
       })
@@ -137,7 +137,7 @@ class ManageGroupsController extends Controller
       return Task::query()
         ->where('group_id', $groupId)
         ->with([
-          'user_assigned.user',
+          'user_assigned',
           'task_priority.hero_icon',
           'task_status.hero_icon',
           'task_template'

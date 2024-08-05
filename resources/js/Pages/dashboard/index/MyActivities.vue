@@ -2,8 +2,7 @@
   <div>
     <BasicCard
       :icon="PresentationChartLineIcon"
-      title="My Activities"
-      description="Whole year tasks activities"
+      title="My Task Activities"
       :count="user_activities[0].count"
     >
       <CalendarHeatmap

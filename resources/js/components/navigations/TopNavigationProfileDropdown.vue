@@ -1,6 +1,6 @@
 <template>
   <!-- NOTE: AUTH -->
-  <div v-if="auth" class="flex">
+  <div v-if="page.props.auth" class="flex">
     <!-- NOTE MESSAGES -->
     <Menu as="div" class="relative mr-3 mt-1">
       <div>
@@ -19,7 +19,7 @@
               :href="route('dashboard.index')"
               :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
             >
-              <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
+              <img class="h-35 w-5 rounded-full inline mr-1" :src="page.props.auth.avatar" alt="" />
               Hi can I join to your group
             </Link>
           </MenuItem>
@@ -30,7 +30,7 @@
               :href="route('dashboard.index')"
               :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
             >
-              <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
+              <img class="h-35 w-5 rounded-full inline mr-1" :src="page.props.auth.avatar" alt="" />
               Where are we?
             </Link>
           </MenuItem>
@@ -41,7 +41,7 @@
               :href="route('dashboard.index')"
               :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
             >
-              <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
+              <img class="h-35 w-5 rounded-full inline mr-1" :src="page.props.auth.avatar" alt="" />
               The chat is not fully tested yet
             </Link>
           </MenuItem>
@@ -52,7 +52,7 @@
               :href="route('dashboard.index')"
               :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
             >
-              <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
+              <img class="h-35 w-5 rounded-full inline mr-1" :src="page.props.auth.avatar" alt="" />
               Hoping for good outcome
             </Link>
           </MenuItem>
@@ -63,7 +63,7 @@
               :href="route('dashboard.index')"
               :class="[active ? 'bg-gray-100' : '', 'block px-3 py-2 text-sm text-gray-700 truncate']"
             >
-              <img class="h-35 w-5 rounded-full inline mr-1" :src="auth.avatar" alt="" />
+              <img class="h-35 w-5 rounded-full inline mr-1" :src="page.props.auth.avatar" alt="" />
               😅🙏🙏
             </Link>
           </MenuItem>
@@ -119,17 +119,29 @@
     <Menu as="div" class="relative">
       <MenuButton class="flex rounded-full bg-brand-100 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 w-8">
         <span class="sr-only">Open user menu</span>
-        <img class="h-8 w-8 rounded-full" :src="auth.avatar" alt="Avatar" />
+        <img class="h-8 w-8 rounded-full" :src="page.props.auth.avatar" alt="Avatar" />
+        <span v-if="avatar_count > 0" class="bg-white shadow rounded-full px-1.5 absolute right-0 bottom-0 -mb-1 -mr-1 text-xs font-medium text-brand-900 animate-bounce">
+          {{ avatar_count }}
+        </span>
       </MenuButton>
       <transition enter-active-class="transition ease-out duration-200" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
         <MenuItems class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 
-          <div class="text-gray-400 ml-3 my-2 text-sm truncate">{{ auth.name }}</div>
-          <div class="text-gray-400 ml-3 my-2 text-sm truncate">{{ auth.email }}</div>
+          <div class="text-gray-400 ml-3 my-2 text-sm truncate">{{ page.props.auth.name }}</div>
+          <div class="text-gray-400 ml-3 my-2 text-sm truncate">{{ page.props.auth.email }}</div>
           <MenuItem v-slot="{ active, close }">
-            <Link @click="close" :href="route('dashboard.my-groups.index')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
-              <SquaresPlusIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-2 inline mb-1" />
-              Dashboard
+            <Link @click="close" :href="route('dashboard.index')" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">
+              <div class="flex justify-between">
+                <div class="flex justify-start">
+                  <SquaresPlusIcon class="text-gray-500h-5 w-4 flex-shrink-0 sm:-ml-1 mr-3 inline" />
+                  Dashboard
+                </div>
+
+                <div v-if="page.props.pending_task_count > 0" class="bg-brand-500 text-brand-50 shadow rounded-2xl px-2">
+                  {{  page.props.pending_task_count }}
+                </div>
+              </div>
+
             </Link>
           </MenuItem>
 
@@ -180,7 +192,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Auth } from '@/globalTypes'
+import SharedProps from '@/SharedProps'
 import { computed } from 'vue'
 
 import { usePage } from '@inertiajs/vue3'
@@ -190,7 +202,6 @@ import {
   Cog6ToothIcon,
   SquaresPlusIcon,
   TableCellsIcon,
-  FolderOpenIcon,
   FolderPlusIcon
 } from '@heroicons/vue/20/solid'
 import {
@@ -199,7 +210,8 @@ import {
 } from '@heroicons/vue/24/outline'
 import AppButton from '@/components/form/AppButton.vue'
 
-const page = usePage()
-
-const auth = computed(() => page.props.auth as Auth)
+const page = usePage<SharedProps>()
+const avatar_count = computed(() => {
+  return page.props.pending_task_count + 0
+})
 </script>

@@ -39,6 +39,9 @@ class HandleInertiaRequests extends Middleware
   }
 
     private function getPendingTaskCount() : int {
+      if(auth()->user() == null)
+        return 0;
+
       $task_template_ids = TaskUserAccess::query()
         ->where('user_id', auth()->user()->id)
         ->with(['task_template'])

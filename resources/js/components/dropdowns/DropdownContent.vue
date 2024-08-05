@@ -8,12 +8,22 @@
         'group flex w-full items-center rounded-2xl px-2 py-2 text-sm font-medium',
       ]"
     >
-      <component :is="icon"
+      <component
+        v-if="icon"
+        :is="icon"
         :class="[active ? 'text-white' : 'text-gray-500', 'mr-2 h-4 w-4']"
         aria-hidden="true"
       />
+      <div
+        v-if="icon_html"
+        v-html="icon_html"
+        :class="[active ? 'text-white' : 'text-gray-500', 'mr-2 h-4 w-4']"
+        aria-hidden="true"
+      >
+      </div>
       <slot></slot>
     </Link>
+
     <button
       v-else-if="danger"
       :class="[
@@ -22,12 +32,22 @@
       ]"
       @click="$emit('selected')"
     >
-      <component :is="icon"
-        :class="['text-red-700', 'mr-2 h-4 w-4']"
+      <component
+        v-if="icon"
+        :is="icon"
+        :class="[active ? 'text-white' : 'text-gray-500', 'mr-2 h-4 w-4']"
         aria-hidden="true"
       />
+      <div
+        v-if="icon_html"
+        v-html="icon_html"
+        :class="[active ? 'text-red-500' : 'text-red-500', 'mr-2 h-4 w-4']"
+        aria-hidden="true"
+      >
+      </div>
       <slot></slot>
     </button>
+
     <button
       v-else
       :class="[
@@ -36,17 +56,22 @@
       ]"
       @click="$emit('selected')"
     >
-      <component v-if="icon" :is="icon"
+      <component
+        v-if="icon"
+        :is="icon"
         :class="[active ? 'text-white' : 'text-gray-500', 'mr-2 h-4 w-4']"
         aria-hidden="true"
       />
-      <div v-if="icon_html" v-html="icon_html"
+      <div
+        v-if="icon_html"
+        v-html="icon_html"
         :class="[active ? 'text-white' : 'text-gray-500', 'mr-2 h-4 w-4']"
         aria-hidden="true"
-        >
+      >
       </div>
       <slot></slot>
     </button>
+
   </MenuItem>
 </template>
 

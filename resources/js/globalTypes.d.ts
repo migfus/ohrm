@@ -195,9 +195,12 @@ export interface Task {
 }
 
 export interface TaskStatus {
+  id: string
   present_name: string
   past_name: string
   hero_icon: HeroIcon
+  text_color: string
+  bg_color: string
 }
 
 export interface Select {
