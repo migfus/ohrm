@@ -25,7 +25,7 @@
                 {{ taskTemplate.task_priority.name }}
               </span>
             </div>
-            <ChevronDownIcon
+            <EllipsisVerticalIcon
               class="-mr-1 ml-2 h-5 w-5"
               aria-hidden="true"
             />
@@ -85,7 +85,7 @@ import { TaskTemplate } from '@/globalTypes'
 import { errorAlert } from '@/converter'
 
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
-import { ChevronDownIcon, PencilIcon, LockClosedIcon, GlobeAsiaAustraliaIcon } from '@heroicons/vue/20/solid'
+import { EllipsisVerticalIcon, PencilIcon, LockClosedIcon, GlobeAsiaAustraliaIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
 import AppInput from '@/components/form/AppInput.vue'

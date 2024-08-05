@@ -4,12 +4,11 @@
       <div>
         <MenuButton
           as="button"
-          :class="[`w-full rounded-2xl text-sm font-medium  text-brand-700 focus:ring-2 focus:ring-brand-500 bg-brand-50`]"
+          :class="[`w-full rounded-2xl text-sm font-medium  text-brand-700 focus:ring-2 focus:ring-brand-500 bg-gray-100`]"
         >
           <div class="flex justify-between flex-grow cursor-pointer shadow rounded-2xl p-1">
-            <label
-              class="ml-2 cursor-pointer"
-            >
+            <div v-html="current_task_status.hero_icon.content" class="h-4 w-4 mx-1 mt-[3px]" :style="`color: #${current_task_status.text_color}`"></div>
+            <label class="cursor-pointer ml-1">
               {{ current_task_status.past_name }}
             </label>
             <EllipsisVerticalIcon class="h-4 w-4 mx-1 mt-0.5"/>

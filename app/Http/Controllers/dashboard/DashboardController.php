@@ -12,6 +12,8 @@ use App\Models\Task;
 use App\Models\UserTaskActivity;
 use App\Models\TaskStatus ;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Pagination\Paginator;
+use Livewire\Features\SupportPagination\PaginationUrl;
 
 class DashboardController extends Controller
 {
@@ -21,6 +23,7 @@ class DashboardController extends Controller
       'queuing_tasks' => $this->getQueuingTasks($req),
       'processing_tasks' => $this->getProcessing($req),
       'completed_tasks' => $this->getCompleted($req),
+      'archive_tasks' => $this->getArchived($req),
       'user_activities' => $this->getUserLogs($req->user()->id),
       'task_status' => $this->getTaskStatus()
     ]);
@@ -76,6 +79,7 @@ class DashboardController extends Controller
 
       return Task::query()
         ->where('user_assigned_id', $req->user()->id) // only assigned tasks
+        ->whereDate('created_at', Carbon::today())
         ->where(function($q) {
           $q->where('task_status_id', TaskStatus::where('past_name', 'Completed')->first()->id)
             ->orWhere('task_status_id', TaskStatus::where('past_name', 'Rejected')->first()->id);
@@ -94,6 +98,31 @@ class DashboardController extends Controller
         ])
         ->orderBy('task_status_at', 'desc')
         ->get();
+    }
+    private function getArchived($req)  {
+      $req->validate(['search' => []]);
+
+      return Task::query()
+        ->where('user_assigned_id', $req->user()->id) // only assigned tasks
+        ->whereDate('created_at', '<=',Carbon::now()->subDays(1))
+        ->where(function($q) {
+          $q->where('task_status_id', TaskStatus::where('past_name', 'Completed')->first()->id)
+            ->orWhere('task_status_id', TaskStatus::where('past_name', 'Rejected')->first()->id);
+        })
+        ->when($req->search != "", function($q) use($req) {
+          $q->where(function($q_) use($req) {
+            $q_->where('name', 'LIKE', '%'.$req->search.'%')
+              ->orWhere('message', 'LIKE', '%'.$req->search.'%');
+          });
+        })
+        ->with([
+          'user_assigned',
+          'task_priority.hero_icon',
+          'task_template.group',
+          'task_status.hero_icon'
+        ])
+        ->orderBy('created_at', 'desc')
+        ->paginate(18); // 3x3 cards
     }
     private function getUserLogs($user_id) : Object {
       // NOTE: Loop until record exists (backward date)

@@ -13,7 +13,7 @@
           {{ form.search ? 'No task' : 'No task available today 😄' }}
         </div>
 
-        <DataTransition v-else>
+        <DataTransition v-else class="flex flex-col gap-2">
           <TaskCard
             v-for="task, index in queuing_tasks"
             :key="task.id"

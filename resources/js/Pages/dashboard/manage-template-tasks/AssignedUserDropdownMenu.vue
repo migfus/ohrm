@@ -10,7 +10,7 @@
             <img :src="user.avatar" class="h-4 w-4 rounded-full mr-2 mt-[2px]"/>
             <span>{{ user.name }}</span>
           </div>
-          <ChevronDownIcon class="h-5 w-5 text-gray-400"/>
+          <EllipsisVerticalIcon class="h-5 w-5 text-gray-400"/>
         </MenuButton>
       </div>
 
@@ -40,7 +40,7 @@ import { onErrorCaptured } from 'vue'
 import { User } from '@/globalTypes'
 
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
-import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
 

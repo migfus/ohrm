@@ -92,6 +92,7 @@ declare module 'ziggy-js' {
     ],
     "my-groups.index": [],
     "dashboard.my-groups.index": [],
+    "dashboard.my-report.index": [],
     "dashboard.account.index": [],
     "dashboard.manage-groups.index": [],
     "dashboard.manage-groups.store": [],

@@ -13,7 +13,7 @@
             {{ member.group?.name }}
           </span>
         </span>
-        <ChevronDownIcon
+        <EllipsisVerticalIcon
           class="h-5 w-5"
           aria-hidden="true"
         />
@@ -35,7 +35,7 @@ import { onErrorCaptured } from 'vue'
 import BasicCard from '@/components/cards/BasicCard.vue'
 import { SquaresPlusIcon } from '@heroicons/vue/24/outline'
 import GroupDropdownMenu from '../GroupDropdownMenu.vue'
-import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 
 const $props = defineProps<{
   groupMembers?: GroupMember []

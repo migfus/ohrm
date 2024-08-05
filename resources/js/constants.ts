@@ -6,8 +6,9 @@ import {
   Cog6ToothIcon,
   SquaresPlusIcon,
   ShieldCheckIcon,
-  FolderPlusIcon,
-  AtSymbolIcon
+  AtSymbolIcon,
+  PrinterIcon,
+  RectangleGroupIcon,
 } from "@heroicons/vue/24/solid"
 
 export const CTopNavigation: TopNavigation[] = [
@@ -34,15 +35,21 @@ export const CTopNavigation: TopNavigation[] = [
 export const CSidebarNavigation: TopNavigation[] = [
   {
     name: 'Dashboard',
-    icon: SquaresPlusIcon,
+    icon: RectangleGroupIcon,
     href: '/dashboard',
     components: ['dashboard/index/(Index)']
   },
   {
     name: 'My Groups',
-    icon: FolderPlusIcon,
+    icon: SquaresPlusIcon,
     href: '/dashboard/my-groups',
     components: ['dashboard/my-groups/(Index)'],
+  },
+  {
+    name: 'My Reports',
+    icon: PrinterIcon,
+    href: '/dashboard/my-reports',
+    components: ['dashboard/my-reports/(Index)'],
   },
   {
     name: 'Account Settings',

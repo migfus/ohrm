@@ -62,5 +62,5 @@ function selectedStatus(task_status_id: string, task_id: string) {
   )
 }
 
-onErrorCaptured((e) => errorAlert('/dashboard/index/MarkedTasks', e))
+onErrorCaptured((e) => errorAlert('/dashboard/index/ProcessingTask', e))
 </script>

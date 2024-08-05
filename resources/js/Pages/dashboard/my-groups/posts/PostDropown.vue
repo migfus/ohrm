@@ -2,7 +2,7 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-brand-50 pl-2 pb-2 text-sm font-semibold text-brand-900 hover:bg-brand-50 ">
-        <ChevronDownIcon class="-mr-1 h-5 w-5 text-brand-400" aria-hidden="true" />
+        <EllipsisVerticalIcon class="-mr-1 h-5 w-5 text-brand-400" aria-hidden="true" />
       </MenuButton>
     </div>
 
@@ -39,7 +39,7 @@ import { errorAlert } from '@/converter'
 import { onErrorCaptured } from 'vue'
 
 import { Menu, MenuButton, MenuItem, MenuItems,  } from '@headlessui/vue'
-import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon } from '@heroicons/vue/20/solid'
+import { EllipsisVerticalIcon, XMarkIcon, FlagIcon, PencilIcon } from '@heroicons/vue/20/solid'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 
 defineProps<{

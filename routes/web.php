@@ -13,6 +13,7 @@ use App\Http\Controllers\dashboard\SystemSettingsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\dashboard\ManageTemplateTaskController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\dashboard\MyReportsController;
 use App\Http\Controllers\PinnedPostController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ReactionController;
@@ -41,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     // NOTE: Dashboard
     Route::resource('/', DashboardController::class)->only(['index']);
     Route::resource('/my-groups', MyGroupsController::class)->only(['index']);
+    Route::resource('/my-reports', MyReportsController::class)->only(['index']);
     Route::resource('/account', AccountController::class)->only(['index']);
 
     // NOTE: ADMIN

@@ -2,7 +2,7 @@
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-brand-50 pl-2 pb-1 text-sm font-semibold text-brand-900 ">
-        <ChevronDownIcon class="-mr-1 h-5 w-5 text-brand-400" aria-hidden="true" />
+        <EllipsisVerticalIcon class="-mr-1 h-5 w-5 text-brand-400" aria-hidden="true" />
       </MenuButton>
     </div>
 
@@ -42,7 +42,7 @@ import { usePage } from '@inertiajs/vue3'
 import { errorAlert } from '@/converter'
 
 import { Menu, MenuButton, MenuItem, MenuItems,  } from '@headlessui/vue'
-import { ChevronDownIcon, XMarkIcon, FlagIcon, PencilIcon, } from '@heroicons/vue/20/solid'
+import { EllipsisVerticalIcon, XMarkIcon, FlagIcon, PencilIcon, } from '@heroicons/vue/20/solid'
 import BasicTransition from '@/components/transitions/BasicTransition.vue'
 import RemovalPrompt from '@/components/modals/RemovalPrompt.vue'
 import SharedProps from '@/SharedProps'

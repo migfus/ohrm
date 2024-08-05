@@ -7,7 +7,7 @@
           class="inline-flex w-full justify-between rounded-2xl px-3 py-2 text-sm font-medium bg-white shadow focus:ring-2 focus:ring-brand-500"
         >
           <slot></slot>
-          <ChevronDownIcon
+          <EllipsisVerticalIcon
             class="-mr-1 ml-2 h-5 w-5  hover:text-violet-100"
             aria-hidden="true"
           />
@@ -41,7 +41,7 @@ import { onErrorCaptured } from 'vue'
 import { errorAlert } from '@/converter'
 
 import { Menu, MenuButton, MenuItems, } from '@headlessui/vue'
-import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+import { EllipsisVerticalIcon } from '@heroicons/vue/20/solid'
 import { PencilIcon, XMarkIcon, CheckCircleIcon } from '@heroicons/vue/24/outline'
 import DropdownContent from '@/components/dropdowns/DropdownContent.vue'
 

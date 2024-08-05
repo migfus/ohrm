@@ -9,13 +9,13 @@
         <div class="text-brand-700">
           <span class="text-sm text-brand-400">#{{ task.id.toString().substring(0, 6) }}</span>-{{ task.id.toString().substring(6) }}
         </div>
-        <ChevronDownIcon class="h-4 w-4"/>
+        <EllipsisVerticalIcon class="h-4 w-4"/>
       </div>
 
       <div class="flex justify-between">
         <div>
           <div v-html="task.task_status.hero_icon.content" class="w-4 h-4 inline-block pt-[3px] mr-1 text-brand-600"></div>
-          <span class="inline">{{ task.task_status.name }}</span>
+          <span class="inline">{{ task.task_status.past_name }}</span>
         </div>
         <div class="justify-end text-sm truncate">{{ dateTimeFormatted(task.created_at) }}</div>
       </div>
@@ -52,7 +52,7 @@ import { Task } from '@/globalTypes'
 import { dateTimeFormatted } from '@/converter'
 
 import AppButton from '@/components/form/AppButton.vue'
-import { ChevronDownIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
+import { EllipsisVerticalIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/solid'
 
 defineProps<{
   task: Task

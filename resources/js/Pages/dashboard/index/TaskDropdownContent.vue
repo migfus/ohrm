@@ -2,8 +2,8 @@
   <MenuItem v-slot="{ active }">
     <button
       :class="[
-        active ? 'shadow bg-brand-50' : 'bg-white',
-        'group flex w-full items-center rounded-2xl px-2 py-2 text-sm font-medium ',
+        active ? 'shadow bg-gray-100' : '',
+        'group flex w-full items-center rounded-2xl px-2 py-2 text-sm font-medium text-gray-700',
       ]"
       @click="$emit('selected')"
     >

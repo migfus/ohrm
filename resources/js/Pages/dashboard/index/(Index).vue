@@ -18,12 +18,16 @@
     <div class="col-span-6 lg:col-span-6 xl:col-span-2 order-5">
       <CompletedTask :completed_tasks :task_status/>
     </div>
+
+    <div class="col-span-6 order-6">
+      <ArchiveTask :archive_tasks :task_status/>
+    </div>
   </div>
 
 </template>
 
 <script setup lang="ts">
-import { Task, TaskStatus } from '@/globalTypes'
+import { Pagination, Task, TaskStatus } from '@/globalTypes'
 import moment from 'moment'
 import { onErrorCaptured } from 'vue'
 import { errorAlert } from '@/converter'
@@ -33,11 +37,13 @@ import ProcessingTask from './ProcessingTask.vue'
 import CompletedTask from './CompletedTask.vue'
 import MyActivities from './MyActivities.vue'
 import NavigationCard from './NavigationCard.vue'
+import ArchiveTask from './ArchiveTask.vue'
 
 const $props = defineProps<{
   queuing_tasks: Task[]
   processing_tasks: Task[]
   completed_tasks: Task[]
+  archive_tasks: Pagination<Task>
   user_activities: {
     date: string
     count: number
